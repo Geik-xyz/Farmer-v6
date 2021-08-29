@@ -1,0 +1,11 @@
+name: Ciftci
+author: Geik
+main: xyz.geik.ciftci.Main
+version: 5.0.0.b43
+api-version: 1.13
+depend: [ProtocolLib]
+softdepend: [BentoBox, Vault, ASkyBlock, FabledSkyblock, SuperiorSkyblock, IridiumSkyblock, GriefPrevention, PlotSquared, UltimateClaims, hClaims, InfClaim]
+loadbefore: [AutoPickup, UltimateStacker, WildStacker, IslandBorder, EpicSpawners]
+commands:
+  çiftçi:
+    description: Çiftçinin ana komutudur.

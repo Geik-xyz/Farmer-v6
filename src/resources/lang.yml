@@ -1,0 +1,310 @@
+##############################################################################
+#                                                                            #
+#                          FARMER NPC OPTIONS                                #
+#                                                                            #
+##############################################################################
+FarmerName: "&aÇiftçi"
+FarmerSkin: "beerbellyman"
+##############################################################################
+#                                                                            #
+#                               SPAWN EGG                                    #
+#                                                                            #
+##############################################################################
+SpawnEgg:
+   material: MONSTER_EGG
+   damage: 120
+   Name: "&6Çiftçi Çağırma Yumurtası"
+   Lore:
+   - "&7"
+   - "&7  Merhaba, arsandaki eşyaları"
+   - "&7 toplamayarak onları kolayca"
+   - "&7satmanda sana yardım edeceğim."
+   - "&7   Beni çağırmak için yere"
+   - "&7  yerleştirmeyi denemelisin."
+   - "&7"
+   - "&4          Dikkat Et!"
+   - "&c Eğer ada senin değilse ben"
+   - "&c    Lider'in ile çalışacağım."
+
+##############################################################################
+#                                                                            #
+#                                MESSAGES                                    #
+#                                                                            #
+##############################################################################
+placementSuccess: " &6Çiftçi &8▸ &aBaşarıyla yerleştirildi."
+# Mevcut placeholderlar: {money} oyuncunun hesabına yatan para {tax} vergiye giden para.
+sellComplete: " &6Çiftçi &8▸ &fSatış &abaşarıyla &fgerçekleştirildi. &6Kazanç: &e{money}&f, &6Vergi: &e{tax}"
+targetsInventoryFull: " &6Çiftçi &8▸ &cOyuncunun envanteri tamamen dolu, çiftçi verilemedi!"
+haveFarmerError: " &6Çiftçi &8▸ &cAdanda zaten bir çiftçi var!"
+mustBeOnIsland: " &6Çiftçi &8▸ &cBunu yapmak için &4adanda &colman gerek!"
+dontHavePermission: " &6Çiftçi &8▸ &cBunun için yetkin yok!"
+inventoryFull: " &6Çiftçi &8▸ &cEnvanterin tamamen dolu!"
+playerOffline: " &6Çiftçi &8▸ &cOyuncu çevrim içi değil!"
+# Mevcut placeholderlar: {money} oyuncunun bakiyesi ve {req_money} gereken para.
+notEnoughMoney: " &6Çiftçi &8▸ &cYeterli para yok! &e{money}&c/&4{req_money}"
+# Mevcut placeholderlar: {level} yeni seviyeyi {capacity} yeni kapasiteyi gösterir.
+levelUpgraded: " &6Çiftçi &8▸ &2Tebrikler! &aYeni seviyeniz: &6{level}&a, &aYeni kapasiteniz: &e{capacity}"
+alreadyWaitingFarmer: " &6Çiftçi &8▸ &cZaten çiftçiyi yerleştirmen bekleniyor..."
+reCordinate: " &6Çiftçi &8▸ &fÇiftçinin konumunu tekrar belirleyebilirsiniz."
+# Mevcut placeholderlar: {current_mode} mevcut satış modunun değerini #sellingModeLeader veya #sellingModeMember olarak gösterir.
+sellingMethodChanged: " &6Çiftçi &8▸ &fYapılan satışların parası artık &e{current_mode} &fyatırılır."
+# Mevcut placeholderlar: {status} çiftçinin toplama ayarının #toggleON veya #toggleOFF olarak gösterir.
+toggleFarmer: " &6Çiftçi &8▸ &fÇiftçinin toplam ayarı &e{status} &fyapıldı."
+mustBeLeader: " &6Çiftçi &8▸ &cBunu yapmak için &4ada lideri &colman gerek!"
+noFarmer: " &6Çiftçi &8▸ &cAdada çiftçi yok!"
+featureDisabled: " &6Çiftçi &8▸ &cBu özellik devre dışıdır."
+reloadSucess: " &6Çiftçi &8▸ &aAyarlar &2başarıyla &ayenilendi."
+youAreNotInYourIsland: " &6Çiftçi &8▸ &cBurası senin adan değil!"
+farmerHasBeenDeleted: " &6Çiftçi &8▸ &aÇiftçi &2başarıyla &asilindi."
+farmerCouldntFind: " &6Çiftçi &8▸ &cÇiftçi bulunamadı!"
+thisFeatureDisabled: " &6Çiftçi &8▸ &cBu özellik devre dışıdır."
+farmerBuySuccess: " &6Çiftçi &8▸ &aÇiftçi satın alımı &2başarılı&a!"
+notInCiftciWorld: " &6Çiftçi &8▸ &cBunu yapmak için doğru dünyada değilsin."
+autoSellToggle: " &6Çiftçi &8▸ &aÇiftçi oto satış ayarı değiştirildi. {status}"
+autoCollectToggle: " &6Çiftçi &8▸ &aÇiftçi oto toplama ayarı değiştirildi. {status}"
+spawnerKillerToggle: " &6Çiftçi &8▸ &aÇiftçi spawner öldürme ayarı değiştirildi. {status}"
+inCooldown: " &6Çiftçi &8▸ &cBu kadar çabuk bu işlemi yapamazsın! ({time}sn)"
+boostActivatedBC: " &6Çiftçi &8▸ &aTüm çiftçilerde &6{time} &adakika boyunca &2x{boost} &averim vardır."
+boostFinishedBC: " &6Çiftçi &8▸ &cÇiftçi verimi sona ermiştir."
+
+
+##############################################################################
+#                                                                            #
+#                           GUI PLACEHOLDERS                                 #
+#                                                                            #
+##############################################################################
+toggleON: "&aAçık"
+toggleOFF: "&cKapalı"
+sellingModeLeader: "&6Lider"
+sellingModeMember: "&eÜye"
+progressSymbol: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
+
+##############################################################################
+#                                                                            #
+#                              FARMER GUI                                    #
+#                                                                            #
+##############################################################################
+Gui:
+   guiName: "&8Çiftçi Deposu"
+   managment:
+      skull: "ewogICJ0aW1lc3RhbXAiIDogMTYyMDM5NzA2MjE1MSwKICAicHJvZmlsZUlkIiA6ICI0ZGI2MWRkOTM0Mzk0M2M0YjhhOTZiNDQwMWM3MDM1MCIsCiAgInByb2ZpbGVOYW1lIiA6ICJiZWVyYmVsbHltYW4iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MyZTgxOTkwNmViMTc5NDM5YjhkZDU1NTExMzJlNTRlYjQ3MTczZTBmNDU4ODYxYWQyYThjOTM3OTE4Mzg5MSIKICAgIH0KICB9Cn0="
+      name: "&eYönetici Paneli"
+      lore:
+      - '&7Yönetici Paneline sadece'
+      - '&6Ada Sahibi &7erişebilir.'
+      - ''
+      - '&dÇiftçi İstatistikleri:'
+      - ' &8▪ &7Seviye: &6{level}'
+      - ' &8▪ &7Kapasite: &6{capacity}'
+      - ' &8▪ &7Satış Modu: {selling_status}'
+      - ''
+      - '&aYönetici Paneli için TIKLA!'
+   nextPage:
+      material: ARROW
+      name: "&eSonraki Sayfa"
+      lore:
+      - '&7Sonraki sayfaya gitmene yarar.'
+      - ''
+      - '&aSonraki sayfa için TIKLA!'
+   previousPage:
+      material: ARROW
+      name: "&eÖnceki Sayfa"
+      lore:
+      - '&7Önceki sayfaya dönmene yarar.'
+      - ''
+      - '&aÖnceki sayfa için TIKLA!'
+   help:
+      slot: 49
+      material: BOOK
+      name: "&eBilgi"
+      lore:
+      - '&7Burası çiftçinin deposudur.'
+      - '&7Topladığı ürünleri burada saklar.'
+      - '&7Bu sayfada yapabileceklerin:'
+      - ' &8▪ &6Ürünü envantere alabilmek'
+      - ' &8▪ &6Ürünlerin satışını yapabilmek'
+      - ' &8▪ &6Yönetim menüsüne giriş &e(Sadece Lider)'
+      - ''
+      - '&7Yönetici Panelinde yapabileceklerin:'
+      - ' &8▪ &6Seviye atlatma'
+      - ' &8▪ &6Yer değiştirme'
+      - ' &8▪ &6Toplama kapatıp/açma'
+      - ' &8▪ &6Paranın modu ayarlama'
+      - ''
+      - '&7Bu ayarları sadece &aLider &7değiştirebilir.'
+   fillItem:
+      fill: true
+      material: STAINED_GLASS_PANE
+      damage: 7
+   # Mevcut placeholderlar:
+   # {stock} Mevcut stok durumunu gösterir.
+   # {maxstock} Maksimum stok durumunu gösterir.
+   # {level} Mevcut seviyeyi gösterir.
+   # {taxRate} Mevcut vergi oranını gösterir. (Configdeki)
+   # {progress_percent} Stok doluluğunu % cinsinden gösterir.
+   # {progress_bar} Stok doluluğunu #progressSymbol cinsinden gösterir.
+   # {price} Ürünün birim fiyatını gösterir.
+   # {stack_price} Ürünün stack fiyatını gösterir.
+   farmItemTemplate:
+      lore:
+      - ""
+      - " &8▪ &7Mevcut stok: &f{stock}&8/&c{maxstock}"
+      - " &8▪ &7Birim fiyatı: &f{price}"
+      - " &8▪ &7Seviye: &f{level}"
+      - " &8▪ &7Doluluk Oranı: &f{progress_percent}%"
+      - "&8&l  [{progress_bar}&8&l]"
+      - ""
+      - "&764 adet almak için &8[&eSol Tık&8]"
+      - "&7Hepsini almak için &8[&eSağ Tık&8]"
+      - "&7Hepsini satmak için &8[&eShift + Sağ Tık&8]"
+      - ""
+      - "&4NOT: &cHepsini satma işleminde"
+      - "&cçiftçiye &4%{taxRate} &cpay verirsin!"
+
+##############################################################################
+#                                                                            #
+#                           LEADER MANAGMENT                                 #
+#                                                                            #
+##############################################################################
+ManagmentGui:
+   guiName: "&8Yönetici Paneli"
+   # Mevcut placeholderlar:
+   # {req_money} Bir sonraki seviye için gerekli parayı gösterir.
+   # {money} Oyuncunun mevcut parasını gösterir.
+   # {current_level} Çiftçinin mevcut seviyesini gösterir.
+   # {max_level} Çiftçinin yükselebileceği maksimum seviyeyi gösterir.
+   # {next_level} Çiftçinin bir sonraki seviyesini gösterir.
+   # {level} Çiftçinin mevcut seviyesini gösterir.
+   # {current_capacity} Çiftçinin mevcut kapasitesini gösterir.
+   # {next_capacity} Çiftçinin bir sonraki seviyede alacağı kapasiteyi gösterir.
+   upgradeNext:
+      slot: 12
+      skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZjNmVjM2I3NTM1NGI0OTIyMmE4OWM2NjNjNGFjYWQ1MjY0ZmI5NzdjYWUyNmYwYjU0ODNhNTk5YzQ2NCJ9fX0="
+      name: '&eÇiftçi &6{level}. &eSeviye'
+      lore:
+      - '&7Çiftçinin seviyesini yükseltmek sana ek'
+      - '&7Avantajlar kazandırır!'
+      - ''
+      - ' &8▪ &7Sonraki Seviye: &6{next_level}&7/&c{max_level}'
+      - ' &8▪ &7Sonraki Kapasite: &e{next_capacity}'
+      - ' &8▪ &7Gerekli Para: &e{money}&8/&6{req_money}'
+      - ''
+      - '&aYükseltmek için tıkla!'
+   # Mevcut placeholderlar:
+   # {req_money} Bir sonraki seviye için gerekli parayı gösterir.
+   # {money} Oyuncunun mevcut parasını gösterir.
+   # {current_level} Çiftçinin mevcut seviyesini gösterir.
+   # {max_level} Çiftçinin yükselebileceği maksimum seviyeyi gösterir.
+   # {next_level} Çiftçinin bir sonraki seviyesini gösterir.
+   # {level} Çiftçinin mevcut seviyesini gösterir.
+   # {capacity} Çiftçinin mevcut kapasitesini gösterir.
+   # {current_capacity} Çiftçinin bir sonraki seviyede alacağı kapasiteyi gösterir.
+   inMaxLevel:
+      slot: 12
+      skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWQ3OGNjMzkxYWZmYjgwYjJiMzVlYjczNjRmZjc2MmQzODQyNGMwN2U3MjRiOTkzOTZkZWU5MjFmYmJjOWNmIn19fQ=="
+      name: '&eÇiftçi &6{level}. &eSeviye'
+      lore:
+      - '&7Çiftçi olabilecek en yüksek seviyeyede'
+      - '&7Daha fazla yükseltme yapamazsın.'
+      - ''
+      - ' &8▪ &7Kapasiten: &6{current_capacity}'
+      - ''
+      - '&cYükseltme yapılamaz!'
+   # Mevcut placeholderlar:
+   # {current_mode} Satış modunun durumunu #sellingModeLeader veya #sellingModeMember olarak gösterir.
+   sellingMode:
+      slot: 14
+      skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTM2ZTk0ZjZjMzRhMzU0NjVmY2U0YTkwZjJlMjU5NzYzODllYjk3MDlhMTIyNzM1NzRmZjcwZmQ0ZGFhNjg1MiJ9fX0="
+      name: '&eSatış Ayarı'
+      lore:
+      - '&7Çiftçi üzerinden yapılan satışların'
+      - '&7Kime gideceğini belirler.'
+      - ''
+      - ' &8▪ &7Mevcut: &6{current_mode}'
+      - ''
+      - '&aDeğiştirmek için TIKLA!'
+   reCordinate:
+      slot: 16
+      skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjg3MDNmNjY3MzY1MGQzNjE2MTI5MTAyN2NiMGNmOGZiYjdhMzM5ZDY2ODgzMTc2NzQzZjQwMjQ3MzM1NDg5MyJ9fX0="
+      name: '&eYer Değiştirme'
+      lore:
+      - '&7Çiftçinin yerini başka bir yere almak'
+      - '&7İstiyorsan buradan değiştirebilirsin.'
+      - ''
+      - '&aYer değiştirmek için TIKLA!'
+   # Mevcut placeholderlar:
+   # {status} Çiftçinin toplama durumunu #toggleON veya #toggleOFF olarak gösterir.
+   closeFarmer:
+      slot: 10
+      skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDVjNmRjMmJiZjUxYzM2Y2ZjNzcxNDU4NWE2YTU2ODNlZjJiMTRkNDdkOGZmNzE0NjU0YTg5M2Y1ZGE2MjIifX19"
+      name: '&eDüşenleri Toplama'
+      lore:
+      - '&7Çiftçinin yere düşen eşyaları'
+      - '&7Toplmama ayarını değiştirir.'
+      - ''
+      - ' &8▪ &7Mevcut: &6{status}'
+      - ''
+      - '&aDeğiştirmek için TIKLA!'
+   addons:
+      slot: 13
+      skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWNiYTcyNzdmYzg5NWJmM2I2NzM2OTQxNTk4NjRiODMzNTFhNGQxNDcxN2U0NzZlYmRhMWMzYmYzOGZjZjM3In19fQ=="
+      name: '&eSistemler'
+      lore:
+      - '&7Eğer sunucuda bir sisteme izin'
+      - '&7Verildiyse buradan ayarlayabilirsin.'
+      - ''
+      - '&eSistemler için TIKLA!'
+      
+addonGui:
+   guiName: "&8Sistem Ayarları"
+   spawnerKill:
+      skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjQ3ZTJlNWQ1NWI2ZDA0OTQzNTE5YmVkMjU1N2M2MzI5ZTMzYjYwYjkwOWRlZTg5MjNjZDg4YjExNTIxMCJ9fX0="
+      name: "&eSpawner Öldürücü"
+      lore:
+      - '&7Çiftçi spawnerdan çıkan canlıları'
+      - '&7Otomatik olarak öldürür.'
+      - ''
+      - ' &8▪ &7Durum: {status}'
+      - ''
+      - '&aDeğiştirmek için TIKLA!'
+   autoCollect:
+      skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjQ0Yzk3OTgzY2E4YWFmNThjNjk2MTgyOTExZTNiYzY4NTEwZjI5ZDk2MzJkMTM0ZjgzNDU3YTUyZjRlNWY5NSJ9fX0="
+      name: "&eOto Hasat"
+      lore:
+      - '&7Çiftçi büyüyen bazı mahsülleri'
+      - '&7Otomatik olarak hasat edip deposuna alır.'
+      - ''
+      - ' &8▪ &7Durum: {status}'
+      - ''
+      - '&aDeğiştirmek için TIKLA!'
+   autoSell:
+      skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWYxMzc5YTgyMjkwZDdhYmUxZWZhYWJiYzcwNzEwZmYyZWMwMmRkMzRhZGUzODZiYzAwYzkzMGM0NjFjZjkzMiJ9fX0="
+      name: "&eOto Satış"
+      lore:
+      - '&7Çiftçi stoğu dolduğunda otomatik olarak'
+      - '&7Ürünleri satar ve parasını sana verir.'
+      - ''
+      - ' &8▪ &7Durum: {status}'
+      - ''
+      - '&aDeğiştirmek için TIKLA!'
+   addonDisabled:
+      skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ=="
+      name: "&cSistem Devre Dışı"
+      lore:
+      - '&7Çiftçi bu sistemi desteklemiyor'
+      - ''
+      - ' &8▪ &7Durum: &cDevre Dışı'
+buyFarmerGui:
+   guiName: "&0▪ &8Çiftçi Satın Al &0▪"
+   buyFarmer:
+      skull: "ewogICJ0aW1lc3RhbXAiIDogMTYyMDM5NzA2MjE1MSwKICAicHJvZmlsZUlkIiA6ICI0ZGI2MWRkOTM0Mzk0M2M0YjhhOTZiNDQwMWM3MDM1MCIsCiAgInByb2ZpbGVOYW1lIiA6ICJiZWVyYmVsbHltYW4iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MyZTgxOTkwNmViMTc5NDM5YjhkZDU1NTExMzJlNTRlYjQ3MTczZTBmNDU4ODYxYWQyYThjOTM3OTE4Mzg5MSIKICAgIH0KICB9Cn0="
+      name: "&eÇiftçi Satın Al"
+      lore:
+      - '&7Çiftçi adandaki bazı ürünleri toplayıp'
+      - '&7Kendi deposunda biriktirir. Ürünleri oradan'
+      - '&7Kolayca satabilir veya envanterine geri'
+      - '&7Alabilirsin.'
+      - ''
+      - ' &8▪ &7Fiyat: &6{price}'
+      - ''
+      - '&aSatın almak için TIKLA!'
