@@ -71,11 +71,10 @@ public class onBlockGrowEvent implements Listener {
 			String nms = Manager.getNMSVersion();
 
 			if (canCollect) {
-
 				if (e.getNewState().getData() instanceof Crops
 						&& !e.getNewState().getBlock().getType().name().contains("BEETROOTS")
-						&& !e.getNewState().getBlock().getType().name().equalsIgnoreCase("CARROT")
-						&& !e.getNewState().getBlock().getType().name().equalsIgnoreCase("POTATO")) {
+						&& !e.getNewState().getBlock().getType().name().contains("CARROT")
+						&& !e.getNewState().getBlock().getType().name().contains("POTATO")) {
 
 					Crops c = (Crops) e.getNewState().getData();
 
@@ -231,10 +230,10 @@ public class onBlockGrowEvent implements Listener {
 				}
 
 				else if ((((e.getNewState().getType() == Material.CARROT
-						|| e.getNewState().getBlock().getType().name().equalsIgnoreCase("CARROT"))
+						|| e.getNewState().getBlock().getType().name().contains("CARROT"))
 						&& FarmerManager.autoCollectMaterials.keySet().contains(FarmItemType.CARROT))
 						|| ((e.getNewState().getType() == Material.POTATO
-								|| e.getNewState().getBlock().getType().name().equalsIgnoreCase("POTATO"))
+								|| e.getNewState().getBlock().getType().name().contains("POTATO"))
 								&& FarmerManager.autoCollectMaterials.keySet().contains(FarmItemType.POTATO)))
 						&& e.getNewState().getRawData() == 7) {
 
@@ -244,7 +243,7 @@ public class onBlockGrowEvent implements Listener {
 					}
 
 					if (e.getNewState().getType() == Material.CARROT
-							|| e.getNewState().getBlock().getType().name().equalsIgnoreCase("CARROT")) {
+							|| e.getNewState().getBlock().getType().name().contains("CARROT")) {
 
 						if (Main.instance.getConfig().isSet("AddonSettings.autoCollect.ignoreStock")
 								&& !Main.instance.getConfig().getBoolean("AddonSettings.autoCollect.ignoreStock")

@@ -23,8 +23,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
@@ -91,7 +91,9 @@ public class PacketUtil {
 
         PacketContainer remove = npc.manager.createPacket(PacketType.Play.Server.PLAYER_INFO);
         remove.getPlayerInfoAction().write(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-        remove.getPlayerInfoDataLists().write(0, Collections.singletonList(npc.infoData));
+        List<PlayerInfoData> data = new ArrayList<PlayerInfoData>();
+        data.add(npc.infoData);
+        remove.getPlayerInfoDataLists().write(0, data);
         
         try {
             for(Player p : players) {
@@ -134,7 +136,9 @@ public class PacketUtil {
         npc.profile = gameProfile;
 
         npc.infoData = new PlayerInfoData(gameProfile, 0, npc.mode.getNativeGameMode(), null);
-        info.getPlayerInfoDataLists().write(0, Collections.singletonList(npc.infoData));
+        List<PlayerInfoData> data = new ArrayList<PlayerInfoData>();
+        data.add(npc.infoData);
+        info.getPlayerInfoDataLists().write(0, data);
 
         try {
             for(Player p : players) {
@@ -243,8 +247,11 @@ public class PacketUtil {
         	
         }
         
-        else
-        	equip.getSlotStackPairLists().write(0, Collections.singletonList(new Pair<ItemSlot, ItemStack>(ItemSlot.MAINHAND, item)));
+        else {
+        	List<Pair<ItemSlot, ItemStack>> pair = new ArrayList<>();
+        	pair.add(new Pair<ItemSlot, ItemStack>(ItemSlot.MAINHAND, item));
+        	equip.getSlotStackPairLists().write(0, pair);
+        }
 
         try {
             for(Player p : players) {

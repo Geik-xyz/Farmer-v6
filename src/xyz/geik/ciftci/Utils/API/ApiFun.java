@@ -13,8 +13,7 @@ import org.eclipse.jdt.annotation.Nullable;
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
 import com.bgsoftware.superiorskyblock.api.wrappers.SuperiorPlayer;
 import com.hakan.claimsystem.api.ClaimAPI;
-import com.hakan.claimsystem.claim.Claim;
-import com.hakan.claimsystem.claim.Claim.ClaimFriend;
+import com.hakan.claimsystem.claim.HClaim;
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
 import com.iridium.iridiumskyblock.api.IridiumSkyblockAPI;
@@ -41,7 +40,6 @@ import xyz.geik.ciftci.Utils.onEnableShortcut;
 
 public class ApiFun {
 	
-	@SuppressWarnings("deprecation")
 	public static OfflinePlayer getOwnerViaID(String id) {
 		
 		if (onEnableShortcut.USE_OWNER) {
@@ -52,8 +50,14 @@ public class ApiFun {
 			else if (Main.API.equals(ApiType.GriefPrevention)) 
 				return Bukkit.getOfflinePlayer(GriefPrevention.instance.dataStore.getClaim(Long.valueOf(id)).ownerID);
 			
-			else if (Main.API.equals(ApiType.hClaims))
-				return Bukkit.getOfflinePlayer(ClaimAPI.getInstance().getClaim(id).getOwner());
+			else if (Main.API.equals(ApiType.hClaims)) {
+				for (HClaim claim : ClaimAPI.getInstance().getClaimList()) {
+					if (id.equals(claim.getMainChunkData().toId()))
+						return Bukkit.getOfflinePlayer(claim.getOwnerUUID());
+					else continue;
+				}
+				return null;
+			}
 			
 			else if (Main.API.equals(ApiType.InfClaim))
 				return Bukkit.getOfflinePlayer(BasicClaim.getClaimByID(Integer.valueOf(id)).getOwnerUUID());
@@ -85,7 +89,7 @@ public class ApiFun {
 					return GriefPrevention.instance.dataStore.getClaimAt(location, true, null).getID().toString();
 				
 				else if (Main.API.equals(ApiType.hClaims))
-					return ClaimAPI.getInstance().getClaim(location).getMainChunkId();
+					return ClaimAPI.getInstance().getClaim(location).getMainChunkData().toId();
 				
 				else if (Main.API.equals(ApiType.InfClaim))
 					return String.valueOf(InfClaimAPI.getClaimFromLocation(location).getId());
@@ -117,7 +121,7 @@ public class ApiFun {
 			
 			else if (Main.API.equals(ApiType.UltimateClaims)) return UltimateClaims.getInstance().getClaimManager().getClaim(location.getChunk()).getOwner().getUniqueId().toString();
 			
-		    else if (Main.API.equals(ApiType.hClaims)) return Bukkit.getOfflinePlayer(ClaimAPI.getInstance().getClaim(location).getOwner()).getUniqueId().toString();
+		    else if (Main.API.equals(ApiType.hClaims)) return ClaimAPI.getInstance().getClaim(location).getOwnerUUID().toString();
 			
 			else if (Main.API.equals(ApiType.InfClaim))
 				return Bukkit.getOfflinePlayer(InfClaimAPI.getClaimFromLocation(location).getOwner()).getUniqueId().toString();
@@ -328,10 +332,8 @@ public class ApiFun {
 				
 				else if (Main.API.equals(ApiType.hClaims))
 				{
-					Claim claim = ClaimAPI.getInstance().getClaim(location);
-					Claim.ClaimFriend claimFriend = claim.getFriend(player.getName());
-					if (claim.getOwner().equalsIgnoreCase(player.getName())) return true;
-					else return claimFriend.has(Claim.ClaimFriend.FriendPermission.BLOCK_PLACE);
+					return (ClaimAPI.getInstance().getClaim(location).getFriendList().stream().anyMatch(claimFriend -> (claimFriend.getUUID().equals(player.getUniqueId()))) ||
+							ClaimAPI.getInstance().getClaim(location).getOwnerUUID().equals(player.getUniqueId()));
 				}
 				
 				else if (Main.API.equals(ApiType.InfClaim))
@@ -436,14 +438,19 @@ public class ApiFun {
 			else if (Main.API.equals(ApiType.hClaims))
 			{
 				
-				if (onEnableShortcut.USE_OWNER)
-					for (ClaimFriend friend : ClaimAPI.getInstance().getClaim(claimID).getFriendList())
-						players.add(Bukkit.getOfflinePlayer(friend.getFriendName()));
+				if (onEnableShortcut.USE_OWNER) {
+				//	ClaimAPI.getInstance().claim
+				}
+				///	for (ClaimFriend friend : ClaimAPI.getInstance().getClaim(claimID).getFriendList())
+				//		players.add(Bukkit.getOfflinePlayer(friend.getFriendName()));
 				
-				else
-					for (Claim claim : ClaimAPI.getInstance().getClaims(player)) {
-						for (ClaimFriend friend : claim.getFriendList())
-							players.add(Bukkit.getOfflinePlayer(friend.getFriendName())); }
+				else {
+					ClaimAPI.getInstance().getClaims(player).stream().forEach(claim -> {
+						claim.getFriendList().stream().forEach(member -> {
+							players.add(Bukkit.getOfflinePlayer(member.getUUID()));
+						});
+					});
+				}
 			}
 			
 			else if (Main.API.equals(ApiType.InfClaim))

@@ -60,7 +60,8 @@ public class onPlaceEvent implements Listener {
 						StringUtils.difference(Main.color(FarmerManager.SPAWN_EGG.getItemMeta().getDisplayName()),
 								Main.color(e.getItem().getItemMeta().getDisplayName())).split(" ")[0]);
 
-			if ((Main.color(handItem.getItemMeta().getDisplayName())
+			if (handItem.hasItemMeta() && handItem.getItemMeta().hasDisplayName() &&
+					(Main.color(handItem.getItemMeta().getDisplayName())
 					.contains(Main.color(FarmerManager.SPAWN_EGG.getItemMeta().getDisplayName().replace("{level}",
 							String.valueOf(farmerLevel))))
 					|| Main.color(handItem.getItemMeta().getDisplayName())
@@ -190,7 +191,6 @@ public class onPlaceEvent implements Listener {
 		}
 
 		catch (NullPointerException | NumberFormatException e1) {
-			e1.printStackTrace();
 			return;
 		}
 

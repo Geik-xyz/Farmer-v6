@@ -16,12 +16,13 @@ import org.bukkit.inventory.ItemStack;
 import com.bgsoftware.wildstacker.api.WildStackerAPI;/*
 import com.songoda.epicspawners.api.events.SpawnerSpawnEvent;
 */
+import com.songoda.epicspawners.api.events.SpawnerSpawnEvent;
+
 import xyz.geik.ciftci.Main;
 import xyz.geik.ciftci.Utils.FarmerManager;
 import xyz.geik.ciftci.Utils.onEnableShortcut;
 import xyz.geik.ciftci.Utils.API.ApiFun;
 
-@SuppressWarnings("unused")
 public class EpicSpawnersListener implements Listener {
 
 	public EpicSpawnersListener(Main instance) {
@@ -77,6 +78,16 @@ public class EpicSpawnersListener implements Listener {
 					if (!FarmerManager.farmerCache.get(uuid).getStorage().getSpawnerKill())
 						return;
 
+				}
+				
+				else if (Main.instance.getConfig().getBoolean("AddonSettings.spawnerKiller.toggle")) {
+					
+					String uuid = ApiFun.getIslandOwnerUUID(e.getEntity().getLocation()).toString();
+					
+					if (uuid != null && FarmerManager.farmerCache.containsKey(uuid) 
+							&& !FarmerManager.farmerCache.get(uuid).getStorage().getSpawnerKill())
+						return;
+					
 				}
 
 				EntityType entype = e.getEntityType();

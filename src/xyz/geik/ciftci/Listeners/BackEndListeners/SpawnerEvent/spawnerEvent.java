@@ -84,6 +84,19 @@ public class spawnerEvent implements Listener {
 						return;
 
 				}
+				
+				else if (Main.instance.getConfig().getBoolean("AddonSettings.spawnerKiller.toggle")) {
+					
+					try {
+						String uuid = ApiFun.getIslandOwnerUUID(e.getLocation()).toString();
+						
+						if (uuid != null && FarmerManager.farmerCache.containsKey(uuid) 
+								&& !FarmerManager.farmerCache.get(uuid).getStorage().getSpawnerKill())
+							return;	
+					}
+					catch (NullPointerException e2) {}
+					
+				}
 
 				EntityType entype = e.getEntityType();
 
@@ -136,8 +149,7 @@ public class spawnerEvent implements Listener {
 
 		}
 
-		catch (NullPointerException | NumberFormatException e1) {
-		}
+		catch (NullPointerException | NumberFormatException e1) {}
 
 	}
 
@@ -201,6 +213,21 @@ public class spawnerEvent implements Listener {
 
 		}
 
+		else if (entype.toString().contains("SPIDER") || entype.toString().contains("CAVE")) {
+			int nextRand = new Random().nextInt(100);
+			for (int i = 0; i < amount; i++) {
+				if (nextRand <= 33)
+					en.getWorld().dropItemNaturally(en.getLocation(), new ItemStack(Material.STRING, 2));
+				else if (nextRand <= 66)
+					en.getWorld().dropItemNaturally(en.getLocation(), new ItemStack(Material.STRING, 1));
+				
+				if ((new Random()).nextInt(100) <= 20)
+					en.getWorld().dropItemNaturally(en.getLocation(), new ItemStack(Material.SPIDER_EYE, 1));
+			}
+			
+			((ExperienceOrb) en.getWorld().spawn(en.getLocation(), ExperienceOrb.class)).setExperience(5 * amount);
+		}
+		
 		else {
 
 			((ExperienceOrb) en.getWorld().spawn(en.getLocation(), ExperienceOrb.class)).setExperience(5 * amount);

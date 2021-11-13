@@ -21,7 +21,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,11 +79,13 @@ public class NPCImpl implements NPC {
     }
 
     public void rangePlayersUpdated(Player player) {
+    	List<Player> playerList = new ArrayList<>();
+    	playerList.add(player);
         if(rangePlayers.contains(player)) {
-            PacketUtil.addNPC(this, Collections.singletonList(player));
-            PacketUtil.showNPC(this, Collections.singletonList(player));
+            PacketUtil.addNPC(this, playerList);
+            PacketUtil.showNPC(this, playerList);
         } else {
-            PacketUtil.removeNPC(this, Collections.singletonList(player));
+            PacketUtil.removeNPC(this, playerList);
         }
     }
     

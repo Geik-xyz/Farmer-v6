@@ -85,6 +85,12 @@ public class FarmerManagmentGUI {
 				&& FarmerManager.fillItem != null)
 		{
 			
+			boolean addonStatus = false;
+			if (Main.instance.getConfig().getBoolean("AddonSettings.autoSell.feature") 
+					|| Main.instance.getConfig().getBoolean("AddonSettings.autoCollect.toggle")
+					|| Main.instance.getConfig().getBoolean("AddonSettings.spawnerKiller.toggle"))
+				addonStatus = true;
+			
 			ItemStack fill = FarmerManager.fillItem;
 			
 			List<Integer> slotList = new ArrayList<Integer>();
@@ -105,14 +111,14 @@ public class FarmerManagmentGUI {
 			{
 				
 				if (!slotList.contains(i) || 
-						(!Main.autoCollector && !Main.autoSell && !Main.spawnerKiller && Manager.getInt("lang", "ManagmentGui.addons.slot") == i))
+						(!addonStatus && Manager.getInt("lang", "ManagmentGui.addons.slot") == i))
 					gui.setItem(i, fill);
 				
 				else continue;
 				
 			}
 			
-			if (Main.autoCollector || Main.autoSell || Main.spawnerKiller)
+			if (addonStatus)
 				gui.setItem(Manager.getInt("lang", "ManagmentGui.addons.slot"), GuiManager.getAddonsItem());
 			
 		}

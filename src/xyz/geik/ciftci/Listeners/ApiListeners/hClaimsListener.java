@@ -16,27 +16,21 @@ import xyz.geik.ciftci.DataSource.DatabaseQueries;
 import xyz.geik.ciftci.Utils.FarmerManager;
 import xyz.geik.ciftci.Utils.onEnableShortcut;
 
-@SuppressWarnings("unused")
 public class hClaimsListener implements Listener {
 	
-	@SuppressWarnings("unused")
-	private Main plugin;
-	public hClaimsListener(Main plugin) {
-		this.plugin = plugin;
-	}
+	public hClaimsListener(Main plugin) {}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onIslandRemoveEvent(ClaimDeleteEvent e)
 	{
 		
-		String uuid = Bukkit.getOfflinePlayer(e.getClaim().getOwner()).getUniqueId().toString();
+		String uuid = e.getClaim().getOwnerUUID().toString();
 		
 		if (onEnableShortcut.USE_OWNER)
-			uuid = e.getClaim().getMainChunkId();
+			uuid = e.getClaim().getMainChunkData().toId();
 		
 		if (!onEnableShortcut.USE_OWNER
-				&& (!ClaimAPI.getInstance().getClaims(e.getClaim().getOwner()).isEmpty() &&  ClaimAPI.getInstance().getClaims(e.getClaim().getOwner()).size() <= 1))
+				&& (!ClaimAPI.getInstance().getClaims(e.getClaim().getOwnerUUID()).isEmpty() &&  ClaimAPI.getInstance().getClaims(e.getClaim().getOwnerUUID()).size() <= 1))
 			return;
 			
 		if (DatabaseQueries.areaHasFarmer(uuid))
@@ -45,8 +39,8 @@ public class hClaimsListener implements Listener {
 			if (FarmerManager.farmerCache.containsKey(uuid))
 			{
 				
-				if (Bukkit.getOfflinePlayer(e.getClaim().getOwner()).isOnline())
-					FarmerManager.giveEggToPlayer(Bukkit.getPlayer(e.getClaim().getOwner()), FarmerManager.farmerCache.get(uuid).getStorage().getFarmerLevel());
+				if (Bukkit.getOfflinePlayer(e.getClaim().getOwnerUUID()).isOnline())
+					FarmerManager.giveEggToPlayer(Bukkit.getPlayer(e.getClaim().getOwnerUUID()), FarmerManager.farmerCache.get(uuid).getStorage().getFarmerLevel());
 				
 				FarmerManager.leaveHandler(uuid, FarmerManager.farmerCache.get(uuid));
 				
@@ -60,18 +54,17 @@ public class hClaimsListener implements Listener {
 		
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void expireEvent(ClaimTimeExpireEvent e)
 	{
 		
-		String uuid = Bukkit.getOfflinePlayer(e.getClaim().getOwner()).getUniqueId().toString();
+		String uuid = Bukkit.getOfflinePlayer(e.getClaim().getOwnerUUID()).getUniqueId().toString();
 		
 		if (onEnableShortcut.USE_OWNER)
-			uuid = e.getClaim().getMainChunkId();
+			uuid = e.getClaim().getMainChunkData().toId();
 		
 		if (!onEnableShortcut.USE_OWNER
-				&& (!ClaimAPI.getInstance().getClaims(e.getClaim().getOwner()).isEmpty() &&  ClaimAPI.getInstance().getClaims(e.getClaim().getOwner()).size() >= 1))
+				&& (!ClaimAPI.getInstance().getClaims(e.getClaim().getOwnerUUID()).isEmpty() &&  ClaimAPI.getInstance().getClaims(e.getClaim().getOwnerUUID()).size() >= 1))
 			return;
 			
 		if (DatabaseQueries.areaHasFarmer(uuid))
@@ -80,8 +73,8 @@ public class hClaimsListener implements Listener {
 			if (FarmerManager.farmerCache.containsKey(uuid))
 			{
 				
-				if (Bukkit.getOfflinePlayer(e.getClaim().getOwner()).isOnline())
-					FarmerManager.giveEggToPlayer(Bukkit.getPlayer(e.getClaim().getOwner()), FarmerManager.farmerCache.get(uuid).getStorage().getFarmerLevel());
+				if (Bukkit.getOfflinePlayer(e.getClaim().getOwnerUUID()).isOnline())
+					FarmerManager.giveEggToPlayer(Bukkit.getPlayer(e.getClaim().getOwnerUUID()), FarmerManager.farmerCache.get(uuid).getStorage().getFarmerLevel());
 				
 				FarmerManager.leaveHandler(uuid, FarmerManager.farmerCache.get(uuid));
 				
@@ -99,11 +92,11 @@ public class hClaimsListener implements Listener {
 	public void playerKickEventhClaims(ClaimFriendRemoveEvent e)
 	{
 		
-		String uuid = String.valueOf(e.getClaim().getOwner());
+		String uuid = String.valueOf(e.getClaim().getOwnerUUID());
 		if (onEnableShortcut.USE_OWNER)
-			uuid = e.getClaim().getMainChunkId();
+			uuid = e.getClaim().getMainChunkData().toId();
 		
-		Player playerName = Bukkit.getPlayer(e.getClaimFriend().getFriendName());
+		Player playerName = Bukkit.getPlayer(e.getClaimFriend().getUUID());
 			
 		FarmerManager.removeMember(uuid, playerName);
 		
@@ -113,11 +106,11 @@ public class hClaimsListener implements Listener {
 	public void playerJoinEventhClaims(ClaimFriendAddEvent e)
 	{
 		
-		String uuid = String.valueOf(e.getClaim().getOwner());
+		String uuid = String.valueOf(e.getClaim().getOwnerUUID());
 		if (onEnableShortcut.USE_OWNER)
-			uuid = e.getClaim().getMainChunkId();
+			uuid = e.getClaim().getMainChunkData().toId();
 		
-		Player playerName = Bukkit.getPlayer(e.getClaimFriend().getFriendName());
+		Player playerName = Bukkit.getPlayer(e.getClaimFriend().getUUID());
 			
 		FarmerManager.addMember(uuid, playerName);
 		

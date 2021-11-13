@@ -69,6 +69,12 @@ public class FarmerManagmentGuiListener implements Listener {
 				int paymentMethod = FarmerManagmentGUI.isLeaderChoose(farmer.getSellingStatus());
 
 				int farmerID = farmer.getFarmerID();
+				
+				boolean addonStatus = false;
+				if (Main.instance.getConfig().getBoolean("AddonSettings.autoSell.feature") 
+						|| Main.instance.getConfig().getBoolean("AddonSettings.autoCollect.toggle")
+						|| Main.instance.getConfig().getBoolean("AddonSettings.spawnerKiller.toggle"))
+					addonStatus = true;
 
 				// UPGRADE
 				if (e.getSlot() == Manager.getInt("lang", "ManagmentGui.upgradeNext.slot")
@@ -229,7 +235,7 @@ public class FarmerManagmentGuiListener implements Listener {
 				}
 
 				// AutoSell Toggle
-				else if (e.getSlot() == Manager.getInt("lang", "ManagmentGui.addons.slot")) {
+				else if (addonStatus && e.getSlot() == Manager.getInt("lang", "ManagmentGui.addons.slot")) {
 
 					player.closeInventory();
 
