@@ -159,7 +159,7 @@ public class PacketUtil {
         		return;
         	
             PacketContainer destroyPacket = npc.manager.createPacket(PacketType.Play.Server.ENTITY_DESTROY);
-            if (Manager.getNMSVersion().contains("1_17"))
+            if (Manager.isVerBigger1_17())
             	destroyPacket.getIntLists().write(0, Arrays.asList(npc.getEntityId()));
             else
             	destroyPacket.getIntegerArrays().write(0, new int[] {npc.entityId});

@@ -138,20 +138,20 @@ public class Main extends JavaPlugin {
 					if (!FarmerManager.NPCList.contains(target))
 						return;
 
-					String nms = Manager.getNMSVersion();
+					boolean isVerBigger1_17 = Manager.isVerBigger1_17();
 
 					Object action;
-					if (Manager.getNMSVersion().contains("1_17"))
+					if (isVerBigger1_17)
 						action = packet.getEnumEntityUseActions().read(0);
 
 					else
 						action = packet.getEntityUseActions().read(0);
 
-					if (nms.contains("1_17")
+					if (isVerBigger1_17
 							&& ((WrappedEnumEntityUseAction) action).getAction() == EntityUseAction.INTERACT)
 						return;
 
-					else if (!nms.contains("1_17") && action == EnumWrappers.EntityUseAction.INTERACT)
+					else if (!isVerBigger1_17 && action == EnumWrappers.EntityUseAction.INTERACT)
 						return;
 
 					// TODO Executed API & Not Executed API
@@ -161,7 +161,7 @@ public class Main extends JavaPlugin {
 							event.setCancelled(true);
 							Bukkit.getScheduler().runTask(Main.this, () -> {
 								storage.getNPC().eventHandlers.stream().forEach(handler -> {
-									if (nms.contains("1_17")) {
+									if (isVerBigger1_17) {
 										handler.onInteract(storage.getNPC(), event.getPlayer(),
 												((WrappedEnumEntityUseAction) action)
 														.getAction() == EntityUseAction.ATTACK

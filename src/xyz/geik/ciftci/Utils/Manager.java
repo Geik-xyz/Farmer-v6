@@ -3,6 +3,7 @@ package xyz.geik.ciftci.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -374,6 +375,18 @@ public class Manager {
         return v.substring(v.lastIndexOf('.') + 1);
         
     }
+	
+	public static boolean isVerBigger1_17() {
+		String nms = getNMSVersion();
+		if (nms.contains("1_1")) {
+			String version = nms.split("")[4];
+			if (version.equals("7") || version.equals("8") || version.equals("9")) {
+				return true;
+			}
+			else return false;
+		}
+		else return false;
+	}
 
 
 }

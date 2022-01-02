@@ -16,17 +16,16 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Dosyalarım/Minecraft/1) TEST/Test 1.8/plugins/worldguard-6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/askyblock.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/EpicSpawners-7.0.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/FabledSkyblock-2.3.27.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/GriefPrevention.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/hClaims.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/InfClaim-1.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/IridiumSkyblock-3.0.0-b3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/PlotSquared.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/UltimateClaims-1.7.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/UltimateStacker-2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Geik/git/Geik.xyz/Ciftci-5/libs/WildStacker-3.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/askyblock.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/EpicSpawners-7.0.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/FabledSkyblock-2.3.27.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/GriefPrevention.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/InfClaim-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/IridiumSkyblock-3.0.0-b3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/PlotSquared.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/UltimateClaims-1.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/UltimateStacker-2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/WildStacker-3.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Poyraz/git/Ciftci-v5/libs/hClaims.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
