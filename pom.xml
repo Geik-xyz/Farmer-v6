@@ -1,174 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>Ciftci</groupId>
-	<artifactId>Ciftci</artifactId>
-	<version>v5-RELOADED</version>
-	<name>Ciftci</name>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<!-- Dependencies -->
-	<dependencies>
-		<!-- byte buddy Dep -->
-		<dependency>
-			<groupId>net.bytebuddy</groupId>
-			<artifactId>byte-buddy</artifactId>
-			<version>1.11.13</version>
-		</dependency>
+    <groupId>xyz.geik.farmer</groupId>
+    <artifactId>Farmer</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
-		<!-- Mojang Dep -->
-		<dependency>
-			<groupId>com.mojang</groupId>
-			<artifactId>authlib</artifactId>
-			<version>1.5.21</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Superior -->
-		<dependency>
-			<groupId>com.bgsoftware</groupId>
-			<artifactId>SuperiorSkyblockAPI</artifactId>
-			<version>latest</version>
-		</dependency>
-		<!-- Spigot 1.17.1 -->
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
-			<version>1.17.1-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Vault -->
-		<dependency>
-			<groupId>com.github.MilkBowl</groupId>
-			<artifactId>VaultAPI</artifactId>
-			<version>1.7</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- JSON -->
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20190722</version>
-		</dependency>
-		<!-- Bentobox -->
-		<dependency>
-			<groupId>world.bentobox</groupId>
-			<artifactId>bentobox</artifactId>
-			<version>1.16.2-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- ProtocolLib -->
-		<dependency>
-			<groupId>com.comphenix.protocol</groupId>
-			<artifactId>ProtocolLib</artifactId>
-			<version>4.7.0</version>
-		</dependency>
-		<!-- Lombok -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.12</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Lands -->
-		<dependency>
-			<groupId>com.github.angeschossen</groupId>
-			<artifactId>LandsAPI</artifactId>
-			<version>5.12.2</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+    <properties>
+        <shaded.package>org.cas.osd.platform.ciam.shaded</shaded.package>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-	<!-- Repos -->
-	<repositories>
-		<!-- Spigot Repo -->
-		<repository>
-			<id>spigot-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-		<!-- Jitpack Repo -->
-		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-		<!-- CodeMC -->
-		<repository>
-			<id>codemc-repo</id>
-			<url>https://repo.codemc.org/repository/maven-public/</url>
-		</repository>
-		<!-- SuperiorSkyblock2 Repo -->
-		<repository>
-			<id>bg-repo</id>
-			<url>https://repo.bg-software.com/repository/api/</url>
-		</repository>
-		<!-- ProtocolLib Repo -->
-		<repository>
-			<id>dmulloy2-repo</id>
-			<url>https://repo.dmulloy2.net/nexus/repository/public/</url>
-		</repository>
-		<!-- MojangAPI Repo -->
-		<repository>
-			<id>minecraft-repo</id>
-			<url>https://libraries.minecraft.net/</url>
-		</repository>
-	</repositories>
+    <!-- Dependencies -->
+    <dependencies>
+        <!-- Spigot -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Vault -->
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>9520d8847e</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- SimplixStorage -->
+        <dependency>
+            <groupId>com.github.Son-Hukumdar</groupId>
+            <artifactId>SimplixStorage</artifactId>
+            <version>1.0.0-RELOADED</version>
+        </dependency>
+        <!-- InventoryAPI -->
+        <dependency>
+            <groupId>de.themoep</groupId>
+            <artifactId>inventorygui</artifactId>
+            <!--The following version may not be the latest. Check it before using.-->
+            <version>1.5-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Mojang Dep -->
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>1.5.21</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- SuperiorAPI -->
+        <dependency>
+            <groupId>com.bgsoftware</groupId>
+            <artifactId>SuperiorSkyblockAPI</artifactId>
+            <version>2022.9</version>
+        </dependency>
+        <!-- GriefPreventionAPI -->
+        <dependency>
+            <groupId>com.github.TechFortress</groupId>
+            <artifactId>GriefPrevention</artifactId>
+            <version>16.18</version>
+        </dependency>
+    </dependencies>
 
-	<!-- Properties -->
-	<properties>
-		<shaded.package>org.cas.osd.platform.ciam.shaded</shaded.package>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <!-- Repos -->
+    <repositories>
+        <!-- Spigot Repo -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <!-- Jitpack Repo -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <!-- InventoryAPI -->
+        <repository>
+            <id>minebench-repo</id>
+            <url>https://repo.minebench.de/</url>
+        </repository>
+        <!-- MojangAPI Repo -->
+        <repository>
+            <id>minecraft-repo</id>
+            <url>https://libraries.minecraft.net/</url>
+        </repository>
+        <!-- SuperiorAPI -->
+        <repository>
+            <id>bg-repo</id>
+            <url>https://repo.bg-software.com/repository/api/</url>
+        </repository>
+    </repositories>
 
-	<!-- Build -->
-	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<!-- Resources -->
-		<resources>
-			<resource>
-				<targetPath>.</targetPath>
-				<directory>src/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*.yml</include>
-				</includes>
-			</resource>
-		</resources>
-		<!-- Shade -->
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.4</version>
-				<configuration>
-					<artifactSet>
-						<includes>
-							<include>org.json:*:*:*</include>
-						</includes>
-					</artifactSet>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.3.2</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-			</plugin>
-
-
-		</plugins>
-	</build>
-
+    <build>
+        <plugins>
+            <!-- Shade plugin for store dependency on jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>com.github.Son-Hukumdar:*:*:*</include>
+                            <include>de.themoep:*:*:*</include>
+                        </includes>
+                    </artifactSet>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source />
+                    <target />
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

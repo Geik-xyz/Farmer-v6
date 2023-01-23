@@ -1,0 +1,25 @@
+settings:
+  defaultMaxFarmerUser: 3
+  farmerPrice: 1000
+  lang: en
+  ignorePlayerDrop: false
+  allowedWorlds:
+    - ASkyblock
+    - Island
+
+tax:
+  rate: 20
+  deposit: false
+  depositUser: Geyik
+
+levels:
+  first:
+    capacity: 1000
+  second:
+    capacity: 2000
+    reqMoney: 5000
+  third:
+    capacity: 10000
+    reqMoney: 8000
+    reqPerm: "my.custom.perm"
+    tax: 15
