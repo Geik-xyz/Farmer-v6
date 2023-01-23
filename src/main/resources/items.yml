@@ -1,0 +1,7 @@
+Items:
+  WHEAT:
+    price: 0.08
+  CACTUS:
+    price: 0.1
+  PUMPKIN:
+    price: 0.275
