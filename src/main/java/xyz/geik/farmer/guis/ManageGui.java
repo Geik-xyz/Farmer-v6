@@ -9,17 +9,32 @@ import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 
+/**
+ * Manage gui can be openable
+ * by owner or administrator only
+ */
 public class ManageGui {
 
+    /**
+     * Shows gui to player also contains event of it
+     *
+     * @param player
+     * @param farmer
+     */
     public static void showGui(Player player, Farmer farmer) {
+        // Gui interface array
         String[] guiSetup = Main.getLangFile().getList("manageGui.interface").toArray(String[]::new);
+        // Inventory object
         InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("manageGui.guiName"), guiSetup);
+        // Filler for empty slots
         gui.setFiller(GuiHelper.getFiller());
-        // Close Farmer Icon
+        // Change state of Farmer Icon
         gui.addElement(new DynamicGuiElement('t', (viewer) -> {
             return new StaticGuiElement('t',
+                // Placing item depending on state of farmer (Collecting or not)
                 GuiHelper.getStatusItem(farmer.getState()),
                 1,
+                // Event of status change
                 click -> {
                     if (farmer.getState() == 0)
                       farmer.setState(1);
@@ -42,11 +57,13 @@ public class ManageGui {
                     return true;
                 })
         );
-        // level up
+        // Level icon
         gui.addElement(new DynamicGuiElement('l', (viewer) -> {
             return new StaticGuiElement('l',
+                // Level item
                 GuiHelper.getLevelItem(farmer),
                 1,
+                // Event of level item click
                 click -> {
                     int nextLevelIndex = FarmerLevel.getAllLevels().indexOf(farmer.getLevel())+1;
                     if (!(FarmerLevel.getAllLevels().size()-1 < nextLevelIndex)) {
