@@ -13,16 +13,33 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.*;
 
+/**
+ * User Object which farmer has
+ */
 @Setter
 @Getter
 public class User {
 
+    // User belongs to which farmer it attaches by this unique key
     private int farmerId;
+
+    // UUID of player
     private UUID uuid;
+
+    // Permission of user can be FarmerPerm#COOP, FarmerPerm#MEMBER, FarmerPerm#OWNER
     private FarmerPerm perm;
 
+    // Name of player
     private String name;
 
+    /**
+     * Constructor of User
+     *
+     * @param farmerId
+     * @param name
+     * @param uuid
+     * @param perm
+     */
     public User(int farmerId, String name, UUID uuid, FarmerPerm perm) {
         this.farmerId = farmerId;
         this.name = name;
@@ -30,6 +47,14 @@ public class User {
         this.perm = perm;
     }
 
+    /**
+     * Change role of user coop to member or member to coop.
+     * Synchronized method because this can be issue if owner spam role changes.
+     *
+     * @param user
+     * @param farmer
+     * @return
+     */
     public static synchronized boolean updateUserRole(User user, Farmer farmer) {
         if (user.getPerm().equals(FarmerPerm.COOP)) {
             user.setPerm(FarmerPerm.MEMBER);
@@ -44,6 +69,14 @@ public class User {
         else return false;
     }
 
+    /**
+     * Updates player role on database created for #updateUserRole but can be required
+     * in another class if necessary.
+     *
+     * @param uuid
+     * @param roleId
+     * @param farmerId
+     */
     public static void updateRole(UUID uuid, int roleId, int farmerId) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             final String QUERY = "UPDATE FarmerUsers SET role = ? WHERE uuid = ? AND farmerId = ?";
@@ -59,6 +92,12 @@ public class User {
         });
     }
 
+    /**
+     * How many user can player add to farmer.
+     *
+     * @param player
+     * @return
+     */
     public static int getUserAmount(Player player) {
         String permissionPrefix = "farmer.user.";
         int defaultValue =  3;

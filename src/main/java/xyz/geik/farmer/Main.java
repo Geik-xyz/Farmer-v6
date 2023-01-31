@@ -73,7 +73,7 @@ public class Main extends JavaPlugin{
         setupEconomy();
         Settings.regenSettings();
         new ItemsLoader();
-        FarmerLevel.installLevels();
+        FarmerLevel.loadLevels();
         new ListenerRegister();
         getCommand("farmer").setExecutor(new Commands());
         getCommand("farmer").setTabCompleter(new FarmerTabComplete());

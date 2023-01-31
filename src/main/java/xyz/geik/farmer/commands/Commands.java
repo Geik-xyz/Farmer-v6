@@ -140,7 +140,7 @@ public class Commands implements CommandExecutor {
         // Reloading items it also clears old list
         new ItemsLoader();
         // Reloading levels it also clears old list
-        FarmerLevel.installLevels();
+        FarmerLevel.loadLevels();
         // Reloading farmers again.
         DBQueries.loadAllFarmers();
         // Sends message to sender who send this command and also calculating millisecond difference.

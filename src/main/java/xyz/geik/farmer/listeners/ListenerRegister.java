@@ -7,6 +7,10 @@ import xyz.geik.farmer.listeners.backend.ChatEvent;
 import xyz.geik.farmer.listeners.backend.ItemEvent;
 import xyz.geik.farmer.listeners.backend.QuitEvent;
 
+/**
+ * Register listener classes to spigot framework
+ * on plugin start-up this constructor calls on Main#onEnable()
+ */
 public class ListenerRegister {
 
     public ListenerRegister() {
@@ -15,6 +19,10 @@ public class ListenerRegister {
         register(new ChatEvent());
     }
 
+    /**
+     * Shortcut of pluginmanager
+     * @param object
+     */
     private void register(Listener object) {
         Bukkit.getPluginManager().registerEvents(object, Main.getInstance());
     }

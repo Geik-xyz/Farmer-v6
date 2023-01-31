@@ -13,8 +13,10 @@ import java.util.Set;
 @Getter
 public class FarmerInv {
 
+    // default items which farmer can take
     public static List<FarmerItem> defaultItems = new ArrayList<>();
 
+    // farmer items which stock of items
     private Set<FarmerItem> items;
     private long capacity;
 

@@ -1,40 +1,41 @@
 # placeholders: {money} money which deposited to player {tax} tax amount.
-sellComplete: "&6Farmer &8▸ &aItems sold. &6Profit: &e{money}&f, &6Tax: &e{tax}"
-wrongWorld: "&6Farmer &8▸ &cYou cannot do this in this world."
-noPerm: "&6Farmer &8▸ &cYou don't have permission!"
-noRegion: "&6Farmer &8▸ &cThere is no region for bound a farmer."
-removedFarmer: "&6Farmer &8▸ &aRemoved farmer successfully."
-noFarmer: "&6Farmer &8▸ &cThere is no farmer bound here."
-mustBeOwner: "&6Farmer &8▸ &cYou must to be Region Owner for this."
-inventoryFull: "&6Farmer &8▸ &cInventory full!"
+sellComplete: "&6Çiftçi &8▸ &aEşyalar satıldı. &6Kazanç: &e{money}&f, &6Vergi: &e{tax}"
+wrongWorld: "&6Çiftçi &8▸ &cBunu bu dünyada yapamazsın."
+noPerm: "&6Çiftçi &8▸ &cBunun için yetkin yok!"
+noRegion: "&6Çiftçi &8▸ &cÇiftçi koymak için kendi bölgende olman gerek."
+removedFarmer: "&6Çiftçi &8▸ &aÇiftçi başarıyla silindi."
+noFarmer: "&6Çiftçi &8▸ &cBurada bir çiftçi yok."
+mustBeOwner: "&6Çiftçi &8▸ &cBunun için bölgenin sahibi olmalısın."
+inventoryFull: "&6Çiftçi &8▸ &cEnvanterin dolu!"
 # placeholders: {money} players money {req_money} required money.
-notEnoughMoney: "&6Farmer &8▸ &cDon't have enough money! Required: &4{req_money}"
+notEnoughMoney: "&6Çiftçi &8▸ &cYeterli miktarda paran yok! Gereken miktar: &4{req_money}"
 # placeholders: {level} new upgraded level {capacity} new upgraded capacity.
-levelUpgraded: "&6Farmer &8▸ &aFarmer upgraded to &6{level}&a level. &2New Capacity: &e{capacity}"
+levelUpgraded: "&6Çiftçi &8▸ &aÇiftçin &6{level}&a seviye oldu. Kapasite&2: &e{capacity}"
 # placeholders: {status} shows status of farmer status. (#toggledON, #toggledOFF)
-toggleFarmer: "&6Farmer &8▸ &aFarmers collection settings changed to: &e{status}"
-toggleON: "&aActive"
-toggleOFF: "&cDisabled"
-featureDisabled: "&6Farmer &8▸ &cThis feature disallowed."
-reloadSuccess: "&6Farmer &8▸ &aConfig reloaded successfully. It took %ms%"
-boughtFarmer: "&6Farmer &8▸ &aFarmer bought successfully."
+toggleFarmer: "&6Çiftçi &8▸ &aToplama ayarı: &e{status}"
+toggleON: "&aAktif"
+toggleOFF: "&cDevre Dışı"
+featureDisabled: "&6Çiftçi &8▸ &cBu özellik devre dışı."
+# placeholders: %ms% for millisecond of it take
+reloadSuccess: "&6Çiftçi &8▸ &aConfig dosyalarının yenilenmesi %ms% içinde tamamlandı."
+boughtFarmer: "&6Çiftçi &8▸ &aÇiftçi başarıyla alındı."
 # placeholders: {time} left for do it again.
-inCooldown: "&6Farmer &8▸ &cYou should wait {time}s for do it again."
-inputCancelWord: "cancel"
-waitingInput: "&6Farmer &8▸ &aType input to chat in 10sec and type &c{cancel} &afor cancel."
-inputCancel: "&6Farmer &8▸ &cNo longer waiting for input."
-userAdded: "&6Farmer &8▸ &2{player} &aAdded successfully."
-userAlreadyExist: "&6Farmer &8▸ &4{player} &cAlready added."
-userCouldntFound: "&6Farmer &8▸ &cUser has not played before!"
-reachedMaxUser: "&6Farmer &8▸ &cYou have reached max user capacity."
+inCooldown: "&6Çiftçi &8▸ &cBunu tekrar yapmak için {time}sn beklemelisin."
+inputCancelWord: "iptal"
+waitingInput: "&6Çiftçi &8▸ &a6 saniye içinde eklemek istediğin kullanıcı adını yaz veya iptal etmek için &c{cancel} &ayaz."
+inputCancel: "&6Çiftçi &8▸ &cKullanıcı ekleme işlemi iptal oldu."
+userAdded: "&6Çiftçi &8▸ &2{player} &aEklendi."
+userAlreadyExist: "&6Çiftçi &8▸ &4{player} &cZaten ekli."
+userCouldntFound: "&6Çiftçi &8▸ &cBu oyuncu daha önce hiç oynamamış!"
+reachedMaxUser: "&6Çiftçi &8▸ &cDaha fazla üye alamazsın!"
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
 
 nextPage:
   # Placeholder: %nextpage% shows next page index.
-  name: "&eNext Page (%nextpage%)"
+  name: "&eSonraki Sayfa (%nextpage%)"
 previousPage:
   # Placeholder: %prevpage% shows previous page index.
-  name: "&ePrevious Page (%prevpage%)"
+  name: "&eÖnceki Sayfa (%prevpage%)"
 guiFiller:
   use: true
   material: GRAY_STAINED_GLASS_PANE
@@ -52,35 +53,35 @@ Gui:
     - " ggggggg "
     - " ggggggg "
     - "p   h   n"
-  guiName: "&8Farmer Storage"
+  guiName: "&8Çiftçi Deposu"
   manage:
     # If you don't want skull you can remove "skull" and create "material: (YOUR_MATERIAL_HERE)"
     skull: "ewogICJ0aW1lc3RhbXAiIDogMTYyMDM5NzA2MjE1MSwKICAicHJvZmlsZUlkIiA6ICI0ZGI2MWRkOTM0Mzk0M2M0YjhhOTZiNDQwMWM3MDM1MCIsCiAgInByb2ZpbGVOYW1lIiA6ICJiZWVyYmVsbHltYW4iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MyZTgxOTkwNmViMTc5NDM5YjhkZDU1NTExMzJlNTRlYjQ3MTczZTBmNDU4ODYxYWQyYThjOTM3OTE4Mzg5MSIKICAgIH0KICB9Cn0="
-    name: "&eManagement Panel"
+    name: "&eYönetim Paneli"
     lore:
-      - '&7Only region owner can'
-      - '&7open this panel.'
+      - '&7Sadece bölge sahibi bu'
+      - '&7sayfaya erişebilir.'
       - ''
-      - '&dFarmer Stats:'
-      - ' &8▪ &7Level: &6{level}'
-      - ' &8▪ &7Capacity: &6{capacity}'
-      - ' &8▪ &7Tax Rate: &6{tax}'
+      - '&dÇiftçi istatistikleri:'
+      - ' &8▪ &7Seviye: &6{level}'
+      - ' &8▪ &7Kapasite: &6{capacity}'
+      - ' &8▪ &7Vergi Oranı: &6{tax}'
       - ''
-      - '&aClick for management panel!'
+      - '&aYönetim paneli için tıkla!'
   help:
     # If you don't want skull you can remove "skull" and create "material: (YOUR_MATERIAL_HERE)"
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjE2Y2M1NzU1Y2RkMjYwZjdiNGI1YzFhMWYxZjNiZDMxODUxZmMxZDk4Yjc0NDM3YjJmYjRiZDZlYjhkMiJ9fX0="
-    name: "&eInformation"
+    name: "&eBilgilendirme"
     lore:
-      - '&7This is inventory of Farmer.'
-      - '&7Farmer stores items here.'
-      - '&7What you can do here:'
-      - ' &8▪ &6Sell items'
-      - ' &8▪ &6Take items to inventory'
-      - ' &8▪ &6Management panel (Only Leader)'
+      - '&7Bu sayfa çiftçinin envanteridir.'
+      - '&7Çiftçi eşyaları burada biriktiriyor.'
+      - '&7Burada neler yapabilirsin:'
+      - ' &8▪ &6Bu eşyaları satabilirsin'
+      - ' &8▪ &6Bu eşyaları envanterine alabilirsin'
+      - ' &8▪ &6Yönetici paneline erişebilirsin (Sadece Lider)'
       - ''
-      - '&cIf you are coop you can'
-      - '&conly see this menu.'
+      - '&cEğer COOP rolüne sahipsen'
+      - '&csadece bu menüyü görüntüleyebilirsin.'
   # Placeholders:
   # {stock} Shows how many item farmer have.
   # {maxstock} Shows maximum stock of farmer.
@@ -91,16 +92,16 @@ Gui:
   groupItem:
     lore:
       - ""
-      - " &8▪ &7Stock: &f{stock}&8/&c{maxstock}"
-      - " &8▪ &7Price: &f{price}$ each"
+      - " &8▪ &7Stok: &f{stock}&8/&c{maxstock}"
+      - " &8▪ &7Fiyat: &f{price}$ adet"
       - "&8&l  [{bar}&8&l] &r{percent}%"
       - ""
-      - "&7Withdraw Stack &8[&eLeft Click&8]"
-      - "&7Withdraw Max &8[&eRight Click&8]"
-      - "&7Sell All &8[&eShift+Right Click&8]"
+      - "&7Envanterine Bir Stack Al &8[&eSol Tık&8]"
+      - "&7Envanterine Maks Al &8[&eSağ Tık&8]"
+      - "&7Hepsini Sat &8[&eShift+Sağ Tık&8]"
       - ""
-      - "&4DANG: &cSell all feature takes"
-      - "&4%{tax} &ctax.!"
+      - "&4DIKKAT: &cHepsini sat özelliği"
+      - "&4%{tax} &cvergi alıyor.!"
 
 # Management Gui
 manageGui:
@@ -108,7 +109,7 @@ manageGui:
     - "         "
     - " t  l  u "
     - "         "
-  guiName: "&8Manager Panel"
+  guiName: "&8Yönetim Paneli"
   # Placeholders:
   # {level} Shows level of farmer.
   # {max_level} Shows maximum level farmer can be.
@@ -118,87 +119,87 @@ manageGui:
   # {req_money} Shows required money of next level.
   upgradeNext:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZjNmVjM2I3NTM1NGI0OTIyMmE4OWM2NjNjNGFjYWQ1MjY0ZmI5NzdjYWUyNmYwYjU0ODNhNTk5YzQ2NCJ9fX0="
-    name: '&6{level}. &eLevel Farmer'
+    name: '&6{level}. &eSeviye Çiftçi'
     lore:
       - ''
-      - ' &8▪ &7New Level: &6{next_level}&7/&c{max_level}'
-      - ' &8▪ &7New Capacity: &e{next_capacity}'
-      - ' &8▪ &7Required Money: &6{req_money}'
+      - ' &8▪ &7Sonraki Seviye: &6{next_level}&7/&c{max_level}'
+      - ' &8▪ &7Sonraki Kapasite: &e{next_capacity}'
+      - ' &8▪ &7Gerekli Para: &6{req_money}'
       - ''
-      - '&aClick for upgrade level!'
+      - '&aSeviye yükseltmek için tıkla!'
   # Placeholders:
   # {level} Shows level of farmer.
   # {capacity} Shows farmer capacity.
   inMaxLevel:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWQ3OGNjMzkxYWZmYjgwYjJiMzVlYjczNjRmZjc2MmQzODQyNGMwN2U3MjRiOTkzOTZkZWU5MjFmYmJjOWNmIn19fQ=="
-    name: '&6{level}. &eLevel Farmer'
+    name: '&6{level}. &aSeviye Çiftçi'
     lore:
-      - '&7Farmer is in max level.'
-      - '&7You cannot upgrade much more.'
+      - '&7Çiftçi son seviye.'
+      - '&7Daha fazla yükseltme yapamazsın.'
       - ''
-      - ' &8▪ &7Capacity: &6{capacity}'
+      - ' &8▪ &7Kapasite: &6{capacity}'
   closeFarmer:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDVjNmRjMmJiZjUxYzM2Y2ZjNzcxNDU4NWE2YTU2ODNlZjJiMTRkNDdkOGZmNzE0NjU0YTg5M2Y1ZGE2MjIifX19"
-    name: '&eClose Collecting'
+    name: '&eToplamayı Değiştir'
     lore:
-      - '&7Closes farmer and it will be'
-      - '&7useless until reopen.'
+      - '&7Çiftçinin toplama özelliğini'
+      - '&7Kapatır/Açar'
       - ''
-      - ' &8▪ &7Status: &6{status}'
+      - ' &8▪ &7Durum: &6{status}'
       - ''
-      - '&aClick for change!'
+      - '&aDeğiştirmek için tıkla!'
   users:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjg1NDA2MGFhNTc3NmI3MzY2OGM4OTg2NTkwOWQxMmQwNjIyNDgzZTYwMGI2NDZmOTBjMTg2YzY1Yjc1ZmY0NSJ9fX0="
-    name: "&eUser Management"
+    name: "&eÜye Paneli"
     lore:
-      - '&7You can add/remove/modify'
-      - '&7users in here.'
+      - '&7Buradan çiftçiye üye'
+      - '&7ekleyebilir/silebilir/düzenleyebilirsin'
       - ''
-      - '&aClick for open.'
+      - '&aAçmak için tıkla.'
 buyGui:
   interface:
     - "         "
     - "    b    "
     - "         "
-  guiName: "&8Buy Farmer"
+  guiName: "&8Çiftçi Al"
   item:
     skull: "ewogICJ0aW1lc3RhbXAiIDogMTYyMDM5NzA2MjE1MSwKICAicHJvZmlsZUlkIiA6ICI0ZGI2MWRkOTM0Mzk0M2M0YjhhOTZiNDQwMWM3MDM1MCIsCiAgInByb2ZpbGVOYW1lIiA6ICJiZWVyYmVsbHltYW4iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MyZTgxOTkwNmViMTc5NDM5YjhkZDU1NTExMzJlNTRlYjQ3MTczZTBmNDU4ODYxYWQyYThjOTM3OTE4Mzg5MSIKICAgIH0KICB9Cn0="
-    name: "&eBuy Farmer"
+    name: "&eÇiftçi Al"
     lore:
-      - '&7You can buy farmer by'
-      - '&7clicking this item.'
+      - '&7Bu eşyaya tıklayarak'
+      - '&7Çiftçi satın alabilirsin.'
       - ''
-      - ' &8▪ &7Price: &6{price}'
+      - ' &8▪ &7Fiyat: &6{price}'
       - ''
-      - '&aClick for buy!'
+      - '&aSatın almak için tıkla!'
 usersGui:
   interface:
     - "    h    "
     - "uuuuuuuuu"
     - "uuuuuuuuu"
     - "p   a   n"
-  guiName: "&8Farmer Users"
+  guiName: "&8Çiftçi Üyeleri"
   user:
     lore:
       - ''
-      - ' &8▪ &7Role: &6{role}'
+      - ' &8▪ &7Rol: &6{role}'
       - ''
-      - '&aLeft or Right click for promote/demote'
-      - '&4Shift+Right click for delete'
+      - '&aSol veya Sağ Tık ile rolünü değiştirebilirsin'
+      - '&4Shift+Sağ Tık ile üyeyi silebilirsin.'
   help:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjE2Y2M1NzU1Y2RkMjYwZjdiNGI1YzFhMWYxZjNiZDMxODUxZmMxZDk4Yjc0NDM3YjJmYjRiZDZlYjhkMiJ9fX0="
-    name: "&eInformation"
+    name: "&eBilgilendirme"
     lore:
-      - '&7You can promote/demote/remove'
-      - '&7and add user here.'
+      - '&7Buradan çiftçi üyelerini terfi/tenzil/silme'
+      - '&7ve üye ekleme işlemlerini yapabilirsin.'
       - ''
-      - '&7Perm Graph:'
-      - ' &8▪ &eCoop can only look farmer.'
-      - ' &8▪ &6Member can sell and take items.'
-      - ' &8▪ &cOwner can do everything.'
+      - '&7Rütbe Sıralaması:'
+      - ' &8▪ &eCoop sadece çiftçi menüsünü açabilir.'
+      - ' &8▪ &6Member eşyaları alıp satabilir.'
+      - ' &8▪ &cOwner her şeyi yapabilir.'
   addUser:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA1NmJjMTI0NGZjZmY5OTM0NGYxMmFiYTQyYWMyM2ZlZTZlZjZlMzM1MWQyN2QyNzNjMTU3MjUzMWYifX19"
-    name: "&eAdd user"
+    name: "&eÜye Ekle"
     lore:
       - ''
-      - '&aClick for add user.'
+      - '&aÜye eklemek için tıkla.'
