@@ -1,17 +1,34 @@
+# Main settings of farmer
 settings:
+  # default farmer user value
+  # you can give farmer.user.<amount> perm to owner of farmer
   defaultMaxFarmerUser: 3
+  # price of farmer
   farmerPrice: 1000
+  # language from lang file
   lang: en
+  # farmer ignore collecting if item dropped by player
   ignorePlayerDrop: false
+  # Allowed worlds
   allowedWorlds:
     - ASkyblock
     - Island
 
+# Tax rate
+# If you set it 0 then it useless
+# If you want to deposit tax amount to a player
+# use depositUser and set true the deposit settings
 tax:
   rate: 20
   deposit: false
   depositUser: Geyik
 
+# Farmer levels
+# Each level must has capacity and reqMoney
+# First level must has capacity only
+# Other settings are optional like reqPerm and tax
+# If you want to make custom tax for a level then add tax: 1 etc.
+# If you want to set a perm for level to purchase then add reqPerm: "my.perm"
 levels:
   first:
     capacity: 1000

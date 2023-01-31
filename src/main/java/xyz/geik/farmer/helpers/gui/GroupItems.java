@@ -6,16 +6,32 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.User;
 
 import java.util.stream.Collectors;
 
+/**
+ * Main gui helper methods
+ * can be seen here.
+ */
 public class GroupItems {
 
-    public static ItemStack getGroupItem(FarmerItem farmerItem, long capacity, double tax) {
+    /**
+     * Farmer stock item which can be anything in items.yml
+     * It also calculates stock and percent for display stock
+     * Stock can be seen by color of lore or bar in lore
+     *
+     * @param farmerItem
+     * @param capacity
+     * @param tax
+     * @return
+     */
+    public static @NotNull ItemStack getGroupItem(@NotNull FarmerItem farmerItem, long capacity, double tax) {
         ItemStack result;
+        // Old version integration
         if (farmerItem.getName().contains("-")) {
             result = new ItemStack(Material.getMaterial(farmerItem.getName().split("-")[0].toUpperCase()));
             result.setDurability(Short.parseShort(farmerItem.getName().split("-")[1]));
@@ -23,9 +39,13 @@ public class GroupItems {
         else
             result = new ItemStack(Material.getMaterial(farmerItem.getName().toUpperCase()));
         ItemMeta meta = result.getItemMeta();
+        // Stock amount of farmer
         long stock = farmerItem.getAmount();
+        // Price of item
         double price = farmerItem.getPrice();
+        // Calculates percent of stocked item
         int percent = (int) (100*stock/capacity);
+        // Select color of stock capacity
         String color = selectFillColor(percent);
         meta.setLore(Main.getLangFile().getTextList("Gui.groupItem.lore").stream().map(key -> {
             return key.replace("{stock}", color + stock)
@@ -40,14 +60,24 @@ public class GroupItems {
         return result;
     }
 
-    public static ItemStack getUserItem(User user) {
+    /**
+     * User item which display in UserGui
+     * It always player head.
+     *
+     * @param user
+     * @return
+     */
+    public static @NotNull ItemStack getUserItem(User user) {
         ItemStack result = null;
+        // Old version material selector
         if (Main.isOldVersion())
             result = new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 3);
         else result = new ItemStack(Material.getMaterial("PLAYER_HEAD"), 1);
 
         SkullMeta meta = (SkullMeta) result.getItemMeta();
         OfflinePlayer userPlayer = Bukkit.getOfflinePlayer(user.getUuid());
+        // Old version owner selector
+        // in old version this is not deprecated
         if (Main.isOldVersion())
             meta.setOwner(userPlayer.getName());
         else
@@ -61,7 +91,17 @@ public class GroupItems {
         return result;
     }
 
-    private static String getFilledProgressBar(int percent, long stock, long capacity, String color) {
+    /**
+     * Progress bar uses in GroupItems#getGroupItem()
+     * Which located here and percent bar shown in lore of group item
+     *
+     * @param percent
+     * @param stock
+     * @param capacity
+     * @param color
+     * @return
+     */
+    private static @NotNull String getFilledProgressBar(int percent, long stock, long capacity, String color) {
         final String barFull = Main.getLangFile().getString("percentBar");
         final String barSymbol = String.valueOf(barFull.charAt(0));
         String builder = "&7";
@@ -83,7 +123,14 @@ public class GroupItems {
         return Main.color(builder);
     }
 
-    private static String selectFillColor(int percent) {
+    /**
+     * FillColor uses in GroupItems#getGroupItem()
+     * Which located here and fill color calculates color of stock
+     *
+     * @param percent
+     * @return
+     */
+    private static @NotNull String selectFillColor(int percent) {
         String result;
         if (percent >= 0 && percent <= 19)
             result = "&a";

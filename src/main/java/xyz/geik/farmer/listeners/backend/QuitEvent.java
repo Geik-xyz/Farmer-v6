@@ -5,12 +5,16 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 
 import java.util.UUID;
 
+/**
+ * Player quit event basically save farmer when player quits
+ */
 public class QuitEvent implements Listener {
 
     /**
@@ -21,7 +25,7 @@ public class QuitEvent implements Listener {
      * @param e
      */
     @EventHandler
-    public void onQuitEvent(PlayerQuitEvent e) {
+    public void onQuitEvent(@NotNull PlayerQuitEvent e) {
         final Location loc = e.getPlayer().getLocation();
         final UUID playerUUID = e.getPlayer().getUniqueId();
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {

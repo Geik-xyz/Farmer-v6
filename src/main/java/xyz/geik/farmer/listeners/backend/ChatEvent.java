@@ -5,24 +5,31 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.guis.UsersGui;
 import xyz.geik.farmer.model.Farmer;
 
 import java.util.HashMap;
 
+/**
+ * PlayerChatEvent used for add user to farmer
+ */
 public class ChatEvent implements Listener {
 
+    // Contains who currently adding someone to farmer
+    // Which cancel player text on chat
     private static HashMap<String, String> players = new HashMap<>();
+
+    // Getter of players hashmap
     public static HashMap<String, String> getPlayers() { return players; }
 
     @EventHandler
-    public void chatEvent(AsyncPlayerChatEvent e) {
-        // TODO PERM CHECK FOR USER AMOUNT
+    public void chatEvent(@NotNull AsyncPlayerChatEvent e) {
         if (getPlayers().keySet().contains(e.getPlayer().getName())) {
             String msg = e.getMessage();
             e.setCancelled(true);
-            // Cancel Task
+            // if player enter cancel word then it cancel await state.
             if (msg.equalsIgnoreCase(Main.getLangFile().getText("inputCancelWord"))) {
                 getPlayers().remove(e.getPlayer().getName());
                 e.getPlayer().sendMessage(Main.getLangFile().getText("inputCancel"));
@@ -44,6 +51,7 @@ public class ChatEvent implements Listener {
             catch (NullPointerException e1) {
                 e.getPlayer().sendMessage(Main.getLangFile().getText("userCouldntFound"));
             }
+            // Sync opens gui because this event is async
             Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                 UsersGui.showGui(e.getPlayer(), farmer);
             });

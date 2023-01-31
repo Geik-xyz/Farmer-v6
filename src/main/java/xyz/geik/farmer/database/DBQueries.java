@@ -174,7 +174,7 @@ public class DBQueries {
                 Main.getFarmers().get(farmer.getRegionID()).setId(id);
                 idGetter.close();
 
-                Main.getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), 2);
+                Main.getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
             } catch (Exception e) { e.printStackTrace(); }
         });
     }

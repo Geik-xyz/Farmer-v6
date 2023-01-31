@@ -3,21 +3,40 @@ package xyz.geik.farmer.model;
 import de.leonhard.storage.Config;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Level object of farmer
+ * Which contains capacity, required money, required perm etc.
+ */
 @Getter
 @Setter
 public class FarmerLevel {
 
+    // Level array which has all levels in it lower to higher
     private static List<FarmerLevel> farmerLevels = new ArrayList<>();
 
+    // Getter of farmerLevels
+    public static List<FarmerLevel> getAllLevels() {
+        return farmerLevels;
+    }
+
+    // Config name of level
     private String dataName;
+
+    // Capacity is item farmer can take
+    // Required Money is required money for this level.
     private long capacity, reqMoney;
+
+    // Tax rate of this level
     private double tax;
+
+    // Required permission of this level
     private String perm;
 
     public FarmerLevel(String dataName, long capacity, long reqMoney, double tax, String perm) {
@@ -32,7 +51,7 @@ public class FarmerLevel {
      * installs level of farmer dependencies
      * and stats then convert it to FarmerLevel object
      */
-    public static void installLevels() {
+    public static void loadLevels() {
         if (!farmerLevels.isEmpty())
             farmerLevels.clear();
 
@@ -50,11 +69,13 @@ public class FarmerLevel {
         });
     }
 
-    public static List<FarmerLevel> getAllLevels() {
-        return farmerLevels;
-    }
-
-    public static FarmerLevel getLevel(String name) {
+    /**
+     * Gets single level from farmerLevels by config name
+     *
+     * @param name
+     * @return
+     */
+    public static @NotNull FarmerLevel getLevel(String name) {
         return getAllLevels().stream().filter(level -> (level.getDataName() == name)).findFirst().get();
     }
 }

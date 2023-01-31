@@ -2,33 +2,61 @@ package xyz.geik.farmer.model.inventory;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Farmer Inventory has Set of FarmerItem
+ * Because farmer has multiple items.
+ */
 @Setter
 @Getter
 public class FarmerItem {
 
+    // Name of item in config
+    // Old versions this can be INK_SACK-3
+    // -3 shows data id of it.
     private String name;
+
+    // Price of item
     private double price;
+
+    // Amount of item
     private long amount;
 
+    /**
+     * Constructor of FarmerItem
+     *
+     * @param name
+     * @param price
+     * @param amount
+     */
     public FarmerItem(String name, double price, long amount) {
         this.name = name;
         this.price = price;
         this.amount = amount;
     }
 
+    // Summing x to amount
     public void sumAmount(long sum) {
         this.amount += sum;
     }
 
+    // Negating x from amount
     public void negateAmount(long negate) {
         this.amount -= negate;
     }
 
-    public static String serializeItems(Set<FarmerItem> items) {
+    /**
+     * Serializing FarmerItem set to flat string
+     * Because it should save to database
+     *
+     * @param items
+     * @return
+     */
+    public static String serializeItems(@NotNull Set<FarmerItem> items) {
         StringBuilder builder = new StringBuilder();
         for (FarmerItem item : items) {
             if (item.amount == 0)
@@ -40,6 +68,12 @@ public class FarmerItem {
                 : "";
     }
 
+    /**
+     * Deserializeing FarmerItem from flat string to Set<FarmerItem>
+     *
+     * @param items
+     * @return
+     */
     public static Set<FarmerItem> deserializeItems(String items) {
         if (items == null)
             return new LinkedHashSet<>(FarmerInv.defaultItems);

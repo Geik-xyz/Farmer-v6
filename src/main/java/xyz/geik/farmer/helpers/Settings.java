@@ -5,6 +5,11 @@ import xyz.geik.farmer.Main;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Default settings set and
+ * there is a method which
+ * updates this settings.
+ */
 public class Settings {
 
     public static boolean ignorePlayerDrop = false, depositTax = false;
@@ -13,6 +18,9 @@ public class Settings {
     public static int farmerPrice = -1;
     public static String taxUser = "Geyik";
 
+    /**
+     * Updates default settings from config
+     */
     public static void regenSettings() {
         ignorePlayerDrop = Main.getConfigFile().getBoolean("settings.ignorePlayerDrop");
         allowedWorlds = (List<String>) Main.getConfigFile().getList("settings.allowedWorlds");
