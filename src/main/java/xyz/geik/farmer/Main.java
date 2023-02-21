@@ -19,6 +19,7 @@ import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 
 import java.util.HashMap;
+import java.util.concurrent.Callable;
 
 /**
  * Main class of farmer
@@ -41,7 +42,7 @@ public class Main extends JavaPlugin{
     /**
      * Loaded farmer cache.
      */
-    private static HashMap<String, Farmer> farmers = new HashMap<String, Farmer>();
+    private static HashMap<String, Farmer> farmers = new HashMap<>();
 
     /**
      * Main integration of plugin integrations#Integrations
@@ -80,6 +81,8 @@ public class Main extends JavaPlugin{
         DBQueries.createTable();
         DBQueries.loadAllFarmers();
         Integrations.registerIntegrations();
+        sendEnableMessage();
+        loadMetrics();
     }
 
     /**
@@ -90,7 +93,6 @@ public class Main extends JavaPlugin{
      * can't handle async tasks while shutting down
      */
     public void onDisable() {
-        // TODO save farmers
         DBQueries.updateAllFarmers();
     }
 
@@ -169,5 +171,35 @@ public class Main extends JavaPlugin{
             || nmsVer.contains("1_10") || nmsVer.contains("1_11") || nmsVer.contains("1_12"))
             return true;
         else return false;
+    }
+
+    /**
+     * Sending enable message to console.
+     */
+    private static void sendEnableMessage() {
+        Bukkit.getConsoleSender().sendMessage(Main.color("&6&l		FARMER 		&b"));
+        Bukkit.getConsoleSender().sendMessage(Main.color("&aDeveloped by &2Geik"));
+        Bukkit.getConsoleSender().sendMessage(Main.color("&aDiscord: &2https://discord.geik.xyz"));
+        Bukkit.getConsoleSender().sendMessage(Main.color("&aWeb: &2https://geik.xyz"));
+    }
+
+    /**
+     * Custom charted metrics loader
+     */
+    private void loadMetrics() {
+        Metrics metrics = new Metrics(Main.instance, 9646);
+        metrics.addCustomChart(new Metrics.SingleLineChart("ciftci_sayisi", new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                return getFarmers().size();
+            }
+        }));
+        metrics.addCustomChart(new Metrics.SimplePie("api_eklentisi", new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                String[] data = getIntegration().getClass().getName().split(".");
+                return data[data.length-1];
+            }
+        }));
     }
 }

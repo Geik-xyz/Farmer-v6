@@ -8,6 +8,7 @@ import xyz.geik.farmer.model.user.User;
 
 import java.sql.Connection;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * If something necessary i will write it to here.
@@ -24,16 +25,30 @@ public class FarmerAPI {
      * Remove farmer from database and cache.
      * Cannot be UNDONE.
      *
-     * @param farmerId
+     * @param regionId
      * @return
      */
-    public static boolean removeFarmer(String farmerId) {
-        if (FarmerAPI.getInstance().getFarmers().containsKey(farmerId)) {
-            DBQueries.removeFarmer(Main.getFarmers().get(farmerId));
-            FarmerAPI.removeFarmer(farmerId);
+    public static boolean removeFarmer(String regionId) {
+        if (FarmerAPI.getInstance().getFarmers().containsKey(regionId)) {
+            DBQueries.removeFarmer(Main.getFarmers().get(regionId));
             return true;
         }
         return false;
+    }
+
+    /**
+     * Changes owner of farmer.
+     *
+     * @param oldOwner
+     * @param newOwner
+     * @param regionId
+     */
+    public static void changeOwner(UUID oldOwner, UUID newOwner, String regionId) {
+        if (FarmerAPI.getInstance().getFarmers().containsKey(regionId)) {
+            int farmerId = Main.getFarmers().get(regionId).getId();
+            User.updateRole(oldOwner, 0, farmerId);
+            User.updateRole(newOwner, 2, farmerId);
+        }
     }
 
     /**

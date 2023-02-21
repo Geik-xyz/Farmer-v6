@@ -71,6 +71,12 @@
             <artifactId>GriefPrevention</artifactId>
             <version>16.18</version>
         </dependency>
+        <dependency>
+            <groupId>world.bentobox</groupId>
+            <artifactId>bentobox</artifactId>
+            <version>1.22.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <!-- Repos -->
@@ -99,6 +105,15 @@
         <repository>
             <id>bg-repo</id>
             <url>https://repo.bg-software.com/repository/api/</url>
+        </repository>
+        <!-- Bento -->
+        <repository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.org/repository/maven-snapshots</url>
+        </repository>
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
     </repositories>
 

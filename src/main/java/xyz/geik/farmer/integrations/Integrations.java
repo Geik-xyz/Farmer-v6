@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.Listener;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.integrations.bentobox.Bento;
 import xyz.geik.farmer.integrations.grief.GriefPrevent;
 import xyz.geik.farmer.integrations.superior.SuperiorSkyblock;
 
@@ -54,6 +55,8 @@ public abstract class Integrations {
             Main.setIntegration(new SuperiorSkyblock());
         else if (Bukkit.getPluginManager().isPluginEnabled("GriefPrevention"))
             Main.setIntegration(new GriefPrevent());
+        else if (Bukkit.getPluginManager().isPluginEnabled("BentoBox"))
+            Main.setIntegration(new Bento());
         else return;
     }
 }

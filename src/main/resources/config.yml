@@ -1,5 +1,8 @@
 # Main settings of farmer
 settings:
+  # crates farmer automatically (If plugin supports)
+  # also bypass money requirement
+  autoCreateFarmer: false
   # default farmer user value
   # you can give farmer.user.<amount> perm to owner of farmer
   defaultMaxFarmerUser: 3

@@ -104,6 +104,9 @@ Gui:
 
 # Management Gui
 manageGui:
+  # t -> taking situation icon
+  # l -> level up icon
+  # u -> user management icon
   interface:
     - "         "
     - " t  l  u "
