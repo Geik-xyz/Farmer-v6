@@ -75,7 +75,7 @@ public class MainGui {
                                 // If item has data it will write materialName as
                                 // material-data
                                 String materialName;
-                                if (Main.isOldVersion())
+                                if (Main.isOldVersion() && click.getEvent().getCurrentItem().getDurability() > 0)
                                     materialName = material.name() + "-" + click.getEvent().getCurrentItem().getDurability();
                                 else
                                     materialName = material.name();

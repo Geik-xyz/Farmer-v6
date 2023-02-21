@@ -6,10 +6,10 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import world.bentobox.bentobox.api.events.island.IslandCreatedEvent;
 import world.bentobox.bentobox.api.events.island.IslandDeleteEvent;
-import world.bentobox.bentobox.api.events.island.IslandDeletedEvent;
 import world.bentobox.bentobox.api.events.team.TeamSetownerEvent;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 
 public class BentoListener implements Listener {
@@ -41,7 +41,9 @@ public class BentoListener implements Listener {
      */
     @EventHandler
     public void islandCreateEvent(@NotNull IslandCreatedEvent e) {
-        new Farmer(e.getIsland().getUniqueId(), e.getOwner());
-        Bukkit.getPlayer(e.getOwner()).sendMessage(Main.getLangFile().getText("boughtFarmer"));
+        if (Settings.autoCreateFarmer) {
+            new Farmer(e.getIsland().getUniqueId(), e.getOwner());
+            Bukkit.getPlayer(e.getOwner()).sendMessage(Main.getLangFile().getText("boughtFarmer"));
+        }
     }
 }

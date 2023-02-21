@@ -36,7 +36,6 @@ public class GriefPrevent extends Integrations {
      */
     @Override
     public UUID getOwnerUUID(String regionId) {
-        Bukkit.broadcastMessage(grief.dataStore.getClaim(Long.parseLong(regionId)).getOwnerID() + "");
         return grief.dataStore.getClaim(Long.valueOf(regionId)).getOwnerID();
     }
 
@@ -53,7 +52,6 @@ public class GriefPrevent extends Integrations {
      */
     @Override
     public String getRegionID(Location location) {
-        Bukkit.broadcastMessage(grief.dataStore.getClaimAt(location, true, null).getOwnerID() + "");
         return grief.dataStore.getClaimAt(location, true, null).getID().toString();
     }
 }

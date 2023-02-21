@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.database.DBConnection;
 import xyz.geik.farmer.database.DBQueries;
+import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.User;
 
 import java.sql.Connection;
@@ -48,7 +49,24 @@ public class FarmerAPI {
             int farmerId = Main.getFarmers().get(regionId).getId();
             User.updateRole(oldOwner, 0, farmerId);
             User.updateRole(newOwner, 2, farmerId);
+            if (regionId.equals(oldOwner.toString())) {
+                Farmer farmer = Main.getFarmers().get(regionId);
+                farmer.setRegionID(newOwner.toString());
+                Main.getFarmers().put(newOwner.toString(), farmer);
+                farmer.saveFarmer();
+                FarmerAPI.removeFarmer(regionId);
+            }
         }
+    }
+
+    /**
+     * Checks if farmer exists on location.
+     *
+     * @param location
+     * @return
+     */
+    public static boolean hasFarmer(Location location) {
+        return Main.getFarmers().keySet().contains(Main.getIntegration().getRegionID(location));
     }
 
     /**

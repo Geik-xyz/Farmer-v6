@@ -38,11 +38,8 @@ public class FarmerTabComplete implements TabCompleter {
                     && regionID != null;
             // Checks region id is valid, checks allowed worlds contain world which player in,
             // Farmer exists and player has farmer.admin perm or owner of farmer.
-            if (manage &&
-                    (Main.getFarmers().containsKey(regionID) &&
-                            (player.hasPermission("farmer.admin")
-                                    || Main.getFarmers().get(regionID).getOwnerUUID().equals(player.getUniqueId()))
-                    ))
+            if ((manage && Main.getFarmers().containsKey(regionID))
+                    && (player.hasPermission("farmer.admin") || Main.getFarmers().get(regionID).getOwnerUUID().equals(player.getUniqueId())))
                 completes.add("manage");
 
             // if player has farmer.admin perm or player name is Geyik adding info and reload hover
