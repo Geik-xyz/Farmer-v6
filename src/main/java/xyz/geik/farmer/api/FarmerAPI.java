@@ -1,10 +1,12 @@
 package xyz.geik.farmer.api;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.database.DBConnection;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
 
 import java.sql.Connection;
@@ -46,15 +48,27 @@ public class FarmerAPI {
      */
     public static void changeOwner(UUID oldOwner, UUID newOwner, String regionId) {
         if (FarmerAPI.getInstance().getFarmers().containsKey(regionId)) {
-            int farmerId = Main.getFarmers().get(regionId).getId();
-            User.updateRole(oldOwner, 0, farmerId);
+            Farmer toUpdate = Main.getFarmers().get(regionId);
+            // Adds player if not exists on farmer users
+            if (toUpdate.getUsers().stream().noneMatch(user -> user.getUuid().equals(newOwner)))
+                toUpdate.getUsers().add(new User(toUpdate.getId(), Bukkit.getOfflinePlayer(newOwner).getName(), newOwner, FarmerPerm.OWNER));
+            // Update role on cache
+            toUpdate.getUsers().stream().forEach(user -> {
+                if (user.getUuid().equals(oldOwner))
+                    user.setPerm(FarmerPerm.COOP);
+                else if (user.getUuid().equals(newOwner) && !user.getPerm().equals(FarmerPerm.OWNER))
+                    user.setPerm(FarmerPerm.OWNER);
+            });
+            // Update role on database
+            int farmerId = toUpdate.getId();
+            User.updateRole(oldOwner, 1, farmerId);
             User.updateRole(newOwner, 2, farmerId);
+            // Update farmer regionId if same as ownerid
             if (regionId.equals(oldOwner.toString())) {
-                Farmer farmer = Main.getFarmers().get(regionId);
-                farmer.setRegionID(newOwner.toString());
-                Main.getFarmers().put(newOwner.toString(), farmer);
-                farmer.saveFarmer();
-                FarmerAPI.removeFarmer(regionId);
+                toUpdate.setRegionID(newOwner.toString());
+                Main.getFarmers().put(newOwner.toString(), toUpdate);
+                Main.getFarmers().remove(regionId);
+                toUpdate.saveFarmerAsync();
             }
         }
     }

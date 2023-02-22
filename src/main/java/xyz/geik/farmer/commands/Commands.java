@@ -138,7 +138,7 @@ public class Commands implements CommandExecutor {
         // Creating time long for calculating time it takes.
         long time = System.currentTimeMillis();
         // Saves all farmer
-        DBQueries.updateAllFarmers();
+        DBQueries.updateAllFarmersAsync();
         // Clears cached farmers
         Main.getFarmers().clear();
         // Regenerates settings

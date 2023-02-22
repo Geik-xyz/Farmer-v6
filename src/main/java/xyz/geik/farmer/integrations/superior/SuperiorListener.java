@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 
 /**
@@ -35,7 +36,9 @@ public class SuperiorListener implements Listener {
      */
     @EventHandler
     public void createIslandEvent(IslandCreateEvent e) {
-        Farmer farmer = new Farmer(e.getIsland().getOwner().getUniqueId().toString(), e.getIsland().getOwner().getUniqueId());
-        e.getIsland().getOwner().asPlayer().sendMessage(Main.getLangFile().getText("boughtFarmer"));
+        if (Settings.autoCreateFarmer) {
+            Farmer farmer = new Farmer(e.getIsland().getOwner().getUniqueId().toString(), e.getIsland().getOwner().getUniqueId());
+            e.getIsland().getOwner().asPlayer().sendMessage(Main.getLangFile().getText("boughtFarmer"));
+        }
     }
 }

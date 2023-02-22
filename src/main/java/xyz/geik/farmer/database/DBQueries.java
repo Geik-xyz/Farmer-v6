@@ -60,28 +60,25 @@ public class DBQueries {
     }
 
     /**
-     * Updates all farmers in server RAM.
+     * Synchronized saves all cached farmer values to database.
      */
     public static void updateAllFarmers() {
-        // Query of update
-        final String FARMER_QUERY = "UPDATE Farmers SET state = ?, level = ?, items = ? WHERE id = ?";
         // Connection
         try (Connection con = DBConnection.connect()) {
             // foreach for all farmers
             for (Farmer farmer : Main.getFarmers().values()) {
-                // and statement
-                PreparedStatement farmerStmt = con.prepareStatement(FARMER_QUERY);
-                farmerStmt.setInt(1, farmer.getState());
-                farmerStmt.setInt(2, FarmerLevel.getAllLevels().indexOf(farmer.getLevel()));
-                String serializedItems = FarmerItem.serializeItems(farmer.getInv().getItems());
-                farmerStmt.setString(3, (serializedItems == "") ? null : serializedItems);
-                farmerStmt.setInt(4, farmer.getId());
-                farmerStmt.executeUpdate();
-                // closing statement
-                farmerStmt.close();
+                // quick save method written on farmer class
+                farmer.saveFarmer(con);
             }
         }
         catch (Exception e) { e.printStackTrace(); }
+    }
+
+    /**
+     * Asynchronized saves all cached farmer values to database.
+     */
+    public static void updateAllFarmersAsync() {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> updateAllFarmers());
     }
 
     /**
