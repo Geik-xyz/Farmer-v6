@@ -2,6 +2,8 @@ package xyz.geik.farmer.database;
 
 import org.bukkit.Bukkit;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.handlers.FarmerBoughtEvent;
+import xyz.geik.farmer.api.handlers.FarmerRemoveEvent;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.model.inventory.FarmerInv;
@@ -172,6 +174,10 @@ public class DBQueries {
                 idGetter.close();
 
                 Main.getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
+
+                // TODO Description
+                FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
+                Bukkit.getPluginManager().callEvent(boughtEvent);
             } catch (Exception e) { e.printStackTrace(); }
         });
     }
@@ -200,9 +206,13 @@ public class DBQueries {
                 removeUsers.executeUpdate();
                 removeUsers.close();
 
+                FarmerRemoveEvent removeEvent;
                 // Removes from cached farmers
-                if (Main.getFarmers().containsKey(farmer.getRegionID()))
+                if (Main.getFarmers().containsKey(farmer.getRegionID())) {
+                    removeEvent = new FarmerRemoveEvent()
                     Main.getFarmers().remove(farmer.getRegionID());
+                }
+
             }
             catch (Exception e) { e.printStackTrace(); }
         });

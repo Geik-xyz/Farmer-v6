@@ -64,6 +64,10 @@ public class FarmerInv {
         }
     }
 
+    public void forceSumItem(String name, long amount) {
+        getItemByData(name).sumAmount(amount);
+    }
+
     /**
      * Removing x amount of item from stock.
      * Respects 0 if amount bigger then stock.

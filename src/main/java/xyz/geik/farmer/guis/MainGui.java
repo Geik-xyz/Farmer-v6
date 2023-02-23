@@ -1,12 +1,14 @@
 package xyz.geik.farmer.guis;
 
 import de.themoep.inventorygui.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.helpers.gui.GroupItems;
@@ -103,6 +105,10 @@ public class MainGui {
                                     if (Settings.depositTax)
                                         Main.getEcon()
                                                 .depositPlayer(Settings.taxUser, tax);
+
+                                    // TODO Description
+                                    FarmerItemSellEvent itemSellEvent = new FarmerItemSellEvent(farmer, click.getEvent().getCurrentItem().getType());
+                                    Bukkit.getPluginManager().callEvent(itemSellEvent);
 
                                     player.sendMessage(Main.getLangFile().getText("sellComplete")
                                         .replace("{money}", roundDouble(profit))

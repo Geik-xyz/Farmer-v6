@@ -1,5 +1,6 @@
 package xyz.geik.farmer.listeners.backend;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -7,6 +8,8 @@ import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
+import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerInv;
@@ -62,22 +65,37 @@ public class ItemEvent implements Listener {
 
         long left = -1;
 
-        // Filling stock and making amount of item x if stock fills
-        // then drop it back again
-        int data = 0;
-        if (Main.isOldVersion()) {
-            data = item.getDurability();
-            if (data != 0)
-                left = farmer.getInv().sumItemAmount(item.getType().name() + "-" + data, item.getAmount());
+        // TODO Description
+        FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, item.getType());
+        Bukkit.getPluginManager().callEvent(collectEvent);
+        if (!collectEvent.isCancelled()) {
+            left = farmer.getInv().sumItemAmount(getFarmerItemName(item), item.getAmount());
         }
 
-        if (left == -1)
-            left = farmer.getInv().sumItemAmount(item.getType().name(), item.getAmount());
-
-        if (left != 0)
-            item.setAmount((int) left);
-
+        if (left != 0) {
+            // TODO Description
+            FarmerStorageFullEvent storageFullEvent = new FarmerStorageFullEvent(farmer, item.getType());
+            Bukkit.getPluginManager().callEvent(storageFullEvent);
+            if (!storageFullEvent.isCancelled()) {
+                if (storageFullEvent.isDropItem())
+                    item.setAmount((int) left);
+                else
+                    farmer.getInv().forceSumItem(getFarmerItemName(item), left);
+            }
+        }
         else
             e.setCancelled(true);
+    }
+
+    /**
+     * TODO
+     *
+     * @param item
+     */
+    private @NotNull String getFarmerItemName(ItemStack item) {
+        if (Main.isOldVersion() && item.getDurability() != 0)
+            return item.getType().name() + "-" + item.getDurability();
+        else
+            return item.getType().name();
     }
 }
