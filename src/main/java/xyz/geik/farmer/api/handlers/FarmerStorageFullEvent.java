@@ -4,22 +4,28 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 import xyz.geik.farmer.model.Farmer;
 
+/**
+ * FarmerStorageFullEvent
+ */
 @Getter
 public class FarmerStorageFullEvent extends Event {
 
     // Farmer object
     private Farmer farmer;
-    private Material material;
+    private ItemStack item;
+    private int leftAmount = 0;
 
     // is cancelled boolean
     private boolean isCancelled = false, dropItem = true;
 
     // Main constructor of event
-    public FarmerStorageFullEvent(Farmer farmer, Material material) {
+    public FarmerStorageFullEvent(Farmer farmer, ItemStack item, int leftAmount) {
         this.farmer = farmer;
-        this.material = material;
+        this.item = item;
+        this.leftAmount = leftAmount;
     }
 
     // Only setter method of event

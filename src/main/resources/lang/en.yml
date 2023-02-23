@@ -29,6 +29,11 @@ userCouldntFound: "&6Farmer &8▸ &cUser has not played before!"
 reachedMaxUser: "&6Farmer &8▸ &cYou have reached max user capacity."
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
 
+roles:
+  owner: "&cOwner"
+  member: "&aMember"
+  coop: "&eCoop"
+
 nextPage:
   # Placeholder: %nextpage% shows next page index.
   name: "&eNext Page (%nextpage%)"

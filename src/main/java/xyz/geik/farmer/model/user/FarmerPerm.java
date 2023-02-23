@@ -2,6 +2,7 @@ package xyz.geik.farmer.model.user;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import xyz.geik.farmer.Main;
 
 /**
  * Enum class of farmer permission of user
@@ -10,6 +11,15 @@ public enum FarmerPerm {
     COOP,
     MEMBER,
     OWNER;
+
+    /**
+     * Gets name of role
+     *
+     * @return
+     */
+    public String getName() {
+        return Main.getLangFile().getText("roles." + this.name().toLowerCase());
+    }
 
     /**
      * Gets role of farmer by int id

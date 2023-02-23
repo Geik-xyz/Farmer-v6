@@ -35,7 +35,7 @@ public class Main extends JavaPlugin{
 
     /**
      * Config files which using SimplixStorage API for it.
-     * Also you can find usage code of API on helpers#StorageAPI
+     * Also, you can find usage code of API on helpers#StorageAPI
      */
     private static Config configFile, itemsFile, langFile;
 
@@ -165,6 +165,7 @@ public class Main extends JavaPlugin{
      *
      * @return
      */
+
     public static boolean isOldVersion() {
         String nmsVer = getNMSVersion();
         if (nmsVer.contains("1_7") || nmsVer.contains("1_8") || nmsVer.contains("1_9")

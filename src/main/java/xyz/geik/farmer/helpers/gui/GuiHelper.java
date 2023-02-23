@@ -1,5 +1,7 @@
 package xyz.geik.farmer.helpers.gui;
 
+import com.cryptomorin.xseries.SkullUtils;
+import com.cryptomorin.xseries.XMaterial;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.themoep.inventorygui.GuiElement;
@@ -35,66 +37,45 @@ public class GuiHelper {
     public static ItemStack getFiller() {
         ItemStack item;
         // If enabled
-        if (Main.getLangFile().getBoolean("guiFiller.use")) {
-            // Loads item
-            try {
-                item = new ItemStack(Material.getMaterial(Main.getLangFile().getString("guiFiller.material")), 1);
-            }
-            // If there is any issue of creating item
-            catch (Exception e) {
-                // It can because of version material differences
-                // And old version template item
-                if (Main.isOldVersion())
-                    item = new ItemStack(Material.getMaterial("STAINED_GLASS_PANE"), 1, (short) 7);
-                // Otherwise material can be wrong
-                // So this is template item of filler
-                else
-                    item = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
-            }
-        }
+        if (Main.getLangFile().getBoolean("guiFiller.use"))
+            item = XMaterial.matchXMaterial(Main.getLangFile().getString("guiFiller.material")).get().parseItem();
         else
             item = new ItemStack(Material.AIR);
         return item;
     }
 
     /**
-     * If item has skull it get item as head with
-     * custom head data. Otherwise check for material and
+     * If item has skull it gets item as head with
+     * custom head data. Otherwise, check for material and
      * get item with a material.
      */
     public static @NotNull ItemStack getItem(String path) {
         ItemStack result;
         // If item is skull instead of material based item
         if (Main.getLangFile().contains(path + ".skull")) {
+            result = XMaterial.matchXMaterial("PLAYER_HEAD").get().parseItem();
             try {
-                // Old version skull material
-                if (Main.isOldVersion())
-                    result = new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 3);
-                else
-                    result = new ItemStack(Material.getMaterial("PLAYER_HEAD"), 1);
                 SkullMeta meta = (SkullMeta) result.getItemMeta();
                 assert meta != null;
                 // GameProfile, Filed etc. used mojang lib for catch player skull
+                SkullUtils.applySkin(meta, Main.getLangFile().getString(path + ".skull"));
+                ;
+                /** TODO: Fix this
                 GameProfile profile = new GameProfile(UUID.randomUUID(), null);
                 profile.getProperties().put("textures", new Property("textures", Main.getLangFile().getString(path + ".skull")));
                 Field profileField = meta.getClass().getDeclaredField("profile");
                 profileField.setAccessible(true);
                 profileField.set(meta, profile);
+                */
                 result.setItemMeta(meta);
             } catch (Exception e) {
                 result = new ItemStack(Material.STONE, 1);
             }
         }
         // If item is material based something
-        else {
-            try {
-                result = new ItemStack(Material.getMaterial(Main.getLangFile().getString(path + ".material")));
-            }
-            // If material or any other thing wrong
-            catch (Exception e) {
-                result = new ItemStack(Material.STONE, 1);
-            }
-        }
+        else
+            result = XMaterial.matchXMaterial(Main.getLangFile().getString(path + ".material")).get().parseItem();
+
         ItemMeta meta = result.getItemMeta();
         if (Main.getLangFile().contains(path + ".lore"))
             meta.setLore(Main.getLangFile().getTextList(path + ".lore"));

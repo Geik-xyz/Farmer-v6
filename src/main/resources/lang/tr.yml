@@ -30,6 +30,11 @@ userCouldntFound: "&6Çiftçi &8▸ &cBu oyuncu daha önce hiç oynamamış!"
 reachedMaxUser: "&6Çiftçi &8▸ &cDaha fazla üye alamazsın!"
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
 
+roles:
+  owner: "&cLider"
+  member: "&aÜye"
+  coop: "&eYardımcı"
+
 nextPage:
   # Placeholder: %nextpage% shows next page index.
   name: "&eSonraki Sayfa (%nextpage%)"

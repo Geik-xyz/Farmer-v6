@@ -1,5 +1,6 @@
 package xyz.geik.farmer.listeners.backend;
 
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,17 +20,16 @@ import xyz.geik.farmer.model.inventory.FarmerInv;
  */
 public class ItemEvent implements Listener {
 
+    /**
+     * Has Item in farmer
+     * Item don't have meta
+     * Checks player drop
+     * Checks World
+     * Checks has farmer on location
+     * Checks if farmer closed
+     */
     @EventHandler(priority= EventPriority.HIGHEST)
     public void itemSpawnEvent(@NotNull ItemSpawnEvent e) {
-        /**
-         *
-         * Has Item in farmer
-         * Item don't have meta
-         * Checked player drop
-         * Checked World
-         * Checked if has farmer on location
-         * Checked if farmer closed
-         */
         // Checks world suitable for farmer
         if (!Settings.allowedWorlds.contains(e.getLocation().getWorld().getName()))
             return;
@@ -39,17 +39,13 @@ public class ItemEvent implements Listener {
             return;
 
         // Cancel if item has meta because there can be unique items
-        // which used for something else and it would turn to basic item if farmer collects.
+        // which used for something else, and it would turn to basic item if farmer collects.
         ItemStack item = new ItemStack(e.getEntity().getItemStack());
         if (item.hasItemMeta())
             return;
 
         // Checks farmer contain that item also supports old version and newer versions.
-        if (!(FarmerInv.defaultItems.stream().anyMatch(itm -> (itm.getName().equalsIgnoreCase(item.getType().name())))
-                || Main.isOldVersion() && FarmerInv.defaultItems.stream().anyMatch(itm -> (
-                        itm.getName().contains("-")
-                                && itm.getName().split("-")[0].equalsIgnoreCase(item.getType().name())
-                                    && itm.getName().split("-")[1].equalsIgnoreCase(String.valueOf(item.getDurability()))))))
+        if (!FarmerInv.checkMaterial(item))
             return;
 
         // Checks item dropped in region of a player
@@ -65,37 +61,30 @@ public class ItemEvent implements Listener {
 
         long left = -1;
 
-        // TODO Description
-        FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, item.getType());
+        // Calls FarmerItemCollectEvent
+        FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, item);
         Bukkit.getPluginManager().callEvent(collectEvent);
+        // Checks if event is cancelled
         if (!collectEvent.isCancelled()) {
-            left = farmer.getInv().sumItemAmount(getFarmerItemName(item), item.getAmount());
-        }
-
-        if (left != 0) {
-            // TODO Description
-            FarmerStorageFullEvent storageFullEvent = new FarmerStorageFullEvent(farmer, item.getType());
-            Bukkit.getPluginManager().callEvent(storageFullEvent);
-            if (!storageFullEvent.isCancelled()) {
-                if (storageFullEvent.isDropItem())
-                    item.setAmount((int) left);
-                else
-                    farmer.getInv().forceSumItem(getFarmerItemName(item), left);
+            // Summing item amount to the farmer if stock is not full
+            // And catch the left amount
+            left = farmer.getInv().sumItemAmount(XMaterial.matchXMaterial(item), item.getAmount());
+            // If left amount is not 0 then it means stock is full
+            if (left != 0) {
+                // Calls FarmerStorageFullEvent
+                FarmerStorageFullEvent storageFullEvent = new FarmerStorageFullEvent(farmer, item, (int) left);
+                Bukkit.getPluginManager().callEvent(storageFullEvent);
+                // Checks if FarmerStorageFullEvent is not cancelled
+                // And if drop item is false then it will force sum the item
+                // To the stock
+                if (!storageFullEvent.isCancelled() && !storageFullEvent.isDropItem()) {
+                    farmer.getInv().forceSumItem(XMaterial.matchXMaterial(item), left);
+                    return;
+                }
+                // Execute only on drop item is true
+                e.getEntity().getItemStack().setAmount((int) left);
             }
+            else e.setCancelled(true);
         }
-        else
-            e.setCancelled(true);
-    }
-
-    /**
-     * TODO
-     *
-     * @param item
-     */
-    private @NotNull String getFarmerItemName(ItemStack item) {
-        if (Main.isOldVersion() && item.getDurability() != 0)
-            return item.getType().name() + "-" + item.getDurability();
-        else
-            return item.getType().name();
     }
 }

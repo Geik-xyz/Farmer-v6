@@ -13,6 +13,7 @@ import xyz.geik.farmer.model.user.User;
 
 import java.sql.*;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -109,7 +110,7 @@ public class DBQueries {
                         ? FarmerLevel.getAllLevels().get(levelID)
                         : FarmerLevel.getAllLevels().get(FarmerLevel.getAllLevels().size()-1);
                 // Items set
-                Set<FarmerItem> items = FarmerItem.deserializeItems(resultSet.getString("items"));
+                List<FarmerItem> items = FarmerItem.deserializeItems(resultSet.getString("items"));
                 // Inventory model
                 FarmerInv inv = new FarmerInv(items, level.getCapacity());
 
@@ -175,7 +176,7 @@ public class DBQueries {
 
                 Main.getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
 
-                // TODO Description
+                // Calls event of farmer creation
                 FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
                 Bukkit.getPluginManager().callEvent(boughtEvent);
             } catch (Exception e) { e.printStackTrace(); }
@@ -206,13 +207,13 @@ public class DBQueries {
                 removeUsers.executeUpdate();
                 removeUsers.close();
 
-                FarmerRemoveEvent removeEvent;
                 // Removes from cached farmers
-                if (Main.getFarmers().containsKey(farmer.getRegionID())) {
-                    removeEvent = new FarmerRemoveEvent()
+                if (Main.getFarmers().containsKey(farmer.getRegionID()))
                     Main.getFarmers().remove(farmer.getRegionID());
-                }
 
+                // Calls remove farmer event
+                FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(Main.getFarmers().get(farmer.getRegionID()));
+                Bukkit.getPluginManager().callEvent(removeEvent);
             }
             catch (Exception e) { e.printStackTrace(); }
         });

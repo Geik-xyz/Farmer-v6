@@ -6,6 +6,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import xyz.geik.farmer.model.Farmer;
 
+/**
+ * FarmerRemoveEvent
+ */
 @Getter
 public class FarmerRemoveEvent extends Event {
 

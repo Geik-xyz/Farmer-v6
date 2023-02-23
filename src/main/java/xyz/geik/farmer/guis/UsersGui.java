@@ -40,7 +40,7 @@ public class UsersGui {
         gui.addElement(GuiHelper.createGuiElement("usersGui.help", 'h'));
         // Both next and previous page items
         // Shown if there is another page
-        // Otherwise they fills by gui filler
+        // Otherwise they fill by gui filler
         // Next page item
         gui.addElement(GuiHelper.createNextPage());
         // Previous page item

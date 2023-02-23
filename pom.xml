@@ -84,6 +84,12 @@
             <artifactId>askyblock</artifactId>
             <version>3.0.9.4</version>
         </dependency>
+        <!-- xSeries -->
+        <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>9.3.0</version>
+        </dependency>
     </dependencies>
 
     <!-- Repos -->
@@ -136,6 +142,7 @@
                         <includes>
                             <include>com.github.Son-Hukumdar:*:*:*</include>
                             <include>de.themoep:*:*:*</include>
+                            <include>com.github.cryptomorin:*:*:*</include>
                         </includes>
                     </artifactSet>
                 </configuration>
@@ -160,6 +167,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

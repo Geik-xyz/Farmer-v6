@@ -1,22 +1,26 @@
 package xyz.geik.farmer.api.handlers;
 
+import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
-import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 import xyz.geik.farmer.model.Farmer;
 
+/**
+ * FarmerItemSellEvent
+ */
 @Getter
 public class FarmerItemSellEvent extends Event {
 
     // Farmer object
     private Farmer farmer;
-    private Material material;
+    private ItemStack itemStack;
 
     // Main constructor of event
-    public FarmerItemSellEvent(Farmer farmer, Material material) {
+    public FarmerItemSellEvent(Farmer farmer, XMaterial material) {
         this.farmer = farmer;
-        this.material = material;
+        this.itemStack = material.parseItem();
     }
 
     /**
