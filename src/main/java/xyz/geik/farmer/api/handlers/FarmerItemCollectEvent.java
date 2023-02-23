@@ -1,6 +1,5 @@
 package xyz.geik.farmer.api.handlers;
 
-import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

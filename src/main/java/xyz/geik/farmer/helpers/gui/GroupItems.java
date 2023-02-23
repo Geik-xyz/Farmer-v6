@@ -64,14 +64,14 @@ public class GroupItems {
      */
     public static @NotNull ItemStack getUserItem(@NotNull User user) {
         // Player head collector
-        ItemStack result = SkullUtils.getSkull(user.getUuid());
-        SkullMeta meta = (SkullMeta) result.getItemMeta();
+        ItemStack item = XMaterial.PLAYER_HEAD.parseItem();
+        SkullMeta meta = SkullUtils.applySkin(item.getItemMeta(), user.getUuid());
         meta.setDisplayName(Main.color("&b" + user.getName()));
         meta.setLore(Main.getLangFile().getTextList("usersGui.user.lore").stream().map(key -> {
             return key.replace("{role}", user.getPerm().getName());
         }).collect(Collectors.toList()));
-        result.setItemMeta(meta);
-        return result;
+        item.setItemMeta(meta);
+        return item;
     }
 
     /**

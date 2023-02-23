@@ -3,7 +3,6 @@ package xyz.geik.farmer.model.inventory;
 import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import xyz.geik.farmer.model.FarmerLevel;
 

@@ -38,6 +38,14 @@ Adding soon
     FarmerAPI.hasFarmer(Location location);
 ```
 
+### Listeners
+
+* FarmerBoughtEvent
+* FarmerItemCollectEvent
+* FarmerItemSellEvent
+* FarmerRemoveEvent
+* FarmerStorageFullEvent
+
 ## Used Libraries
 
 * [spigot-api (1.19-R0.3-SNAPSHOT)](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)

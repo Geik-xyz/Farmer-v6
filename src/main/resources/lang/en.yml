@@ -21,7 +21,7 @@ boughtFarmer: "&6Farmer &8▸ &aFarmer bought successfully."
 # placeholders: {time} left for do it again.
 inCooldown: "&6Farmer &8▸ &cYou should wait {time}s for do it again."
 inputCancelWord: "cancel"
-waitingInput: "&6Farmer &8▸ &aType input to chat in 10sec and type &c{cancel} &afor cancel."
+waitingInput: "&6Farmer &8▸ &aType input to chat in 6sec and type &c{cancel} &afor cancel."
 inputCancel: "&6Farmer &8▸ &cNo longer waiting for input."
 userAdded: "&6Farmer &8▸ &2{player} &aAdded successfully."
 userAlreadyExist: "&6Farmer &8▸ &4{player} &cAlready added."
