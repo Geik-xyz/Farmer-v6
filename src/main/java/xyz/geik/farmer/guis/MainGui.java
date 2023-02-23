@@ -1,12 +1,14 @@
 package xyz.geik.farmer.guis;
 
+import com.cryptomorin.xseries.XMaterial;
 import de.themoep.inventorygui.*;
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.helpers.gui.GroupItems;
@@ -70,20 +72,9 @@ public class MainGui {
                                     farmer.getUsers().stream().anyMatch(user -> (
                                     !user.getPerm().equals(FarmerPerm.COOP)
                                             && user.getName().equalsIgnoreCase(player.getName())))) {
-                                Material material = click.getEvent().getCurrentItem().getType();
-                                // MaterialName used for old version integration
-                                // If item has data it will write materialName as
-                                // material-data
-                                String materialName;
-                                if (Main.isOldVersion())
-                                    materialName = material.name() + "-" + click.getEvent().getCurrentItem().getDurability();
-                                else
-                                    materialName = material.name();
-                                FarmerItem slotItem = farmer.getInv().getItems().stream()
-                                        .filter(farmerItem -> (farmerItem.getName().equalsIgnoreCase(
-                                                materialName)))
-                                        .findFirst()
-                                        .get();
+                                // XMaterial check for old version
+                                XMaterial material = XMaterial.matchXMaterial(click.getEvent().getCurrentItem());
+                                FarmerItem slotItem = farmer.getInv().getStockedItem(material);
                                 // Sells all stock of an item
                                 if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
                                     if (slotItem.getAmount() == 0)
@@ -104,6 +95,10 @@ public class MainGui {
                                         Main.getEcon()
                                                 .depositPlayer(Settings.taxUser, tax);
 
+                                    // Calls FarmerItemSellEvent
+                                    FarmerItemSellEvent itemSellEvent = new FarmerItemSellEvent(farmer, XMaterial.matchXMaterial(click.getEvent().getCurrentItem()));
+                                    Bukkit.getPluginManager().callEvent(itemSellEvent);
+
                                     player.sendMessage(Main.getLangFile().getText("sellComplete")
                                         .replace("{money}", roundDouble(profit))
                                         .replace("{tax}", roundDouble(tax)));
@@ -117,14 +112,14 @@ public class MainGui {
                                     }
                                     long count;
                                     // Left click can only have one stack of item
-                                    // But if there is less then one stack
+                                    // But if there is less than one stack
                                     // Then overriding this amount to count.
                                     if (click.getType().equals(ClickType.LEFT))
                                         count = (slotItem.getAmount() >= 64) ? 64 : slotItem.getAmount();
 
                                     // Withdraws max player can take from stocked amount
                                     else if (click.getType().equals(ClickType.RIGHT)) {
-                                        int playerEmpty = getEmptySlots(player) * material.getMaxStackSize();
+                                        int playerEmpty = getEmptySlots(player) * material.parseMaterial().getMaxStackSize();
                                         count = (slotItem.getAmount() >= playerEmpty)
                                                 ? playerEmpty
                                                 : slotItem.getAmount();
@@ -133,13 +128,8 @@ public class MainGui {
 
                                     if (count == 0)
                                         return true;
-                                    ItemStack returnItem;
-                                    // There is another old version check for material
-                                    if (materialName.contains("-"))
-                                        returnItem = new ItemStack(Material.getMaterial(materialName.split("-")[0]),
-                                                (int) count, Short.parseShort(materialName.split("-")[1]));
-                                    else
-                                        returnItem = new ItemStack(material, (int) count);
+                                    ItemStack returnItem = material.parseItem();
+                                    returnItem.setAmount((int) count);
                                     player.getInventory().addItem(returnItem);
                                     slotItem.negateAmount(count);
                                 }

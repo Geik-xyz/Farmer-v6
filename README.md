@@ -22,7 +22,29 @@ Adding soon
 + **/farmer reload** - Reloads plugin (Perm: farmer.admin)
 
 ## API
-Adding soon
+
+### How to use?
+```java
+    // Returns Main class of plugin
+    FarmerAPI.getInstance();
+
+    // Removes farmer
+    FarmerAPI.removeFarmer(String regionId);
+
+    // Changes farmer owner
+    FarmerAPI.changeOwner(UUID oldOwner, UUID newOwner, String regionId);
+    
+    // Checks if location has farmer
+    FarmerAPI.hasFarmer(Location location);
+```
+
+### Listeners
+
+* FarmerBoughtEvent
+* FarmerItemCollectEvent
+* FarmerItemSellEvent
+* FarmerRemoveEvent
+* FarmerStorageFullEvent
 
 ## Used Libraries
 
@@ -37,3 +59,4 @@ Adding soon
 ### Integration Libraries (Optional)
 * [SuperiorSkyblock2](https://github.com/BG-Software-LLC/SuperiorSkyblock2)
 * [GriefPrevention](https://www.spigotmc.org/resources/griefprevention.1884/)
+* [BentoBox](https://www.spigotmc.org/resources/bentobox-bskyblock-acidisland-skygrid-caveblock-aoneblock-boxed.73261/)

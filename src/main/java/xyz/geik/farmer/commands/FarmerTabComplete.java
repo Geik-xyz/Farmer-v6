@@ -28,32 +28,33 @@ public class FarmerTabComplete implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        // checking if sender player
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            String regionID = Main.getIntegration().getRegionID(player.getLocation());
-            List<String> completes = new ArrayList<>();
-            // First creating a true object if world and region exists
-            boolean manage = Settings.allowedWorlds.contains(player.getWorld().getName())
-                    && regionID != null;
-            // Checks region id is valid, checks allowed worlds contain world which player in,
-            // Farmer exists and player has farmer.admin perm or owner of farmer.
-            if (manage &&
-                    (Main.getFarmers().containsKey(regionID) &&
-                            (player.hasPermission("farmer.admin")
-                                    || Main.getFarmers().get(regionID).getOwnerUUID().equals(player.getUniqueId()))
-                    ))
-                completes.add("manage");
-
-            // if player has farmer.admin perm or player name is Geyik adding info and reload hover
-            // I probably should see this ^.^
-            if (player.hasPermission("farmer.admin") || player.getName().equals("Geyik")) {
-                completes.add("info");
-                completes.add("reload");
-            }
-            // returning object of complete.
-            return completes;
+        List<String> completes = new ArrayList<>();
+        // if player has farmer.admin perm or player name is Geyik adding info and reload hover
+        // I probably should see this ^.^
+        if (sender.hasPermission("farmer.admin") || sender.getName().equals("Geyik")) {
+            completes.add("info");
+            completes.add("reload");
         }
-        return Arrays.asList("");
+        try {
+            // checking if sender player
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                String regionID = Main.getIntegration().getRegionID(player.getLocation());
+                // First creating a true object if world and region exists
+                boolean manage = Settings.allowedWorlds.contains(player.getWorld().getName())
+                        && regionID != null;
+                // Checks region id is valid, checks allowed worlds contain world which player in,
+                // Farmer exists and player has farmer.admin perm or owner of farmer.
+                if ((manage && Main.getFarmers().containsKey(regionID))
+                        && (player.hasPermission("farmer.admin") || Main.getFarmers().get(regionID).getOwnerUUID().equals(player.getUniqueId())))
+                    completes.add("manage");
+                // returning object of complete.
+                return completes;
+            }
+            return Arrays.asList("");
+        }
+        catch (Exception e) {
+            return Arrays.asList("");
+        }
     }
 }

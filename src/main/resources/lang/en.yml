@@ -21,13 +21,18 @@ boughtFarmer: "&6Farmer &8▸ &aFarmer bought successfully."
 # placeholders: {time} left for do it again.
 inCooldown: "&6Farmer &8▸ &cYou should wait {time}s for do it again."
 inputCancelWord: "cancel"
-waitingInput: "&6Farmer &8▸ &aType input to chat in 10sec and type &c{cancel} &afor cancel."
+waitingInput: "&6Farmer &8▸ &aType input to chat in 6sec and type &c{cancel} &afor cancel."
 inputCancel: "&6Farmer &8▸ &cNo longer waiting for input."
 userAdded: "&6Farmer &8▸ &2{player} &aAdded successfully."
 userAlreadyExist: "&6Farmer &8▸ &4{player} &cAlready added."
 userCouldntFound: "&6Farmer &8▸ &cUser has not played before!"
 reachedMaxUser: "&6Farmer &8▸ &cYou have reached max user capacity."
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
+
+roles:
+  owner: "&cOwner"
+  member: "&aMember"
+  coop: "&eCoop"
 
 nextPage:
   # Placeholder: %nextpage% shows next page index.
@@ -104,6 +109,9 @@ Gui:
 
 # Management Gui
 manageGui:
+  # t -> taking situation icon
+  # l -> level up icon
+  # u -> user management icon
   interface:
     - "         "
     - " t  l  u "

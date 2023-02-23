@@ -1,7 +1,9 @@
 package xyz.geik.farmer.model.inventory;
 
+import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -26,6 +28,8 @@ public class FarmerItem {
     // Amount of item
     private long amount;
 
+    private XMaterial material;
+
     /**
      * Constructor of FarmerItem
      *
@@ -37,6 +41,7 @@ public class FarmerItem {
         this.name = name;
         this.price = price;
         this.amount = amount;
+        this.material = XMaterial.matchXMaterial(name).get();
     }
 
     // Summing x to amount
@@ -56,7 +61,7 @@ public class FarmerItem {
      * @param items
      * @return
      */
-    public static String serializeItems(@NotNull Set<FarmerItem> items) {
+    public static String serializeItems(@NotNull List<FarmerItem> items) {
         StringBuilder builder = new StringBuilder();
         for (FarmerItem item : items) {
             if (item.amount == 0)
@@ -74,20 +79,23 @@ public class FarmerItem {
      * @param items
      * @return
      */
-    public static Set<FarmerItem> deserializeItems(String items) {
+    public static List<FarmerItem> deserializeItems(String items) {
+        // Return default items if item list is null
         if (items == null)
-            return new LinkedHashSet<>(FarmerInv.defaultItems);
+            return new ArrayList<>(FarmerInv.defaultItems);
+
         HashMap<String, Long> tempItems = new LinkedHashMap<>();
         Arrays.stream(items.split(",")).forEach(key -> {
             String[] rawArr = key.split(":");
             tempItems.put(rawArr[0], Long.parseLong(rawArr[1]));
         });
-        Set<FarmerItem> result = new LinkedHashSet<>(FarmerInv.defaultItems);
+
+        List<FarmerItem> result = new ArrayList<>(FarmerInv.defaultItems);
         result = result.stream().map(farmerItem -> {
             if (tempItems.containsKey(farmerItem.getName()))
                 farmerItem.setAmount(tempItems.get(farmerItem.getName()));
             return farmerItem;
-        }).collect(Collectors.toSet());
+        }).collect(Collectors.toList());
         return result;
     }
 }

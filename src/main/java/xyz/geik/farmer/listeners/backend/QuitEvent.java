@@ -34,7 +34,7 @@ public class QuitEvent implements Listener {
                 if (regionID == null || !Main.getFarmers().containsKey(regionID))
                     return;
                 Farmer farmer = Main.getFarmers().get(regionID);
-                farmer.saveFarmer();
+                farmer.saveFarmerAsync();
             }
         });
     }

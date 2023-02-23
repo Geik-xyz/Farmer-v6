@@ -1,5 +1,7 @@
 package xyz.geik.farmer.helpers.gui;
 
+import com.cryptomorin.xseries.SkullUtils;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -30,14 +32,7 @@ public class GroupItems {
      * @return
      */
     public static @NotNull ItemStack getGroupItem(@NotNull FarmerItem farmerItem, long capacity, double tax) {
-        ItemStack result;
-        // Old version integration
-        if (farmerItem.getName().contains("-")) {
-            result = new ItemStack(Material.getMaterial(farmerItem.getName().split("-")[0].toUpperCase()));
-            result.setDurability(Short.parseShort(farmerItem.getName().split("-")[1]));
-        }
-        else
-            result = new ItemStack(Material.getMaterial(farmerItem.getName().toUpperCase()));
+        ItemStack result = farmerItem.getMaterial().parseItem();
         ItemMeta meta = result.getItemMeta();
         // Stock amount of farmer
         long stock = farmerItem.getAmount();
@@ -67,28 +62,16 @@ public class GroupItems {
      * @param user
      * @return
      */
-    public static @NotNull ItemStack getUserItem(User user) {
-        ItemStack result = null;
-        // Old version material selector
-        if (Main.isOldVersion())
-            result = new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) 3);
-        else result = new ItemStack(Material.getMaterial("PLAYER_HEAD"), 1);
-
-        SkullMeta meta = (SkullMeta) result.getItemMeta();
-        OfflinePlayer userPlayer = Bukkit.getOfflinePlayer(user.getUuid());
-        // Old version owner selector
-        // in old version this is not deprecated
-        if (Main.isOldVersion())
-            meta.setOwner(userPlayer.getName());
-        else
-            meta.setOwningPlayer(userPlayer);
-
+    public static @NotNull ItemStack getUserItem(@NotNull User user) {
+        // Player head collector
+        ItemStack item = XMaterial.PLAYER_HEAD.parseItem();
+        SkullMeta meta = SkullUtils.applySkin(item.getItemMeta(), user.getUuid());
         meta.setDisplayName(Main.color("&b" + user.getName()));
         meta.setLore(Main.getLangFile().getTextList("usersGui.user.lore").stream().map(key -> {
-            return key.replace("{role}", user.getPerm().name());
+            return key.replace("{role}", user.getPerm().getName());
         }).collect(Collectors.toList()));
-        result.setItemMeta(meta);
-        return result;
+        item.setItemMeta(meta);
+        return item;
     }
 
     /**

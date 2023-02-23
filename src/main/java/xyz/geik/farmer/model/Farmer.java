@@ -8,11 +8,13 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.database.DBConnection;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.model.inventory.FarmerInv;
+import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -120,11 +122,37 @@ public class Farmer {
     /**
      * Saves farmer to the database
      */
-    public void saveFarmer() {
+    public void saveFarmerAsync() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            // TODO Save farmer to database
-
+            // Save farmer to db
+            try (Connection con = DBConnection.connect()) {
+                // It requires sync on another methods splitting it
+                // to another method because of that
+                saveFarmer(con);
+            }
+            catch (Exception e) { e.printStackTrace(); }
         });
+    }
+
+    /**
+     * Saves farmer to the database requires connection
+     * Because of multiple requirements can use one connection
+     *
+     * @param con
+     * @throws SQLException
+     */
+    public void saveFarmer(@NotNull Connection con) throws SQLException {
+        final String query = "UPDATE Farmers SET regionID = ?, state = ?, items = ?, level = ? WHERE id = ?";
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setString(1, getRegionID());
+        statement.setInt(2, getState());
+        String serializedItems = FarmerItem.serializeItems(getInv().getItems());
+        statement.setString(3, (serializedItems == "") ? null : serializedItems);
+        statement.setInt(4, FarmerLevel.getAllLevels().indexOf(getLevel()));
+        statement.setInt(5, getId());
+        statement.executeUpdate();
+        // closing statement
+        statement.close();
     }
 
     /**

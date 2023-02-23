@@ -2,6 +2,8 @@ package xyz.geik.farmer.database;
 
 import org.bukkit.Bukkit;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.handlers.FarmerBoughtEvent;
+import xyz.geik.farmer.api.handlers.FarmerRemoveEvent;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.model.inventory.FarmerInv;
@@ -11,6 +13,7 @@ import xyz.geik.farmer.model.user.User;
 
 import java.sql.*;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -60,28 +63,25 @@ public class DBQueries {
     }
 
     /**
-     * Updates all farmers in server RAM.
+     * Synchronized saves all cached farmer values to database.
      */
     public static void updateAllFarmers() {
-        // Query of update
-        final String FARMER_QUERY = "UPDATE Farmers SET state = ?, level = ?, items = ? WHERE id = ?";
         // Connection
         try (Connection con = DBConnection.connect()) {
             // foreach for all farmers
             for (Farmer farmer : Main.getFarmers().values()) {
-                // and statement
-                PreparedStatement farmerStmt = con.prepareStatement(FARMER_QUERY);
-                farmerStmt.setInt(1, farmer.getState());
-                farmerStmt.setInt(2, FarmerLevel.getAllLevels().indexOf(farmer.getLevel()));
-                String serializedItems = FarmerItem.serializeItems(farmer.getInv().getItems());
-                farmerStmt.setString(3, (serializedItems == "") ? null : serializedItems);
-                farmerStmt.setInt(4, farmer.getId());
-                farmerStmt.executeUpdate();
-                // closing statement
-                farmerStmt.close();
+                // quick save method written on farmer class
+                farmer.saveFarmer(con);
             }
         }
         catch (Exception e) { e.printStackTrace(); }
+    }
+
+    /**
+     * Asynchronized saves all cached farmer values to database.
+     */
+    public static void updateAllFarmersAsync() {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> updateAllFarmers());
     }
 
     /**
@@ -110,7 +110,7 @@ public class DBQueries {
                         ? FarmerLevel.getAllLevels().get(levelID)
                         : FarmerLevel.getAllLevels().get(FarmerLevel.getAllLevels().size()-1);
                 // Items set
-                Set<FarmerItem> items = FarmerItem.deserializeItems(resultSet.getString("items"));
+                List<FarmerItem> items = FarmerItem.deserializeItems(resultSet.getString("items"));
                 // Inventory model
                 FarmerInv inv = new FarmerInv(items, level.getCapacity());
 
@@ -175,6 +175,10 @@ public class DBQueries {
                 idGetter.close();
 
                 Main.getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
+
+                // Calls event of farmer creation
+                FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
+                Bukkit.getPluginManager().callEvent(boughtEvent);
             } catch (Exception e) { e.printStackTrace(); }
         });
     }
@@ -206,6 +210,10 @@ public class DBQueries {
                 // Removes from cached farmers
                 if (Main.getFarmers().containsKey(farmer.getRegionID()))
                     Main.getFarmers().remove(farmer.getRegionID());
+
+                // Calls remove farmer event
+                FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(Main.getFarmers().get(farmer.getRegionID()));
+                Bukkit.getPluginManager().callEvent(removeEvent);
             }
             catch (Exception e) { e.printStackTrace(); }
         });
