@@ -45,6 +45,8 @@ Adding soon
 * FarmerItemSellEvent
 * FarmerRemoveEvent
 * FarmerStorageFullEvent
+* FarmerMainGuiOpenEvent
+* FarmerItemProductionEvent
 
 ## Used Libraries
 
@@ -54,9 +56,11 @@ Adding soon
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)
 * [SimplixStorage](https://www.spigotmc.org/resources/simplixstorage-awesome-library-to-store-data-in-a-better-way.67286/)
 * [InventoryGUI](https://github.com/Phoenix616/InventoryGui)
+* [XSeries](https://github.com/CryptoMorin/XSeries)
 * [AuthLib](https://mvnrepository.com/artifact/com.mojang/authlib/1.5.25)
 
 ### Integration Libraries (Optional)
 * [SuperiorSkyblock2](https://github.com/BG-Software-LLC/SuperiorSkyblock2)
 * [GriefPrevention](https://www.spigotmc.org/resources/griefprevention.1884/)
 * [BentoBox](https://www.spigotmc.org/resources/bentobox-bskyblock-acidisland-skygrid-caveblock-aoneblock-boxed.73261/)
+* [ASkyBlock](https://www.spigotmc.org/resources/askyblock.1220/)

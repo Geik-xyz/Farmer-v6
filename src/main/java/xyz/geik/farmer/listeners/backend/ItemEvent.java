@@ -62,7 +62,7 @@ public class ItemEvent implements Listener {
         long left = -1;
 
         // Calls FarmerItemCollectEvent
-        FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, item);
+        FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, item, item.getAmount());
         Bukkit.getPluginManager().callEvent(collectEvent);
         // Checks if event is cancelled
         if (!collectEvent.isCancelled()) {

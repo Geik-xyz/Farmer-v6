@@ -3,5 +3,6 @@ Items:
     price: 0.08
   CACTUS:
     price: 0.1
+    calculateProduction: true
   PUMPKIN:
     price: 0.275

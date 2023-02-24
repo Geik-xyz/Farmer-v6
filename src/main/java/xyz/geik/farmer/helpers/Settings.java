@@ -18,6 +18,8 @@ public class Settings {
     public static int farmerPrice = -1;
     public static String taxUser = "Geyik";
 
+    public static String[] numberFormat = new String[]{"k", "m", "b", "t"};
+
     /**
      * Updates default settings from config
      */
@@ -29,6 +31,10 @@ public class Settings {
         depositTax = Main.getConfigFile().getBoolean("tax.deposit");
         taxUser = Main.getConfigFile().getString("tax.depositUser");
         autoCreateFarmer = Main.getConfigFile().getBoolean("settings.autoCreateFarmer");
+        numberFormat[0] = Main.getLangFile().getText("numberFormat.thousand");
+        numberFormat[1] = Main.getLangFile().getText("numberFormat.million");
+        numberFormat[2] = Main.getLangFile().getText("numberFormat.billion");
+        numberFormat[3] = Main.getLangFile().getText("numberFormat.trillion");
     }
 
 }

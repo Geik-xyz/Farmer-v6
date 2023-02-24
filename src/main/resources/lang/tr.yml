@@ -29,6 +29,13 @@ userAlreadyExist: "&6Çiftçi &8▸ &4{player} &cZaten ekli."
 userCouldntFound: "&6Çiftçi &8▸ &cBu oyuncu daha önce hiç oynamamış!"
 reachedMaxUser: "&6Çiftçi &8▸ &cDaha fazla üye alamazsın!"
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
+calculatingGeneration: "&f&oCalculating..."
+
+numberFormat:
+  thousand: " bin"
+  million: " milyon"
+  billion: " milyar"
+  trillion: " trilyon"
 
 roles:
   owner: "&cLider"
@@ -101,6 +108,10 @@ Gui:
       - " &8▪ &7Fiyat: &f{price}$ adet"
       - "&8&l  [{bar}&8&l] &r{percent}%"
       - ""
+      - "&7Ortalama Üretim (dakika): &f{gen_min}"
+      - "&7Ortalama Üretim (saat): &f{gen_hour}"
+      - "&7Ortalama Üretim (gün): &f{gen_day}"
+      - "{gen_blank}"
       - "&7Envanterine Bir Stack Al &8[&eSol Tık&8]"
       - "&7Envanterine Maks Al &8[&eSağ Tık&8]"
       - "&7Hepsini Sat &8[&eShift+Sağ Tık&8]"

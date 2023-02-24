@@ -4,11 +4,19 @@ import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.model.AverageProduction;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Farmer inventory which contains items.
+ * Farmer inventory is a list of items which farmer can take.
+ *
+ * @author Geik
+ */
 @Setter
 @Getter
 public class FarmerInv {
@@ -18,6 +26,18 @@ public class FarmerInv {
 
     // stocked items farmer has
     private List<FarmerItem> items;
+
+    /**
+     * Generation cache of farmer
+     * Auto flush in 15 minutes
+     * Loads cache if someone open farmer inventory
+     */
+    private List<AverageProduction> averageProductions = new ArrayList<>();
+
+    // Checks if average production is calculated
+    private boolean isProductionCalculated = false;
+
+    // Farmer stock capacity
     private long capacity;
 
     /**
@@ -37,17 +57,32 @@ public class FarmerInv {
         capacity = FarmerLevel.getAllLevels().get(0).getCapacity();
     }
 
-    // TODO Description
+    /**
+     * Gets item from farmer inv.
+     *
+     * @param material
+     * @return
+     */
     public FarmerItem getStockedItem(XMaterial material) {
         return items.stream().filter(item -> (item.getMaterial().isSimilar(material.parseItem()))).findFirst().get();
     }
 
-    // TODO Description
-    public static FarmerItem getDefaultItem(XMaterial material) {
+    /**
+     * Gets item from default items.
+     *
+     * @param material
+     * @return
+     */
+    public static @NotNull FarmerItem getDefaultItem(XMaterial material) {
         return defaultItems.stream().filter(item -> (item.getMaterial().isSimilar(material.parseItem()))).findFirst().get();
     }
 
-    // TODO Description
+    /**
+     * Checks if item is in default items.
+     *
+     * @param itemStack
+     * @return
+     */
     public static boolean checkMaterial(ItemStack itemStack) {
         return defaultItems.stream().anyMatch(item -> (item.getMaterial().isSimilar(itemStack)));
     }
@@ -70,7 +105,13 @@ public class FarmerInv {
         }
     }
 
-    // TODO Description
+    /**
+     * Forces adding item amount to stock.
+     * Doesn't respect capacity.
+     *
+     * @param material
+     * @param amount
+     */
     public void forceSumItem(XMaterial material, long amount) {
         getStockedItem(material).sumAmount(amount);
     }
@@ -93,7 +134,12 @@ public class FarmerInv {
         }
     }
 
-    // TODO Description
+    /**
+     * Update item amount in stock. Doesn't respect capacity.
+     *
+     * @param material
+     * @param amount
+     */
     public void setItemAmount(XMaterial material, long amount) {
         getStockedItem(material).setAmount(amount);
     }

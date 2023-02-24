@@ -26,7 +26,7 @@ import java.util.concurrent.Callable;
  * There is only loads, apis and
  * startup task codes.
  */
-public class Main extends JavaPlugin{
+public class Main extends JavaPlugin {
 
     /**
      * Instance of this class
@@ -141,37 +141,6 @@ public class Main extends JavaPlugin{
             return false;
         econ = rsp.getProvider();
         return econ != null;
-    }
-
-    /**
-     * Getting NMS Version of server.
-     *
-     * 1_18_R2, 1_8_R01 etc.
-     *
-     * Created this method for 1.8+ and 1.12- integration.
-     * Also check method down below.
-     *
-     * @return
-     */
-    public static @NotNull String getNMSVersion() {
-        String v = Bukkit.getServer().getClass().getPackage().getName();
-        return v.substring(v.lastIndexOf('.') + 1);
-    }
-
-    /**
-     * Using this for old version integration.
-     * And it detects version of server by #getNMSVersion method
-     * then checking if it old or not.
-     *
-     * @return
-     */
-
-    public static boolean isOldVersion() {
-        String nmsVer = getNMSVersion();
-        if (nmsVer.contains("1_7") || nmsVer.contains("1_8") || nmsVer.contains("1_9")
-            || nmsVer.contains("1_10") || nmsVer.contains("1_11") || nmsVer.contains("1_12"))
-            return true;
-        else return false;
     }
 
     /**

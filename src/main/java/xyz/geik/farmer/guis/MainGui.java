@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.handlers.FarmerMainGuiOpenEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
@@ -61,7 +62,7 @@ public class MainGui {
             // Element of grup there can x amount of i
             group.addElement(new DynamicGuiElement('i', (viewer) -> {
                 return new StaticGuiElement('i',
-                        GroupItems.getGroupItem(item, farmer.getLevel().getCapacity(), farmer.getLevel().getTax()),
+                        GroupItems.getGroupItem(farmer, item),
                         1,
                         click -> {
                             // If player has admin perm or member of farmer
@@ -143,7 +144,10 @@ public class MainGui {
         gui.addElement(group);
         gui.addElement(GuiHelper.createNextPage());
         gui.addElement(GuiHelper.createPreviousPage());
-        gui.show(player);
+        FarmerMainGuiOpenEvent guiOpenEvent = new FarmerMainGuiOpenEvent(player, farmer, gui);
+        Bukkit.getPluginManager().callEvent(guiOpenEvent);
+        if (!guiOpenEvent.isCancelled())
+            gui.show(player);
     }
 
     /**

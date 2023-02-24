@@ -122,7 +122,7 @@ public class Commands implements CommandExecutor {
             });
             player.sendMessage(Main.color("&c----------------------"));
             farmer.getInv().getItems().stream().forEach(key -> {
-                player.sendMessage(Main.color("&6" + key.getName() + " &e" + key.getAmount()));
+                player.sendMessage(Main.color("&6" + key.getMaterial().name() + " &e" + key.getAmount()));
             });
         }
         return true;

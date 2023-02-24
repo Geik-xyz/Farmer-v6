@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 /**
  *  All guis using this method for
  *  items and all items located here.
+ *
+ * @author Geik
  */
 public class GuiHelper {
 
@@ -59,14 +61,6 @@ public class GuiHelper {
                 assert meta != null;
                 // GameProfile, Filed etc. used mojang lib for catch player skull
                 SkullUtils.applySkin(meta, Main.getLangFile().getString(path + ".skull"));
-                ;
-                /** TODO: Fix this
-                GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-                profile.getProperties().put("textures", new Property("textures", Main.getLangFile().getString(path + ".skull")));
-                Field profileField = meta.getClass().getDeclaredField("profile");
-                profileField.setAccessible(true);
-                profileField.set(meta, profile);
-                */
                 result.setItemMeta(meta);
             } catch (Exception e) {
                 result = new ItemStack(Material.STONE, 1);
