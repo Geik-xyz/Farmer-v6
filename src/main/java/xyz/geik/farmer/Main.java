@@ -75,13 +75,13 @@ public class Main extends JavaPlugin {
         Settings.regenSettings();
         new ItemsLoader();
         FarmerLevel.loadLevels();
-        new ListenerRegister();
         getCommand("farmer").setExecutor(new Commands());
         getCommand("farmer").setTabCompleter(new FarmerTabComplete());
         DBQueries.createTable();
         DBQueries.loadAllFarmers();
         Integrations.registerIntegrations();
         sendEnableMessage();
+        new ListenerRegister();
         loadMetrics();
     }
 

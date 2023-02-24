@@ -3,6 +3,7 @@ package xyz.geik.farmer.listeners;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.listeners.backend.ChatEvent;
 import xyz.geik.farmer.listeners.backend.ProductionCalculateEvent;
 import xyz.geik.farmer.listeners.backend.ItemEvent;
@@ -18,7 +19,8 @@ public class ListenerRegister {
         register(new ItemEvent());
         register(new QuitEvent());
         register(new ChatEvent());
-        register(new ProductionCalculateEvent());
+        if (Settings.hasAnyProductionCalculating)
+            register(new ProductionCalculateEvent());
     }
 
     /**

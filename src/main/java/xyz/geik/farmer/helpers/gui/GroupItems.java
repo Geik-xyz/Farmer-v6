@@ -8,6 +8,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.Formatter;
+import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.AverageProduction;
 import xyz.geik.farmer.model.inventory.FarmerItem;
@@ -54,7 +55,7 @@ public class GroupItems {
             // If key contains {prod_ it will be replaced with average production data
             // If there is no data then makes it null
             if (key.contains("{prod_")) {
-                if (averageProduction == null)
+                if (averageProduction == null || !Settings.hasAnyProductionCalculating)
                     return null;
                 else {
                     // If it's calculating then it will be replaced with calculating

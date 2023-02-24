@@ -3,6 +3,8 @@ package xyz.geik.farmer.model.inventory;
 import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -101,5 +103,15 @@ public class FarmerItem {
             return farmerItem;
         }).collect(Collectors.toList());
         return result;
+    }
+
+    /**
+     * Check if item is calculating average production
+     *
+     * @param item
+     * @return
+     */
+    public static boolean hasProductCalculating(@NotNull FarmerItem item) {
+        return item.isProductionCalculation();
     }
 }

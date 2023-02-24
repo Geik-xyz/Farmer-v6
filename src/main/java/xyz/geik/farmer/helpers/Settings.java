@@ -12,7 +12,8 @@ import java.util.List;
  */
 public class Settings {
 
-    public static boolean ignorePlayerDrop = false, depositTax = false, autoCreateFarmer = false;
+    public static boolean ignorePlayerDrop = false, depositTax = false, autoCreateFarmer = false,
+            hasAnyProductionCalculating = false;
     public static List<String> allowedWorlds = new ArrayList<>();
     public static double defaultTax = 20.0;
     public static int farmerPrice = -1;

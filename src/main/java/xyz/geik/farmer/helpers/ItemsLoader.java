@@ -31,10 +31,12 @@ public class ItemsLoader {
                 return;
             }
             double price = config.getDouble("Items." + key + ".price");
-            boolean hasGeneration = config.getOrDefault("Items." + key + ".calculateProduction", false);
-            FarmerItem defaultItem = new FarmerItem(key, price, 0, hasGeneration);
+            boolean hasProduction = config.getOrDefault("Items." + key + ".calculateProduction", false);
+            FarmerItem defaultItem = new FarmerItem(key, price, 0, hasProduction);
             FarmerInv.defaultItems.add(defaultItem);
         });
+        // Enables production calculation if any item has it
+        Settings.hasAnyProductionCalculating = FarmerInv.defaultItems.stream().anyMatch(FarmerItem::hasProductCalculating);
     }
 
 }
