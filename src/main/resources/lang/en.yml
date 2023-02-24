@@ -30,12 +30,15 @@ reachedMaxUser: "&6Farmer &8▸ &cYou have reached max user capacity."
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
 calculatingGeneration: "&f&oCalculating..."
 
+# Writes production amount with formatted number.
+# Example: 1000 -> 1k, 1000000 -> 1m, 1000000000 -> 1b, 1000000000000 -> 1t
 numberFormat:
   thousand: "k"
   million: "m"
   billion: "b"
   trillion: "t"
 
+# Farmer roles
 roles:
   owner: "&cOwner"
   member: "&aMember"
@@ -107,10 +110,10 @@ Gui:
       - " &8▪ &7Price: &f{price}$ each"
       - "&8&l  [{bar}&8&l] &r{percent}%"
       - ""
-      - "&7Average Production (min): &f{gen_min}"
-      - "&7Average Production (hour): &f{gen_hour}"
-      - "&7Average Production (day): &f{gen_day}"
-      - "{gen_blank}"
+      - "&7Average Production (min): &f{prod_min}"
+      - "&7Average Production (hour): &f{prod_hour}"
+      - "&7Average Production (day): &f{prod_day}"
+      - "{prod_blank}"
       - "&7Withdraw Stack &8[&eLeft Click&8]"
       - "&7Withdraw Max &8[&eRight Click&8]"
       - "&7Sell All &8[&eShift+Right Click&8]"
@@ -174,6 +177,8 @@ manageGui:
       - '&7users in here.'
       - ''
       - '&aClick for open.'
+
+# Buy Gui (Farmer)
 buyGui:
   interface:
     - "         "
@@ -190,7 +195,14 @@ buyGui:
       - ' &8▪ &7Price: &6{price}'
       - ''
       - '&aClick for buy!'
+
+# User gui for farmer
 usersGui:
+  # h -> help
+  # u -> user
+  # p -> previous page
+  # a -> add
+  # n -> next page
   interface:
     - "    h    "
     - "uuuuuuuuu"

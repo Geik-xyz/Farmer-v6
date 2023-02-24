@@ -31,12 +31,15 @@ reachedMaxUser: "&6Çiftçi &8▸ &cDaha fazla üye alamazsın!"
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
 calculatingGeneration: "&f&oCalculating..."
 
+# Writes production amount with formatted number.
+# Example: 1000 -> 1k, 1000000 -> 1m, 1000000000 -> 1b, 1000000000000 -> 1t
 numberFormat:
   thousand: " bin"
   million: " milyon"
   billion: " milyar"
   trillion: " trilyon"
 
+# Farmer roles
 roles:
   owner: "&cLider"
   member: "&aÜye"
@@ -108,10 +111,10 @@ Gui:
       - " &8▪ &7Fiyat: &f{price}$ adet"
       - "&8&l  [{bar}&8&l] &r{percent}%"
       - ""
-      - "&7Ortalama Üretim (dakika): &f{gen_min}"
-      - "&7Ortalama Üretim (saat): &f{gen_hour}"
-      - "&7Ortalama Üretim (gün): &f{gen_day}"
-      - "{gen_blank}"
+      - "&7Ortalama Üretim (dakika): &f{prod_min}"
+      - "&7Ortalama Üretim (saat): &f{prod_hour}"
+      - "&7Ortalama Üretim (gün): &f{prod_day}"
+      - "{prod_blank}"
       - "&7Envanterine Bir Stack Al &8[&eSol Tık&8]"
       - "&7Envanterine Maks Al &8[&eSağ Tık&8]"
       - "&7Hepsini Sat &8[&eShift+Sağ Tık&8]"

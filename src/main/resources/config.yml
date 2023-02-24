@@ -14,8 +14,10 @@ settings:
   ignorePlayerDrop: false
   # Allowed worlds
   allowedWorlds:
-    - ASkyblock
+    - ASkyBlock
     - Island
+    - SuperiorWorld
+    - bskyblock_world
 
 # Tax rate
 # If you set it 0 then it useless

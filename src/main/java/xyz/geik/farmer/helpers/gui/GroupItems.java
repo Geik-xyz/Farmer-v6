@@ -51,9 +51,9 @@ public class GroupItems {
                 .findFirst().orElse(null);
         // Lore map
         meta.setLore(Main.getLangFile().getTextList("Gui.groupItem.lore").stream().map(key -> {
-            // If key contains {gen_ it will be replaced with average production data
+            // If key contains {prod_ it will be replaced with average production data
             // If there is no data then makes it null
-            if (key.contains("{gen_")) {
+            if (key.contains("{prod_")) {
                 if (averageProduction == null)
                     return null;
                 else {
@@ -62,10 +62,10 @@ public class GroupItems {
                     String min = averageProduction.isCalculating() ? calculating : Formatter.coolFormat(averageProduction.getMin());
                     String hour = averageProduction.isCalculating() ? calculating : Formatter.coolFormat(averageProduction.getHour());
                     String day = averageProduction.isCalculating() ? calculating : Formatter.coolFormat(averageProduction.getDay());
-                    return key.replace("{gen_min}", min)
-                            .replace("{gen_hour}", hour)
-                            .replace("{gen_day}", day)
-                            .replace("{gen_blank}", "");
+                    return key.replace("{prod_min}", min)
+                            .replace("{prod_hour}", hour)
+                            .replace("{prod_day}", day)
+                            .replace("{prod_blank}", "");
                 }
             }
             // Default replace

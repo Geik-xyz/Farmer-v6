@@ -26,7 +26,7 @@ public class ItemsLoader {
         // Loops Items in items.yml
         Main.getItemsFile().singleLayerKeySet("Items").stream().forEach(key -> {
             Config config = Main.getItemsFile();
-            if (!XMaterial.matchXMaterial(key).get().isSupported()) {
+            if (!XMaterial.matchXMaterial(key).isPresent()) {
                 Bukkit.getConsoleSender().sendMessage("§c[Farmer] §7Item §e" + key + " §7is not valid material!");
                 return;
             }
