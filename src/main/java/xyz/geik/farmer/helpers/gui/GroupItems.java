@@ -7,12 +7,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.Formatter;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
-import xyz.geik.farmer.model.AverageProduction;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.User;
+import xyz.geik.farmer.modules.production.ProductionModel;
 
 import java.util.stream.Collectors;
 
@@ -47,28 +45,15 @@ public class GroupItems {
         String color = selectFillColor(percent);
         // Average production of item cache if it's null
         // it won't be displayed because there is no calculation required
-        AverageProduction averageProduction = farmer.getInv().getAverageProductions().stream()
+        ProductionModel productionModel = farmer.getInv().getProductionModels().stream()
                 .filter(g -> g.getMaterial().equals(farmerItem.getMaterial()))
                 .findFirst().orElse(null);
         // Lore map
         meta.setLore(Main.getLangFile().getTextList("Gui.groupItem.lore").stream().map(key -> {
             // If key contains {prod_ it will be replaced with average production data
             // If there is no data then makes it null
-            if (key.contains("{prod_")) {
-                if (averageProduction == null || !Settings.hasAnyProductionCalculating)
-                    return null;
-                else {
-                    // If it's calculating then it will be replaced with calculating
-                    String calculating = Main.getLangFile().getText("calculatingGeneration");
-                    String min = averageProduction.isCalculating() ? calculating : Formatter.coolFormat(averageProduction.getMin());
-                    String hour = averageProduction.isCalculating() ? calculating : Formatter.coolFormat(averageProduction.getHour());
-                    String day = averageProduction.isCalculating() ? calculating : Formatter.coolFormat(averageProduction.getDay());
-                    return key.replace("{prod_min}", min)
-                            .replace("{prod_hour}", hour)
-                            .replace("{prod_day}", day)
-                            .replace("{prod_blank}", "");
-                }
-            }
+            if (key.contains("{prod_"))
+                return ProductionModel.updateLore(productionModel, key);
             // Default replace
             else
                 return key.replace("{stock}", color + stock)

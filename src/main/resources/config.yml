@@ -1,10 +1,5 @@
 # Main settings of farmer
 settings:
-  # if you don't want to use voucher system
-  # which is place farmer with a voucher only console
-  # and players with farmer.admin permission can give voucher.
-  # you can disable buy feature and give farmer with command
-  hasVoucher: true
   # if you want to give farmer with economy leave it true
   buyFarmer: true
   # price of farmer necessary if buyFarmer is true

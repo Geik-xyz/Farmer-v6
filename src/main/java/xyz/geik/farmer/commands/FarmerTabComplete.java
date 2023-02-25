@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.modules.voucher.Voucher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +43,7 @@ public class FarmerTabComplete implements TabCompleter {
             // checking if sender player
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (args.length > 1 && Settings.hasVoucher) {
+                if (args.length > 1 && Voucher.getInstance().isEnabled()) {
                     completes.clear();
                     if (args.length == 2)
                         completes.add(Bukkit.getServer().getOnlinePlayers().stream().map(Player::getName).reduce("", (a, b) -> a + " " + b).trim());

@@ -47,21 +47,4 @@ public class ItemsLoader {
         Settings.hasAnyProductionCalculating = FarmerInv.defaultItems.stream().anyMatch(FarmerItem::hasProductCalculating);
     }
 
-    // TODO Description
-    public static @NotNull ItemStack getVoucherItem(int level) {
-        ItemStack voucher = GuiHelper.getItem("voucher");
-        NBT.modify(voucher, nbt -> {
-            nbt.setInteger("farmerLevel", level);
-        });
-        ItemMeta meta = voucher.getItemMeta();
-        meta.setLore(meta.getLore().stream().map(key -> {
-            if (key.contains("{level}"))
-                return key.replace("{level}", String.valueOf(level));
-            return key;
-        }).collect(Collectors.toList()));
-        meta.setDisplayName(meta.getDisplayName().replace("{level}", String.valueOf(level)));
-        voucher.setItemMeta(meta);
-        return voucher;
-    }
-
 }

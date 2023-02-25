@@ -1,9 +1,11 @@
 package xyz.geik.farmer;
 
 import de.leonhard.storage.Config;
+import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -17,8 +19,11 @@ import xyz.geik.farmer.integrations.Integrations;
 import xyz.geik.farmer.listeners.ListenerRegister;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.modules.FarmerModule;
+import xyz.geik.farmer.modules.ModuleManager;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
@@ -26,7 +31,12 @@ import java.util.concurrent.Callable;
  * There is only loads, apis and
  * startup task codes.
  */
+@Getter
 public class Main extends JavaPlugin {
+
+    // TODO Module system
+    public Map<FarmerModule, Listener> listenerList = new HashMap<>();
+    private ModuleManager moduleManager = new ModuleManager();
 
     /**
      * Instance of this class
@@ -81,6 +91,7 @@ public class Main extends JavaPlugin {
         DBQueries.loadAllFarmers();
         Integrations.registerIntegrations();
         sendEnableMessage();
+        FarmerModule.registerModules();
         new ListenerRegister();
         loadMetrics();
     }

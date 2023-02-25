@@ -1,4 +1,4 @@
-package xyz.geik.farmer.listeners.backend;
+package xyz.geik.farmer.modules.voucher;
 
 import com.cryptomorin.xseries.XSound;
 import de.tr7zw.nbtapi.NBT;
@@ -10,12 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.guis.MainGui;
-import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.model.Farmer;
 
-/**
- * @author Geyik
- */
 public class VoucherEvent implements Listener {
 
     /**
@@ -30,21 +26,21 @@ public class VoucherEvent implements Listener {
         if (event.getItem().getItemMeta().getDisplayName() == null) return;
         Player player = event.getPlayer();
         int farmerLevel = NBT.get(event.getItem(), voucher -> (voucher.getInteger("farmerLevel")));
-        ItemStack voucherBase = ItemsLoader.getVoucherItem(farmerLevel);
+        ItemStack voucherBase = VoucherItem.getVoucherItem(farmerLevel);
         voucherBase.setAmount(event.getItem().getAmount());
         if (!voucherBase.equals(event.getItem()))
             return;
         event.setCancelled(true);
         if (!Farmer.farmerWorldCheck(event.getPlayer())) {
-            player.sendMessage(Main.getLangFile().getText("wrongWorld"));
+            player.sendMessage(Voucher.getInstance().getInstance().getConfig().getText("wrongWorld"));
             return;
         }
         if (!Main.getIntegration().getOwnerUUID(player.getLocation()).equals(player.getUniqueId())) {
-            player.sendMessage(Main.getLangFile().getText("notOwner"));
+            player.sendMessage(Voucher.getInstance().getConfig().getText("notOwner"));
             return;
         }
         if (Main.getFarmers().containsKey(Main.getIntegration().getRegionID(player.getLocation()))) {
-            player.sendMessage(Main.getLangFile().getText("alreadyHaveFarmer"));
+            player.sendMessage(Voucher.getInstance().getConfig().getText("alreadyHaveFarmer"));
             return;
         }
         // Creates new farmer

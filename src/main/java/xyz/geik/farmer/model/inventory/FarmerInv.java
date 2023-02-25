@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.FarmerLevel;
-import xyz.geik.farmer.model.AverageProduction;
+import xyz.geik.farmer.modules.production.ProductionModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class FarmerInv {
      * Auto flush in 15 minutes
      * Loads cache if someone open farmer inventory
      */
-    private List<AverageProduction> averageProductions = new ArrayList<>();
+    private List<ProductionModel> productionModels = new ArrayList<>();
 
     // Checks if average production is calculated
     private boolean isProductionCalculated = false;

@@ -1,4 +1,4 @@
-package xyz.geik.farmer.listeners.backend;
+package xyz.geik.farmer.modules.production;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -8,7 +8,6 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerMainGuiOpenEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemProductionEvent;
-import xyz.geik.farmer.model.AverageProduction;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 
 import java.util.ArrayList;
@@ -31,15 +30,15 @@ public class ProductionCalculateEvent implements Listener {
         // If production is not calculated average production
         // cache will be created and calculated
         if (!event.getFarmer().getInv().isProductionCalculated()
-                && event.getFarmer().getInv().getAverageProductions().isEmpty()) {
+                && event.getFarmer().getInv().getProductionModels().isEmpty()) {
             // Cache creation and calculation
-            List<AverageProduction> averageProductions = new ArrayList<>();
+            List<ProductionModel> productionModels = new ArrayList<>();
             event.getFarmer().getInv().getItems().stream().filter(FarmerItem::isProductionCalculation).forEach(item -> {
                 // Adds cache
-                AverageProduction averageProduction = new AverageProduction(event.getFarmer(), item.getMaterial(), event.getGui());
-                averageProductions.add(averageProduction);
+                ProductionModel productionModel = new ProductionModel(event.getFarmer(), item.getMaterial(), event.getGui());
+                productionModels.add(productionModel);
             });
-            event.getFarmer().getInv().setAverageProductions(averageProductions);
+            event.getFarmer().getInv().setProductionModels(productionModels);
         }
     }
 
@@ -52,16 +51,16 @@ public class ProductionCalculateEvent implements Listener {
      */
     @EventHandler
     public void productionLoadEvent(@NotNull FarmerItemCollectEvent event) {
-        List<AverageProduction> averageProductions = event.getFarmer().getInv().getAverageProductions();
-        if (averageProductions != null && !averageProductions.isEmpty()) {
+        List<ProductionModel> productionModels = event.getFarmer().getInv().getProductionModels();
+        if (productionModels != null && !productionModels.isEmpty()) {
             // When all generation items is calculated
             // Removes cache after 15 minutes
-            if (averageProductions.stream().noneMatch(averageProduction -> averageProduction.isCalculating())) {
+            if (productionModels.stream().noneMatch(production -> production.isCalculating())) {
                 // Calls event because of remove cache of production
                 FarmerItemProductionEvent productionEvent = new FarmerItemProductionEvent(event.getFarmer());
                 Bukkit.getPluginManager().callEvent(productionEvent);
             } else
-                averageProductions.stream().filter(averageProduction -> (averageProduction.isCalculating() && averageProduction.getMaterial().isSimilar(event.getItem())))
+                productionModels.stream().filter(production -> (production.isCalculating() && production.getMaterial().isSimilar(event.getItem())))
                         .forEach(averageProduction -> averageProduction.setLastInput(averageProduction.getLastInput() + event.getCollectAmount()));
         }
     }
@@ -77,7 +76,7 @@ public class ProductionCalculateEvent implements Listener {
         // Removes cache after 15 minutes
         // And sets production calculated to false
         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> {
-            event.getFarmer().getInv().setAverageProductions(new ArrayList<>());
+            event.getFarmer().getInv().setProductionModels(new ArrayList<>());
             event.getFarmer().getInv().setProductionCalculated(false);
         }, 20L*60L*15L);
     }

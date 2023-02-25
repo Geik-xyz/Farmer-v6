@@ -12,11 +12,11 @@ import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.guis.BuyGui;
 import xyz.geik.farmer.guis.MainGui;
-import xyz.geik.farmer.helpers.Formatter;
 import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.modules.voucher.VoucherCommand;
 
 import java.util.UUID;
 
@@ -47,7 +47,7 @@ public class Commands implements CommandExecutor {
             else if (args.length == 1)
                 oneArgCommands(player, args[0]);
             else if (args.length == 3)
-                giveVoucherCommand(sender, args);
+                VoucherCommand.give(sender, args);
         }
         // Also console section here for reload command.
         else {
@@ -56,45 +56,9 @@ public class Commands implements CommandExecutor {
                     reloadCommand(sender);
             }
             else if (args.length == 3)
-                    giveVoucherCommand(sender, args);
+                    VoucherCommand.give(sender, args);
         }
         return false;
-    }
-
-    public boolean giveVoucherCommand(@NotNull CommandSender sender, String @NotNull ... args) {
-        if (!args[0].equalsIgnoreCase("give")) {
-            sender.sendMessage(Main.getLangFile().getText("wrongCommand"));
-            return false;
-        }
-        if (!sender.hasPermission("farmer.admin")) {
-            sender.sendMessage(Main.getLangFile().getText("noPerm"));
-            return false;
-        }
-        if (!Settings.hasVoucher) {
-            sender.sendMessage(Main.getLangFile().getText("voucherDisabled"));
-            return false;
-        }
-        if (Bukkit.getPlayer(args[1]) == null || !Bukkit.getPlayer(args[1]).isOnline()) {
-            sender.sendMessage(Main.getLangFile().getText("playerNotFound"));
-            return false;
-        }
-        if (!Formatter.isNumeric(args[2])) {
-            sender.sendMessage(Main.getLangFile().getText("notNumber"));
-            return false;
-        }
-        if (Integer.parseInt(args[2]) > FarmerLevel.getAllLevels().size()) {
-            sender.sendMessage(Main.getLangFile().getText("enterValidLevel"));
-            return false;
-        }
-        int level = Integer.parseInt(args[2]);
-        Player player = Bukkit.getPlayer(args[1]);
-        player.getInventory().addItem(ItemsLoader.getVoucherItem(level));
-        sender.sendMessage(Main.getLangFile().getText("voucherGiven")
-                .replace("%player%", args[1])
-                .replace("%level%", args[2]));
-        player.sendMessage(Main.getLangFile().getText("voucherReceived")
-                .replace("%level%", args[2]));
-        return true;
     }
 
     /**
