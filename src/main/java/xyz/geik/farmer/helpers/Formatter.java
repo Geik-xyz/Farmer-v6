@@ -21,4 +21,18 @@ public class Formatter {
                 : coolFormat(d, iteration+1);
 
     }
+
+    /**
+     * Checks value is numeric
+     *
+     * @param strNum
+     * @return
+     */
+    public static boolean isNumeric(String strNum) {
+        try {
+            Integer.parseInt(strNum);
+            return true;
+        }
+        catch (NumberFormatException nfe) {return false;}
+    }
 }

@@ -3,10 +3,12 @@ package xyz.geik.farmer.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.database.DBConnection;
 import xyz.geik.farmer.database.DBQueries;
+import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.FarmerPerm;
@@ -70,12 +72,12 @@ public class Farmer {
      * @param regionID
      * @param ownerUUID
      */
-    public Farmer(String regionID, UUID ownerUUID) {
+    public Farmer(String regionID, UUID ownerUUID, int level) {
         this.regionID = regionID;
         Set<User> users = new LinkedHashSet<>();
         this.users = users;
         this.inv = new FarmerInv();
-        this.level = FarmerLevel.getAllLevels().get(0);
+        this.level = FarmerLevel.getAllLevels().get(level);
         this.state = 1;
         Main.getFarmers().put(regionID, this);
         DBQueries.createFarmer(this, ownerUUID);
@@ -212,4 +214,18 @@ public class Farmer {
         });
         return true;
     }
+
+    /**
+     * Helper method which checks is
+     * world suitable for farmer
+     *
+     * @param player
+     * @return
+     */
+    public static boolean farmerWorldCheck(@NotNull Player player) {
+        if (!Settings.allowedWorlds.contains(player.getWorld().getName()))
+            return false;
+        else return true;
+    }
+
 }

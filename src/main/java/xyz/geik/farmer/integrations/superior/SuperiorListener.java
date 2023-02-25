@@ -37,7 +37,7 @@ public class SuperiorListener implements Listener {
     @EventHandler
     public void createIslandEvent(IslandCreateEvent e) {
         if (Settings.autoCreateFarmer) {
-            Farmer farmer = new Farmer(e.getIsland().getOwner().getUniqueId().toString(), e.getIsland().getOwner().getUniqueId());
+            Farmer farmer = new Farmer(e.getIsland().getOwner().getUniqueId().toString(), e.getIsland().getOwner().getUniqueId(), 0);
             e.getIsland().getOwner().asPlayer().sendMessage(Main.getLangFile().getText("boughtFarmer"));
         }
     }

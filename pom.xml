@@ -92,6 +92,12 @@
             <artifactId>XSeries</artifactId>
             <version>9.3.0</version>
         </dependency>
+        <!-- NBT Api -->
+        <dependency>
+            <groupId>de.tr7zw</groupId>
+            <artifactId>item-nbt-api-plugin</artifactId>
+            <version>2.11.1</version>
+        </dependency>
     </dependencies>
 
     <!-- Repos -->
@@ -158,7 +164,6 @@
                                 <exclude>com/cryptomorin/xseries/NoteBlockMusic*</exclude>
                                 <exclude>com/cryptomorin/xseries/SkullCacheListener*</exclude>
                                 <exclude>com/cryptomorin/xseries/XItemStack*</exclude>
-                                <exclude>com/cryptomorin/xseries/XSound*</exclude>
                             </excludes>
                         </relocation>
                         <relocation>
@@ -172,6 +177,10 @@
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
                             <shadedPattern>xyz.geik.farmer.shades.jetbrains</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>de.tr7zw.nbtapi</pattern>
+                            <shadedPattern>xyz.geik.farmer.shades.nbtapi</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

@@ -13,7 +13,7 @@ import java.util.List;
 public class Settings {
 
     public static boolean ignorePlayerDrop = false, depositTax = false, autoCreateFarmer = false,
-            hasAnyProductionCalculating = false;
+            hasAnyProductionCalculating = false, buyFarmer = true, hasVoucher = true;
     public static List<String> allowedWorlds = new ArrayList<>();
     public static double defaultTax = 20.0;
     public static int farmerPrice = -1;
@@ -32,6 +32,8 @@ public class Settings {
         depositTax = Main.getConfigFile().getBoolean("tax.deposit");
         taxUser = Main.getConfigFile().getString("tax.depositUser");
         autoCreateFarmer = Main.getConfigFile().getBoolean("settings.autoCreateFarmer");
+        buyFarmer = Main.getConfigFile().getBoolean("settings.buyFarmer");
+        hasVoucher = Main.getConfigFile().getBoolean("settings.hasVoucher");
         numberFormat[0] = Main.getLangFile().getText("numberFormat.thousand");
         numberFormat[1] = Main.getLangFile().getText("numberFormat.million");
         numberFormat[2] = Main.getLangFile().getText("numberFormat.billion");

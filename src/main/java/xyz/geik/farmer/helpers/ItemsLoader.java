@@ -1,12 +1,20 @@
 package xyz.geik.farmer.helpers;
 
+import com.cryptomorin.xseries.XItemStack;
 import com.cryptomorin.xseries.XMaterial;
 import de.leonhard.storage.Config;
+import de.tr7zw.nbtapi.NBT;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
+
+import java.util.stream.Collectors;
 
 /**
  * Loads items from items.yml to ingame cache
@@ -37,6 +45,23 @@ public class ItemsLoader {
         });
         // Enables production calculation if any item has it
         Settings.hasAnyProductionCalculating = FarmerInv.defaultItems.stream().anyMatch(FarmerItem::hasProductCalculating);
+    }
+
+    // TODO Description
+    public static @NotNull ItemStack getVoucherItem(int level) {
+        ItemStack voucher = GuiHelper.getItem("voucher");
+        NBT.modify(voucher, nbt -> {
+            nbt.setInteger("farmerLevel", level);
+        });
+        ItemMeta meta = voucher.getItemMeta();
+        meta.setLore(meta.getLore().stream().map(key -> {
+            if (key.contains("{level}"))
+                return key.replace("{level}", String.valueOf(level));
+            return key;
+        }).collect(Collectors.toList()));
+        meta.setDisplayName(meta.getDisplayName().replace("{level}", String.valueOf(level)));
+        voucher.setItemMeta(meta);
+        return voucher;
     }
 
 }

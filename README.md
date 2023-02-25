@@ -58,6 +58,7 @@ Adding soon
 * [InventoryGUI](https://github.com/Phoenix616/InventoryGui)
 * [XSeries](https://github.com/CryptoMorin/XSeries)
 * [AuthLib](https://mvnrepository.com/artifact/com.mojang/authlib/1.5.25)
+* [NBT-API](https://github.com/tr7zw/Item-NBT-API)
 
 ### Integration Libraries (Optional)
 * [SuperiorSkyblock2](https://github.com/BG-Software-LLC/SuperiorSkyblock2)

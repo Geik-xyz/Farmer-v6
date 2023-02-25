@@ -1,5 +1,6 @@
 package xyz.geik.farmer.commands;
 
+import com.cryptomorin.xseries.messages.Titles;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,6 +12,7 @@ import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.guis.BuyGui;
 import xyz.geik.farmer.guis.MainGui;
+import xyz.geik.farmer.helpers.Formatter;
 import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
@@ -44,14 +46,55 @@ public class Commands implements CommandExecutor {
             // 1 arg for 1 arg commands
             else if (args.length == 1)
                 oneArgCommands(player, args[0]);
+            else if (args.length == 3)
+                giveVoucherCommand(sender, args);
         }
         // Also console section here for reload command.
         else {
-            if (args.length == 1)
+            if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("reload"))
                     reloadCommand(sender);
+            }
+            else if (args.length == 3)
+                    giveVoucherCommand(sender, args);
         }
         return false;
+    }
+
+    public boolean giveVoucherCommand(@NotNull CommandSender sender, String @NotNull ... args) {
+        if (!args[0].equalsIgnoreCase("give")) {
+            sender.sendMessage(Main.getLangFile().getText("wrongCommand"));
+            return false;
+        }
+        if (!sender.hasPermission("farmer.admin")) {
+            sender.sendMessage(Main.getLangFile().getText("noPerm"));
+            return false;
+        }
+        if (!Settings.hasVoucher) {
+            sender.sendMessage(Main.getLangFile().getText("voucherDisabled"));
+            return false;
+        }
+        if (Bukkit.getPlayer(args[1]) == null || !Bukkit.getPlayer(args[1]).isOnline()) {
+            sender.sendMessage(Main.getLangFile().getText("playerNotFound"));
+            return false;
+        }
+        if (!Formatter.isNumeric(args[2])) {
+            sender.sendMessage(Main.getLangFile().getText("notNumber"));
+            return false;
+        }
+        if (Integer.parseInt(args[2]) > FarmerLevel.getAllLevels().size()) {
+            sender.sendMessage(Main.getLangFile().getText("enterValidLevel"));
+            return false;
+        }
+        int level = Integer.parseInt(args[2]);
+        Player player = Bukkit.getPlayer(args[1]);
+        player.getInventory().addItem(ItemsLoader.getVoucherItem(level));
+        sender.sendMessage(Main.getLangFile().getText("voucherGiven")
+                .replace("%player%", args[1])
+                .replace("%level%", args[2]));
+        player.sendMessage(Main.getLangFile().getText("voucherReceived")
+                .replace("%level%", args[2]));
+        return true;
     }
 
     /**
@@ -71,7 +114,7 @@ public class Commands implements CommandExecutor {
             return false;
         }
         // Check world is suitable for farmer
-        if (!farmerWorldCheck(player)
+        if (!Farmer.farmerWorldCheck(player)
                 && !arg.equalsIgnoreCase("reload")) {
             player.sendMessage(Main.getLangFile().getText("wrongWorld"));
             return false;
@@ -176,19 +219,6 @@ public class Commands implements CommandExecutor {
     }
 
     /**
-     * Helper method which checks is
-     * world suitable for farmer
-     *
-     * @param player
-     * @return
-     */
-    private boolean farmerWorldCheck(@NotNull Player player) {
-        if (!Settings.allowedWorlds.contains(player.getWorld().getName()))
-            return false;
-        else return true;
-    }
-
-    /**
      * Gets region id with #Integration
      * if there has a region.
      *
@@ -219,7 +249,7 @@ public class Commands implements CommandExecutor {
      */
     private boolean farmerBaseCommand(Player player) {
         // There is another world check
-        if (!farmerWorldCheck(player)) {
+        if (!Farmer.farmerWorldCheck(player)) {
             player.sendMessage(Main.getLangFile().getText("wrongWorld"));
             return true;
         }
@@ -231,8 +261,14 @@ public class Commands implements CommandExecutor {
             // Using this uuid for owner check
             UUID owner = Main.getIntegration().getOwnerUUID(regionID);
             // Owner check for buy
-            if (owner.equals(player.getUniqueId()) || player.hasPermission("farmer.admin"))
-                BuyGui.showGui(player);
+            if (owner.equals(player.getUniqueId()) || player.hasPermission("farmer.admin")) {
+                if (Settings.buyFarmer)
+                    BuyGui.showGui(player);
+                else {
+                    Titles.sendTitle(player, Main.getLangFile().getText("buyDisabled.title"),
+                            Main.getLangFile().getText("buyDisabled.subtitle"));
+                }
+            }
             else
                 player.sendMessage(Main.getLangFile().getText("mustBeOwner"));
         }

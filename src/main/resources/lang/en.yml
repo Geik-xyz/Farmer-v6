@@ -29,6 +29,16 @@ userCouldntFound: "&6Farmer &8▸ &cUser has not played before!"
 reachedMaxUser: "&6Farmer &8▸ &cYou have reached max user capacity."
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
 calculatingGeneration: "&f&oCalculating..."
+playerNotFound: "&6Farmer &8▸ &cPlayer not found."
+notNumber: "&6Farmer &8▸ &cPlease enter a number."
+enterValidLevel: "&6Farmer &8▸ &cPlease enter a valid level."
+voucherReceived: "&6Farmer &8▸ &aYou received a %level% level farmer voucher."
+voucherGiven: "&6Farmer &8▸ &aYou gave a %level% level farmer voucher to %player%."
+alreadyHaveFarmer: "&6Farmer &8▸ &cYou already have a farmer."
+voucherDisabled: "&6Farmer &8▸ &cVoucher feature disabled."
+buyDisabled:
+  title: "&6Farmer"
+  subtitle: "&cVisit our website for farmer"
 
 # Writes production amount with formatted number.
 # Example: 1000 -> 1k, 1000000 -> 1m, 1000000000 -> 1b, 1000000000000 -> 1t
@@ -43,6 +53,14 @@ roles:
   owner: "&cOwner"
   member: "&aMember"
   coop: "&eCoop"
+
+voucher:
+  material: VILLAGER_SPAWN_EGG
+  name: "&eFarmer Voucher"
+  lore:
+    - ""
+    - "&7Level: &e{level}"
+    - "&7Right click to redeem"
 
 nextPage:
   # Placeholder: %nextpage% shows next page index.

@@ -42,7 +42,7 @@ public class BentoListener implements Listener {
     @EventHandler
     public void islandCreateEvent(@NotNull IslandCreatedEvent e) {
         if (Settings.autoCreateFarmer) {
-            new Farmer(e.getIsland().getUniqueId(), e.getOwner());
+            new Farmer(e.getIsland().getUniqueId(), e.getOwner(), 0);
             Bukkit.getPlayer(e.getOwner()).sendMessage(Main.getLangFile().getText("boughtFarmer"));
         }
     }

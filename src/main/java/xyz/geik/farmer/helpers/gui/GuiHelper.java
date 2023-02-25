@@ -2,8 +2,6 @@ package xyz.geik.farmer.helpers.gui;
 
 import com.cryptomorin.xseries.SkullUtils;
 import com.cryptomorin.xseries.XMaterial;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import de.themoep.inventorygui.GuiElement;
 import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.StaticGuiElement;
@@ -17,9 +15,6 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
-
-import java.lang.reflect.Field;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

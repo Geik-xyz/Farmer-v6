@@ -1,5 +1,6 @@
 package xyz.geik.farmer.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.Settings;
+import xyz.geik.farmer.model.FarmerLevel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,11 +36,21 @@ public class FarmerTabComplete implements TabCompleter {
         if (sender.hasPermission("farmer.admin") || sender.getName().equals("Geyik")) {
             completes.add("info");
             completes.add("reload");
+            completes.add("give");
         }
         try {
             // checking if sender player
             if (sender instanceof Player) {
                 Player player = (Player) sender;
+                if (args.length > 1 && Settings.hasVoucher) {
+                    completes.clear();
+                    if (args.length == 2)
+                        completes.add(Bukkit.getServer().getOnlinePlayers().stream().map(Player::getName).reduce("", (a, b) -> a + " " + b).trim());
+                    else if (args.length == 3)
+                        for (int i = 1; i <= FarmerLevel.getAllLevels().size(); i++)
+                            completes.add(String.valueOf(i));
+                    return completes;
+                }
                 String regionID = Main.getIntegration().getRegionID(player.getLocation());
                 // First creating a true object if world and region exists
                 boolean manage = Settings.allowedWorlds.contains(player.getWorld().getName())
