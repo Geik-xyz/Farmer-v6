@@ -11,21 +11,39 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Collectors;
 
+/**
+ * VoucherItem class
+ *
+ * @author
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 public class VoucherItem {
 
-    // TODO Description
+    /**
+     * Get voucher item with level
+     *
+     * @param level
+     * @return
+     */
     public static @NotNull ItemStack getVoucherItem(int level) {
+        // Item loader
         ItemStack voucher = getItem("voucher");
+        // NBT loader
         NBT.modify(voucher, nbt -> {
             nbt.setInteger("farmerLevel", level);
         });
+        // ItemMeta loader
         ItemMeta meta = voucher.getItemMeta();
+        // Changes level placeholder to level
         meta.setLore(meta.getLore().stream().map(key -> {
             if (key.contains("{level}"))
                 return key.replace("{level}", String.valueOf(level));
             return key;
         }).collect(Collectors.toList()));
+        // Changes level placeholder to level
         meta.setDisplayName(meta.getDisplayName().replace("{level}", String.valueOf(level)));
+        // Saves meta
         voucher.setItemMeta(meta);
         return voucher;
     }

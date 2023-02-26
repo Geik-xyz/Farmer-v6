@@ -15,12 +15,12 @@ import xyz.geik.farmer.model.Farmer;
 public class VoucherEvent implements Listener {
 
     /**
-     * TODO Description
+     * Uses voucher to farmer and opens farmer gui
      *
      * @param event
      */
     @EventHandler
-    public void onRightClickEvent(PlayerInteractEvent event) {
+    public void onVoucherUseEvent(@NotNull PlayerInteractEvent event) {
         if (event.getItem() == null) return;
         if (event.getItem().getItemMeta() == null) return;
         if (event.getItem().getItemMeta().getDisplayName() == null) return;
@@ -55,7 +55,7 @@ public class VoucherEvent implements Listener {
     }
 
     /**
-     * TODO Description
+     * Descent voucher amount in inventory
      *
      * @param player
      * @param voucher

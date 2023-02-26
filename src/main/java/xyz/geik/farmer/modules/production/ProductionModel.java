@@ -89,11 +89,24 @@ public class ProductionModel {
         }
     }
 
+    /**
+     * Format the number
+     *
+     * @param iteration
+     * @return
+     */
     @Contract(pure = true)
     private static @NotNull String coolFormat(int iteration) {
         return coolFormat(iteration, 0);
     }
 
+    /**
+     * Format the number with iteration
+     *
+     * @param n
+     * @param iteration
+     * @return
+     */
     @Contract(pure = true)
     private static @NotNull String coolFormat(double n, int iteration) {
         double d = ((long) n / 100) / 10.0;

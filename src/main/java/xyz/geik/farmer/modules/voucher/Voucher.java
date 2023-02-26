@@ -5,11 +5,18 @@ import lombok.Getter;
 import xyz.geik.farmer.helpers.StorageAPI;
 import xyz.geik.farmer.modules.FarmerModule;
 
+/**
+ * Voucher module main class
+ */
 @Getter
 public class Voucher extends FarmerModule {
 
+    // Config file of the module
     private Config config;
+
+    // Instance of the module
     private static Voucher instance;
+
     public static Voucher getInstance() {
         return instance;
     }
@@ -24,9 +31,7 @@ public class Voucher extends FarmerModule {
     }
 
     @Override
-    public void onEnable() {
-
-    }
+    public void onEnable() {}
 
     @Override
     public void registerListeners() {

@@ -34,7 +34,7 @@ import java.util.concurrent.Callable;
 @Getter
 public class Main extends JavaPlugin {
 
-    // TODO Module system
+    // Register module to this class
     public Map<FarmerModule, Listener> listenerList = new HashMap<>();
     private ModuleManager moduleManager = new ModuleManager();
 

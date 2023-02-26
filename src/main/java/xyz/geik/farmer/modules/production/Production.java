@@ -6,14 +6,25 @@ import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.helpers.StorageAPI;
 import xyz.geik.farmer.modules.FarmerModule;
 
+/**
+ * Production module main class
+ */
 @Getter
 public class Production extends FarmerModule {
 
+    // Config file of module
     private Config config;
+
+    // Instance of module
     private static Production instance;
 
     private String[] numberFormat = new String[]{"k", "m", "b", "t"};
 
+    /**
+     * Get instance of module
+     *
+     * @return instance
+     */
     public static Production getInstance() {
         return instance;
     }

@@ -7,10 +7,15 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.FarmerLevel;
 
+/**
+ * Voucher Command
+ *
+ * @author Geyik
+ */
 public class VoucherCommand {
 
     /**
-     * TODO Description
+     * Give voucher to player
      *
      * @param sender
      * @param args
