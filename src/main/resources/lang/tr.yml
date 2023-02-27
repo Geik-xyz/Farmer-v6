@@ -23,21 +23,13 @@ boughtFarmer: "&6Çiftçi &8▸ &aÇiftçi başarıyla alındı."
 inCooldown: "&6Çiftçi &8▸ &cBunu tekrar yapmak için {time}sn beklemelisin."
 inputCancelWord: "iptal"
 waitingInput: "&6Çiftçi &8▸ &a6 saniye içinde eklemek istediğin kullanıcı adını yaz veya iptal etmek için &c{cancel} &ayaz."
+notOwner: "&6Çiftçi &8▸ &cBu özelliği kullanmak için bölge sahibi olman gerek."
 inputCancel: "&6Çiftçi &8▸ &cKullanıcı ekleme işlemi iptal oldu."
 userAdded: "&6Çiftçi &8▸ &2{player} &aEklendi."
 userAlreadyExist: "&6Çiftçi &8▸ &4{player} &cZaten ekli."
 userCouldntFound: "&6Çiftçi &8▸ &cBu oyuncu daha önce hiç oynamamış!"
 reachedMaxUser: "&6Çiftçi &8▸ &cDaha fazla üye alamazsın!"
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
-calculatingGeneration: "&f&oCalculating..."
-
-# Writes production amount with formatted number.
-# Example: 1000 -> 1k, 1000000 -> 1m, 1000000000 -> 1b, 1000000000000 -> 1t
-numberFormat:
-  thousand: " bin"
-  million: " milyon"
-  billion: " milyar"
-  trillion: " trilyon"
 
 # Farmer roles
 roles:

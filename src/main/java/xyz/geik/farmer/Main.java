@@ -9,18 +9,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.commands.Commands;
 import xyz.geik.farmer.commands.FarmerTabComplete;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
-import xyz.geik.farmer.helpers.StorageAPI;
 import xyz.geik.farmer.integrations.Integrations;
 import xyz.geik.farmer.listeners.ListenerRegister;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.FarmerModule;
-import xyz.geik.farmer.modules.ModuleManager;
+import xyz.geik.farmer.modules.production.Production;
+import xyz.geik.farmer.modules.voucher.Voucher;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +37,6 @@ public class Main extends JavaPlugin {
 
     // Register module to this class
     public Map<FarmerModule, Listener> listenerList = new HashMap<>();
-    private ModuleManager moduleManager = new ModuleManager();
 
     /**
      * Instance of this class
@@ -71,9 +71,9 @@ public class Main extends JavaPlugin {
      */
     public void onLoad() {
         instance = this;
-        configFile = new StorageAPI().initConfig("config");
-        itemsFile = new StorageAPI().initConfig("items");
-        langFile = new StorageAPI().initConfig("lang/" + getConfigFile().getString("settings.lang"));
+        configFile = FarmerAPI.getStorageManager().initConfig("config");
+        itemsFile = FarmerAPI.getStorageManager().initConfig("items");
+        langFile = FarmerAPI.getStorageManager().initLangFile(getConfigFile().getString("settings.lang"));
     }
 
     /**
@@ -91,9 +91,9 @@ public class Main extends JavaPlugin {
         DBQueries.loadAllFarmers();
         Integrations.registerIntegrations();
         sendEnableMessage();
-        FarmerModule.registerModules();
         new ListenerRegister();
         loadMetrics();
+        registerModules();
     }
 
     /**
@@ -182,5 +182,14 @@ public class Main extends JavaPlugin {
                 return data[data.length-1];
             }
         }));
+    }
+
+    /**
+     * Register modules to this plugin
+     */
+    private void registerModules() {
+        FarmerAPI.getModuleManager().registerModule(new Voucher());
+        FarmerAPI.getModuleManager().registerModule(new Production());
+        FarmerAPI.getModuleManager().loadModules();
     }
 }

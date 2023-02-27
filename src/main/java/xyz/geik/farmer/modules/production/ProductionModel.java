@@ -78,7 +78,7 @@ public class ProductionModel {
             return null;
         else {
             // If it's calculating then it will be replaced with calculating
-            String calculating = Production.getInstance().getConfig().getText("calculatingGeneration");
+            String calculating = Production.getInstance().getLang().getText("calculatingGeneration");
             String min = productionModel.isCalculating() ? calculating : coolFormat(productionModel.getMin());
             String hour = productionModel.isCalculating() ? calculating : coolFormat(productionModel.getHour());
             String day = productionModel.isCalculating() ? calculating : coolFormat(productionModel.getDay());

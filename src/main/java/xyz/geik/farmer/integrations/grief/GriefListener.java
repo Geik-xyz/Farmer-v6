@@ -22,6 +22,6 @@ public class GriefListener implements Listener {
     @EventHandler
     public void claimDeleteEvent(ClaimDeletedEvent e) {
         String regionID = e.getClaim().getID().toString();
-        FarmerAPI.removeFarmer(regionID);
+        FarmerAPI.getFarmerManager().removeFarmer(regionID);
     }
 }

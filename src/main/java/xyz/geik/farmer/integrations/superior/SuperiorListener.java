@@ -25,7 +25,7 @@ public class SuperiorListener implements Listener {
      */
     @EventHandler
     public void disbandEvent(@NotNull IslandDisbandEvent e) {
-        FarmerAPI.removeFarmer(e.getIsland().getOwner().getUniqueId().toString());
+        FarmerAPI.getFarmerManager().removeFarmer(e.getIsland().getOwner().getUniqueId().toString());
     }
 
     /**

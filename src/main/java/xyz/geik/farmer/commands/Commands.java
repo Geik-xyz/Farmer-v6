@@ -176,7 +176,7 @@ public class Commands implements CommandExecutor {
             player.sendMessage(Main.getLangFile().getText("noRegion"));
 
         // Removing by #FarmerAPI and sending message by result
-        boolean result = FarmerAPI.removeFarmer(regionID);
+        boolean result = FarmerAPI.getFarmerManager().removeFarmer(regionID);
         if (result)
             player.sendMessage(Main.getLangFile().getText("removedFarmer"));
         return result;

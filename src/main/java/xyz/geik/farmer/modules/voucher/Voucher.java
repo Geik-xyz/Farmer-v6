@@ -1,8 +1,8 @@
 package xyz.geik.farmer.modules.voucher;
 
-import de.leonhard.storage.Config;
 import lombok.Getter;
-import xyz.geik.farmer.helpers.StorageAPI;
+import xyz.geik.farmer.Main;
+import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.modules.FarmerModule;
 
 /**
@@ -11,9 +11,6 @@ import xyz.geik.farmer.modules.FarmerModule;
 @Getter
 public class Voucher extends FarmerModule {
 
-    // Config file of the module
-    private Config config;
-
     // Instance of the module
     private static Voucher instance;
 
@@ -21,20 +18,31 @@ public class Voucher extends FarmerModule {
         return instance;
     }
 
-    public Voucher() {
-        super("Voucher", true, "Voucher module", "Voucher");
-        instance = this;
-        config = new StorageAPI().initConfig("modules/voucher/config");
-        if (!getConfig().getBoolean("settings.feature")) {
-            this.isEnabled = false;
-        }
-    }
-
     @Override
-    public void onEnable() {}
+    public void onLoad() {
+        this.setName("Voucher");
+        this.setEnabled(true);
+        this.setDescription("Voucher module");
+        this.setModulePrefix("Voucher");
+        instance = this;
+        this.setConfig(Main.getInstance());
+        this.setLang(Settings.lang, Main.getInstance());
+        if (!getConfig().getBoolean("settings.feature"))
+            this.setEnabled(false);
+    }
 
     @Override
     public void registerListeners() {
         registerListener(new VoucherEvent());
+    }
+
+    @Override
+    public void onDisable() {
+
+    }
+
+    @Override
+    public void onEnable() {
+
     }
 }

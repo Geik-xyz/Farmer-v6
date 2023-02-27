@@ -32,15 +32,15 @@ public class VoucherEvent implements Listener {
             return;
         event.setCancelled(true);
         if (!Farmer.farmerWorldCheck(event.getPlayer())) {
-            player.sendMessage(Voucher.getInstance().getInstance().getConfig().getText("wrongWorld"));
+            player.sendMessage(Voucher.getInstance().getInstance().getLang().getText("wrongWorld"));
             return;
         }
         if (!Main.getIntegration().getOwnerUUID(player.getLocation()).equals(player.getUniqueId())) {
-            player.sendMessage(Voucher.getInstance().getConfig().getText("notOwner"));
+            player.sendMessage(Main.getLangFile().getText("notOwner"));
             return;
         }
         if (Main.getFarmers().containsKey(Main.getIntegration().getRegionID(player.getLocation()))) {
-            player.sendMessage(Voucher.getInstance().getConfig().getText("alreadyHaveFarmer"));
+            player.sendMessage(Voucher.getInstance().getLang().getText("alreadyHaveFarmer"));
             return;
         }
         // Creates new farmer

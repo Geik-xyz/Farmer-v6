@@ -1,0 +1,7 @@
+voucherDisabled: "&6Çiftçi &8▸ &cBilet sistemi devre dışı."
+alreadyHaveFarmer: "&6Çiftçi &8▸ &cZaten bir çiftçin var."
+playerNotFound: "&6Çiftçi &8▸ &cOyuncu bulunamadı."
+notNumber: "&6Çiftçi &8▸ &cLütfen bir sayı girin."
+enterValidLevel: "&6Çiftçi &8▸ &cLütfen geçerli bir seviye girin."
+voucherReceived: "&6Çiftçi &8▸ &a%level% seviye çiftçi bileti aldın."
+voucherGiven: "&6Çiftçi &8▸ &a%level% seviye çiftçi bileti %player% oyuncusuna verildi."

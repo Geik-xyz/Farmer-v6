@@ -21,7 +21,7 @@ public class BentoListener implements Listener {
     @EventHandler
     public void deleteEvent(@NotNull IslandDeleteEvent e) {
         String islandID = e.getIsland().getUniqueId().toString();
-        FarmerAPI.removeFarmer(islandID);
+        FarmerAPI.getFarmerManager().removeFarmer(islandID);
     }
 
     /**
@@ -30,7 +30,7 @@ public class BentoListener implements Listener {
      */
     @EventHandler
     public void ownerChangeEvent(@NotNull TeamSetownerEvent e) {
-        FarmerAPI.changeOwner(e.getOldOwner(), e.getNewOwner(), e.getIsland().getUniqueId().toString());
+        FarmerAPI.getFarmerManager().changeOwner(e.getOldOwner(), e.getNewOwner(), e.getIsland().getUniqueId().toString());
     }
 
     /**

@@ -1,9 +1,8 @@
 package xyz.geik.farmer.modules.production;
 
-import de.leonhard.storage.Config;
 import lombok.Getter;
+import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.Settings;
-import xyz.geik.farmer.helpers.StorageAPI;
 import xyz.geik.farmer.modules.FarmerModule;
 
 /**
@@ -11,9 +10,6 @@ import xyz.geik.farmer.modules.FarmerModule;
  */
 @Getter
 public class Production extends FarmerModule {
-
-    // Config file of module
-    private Config config;
 
     // Instance of module
     private static Production instance;
@@ -29,24 +25,34 @@ public class Production extends FarmerModule {
         return instance;
     }
 
-    public Production() {
-        super("Production", true, "Average Production Calculating module", "Production Calculating");
+    @Override
+    public void onLoad() {
+        this.setName("Production");
+        this.setEnabled(true);
+        this.setDescription("Average Production Calculating module");
+        this.setModulePrefix("Production Calculating");
         instance = this;
-        config = new StorageAPI().initConfig("modules/production/config");
+        this.setConfig(Main.getInstance());
+        this.setLang(Settings.lang, Main.getInstance());
         if (!getConfig().getBoolean("settings.feature") || !Settings.hasAnyProductionCalculating)
-            this.isEnabled = false;
+            this.setEnabled(false);
+    }
+
+    @Override
+    public void onEnable() {
+        numberFormat[0] = getLang().getText("numberFormat.thousand");
+        numberFormat[1] = getLang().getText("numberFormat.million");
+        numberFormat[2] = getLang().getText("numberFormat.billion");
+        numberFormat[3] = getLang().getText("numberFormat.trillion");
+    }
+
+    @Override
+    public void onDisable() {
+
     }
 
     @Override
     public void registerListeners() {
         registerListener(new ProductionCalculateEvent());
-    }
-
-    @Override
-    public void onEnable() {
-        numberFormat[0] = getConfig().getText("numberFormat.thousand");
-        numberFormat[1] = getConfig().getText("numberFormat.million");
-        numberFormat[2] = getConfig().getText("numberFormat.billion");
-        numberFormat[3] = getConfig().getText("numberFormat.trillion");
     }
 }

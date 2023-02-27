@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.model.FarmerLevel;
 
 /**
@@ -30,29 +31,29 @@ public class VoucherCommand {
             sender.sendMessage(Main.getLangFile().getText("noPerm"));
             return false;
         }
-        if (!Main.getInstance().getModuleManager().getByName("Voucher").isEnabled()) {
-            sender.sendMessage(Voucher.getInstance().getConfig().getText("voucherDisabled"));
+        if (!FarmerAPI.getModuleManager().getByName("Voucher").isEnabled()) {
+            sender.sendMessage(Voucher.getInstance().getLang().getText("voucherDisabled"));
             return false;
         }
         if (Bukkit.getPlayer(args[1]) == null || !Bukkit.getPlayer(args[1]).isOnline()) {
-            sender.sendMessage(Voucher.getInstance().getConfig().getText("playerNotFound"));
+            sender.sendMessage(Voucher.getInstance().getLang().getText("playerNotFound"));
             return false;
         }
         if (!isNumeric(args[2])) {
-            sender.sendMessage(Voucher.getInstance().getConfig().getText("notNumber"));
+            sender.sendMessage(Voucher.getInstance().getLang().getText("notNumber"));
             return false;
         }
         if (Integer.parseInt(args[2]) > FarmerLevel.getAllLevels().size()) {
-            sender.sendMessage(Voucher.getInstance().getConfig().getText("enterValidLevel"));
+            sender.sendMessage(Voucher.getInstance().getLang().getText("enterValidLevel"));
             return false;
         }
         int level = Integer.parseInt(args[2]);
         Player player = Bukkit.getPlayer(args[1]);
         player.getInventory().addItem(VoucherItem.getVoucherItem(level));
-        sender.sendMessage(Voucher.getInstance().getConfig().getText("voucherGiven")
+        sender.sendMessage(Voucher.getInstance().getLang().getText("voucherGiven")
                 .replace("%player%", args[1])
                 .replace("%level%", args[2]));
-        player.sendMessage(Voucher.getInstance().getConfig().getText("voucherReceived")
+        player.sendMessage(Voucher.getInstance().getLang().getText("voucherReceived")
                 .replace("%level%", args[2]));
         return true;
     }

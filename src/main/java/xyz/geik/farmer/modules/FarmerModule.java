@@ -1,12 +1,14 @@
 package xyz.geik.farmer.modules;
 
+import de.leonhard.storage.Config;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.modules.production.Production;
-import xyz.geik.farmer.modules.voucher.Voucher;
+import xyz.geik.farmer.api.FarmerAPI;
 
 /**
  * Module system of Farmer
@@ -19,32 +21,41 @@ import xyz.geik.farmer.modules.voucher.Voucher;
 @Setter
 public abstract class FarmerModule {
 
-    // Module name
-    protected String name;
+    /**
+     * Name of module
+     */
+    private String name = "FarmerModule";
 
-    // Module enabled or not
-    protected boolean isEnabled;
+    /**
+     * Situation of module
+     */
+    private boolean isEnabled = true;
 
-    // Module description
-    protected String description;
+    /**
+     * Module description
+     */
+    private String description = "FarmerModule description";
 
-    // Module prefix
-    protected String modulePrefix;
+    /**
+     * Module prefix used in console messages
+     */
+    private String modulePrefix = "FarmerModule";
+
+    /**
+     * Config of module
+     */
+    private Config config;
+
+    /**
+     * Lang of module
+     */
+    private Config lang;
 
     /**
      * FarmerModule constructor
      *
-     * @param name
-     * @param isEnabled
-     * @param description
-     * @param modulePrefix
      */
-    public FarmerModule(String name, boolean isEnabled, String description, String modulePrefix) {
-        this.name = name;
-        this.isEnabled = isEnabled;
-        this.description = description;
-        this.modulePrefix = modulePrefix;
-    }
+    public FarmerModule() {}
 
     /**
      * Register listeners to this plugin
@@ -57,6 +68,45 @@ public abstract class FarmerModule {
     public abstract void onEnable();
 
     /**
+     * When load the module this method will be called
+     */
+    public abstract void onLoad();
+
+    /**
+     * When disable the module this method will be called
+     */
+    public abstract void onDisable();
+
+    /**
+     * Set default config of plugin
+     * You may use it in your onLoad
+     * or onEnable method of your module
+     *
+     * @param plugin
+     */
+    public void setConfig(JavaPlugin plugin) {
+        config = FarmerAPI.getStorageManager()
+                .initConfig("modules/" + this.getName().toLowerCase() + "/config", plugin);
+    }
+
+    /**
+     * Set default config of plugin
+     * You may use it in your onLoad
+     * or onEnable method of your module
+     *
+     * <p><b>IMPORTANT</b> file must be in
+     * resources/lang folder, and it
+     * must be named of lang as farmer.</p>
+     *
+     * @param langName
+     * @param plugin
+     */
+    public void setLang(String langName, JavaPlugin plugin) {
+        lang = FarmerAPI.getStorageManager()
+                .initConfig("modules/" + this.getName().toLowerCase() + "/lang/" + langName, plugin);
+    }
+
+    /**
      * Register listener to this plugin
      *
      * @param listener
@@ -65,16 +115,6 @@ public abstract class FarmerModule {
         PluginManager pm = Main.getInstance().getServer().getPluginManager();
         Main.getInstance().getListenerList().put(this, listener);
         pm.registerEvents(listener, Main.getInstance());
-        System.out.println(" [LISTENERS] " + listener.getClass().getSimpleName() + " was registered");
-    }
-
-    /**
-     * Register modules to this plugin
-     */
-    public static void registerModules() {
-        ModuleManager moduleManager = Main.getInstance().getModuleManager();
-        moduleManager.registerModule(new Voucher());
-        moduleManager.registerModule(new Production());
-        moduleManager.loadModules();
+        Bukkit.getConsoleSender().sendMessage(Main.color("&6[FarmerManager] &a" + listener.getClass().getSimpleName() + " was registered"));
     }
 }
