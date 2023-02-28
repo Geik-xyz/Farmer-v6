@@ -58,11 +58,6 @@ public abstract class FarmerModule {
     public FarmerModule() {}
 
     /**
-     * Register listeners to this plugin
-     */
-    public abstract void registerListeners();
-
-    /**
      * When enable the module this method will be called
      */
     public abstract void onEnable();

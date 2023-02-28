@@ -1,0 +1,7 @@
+voucherDisabled: "&6Landwirt &8▸ &cGutscheinfunktion deaktiviert."
+alreadyHaveFarmer: "&6Landwirt &8▸ &cDu hast bereits einen Landwirt."
+playerNotFound: "&6Landwirt &8▸ &cSpieler nicht gefunden."
+notNumber: "&6Landwirt &8▸ &cBitte gib eine Zahl ein."
+enterValidLevel: "&6Landwirt &8▸ &cBitte gib eine gültige Stufe ein."
+voucherReceived: "&6Landwirt &8▸ &aDu hast einen %level% Stufe Landwirt Gutschein erhalten."
+voucherGiven: "&6Landwirt &8▸ &aDu hast einen %level% Stufe Landwirt Gutschein an %player% gegeben."

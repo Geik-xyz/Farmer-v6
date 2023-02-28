@@ -40,6 +40,7 @@ public class Production extends FarmerModule {
 
     @Override
     public void onEnable() {
+        registerListener(new ProductionCalculateEvent());
         numberFormat[0] = getLang().getText("numberFormat.thousand");
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");
@@ -49,10 +50,5 @@ public class Production extends FarmerModule {
     @Override
     public void onDisable() {
 
-    }
-
-    @Override
-    public void registerListeners() {
-        registerListener(new ProductionCalculateEvent());
     }
 }

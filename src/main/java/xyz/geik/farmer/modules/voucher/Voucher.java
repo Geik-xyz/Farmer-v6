@@ -21,28 +21,20 @@ public class Voucher extends FarmerModule {
     @Override
     public void onLoad() {
         this.setName("Voucher");
-        this.setEnabled(true);
         this.setDescription("Voucher module");
         this.setModulePrefix("Voucher");
         instance = this;
         this.setConfig(Main.getInstance());
-        this.setLang(Settings.lang, Main.getInstance());
         if (!getConfig().getBoolean("settings.feature"))
             this.setEnabled(false);
     }
 
     @Override
-    public void registerListeners() {
-        registerListener(new VoucherEvent());
-    }
-
-    @Override
-    public void onDisable() {
-
-    }
+    public void onDisable() {}
 
     @Override
     public void onEnable() {
-
+        this.setLang(Settings.lang, Main.getInstance());
+        registerListener(new VoucherEvent());
     }
 }

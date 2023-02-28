@@ -128,7 +128,6 @@ public class ModuleManager {
         else {
             Bukkit.getConsoleSender().sendMessage(Main.color("&2[FarmerModules] &a" + farmerModule.getName() + " enabled"));
             farmerModule.onEnable();
-            farmerModule.registerListeners();
         }
     }
 }
