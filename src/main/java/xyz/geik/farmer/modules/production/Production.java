@@ -1,9 +1,15 @@
 package xyz.geik.farmer.modules.production;
 
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.helpers.Settings;
+import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.modules.FarmerModule;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Production module main class
@@ -16,6 +22,8 @@ public class Production extends FarmerModule {
 
     private String[] numberFormat = new String[]{"k", "m", "b", "t"};
 
+    private List<String> productionItems = new ArrayList<>();
+
     /**
      * Get instance of module
      *
@@ -27,20 +35,21 @@ public class Production extends FarmerModule {
 
     @Override
     public void onLoad() {
-        this.setName("Production");
-        this.setEnabled(true);
-        this.setDescription("Average Production Calculating module");
-        this.setModulePrefix("Production Calculating");
+        setName("Production");
+        setEnabled(true);
+        setDescription("Average Production Calculating module");
+        setModulePrefix("Production Calculating");
         instance = this;
-        this.setConfig(Main.getInstance());
-        this.setLang(Settings.lang, Main.getInstance());
-        if (!getConfig().getBoolean("settings.feature") || !Settings.hasAnyProductionCalculating)
-            this.setEnabled(false);
+        setConfig(Main.getInstance());
+        getProductionItems().addAll(getConfig().getStringList("items"));
+        if (!getConfig().getBoolean("settings.feature"))
+            setEnabled(false);
     }
 
     @Override
     public void onEnable() {
         registerListener(new ProductionCalculateEvent());
+        setLang(Settings.lang, Main.getInstance());
         numberFormat[0] = getLang().getText("numberFormat.thousand");
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");
@@ -48,7 +57,13 @@ public class Production extends FarmerModule {
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable() {}
 
+    public static boolean isCalculateItem(@NotNull FarmerItem item) {
+        boolean status = false;
+        if (Production.getInstance().getProductionItems().contains(item.getName()) || getInstance().getProductionItems().isEmpty())
+            status = true;
+
+        return status;
     }
 }

@@ -18,7 +18,9 @@ public class SpawnerKiller extends FarmerModule {
     private List<String> whitelist = new ArrayList<>();
     private List<String> blacklist = new ArrayList<>();
 
-    private boolean requireFarmer = false, cookFoods = false, removeMob = true;
+    private boolean requireFarmer = false, cookFoods = false, removeMob = true, defaultStatus = false;
+
+    private String customPerm = "farmer.spawnerkiller";
 
     private static SpawnerKiller instance;
 
@@ -44,6 +46,8 @@ public class SpawnerKiller extends FarmerModule {
 
     @Override
     public void onEnable() {
+        defaultStatus = getConfig().getBoolean("settings.defaultStatus");
+        customPerm = getConfig().getString("settings.customPerm");
         removeMob = getConfig().getBoolean("settings.removeMob");
         cookFoods = getConfig().getBoolean("settings.cookFoods");
         requireFarmer = getConfig().getBoolean("settings.requireFarmer");

@@ -122,7 +122,7 @@ manageGui:
   # l -> level up icon
   # u -> user management icon
   interface:
-    - "         "
+    - "    m    "
     - " t  l  u "
     - "         "
   guiName: "&8Manager Panel"
@@ -170,6 +170,14 @@ manageGui:
     lore:
       - '&7You can add/remove/modify'
       - '&7users in here.'
+      - ''
+      - '&aClick for open.'
+  modules:
+    skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTZlZmM4NmRiOTIyMTdjNWEzODk2NzJiMjgyNDI3NWU3YTIwNmQ3ZWMwZjJjN2U0Y2E0ODNjNmUxN2M5ZjZkNSJ9fX0="
+    name: "&eModules"
+    lore:
+      - '&7You can modify farmer'
+      - '&7modules in here.'
       - ''
       - '&aClick for open.'
 

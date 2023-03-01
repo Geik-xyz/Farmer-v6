@@ -180,8 +180,10 @@ public class DBQueries {
                 FarmerAPI.getFarmerManager().getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
 
                 // Calls event of farmer creation
-                FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
-                Bukkit.getPluginManager().callEvent(boughtEvent);
+                Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                    FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
+                    Bukkit.getPluginManager().callEvent(boughtEvent);
+                });
             } catch (Exception e) { e.printStackTrace(); }
         });
     }

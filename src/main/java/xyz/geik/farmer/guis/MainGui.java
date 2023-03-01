@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import de.themoep.inventorygui.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -78,31 +79,9 @@ public class MainGui {
                                 FarmerItem slotItem = farmer.getInv().getStockedItem(material);
                                 // Sells all stock of an item
                                 if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
-                                    if (slotItem.getAmount() == 0)
-                                        return true;
-                                    // Calculating tax, profit and selling price
-                                    double sellPrice = slotItem.getPrice() * slotItem.getAmount();
-                                    double profit = (farmer.getLevel().getTax() > 0)
-                                            ? sellPrice-(sellPrice*farmer.getLevel().getTax()/100)
-                                            : sellPrice;
-                                    double tax = (sellPrice == profit) ? 0 : sellPrice*farmer.getLevel().getTax()/100;
-                                    Main.getEcon().depositPlayer(player, profit);
-                                    slotItem.setAmount(0);
-
-                                    // If configuration has deposit tax to
-                                    // defined player then it will deposit it
-                                    // to player.
-                                    if (Settings.depositTax)
-                                        Main.getEcon()
-                                                .depositPlayer(Settings.taxUser, tax);
-
                                     // Calls FarmerItemSellEvent
-                                    FarmerItemSellEvent itemSellEvent = new FarmerItemSellEvent(farmer, XMaterial.matchXMaterial(click.getEvent().getCurrentItem()));
+                                    FarmerItemSellEvent itemSellEvent = new FarmerItemSellEvent(farmer, slotItem, player);
                                     Bukkit.getPluginManager().callEvent(itemSellEvent);
-
-                                    player.sendMessage(Main.getLangFile().getText("sellComplete")
-                                        .replace("{money}", roundDouble(profit))
-                                        .replace("{tax}", roundDouble(tax)));
                                 }
                                 // Withdraw item
                                 else {
@@ -175,21 +154,5 @@ public class MainGui {
                 continue;
         }
         return count;
-    }
-
-    /**
-     * Rounds double for display good.
-     * It shown as #.## but if this isn't exist
-     * It shown as #.######## something like that.
-     *
-     * @param value
-     * @return
-     */
-    private static @NotNull String roundDouble(double value) {
-        long factor = (long) Math.pow(10, 2);
-        value = value * factor;
-        long tmp = Math.round(value);
-        double result = (double) tmp / factor;
-        return String.valueOf( result );
     }
 }

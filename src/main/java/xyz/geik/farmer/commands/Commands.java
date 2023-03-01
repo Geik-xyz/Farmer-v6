@@ -96,10 +96,6 @@ public class Commands implements CommandExecutor {
         // Remove command caller
         else if (arg.equalsIgnoreCase("remove"))
             removeFarmerCommand(player);
-        // TODO REMOVE THIS
-        else if (arg.equalsIgnoreCase("testmodule")) {
-            ModuleGui.showGui(player, FarmerAPI.getFarmerManager().getFarmers().get(Main.getIntegration().getRegionID(player.getLocation())));
-        }
         return true;
     }
 

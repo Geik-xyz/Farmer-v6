@@ -21,6 +21,34 @@ import xyz.geik.farmer.model.inventory.FarmerInv;
  */
 public class ItemEvent implements Listener {
 
+    @EventHandler
+    public void farmerCollectItemEvent(@NotNull FarmerItemCollectEvent event) {
+        if (event.isCancelled())
+            return;
+        Farmer farmer = event.getFarmer();
+        ItemStack item = event.getItem();
+        long left = -1;
+        // Summing item amount to the farmer if stock is not full
+        // And catch the left amount
+        left = farmer.getInv().sumItemAmount(XMaterial.matchXMaterial(item), item.getAmount());
+        // If left amount is not 0 then it means stock is full
+        if (left != 0) {
+            // Calls FarmerStorageFullEvent
+            FarmerStorageFullEvent storageFullEvent = new FarmerStorageFullEvent(farmer, item, (int) left, event.getItemSpawnEvent());
+            Bukkit.getPluginManager().callEvent(storageFullEvent);
+            // Checks if FarmerStorageFullEvent is not cancelled
+            // And if drop item is false then it will force sum the item
+            // To the stock
+            if (!storageFullEvent.isCancelled() && !storageFullEvent.isDropItem()) {
+                farmer.getInv().forceSumItem(XMaterial.matchXMaterial(item), left);
+                return;
+            }
+            // Execute only on drop item is true
+            event.getItem().setAmount((int) left);
+        }
+        else event.getItemSpawnEvent().setCancelled(true);
+    }
+
     /**
      * Has Item in farmer
      * Item don't have meta
@@ -60,32 +88,8 @@ public class ItemEvent implements Listener {
         if (farmer.getState() == 0)
             return;
 
-        long left = -1;
-
         // Calls FarmerItemCollectEvent
-        FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, item, item.getAmount());
+        FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, item, item.getAmount(), e);
         Bukkit.getPluginManager().callEvent(collectEvent);
-        // Checks if event is cancelled
-        if (!collectEvent.isCancelled()) {
-            // Summing item amount to the farmer if stock is not full
-            // And catch the left amount
-            left = farmer.getInv().sumItemAmount(XMaterial.matchXMaterial(item), item.getAmount());
-            // If left amount is not 0 then it means stock is full
-            if (left != 0) {
-                // Calls FarmerStorageFullEvent
-                FarmerStorageFullEvent storageFullEvent = new FarmerStorageFullEvent(farmer, item, (int) left);
-                Bukkit.getPluginManager().callEvent(storageFullEvent);
-                // Checks if FarmerStorageFullEvent is not cancelled
-                // And if drop item is false then it will force sum the item
-                // To the stock
-                if (!storageFullEvent.isCancelled() && !storageFullEvent.isDropItem()) {
-                    farmer.getInv().forceSumItem(XMaterial.matchXMaterial(item), left);
-                    return;
-                }
-                // Execute only on drop item is true
-                e.getEntity().getItemStack().setAmount((int) left);
-            }
-            else e.setCancelled(true);
-        }
     }
 }

@@ -2,7 +2,6 @@ package xyz.geik.farmer.modules.spawnerkiller;
 
 import de.themoep.inventorygui.DynamicGuiElement;
 import de.themoep.inventorygui.StaticGuiElement;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -36,7 +35,10 @@ public class SpawnerKillerGuiCreateEvent implements Listener {
                         1,
                         // Event written bottom
                         click -> {
-                            // TODO Perm check
+                            // If player don't have permission do nothing
+                            if (!e.getPlayer().hasPermission(SpawnerKiller.getInstance().getCustomPerm()))
+                                return true;
+                            // Change attribute
                             FarmerAPI.getModuleManager().changeAttribute("spawnerkiller", e.getFarmer());
                             e.getGui().draw();
                             return true;

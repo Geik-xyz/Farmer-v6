@@ -1,5 +1,7 @@
 package xyz.geik.farmer.api.managers;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -10,6 +12,7 @@ import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.exceptions.ModuleExistException;
 import xyz.geik.farmer.modules.exceptions.ReloadModuleException;
+import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,15 +27,14 @@ import java.util.List;
  *
  * @author Geyik
  */
+@Getter
+@Setter
 public class ModuleManager {
 
     // Module list of Farmer
-    private List<FarmerModule> farmerModuleList = new ArrayList<>();
+    private List<FarmerModule> moduleList = new ArrayList<>();
 
-    // Getter method of module list
-    public List<FarmerModule> getModuleList() {
-        return farmerModuleList;
-    }
+    private boolean isModulesUseGui = false;
 
     /**
      * Register module registering only adds queue to load.
@@ -43,7 +45,7 @@ public class ModuleManager {
      */
     public void registerModule(@NotNull FarmerModule farmerModule) {
         farmerModule.onLoad();
-        farmerModuleList.add(farmerModule);
+        getModuleList().add(farmerModule);
     }
 
     /**
@@ -68,6 +70,7 @@ public class ModuleManager {
         farmerModule.setEnabled(false);
         close(farmerModule);
         getModuleList().remove(farmerModule);
+        calculateModulesUseGui();
     }
 
     /**
@@ -135,7 +138,10 @@ public class ModuleManager {
         else {
             Bukkit.getConsoleSender().sendMessage(Main.color("&2[FarmerModules] &a" + farmerModule.getName() + " enabled"));
             farmerModule.onEnable();
+            if (farmerModule.isHasGui() && !isModulesUseGui)
+                isModulesUseGui = true;
         }
+
     }
 
     /**
@@ -147,8 +153,8 @@ public class ModuleManager {
      */
     public boolean getAttributeStatus(String attribute, @NotNull Farmer farmer) {
         if (farmer.getModuleAttributes().containsKey(attribute))
-            return farmer.getModuleAttributes().getOrDefault(attribute, false);
-        else return false;
+            return farmer.getModuleAttributes().get(attribute);
+        else return SpawnerKiller.getInstance().isDefaultStatus();
     }
 
     /**
@@ -161,11 +167,12 @@ public class ModuleManager {
     public boolean changeAttribute(String attribute, @NotNull Farmer farmer) {
         if (farmer.getModuleAttributes().containsKey(attribute)) {
             farmer.getModuleAttributes().remove(attribute);
-            return false;
+            return SpawnerKiller.getInstance().isDefaultStatus();
         }
         else {
-            farmer.getModuleAttributes().put(attribute, true);
-            return true;
+            boolean status = !SpawnerKiller.getInstance().isDefaultStatus();
+            farmer.getModuleAttributes().put(attribute, status);
+            return status;
         }
     }
 
@@ -214,9 +221,12 @@ public class ModuleManager {
             return null;
         StringBuilder builder = new StringBuilder();
         for (String key : attributes.keySet())
-            if (attributes.get(key))
-                builder.append(key).append(":").append(attributes.get(key)).append(";");
-        return builder.toString();
+            builder.append(key).append(":").append(attributes.get(key)).append(";");
+
+        if (builder.toString().isEmpty())
+            return null;
+        else
+            return builder.toString();
     }
 
     /**
@@ -233,5 +243,14 @@ public class ModuleManager {
             if (!attribute.isEmpty())
                 map.put(attribute.split(":")[0], Boolean.parseBoolean(attribute.split(":")[1]));
         return map;
+    }
+
+    /**
+     * Checks if any module uses GUI
+     *
+     * @return
+     */
+    public static void calculateModulesUseGui() {
+        FarmerAPI.getModuleManager().setModulesUseGui(FarmerAPI.getModuleManager().getModuleList().stream().anyMatch(FarmerModule::isHasGui));
     }
 }

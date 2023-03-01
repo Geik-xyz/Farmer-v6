@@ -30,12 +30,9 @@ public class ItemsLoader {
                 return;
             }
             double price = config.getDouble("Items." + key + ".price");
-            boolean hasProduction = config.getOrDefault("Items." + key + ".calculate", false);
-            FarmerItem defaultItem = new FarmerItem(key, price, 0, hasProduction);
+            FarmerItem defaultItem = new FarmerItem(key, price, 0);
             FarmerInv.defaultItems.add(defaultItem);
         });
-        // Enables production calculation if any item has it
-        Settings.hasAnyProductionCalculating = FarmerInv.defaultItems.stream().anyMatch(FarmerItem::hasProductCalculating);
     }
 
 }

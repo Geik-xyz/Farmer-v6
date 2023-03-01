@@ -112,13 +112,4 @@ public abstract class FarmerModule {
         pm.registerEvents(listener, Main.getInstance());
         Bukkit.getConsoleSender().sendMessage(Main.color("&6[FarmerManager] &a" + listener.getClass().getSimpleName() + " was registered"));
     }
-
-    /**
-     * Checks if any module uses GUI
-     *
-     * @return
-     */
-    public static boolean isModulesUsesGui() {
-        return FarmerAPI.getModuleManager().getModuleList().stream().anyMatch(FarmerModule::isHasGui);
-    }
 }

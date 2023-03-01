@@ -3,3 +3,9 @@ settings:
   # average production on farmer items
   # set it to false
   feature: true
+  # if you want to calculate average production
+  # write the items you want to calculate
+  # write the items in the items.yml file with same name
+  # you can also remove this section, and it will calculate all items in the items.yml file
+  items:
+    - CACTUS

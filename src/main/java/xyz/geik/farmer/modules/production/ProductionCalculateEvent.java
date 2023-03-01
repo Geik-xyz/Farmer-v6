@@ -33,7 +33,7 @@ public class ProductionCalculateEvent implements Listener {
                 && event.getFarmer().getInv().getProductionModels().isEmpty()) {
             // Cache creation and calculation
             List<ProductionModel> productionModels = new ArrayList<>();
-            event.getFarmer().getInv().getItems().stream().filter(FarmerItem::isProductionCalculation).forEach(item -> {
+            event.getFarmer().getInv().getItems().stream().filter(Production::isCalculateItem).forEach(item -> {
                 // Adds cache
                 ProductionModel productionModel = new ProductionModel(event.getFarmer(), item.getMaterial(), event.getGui());
                 productionModels.add(productionModel);

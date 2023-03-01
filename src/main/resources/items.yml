@@ -1,4 +1,3 @@
-# write calculateProduction: true if you want to calculate the production of the item
 Items:
   CACTUS:
     price: 0.1

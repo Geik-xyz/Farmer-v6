@@ -5,6 +5,7 @@ import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
 import org.bukkit.entity.Player;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
@@ -88,6 +89,16 @@ public class ManageGui {
                 });
             })
         );
+        // Module icon
+        if (FarmerAPI.getModuleManager().isModulesUseGui())
+            gui.addElement(new StaticGuiElement('m',
+                    GuiHelper.getItem("manageGui.modules"),
+                    1,
+                    click -> {
+                        ModuleGui.showGui(player, farmer);
+                        return true;
+                    })
+            );
         gui.show(player);
     }
 

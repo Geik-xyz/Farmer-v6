@@ -32,9 +32,6 @@ public class FarmerItem {
     // XMaterial of item Calculated in constructor
     private XMaterial material;
 
-    // If item is calculating average production or not
-    private boolean productionCalculation;
-
     /**
      * Constructor of FarmerItem
      *
@@ -42,12 +39,11 @@ public class FarmerItem {
      * @param price
      * @param amount
      */
-    public FarmerItem(String name, double price, long amount, boolean productionCalculation) {
+    public FarmerItem(String name, double price, long amount) {
         this.name = name;
         this.price = price;
         this.amount = amount;
         this.material = XMaterial.matchXMaterial(name).get();
-        this.productionCalculation = productionCalculation;
     }
 
     // Summing x to amount
@@ -103,15 +99,5 @@ public class FarmerItem {
             return farmerItem;
         }).collect(Collectors.toList());
         return result;
-    }
-
-    /**
-     * Check if item is calculating average production
-     *
-     * @param item
-     * @return
-     */
-    public static boolean hasProductCalculating(@NotNull FarmerItem item) {
-        return item.isProductionCalculation();
     }
 }

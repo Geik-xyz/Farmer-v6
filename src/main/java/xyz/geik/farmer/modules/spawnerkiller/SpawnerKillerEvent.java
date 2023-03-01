@@ -26,7 +26,7 @@ public class SpawnerKillerEvent implements Listener {
      * @param e
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onCreatureEvent(CreatureSpawnEvent e) {
+    public void onCreatureEvent(@NotNull CreatureSpawnEvent e) {
         Entity en = e.getEntity();
         if (en instanceof Damageable) {
 
