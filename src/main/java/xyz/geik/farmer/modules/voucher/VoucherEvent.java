@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.guis.MainGui;
 import xyz.geik.farmer.model.Farmer;
 
@@ -39,7 +40,7 @@ public class VoucherEvent implements Listener {
             player.sendMessage(Main.getLangFile().getText("notOwner"));
             return;
         }
-        if (Main.getFarmers().containsKey(Main.getIntegration().getRegionID(player.getLocation()))) {
+        if (FarmerAPI.getFarmerManager().getFarmers().containsKey(Main.getIntegration().getRegionID(player.getLocation()))) {
             player.sendMessage(Voucher.getInstance().getLang().getText("alreadyHaveFarmer"));
             return;
         }

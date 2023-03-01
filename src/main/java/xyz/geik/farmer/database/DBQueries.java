@@ -1,7 +1,9 @@
 package xyz.geik.farmer.database;
 
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerBoughtEvent;
 import xyz.geik.farmer.api.handlers.FarmerRemoveEvent;
 import xyz.geik.farmer.model.Farmer;
@@ -10,12 +12,10 @@ import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
+import xyz.geik.farmer.modules.FarmerModule;
 
 import java.sql.*;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Database Queries for
@@ -49,6 +49,7 @@ public class DBQueries {
                     + " `regionID`          varchar(30) NOT NULL UNIQUE,\n"
                     + " `state`          smallint(1) DEFAULT 1,\n"
                     + " `items`          text DEFAULT NULL,\n"
+                    + " `attributes`          text DEFAULT NULL,\n"
                     + " `level`          int DEFAULT 0);");
             // Adding batch of table creation to the statement
             statement.addBatch("CREATE TABLE IF NOT EXISTS `FarmerUsers`\n" + "(\n"
@@ -69,9 +70,10 @@ public class DBQueries {
         // Connection
         try (Connection con = DBConnection.connect()) {
             // foreach for all farmers
-            for (Farmer farmer : Main.getFarmers().values()) {
+            for (Farmer farmer : FarmerAPI.getFarmerManager().getFarmers().values()) {
                 // quick save method written on farmer class
                 farmer.saveFarmer(con);
+                FarmerAPI.getModuleManager().databaseUpdateAttribute(con, farmer);
             }
         }
         catch (Exception e) { e.printStackTrace(); }
@@ -129,8 +131,9 @@ public class DBQueries {
                 }
                 // After all this task creating farmer model
                 Farmer farmer = new Farmer(farmerID, regionID, users, inv, level, state);
+                FarmerAPI.getModuleManager().databaseGetAttributes(con, farmer);
                 // Adding it to cache
-                Main.getFarmers().put(regionID, farmer);
+                FarmerAPI.getFarmerManager().getFarmers().put(regionID, farmer);
                 // Closing user resultset and statement
                 userSet.close();
                 userState.close();
@@ -171,10 +174,10 @@ public class DBQueries {
                 idGetter.setString(1, farmer.getRegionID());
                 int id = idGetter.executeQuery().getInt("id");
                 // Updated id
-                Main.getFarmers().get(farmer.getRegionID()).setId(id);
+                FarmerAPI.getFarmerManager().getFarmers().get(farmer.getRegionID()).setId(id);
                 idGetter.close();
 
-                Main.getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
+                FarmerAPI.getFarmerManager().getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
 
                 // Calls event of farmer creation
                 FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
@@ -208,11 +211,11 @@ public class DBQueries {
                 removeUsers.close();
 
                 // Removes from cached farmers
-                if (Main.getFarmers().containsKey(farmer.getRegionID()))
-                    Main.getFarmers().remove(farmer.getRegionID());
+                if (FarmerAPI.getFarmerManager().getFarmers().containsKey(farmer.getRegionID()))
+                    FarmerAPI.getFarmerManager().getFarmers().remove(farmer.getRegionID());
 
                 // Calls remove farmer event
-                FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(Main.getFarmers().get(farmer.getRegionID()));
+                FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(FarmerAPI.getFarmerManager().getFarmers().get(farmer.getRegionID()));
                 Bukkit.getPluginManager().callEvent(removeEvent);
             }
             catch (Exception e) { e.printStackTrace(); }

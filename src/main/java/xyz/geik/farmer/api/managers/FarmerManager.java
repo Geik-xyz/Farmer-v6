@@ -9,6 +9,7 @@ import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
 
+import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,6 +19,12 @@ import java.util.UUID;
 public class FarmerManager {
 
     /**
+     * Loaded farmer cache.
+     */
+    private HashMap<String, Farmer> farmers = new HashMap<>();
+    public HashMap<String, Farmer> getFarmers() { return farmers; }
+
+    /**
      * **DANGER**
      * Remove farmer from database and cache.
      * Cannot be UNDONE.
@@ -25,9 +32,9 @@ public class FarmerManager {
      * @param regionId
      * @return
      */
-    public static boolean removeFarmer(String regionId) {
-        if (FarmerAPI.getInstance().getFarmers().containsKey(regionId)) {
-            DBQueries.removeFarmer(Main.getFarmers().get(regionId));
+    public boolean removeFarmer(String regionId) {
+        if (FarmerAPI.getFarmerManager().getFarmers().containsKey(regionId)) {
+            DBQueries.removeFarmer(FarmerAPI.getFarmerManager().getFarmers().get(regionId));
             return true;
         }
         return false;
@@ -40,9 +47,9 @@ public class FarmerManager {
      * @param newOwner
      * @param regionId
      */
-    public static void changeOwner(UUID oldOwner, UUID newOwner, String regionId) {
-        if (FarmerAPI.getInstance().getFarmers().containsKey(regionId)) {
-            Farmer toUpdate = Main.getFarmers().get(regionId);
+    public void changeOwner(UUID oldOwner, UUID newOwner, String regionId) {
+        if (FarmerAPI.getFarmerManager().getFarmers().containsKey(regionId)) {
+            Farmer toUpdate = FarmerAPI.getFarmerManager().getFarmers().get(regionId);
             // Adds player if not exists on farmer users
             if (toUpdate.getUsers().stream().noneMatch(user -> user.getUuid().equals(newOwner)))
                 toUpdate.getUsers().add(new User(toUpdate.getId(), Bukkit.getOfflinePlayer(newOwner).getName(), newOwner, FarmerPerm.OWNER));
@@ -60,8 +67,8 @@ public class FarmerManager {
             // Update farmer regionId if same as ownerid
             if (regionId.equals(oldOwner.toString())) {
                 toUpdate.setRegionID(newOwner.toString());
-                Main.getFarmers().put(newOwner.toString(), toUpdate);
-                Main.getFarmers().remove(regionId);
+                FarmerAPI.getFarmerManager().getFarmers().put(newOwner.toString(), toUpdate);
+                FarmerAPI.getFarmerManager().getFarmers().remove(regionId);
                 toUpdate.saveFarmerAsync();
             }
         }
@@ -73,8 +80,8 @@ public class FarmerManager {
      * @param location
      * @return
      */
-    public static boolean hasFarmer(Location location) {
-        return Main.getFarmers().keySet().contains(Main.getIntegration().getRegionID(location));
+    public boolean hasFarmer(Location location) {
+        return FarmerAPI.getFarmerManager().getFarmers().keySet().contains(Main.getIntegration().getRegionID(location));
     }
 
     /**
@@ -84,7 +91,7 @@ public class FarmerManager {
      * @return
      */
     public Set<User> getUsers(String farmerId) {
-        return Main.getFarmers().get(farmerId).getUsers();
+        return FarmerAPI.getFarmerManager().getFarmers().get(farmerId).getUsers();
     }
 
     /**
@@ -94,6 +101,6 @@ public class FarmerManager {
      * @return
      */
     public Set<User> getUsers(Location location) {
-        return Main.getFarmers().get(Main.getIntegration().getRegionID(location)).getUsers();
+        return FarmerAPI.getFarmerManager().getFarmers().get(Main.getIntegration().getRegionID(location)).getUsers();
     }
 }

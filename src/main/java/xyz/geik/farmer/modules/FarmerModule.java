@@ -29,7 +29,7 @@ public abstract class FarmerModule {
     /**
      * Situation of module
      */
-    private boolean isEnabled = true;
+    private boolean isEnabled = true, hasGui = false;
 
     /**
      * Module description
@@ -58,14 +58,14 @@ public abstract class FarmerModule {
     public FarmerModule() {}
 
     /**
-     * When enable the module this method will be called
-     */
-    public abstract void onEnable();
-
-    /**
      * When load the module this method will be called
      */
     public abstract void onLoad();
+
+    /**
+     * When enable the module this method will be called
+     */
+    public abstract void onEnable();
 
     /**
      * When disable the module this method will be called
@@ -111,5 +111,14 @@ public abstract class FarmerModule {
         Main.getInstance().getListenerList().put(this, listener);
         pm.registerEvents(listener, Main.getInstance());
         Bukkit.getConsoleSender().sendMessage(Main.color("&6[FarmerManager] &a" + listener.getClass().getSimpleName() + " was registered"));
+    }
+
+    /**
+     * Checks if any module uses GUI
+     *
+     * @return
+     */
+    public static boolean isModulesUsesGui() {
+        return FarmerAPI.getModuleManager().getModuleList().stream().anyMatch(FarmerModule::isHasGui);
     }
 }

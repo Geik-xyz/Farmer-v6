@@ -98,6 +98,13 @@
             <artifactId>item-nbt-api-plugin</artifactId>
             <version>2.11.1</version>
         </dependency>
+        <!-- WildStacker -->
+        <dependency>
+            <groupId>com.bgsoftware</groupId>
+            <artifactId>WildStackerAPI</artifactId>
+            <version>2022.6</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <!-- Repos -->
@@ -122,7 +129,7 @@
             <id>minecraft-repo</id>
             <url>https://libraries.minecraft.net/</url>
         </repository>
-        <!-- SuperiorAPI -->
+        <!-- SuperiorAPI + WildStacker -->
         <repository>
             <id>bg-repo</id>
             <url>https://repo.bg-software.com/repository/api/</url>

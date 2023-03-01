@@ -214,3 +214,10 @@ usersGui:
     lore:
       - ''
       - '&aÜye eklemek için tıkla.'
+
+moduleGui:
+  interface:
+    - "         "
+    - " s  k  h "
+    - "         "
+  guiName: "&8Çiftçi Eklentileri"

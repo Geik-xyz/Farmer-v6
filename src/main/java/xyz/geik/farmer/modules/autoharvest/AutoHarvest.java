@@ -1,6 +1,7 @@
 package xyz.geik.farmer.modules.autoharvest;
 
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.modules.FarmerModule;
 
 /**
@@ -40,6 +41,7 @@ public class AutoHarvest extends FarmerModule {
     @Override
     public void onEnable() {
         registerListener(new AutoHarvestEvent());
+        setLang(Settings.lang, Main.getInstance());
     }
 
     @Override

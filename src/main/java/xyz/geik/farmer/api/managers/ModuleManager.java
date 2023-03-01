@@ -3,13 +3,20 @@ package xyz.geik.farmer.api.managers;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.exceptions.ModuleExistException;
 import xyz.geik.farmer.modules.exceptions.ReloadModuleException;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -129,5 +136,102 @@ public class ModuleManager {
             Bukkit.getConsoleSender().sendMessage(Main.color("&2[FarmerModules] &a" + farmerModule.getName() + " enabled"));
             farmerModule.onEnable();
         }
+    }
+
+    /**
+     * Gets attribute from Farmer
+     *
+     * @param attribute
+     * @param farmer
+     * @return
+     */
+    public boolean getAttributeStatus(String attribute, @NotNull Farmer farmer) {
+        if (farmer.getModuleAttributes().containsKey(attribute))
+            return farmer.getModuleAttributes().getOrDefault(attribute, false);
+        else return false;
+    }
+
+    /**
+     * Change attribute
+     *
+     * @param attribute
+     * @param farmer
+     * @return
+     */
+    public boolean changeAttribute(String attribute, @NotNull Farmer farmer) {
+        if (farmer.getModuleAttributes().containsKey(attribute)) {
+            farmer.getModuleAttributes().remove(attribute);
+            return false;
+        }
+        else {
+            farmer.getModuleAttributes().put(attribute, true);
+            return true;
+        }
+    }
+
+    /**
+     * Save attributes to database
+     *
+     * @param con
+     * @param farmer
+     * @throws SQLException
+     */
+    public void databaseUpdateAttribute(@NotNull Connection con, @NotNull Farmer farmer) throws SQLException {
+        final String SQL_QUERY = "UPDATE Farmers SET attributes = ? WHERE id = ?";
+        try (PreparedStatement statement = con.prepareStatement(SQL_QUERY)) {
+            statement.setString(1, attributeSerializer(farmer.getModuleAttributes()));
+            statement.setInt(2, farmer.getId());
+            statement.executeUpdate();
+        }
+    }
+
+    /**
+     * Get attributes from database
+     *
+     * @param con
+     * @param farmer
+     * @throws SQLException
+     */
+    public void databaseGetAttributes(Connection con, @NotNull Farmer farmer) throws SQLException {
+        final String SQL_QUERY = "SELECT attributes FROM Farmers WHERE id = ?";
+        try (PreparedStatement statement = con.prepareStatement(SQL_QUERY)) {
+            statement.setInt(1, farmer.getId());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next())
+                farmer.setModuleAttributes(attributeDeserializer(resultSet.getString("attributes")));
+            else farmer.setModuleAttributes(new HashMap<>());
+        }
+    }
+
+    /**
+     * Serialize attribute data to save in database
+     *
+     * @param attributes
+     * @return
+     */
+    private @Nullable String attributeSerializer(@NotNull HashMap<String, Boolean> attributes) {
+        if (attributes.isEmpty())
+            return null;
+        StringBuilder builder = new StringBuilder();
+        for (String key : attributes.keySet())
+            if (attributes.get(key))
+                builder.append(key).append(":").append(attributes.get(key)).append(";");
+        return builder.toString();
+    }
+
+    /**
+     * Deserialize attribute data from database
+     *
+     * @param attributes
+     * @return
+     */
+    private @NotNull HashMap<String, Boolean> attributeDeserializer(@NotNull String attributes) {
+        HashMap<String, Boolean> map = new HashMap<>();
+        if (attributes == null || attributes.isBlank())
+            return map;
+        for (String attribute : attributes.split(";"))
+            if (!attribute.isEmpty())
+                map.put(attribute.split(":")[0], Boolean.parseBoolean(attribute.split(":")[1]));
+        return map;
     }
 }

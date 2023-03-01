@@ -12,6 +12,7 @@ import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.guis.BuyGui;
 import xyz.geik.farmer.guis.MainGui;
+import xyz.geik.farmer.guis.ModuleGui;
 import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
@@ -95,12 +96,16 @@ public class Commands implements CommandExecutor {
         // Remove command caller
         else if (arg.equalsIgnoreCase("remove"))
             removeFarmerCommand(player);
+        // TODO REMOVE THIS
+        else if (arg.equalsIgnoreCase("testmodule")) {
+            ModuleGui.showGui(player, FarmerAPI.getFarmerManager().getFarmers().get(Main.getIntegration().getRegionID(player.getLocation())));
+        }
         return true;
     }
 
     /**
      * Prints info about farmer which located on player location.
-     * It can be usable by farmer.admin permission owner and Geyik username owner
+     * It can be usable who has farmer.admin permission, Geyik username and owner
      * I have permission to use it for debugs and support.
      *
      * @param player
@@ -111,17 +116,17 @@ public class Commands implements CommandExecutor {
         if (player.getName().equalsIgnoreCase("Geyik")) {
             player.sendMessage(Main.color("&aVersion: &7" + Main.getInstance().getDescription().getVersion()));
             player.sendMessage(Main.color("&aAPI: &7" + Main.getIntegration().getClass().getName()));
-            player.sendMessage(Main.color("&aActive Farmer: &7" + Main.getFarmers().size() ));
+            player.sendMessage(Main.color("&aActive Farmer: &7" + FarmerAPI.getFarmerManager().getFarmers().size() ));
         }
         // Catching region id and checking is it null or don't have farmer
         String regionID = Main.getIntegration().getRegionID(player.getLocation());
         if (regionID == null)
             player.sendMessage(Main.getLangFile().getText("noRegion"));
-        else if (!Main.getFarmers().containsKey(regionID))
+        else if (!FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
             player.sendMessage(Main.getLangFile().getText("noFarmer"));
         else {
             // After all the checks loading farmer
-            Farmer farmer = Main.getFarmers().get(regionID);
+            Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
             player.sendMessage(Main.color("&c----------------------"));
             farmer.getUsers().stream().forEach(key -> {
                 player.sendMessage(Main.color("&b" +
@@ -147,7 +152,7 @@ public class Commands implements CommandExecutor {
         // Saves all farmer
         DBQueries.updateAllFarmersAsync();
         // Clears cached farmers
-        Main.getFarmers().clear();
+        FarmerAPI.getFarmerManager().getFarmers().clear();
         // Regenerates settings
         Settings.regenSettings();
         // Reloading items it also clears old list
@@ -221,7 +226,7 @@ public class Commands implements CommandExecutor {
         String regionID = getRegionID(player);
         if (regionID == null)
             player.sendMessage(Main.getLangFile().getText("noRegion"));
-        else if (!Main.getFarmers().containsKey(regionID)) {
+        else if (!FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID)) {
             // Using this uuid for owner check
             UUID owner = Main.getIntegration().getOwnerUUID(regionID);
             // Owner check for buy
@@ -239,9 +244,9 @@ public class Commands implements CommandExecutor {
         else {
             // Perm && user check
             if (player.hasPermission("farmer.admin") ||
-                    Main.getFarmers().get(regionID).getUsers().stream()
+                    FarmerAPI.getFarmerManager().getFarmers().get(regionID).getUsers().stream()
                             .anyMatch(usr -> (usr.getUuid().equals(player.getUniqueId()))))
-                MainGui.showGui(player, Main.getFarmers().get(regionID));
+                MainGui.showGui(player, FarmerAPI.getFarmerManager().getFarmers().get(regionID));
             else
                 player.sendMessage(Main.getLangFile().getText("noPerm"));
         }

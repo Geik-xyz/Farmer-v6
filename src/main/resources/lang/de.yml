@@ -227,3 +227,10 @@ usersGui:
     lore:
       - ''
       - '&aKlick für Benutzer hinzufügen.'
+
+moduleGui:
+  interface:
+    - "         "
+    - " s  k  h "
+    - "         "
+  guiName: "&8Landwirte Modul"

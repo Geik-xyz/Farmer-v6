@@ -20,7 +20,10 @@ import xyz.geik.farmer.listeners.ListenerRegister;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.FarmerModule;
+import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
+import xyz.geik.farmer.modules.autoseller.AutoSeller;
 import xyz.geik.farmer.modules.production.Production;
+import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
 import xyz.geik.farmer.modules.voucher.Voucher;
 
 import java.util.HashMap;
@@ -50,11 +53,6 @@ public class Main extends JavaPlugin {
     private static Config configFile, itemsFile, langFile;
 
     /**
-     * Loaded farmer cache.
-     */
-    private static HashMap<String, Farmer> farmers = new HashMap<>();
-
-    /**
      * Main integration of plugin integrations#Integrations
      */
     private static Integrations integration;
@@ -81,6 +79,11 @@ public class Main extends JavaPlugin {
      * This is sort of the main(String... args) method.
      */
     public void onEnable() {
+        // API Installer
+        FarmerAPI.getFarmerManager();
+        FarmerAPI.getModuleManager();
+        FarmerAPI.getStorageManager();
+        FarmerAPI.getDatabaseManager();
         setupEconomy();
         Settings.regenSettings();
         new ItemsLoader();
@@ -114,7 +117,6 @@ public class Main extends JavaPlugin {
     public static Config getItemsFile() { return itemsFile; }
     public static Config getLangFile() { return langFile; }
     public static Main getInstance() { return instance; }
-    public static HashMap<String, Farmer> getFarmers() { return farmers; }
     public static Integrations getIntegration() { return integration; }
     public static Economy getEcon() { return econ; }
 
@@ -172,12 +174,12 @@ public class Main extends JavaPlugin {
         metrics.addCustomChart(new Metrics.SingleLineChart("ciftci_sayisi", new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return getFarmers().size();
+                return FarmerAPI.getFarmerManager().getFarmers().size();
             }
         }));
         metrics.addCustomChart(new Metrics.SimplePie("api_eklentisi", new Callable<String>() {
             @Override
-            public String call() throws Exception {
+            public String call() {
                 String[] data = getIntegration().getClass().getName().split(".");
                 return data[data.length-1];
             }
@@ -190,6 +192,9 @@ public class Main extends JavaPlugin {
     private void registerModules() {
         FarmerAPI.getModuleManager().registerModule(new Voucher());
         FarmerAPI.getModuleManager().registerModule(new Production());
+        FarmerAPI.getModuleManager().registerModule(new AutoHarvest());
+        FarmerAPI.getModuleManager().registerModule(new AutoSeller());
+        FarmerAPI.getModuleManager().registerModule(new SpawnerKiller());
         FarmerAPI.getModuleManager().loadModules();
     }
 }

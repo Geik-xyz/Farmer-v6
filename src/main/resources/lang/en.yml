@@ -228,3 +228,10 @@ usersGui:
     lore:
       - ''
       - '&aClick for add user.'
+
+moduleGui:
+  interface:
+    - "         "
+    - " s  k  h "
+    - "         "
+  guiName: "&8Farmer Modules"

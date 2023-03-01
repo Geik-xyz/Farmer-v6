@@ -9,6 +9,7 @@ import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
 import xyz.geik.farmer.helpers.Settings;
@@ -51,11 +52,11 @@ public class ItemEvent implements Listener {
         // Checks item dropped in region of a player
         // And checks region owner has a farmer
         String regionID = Main.getIntegration().getRegionID(e.getLocation());
-        if (regionID == null || !Main.getFarmers().containsKey(regionID))
+        if (regionID == null || !FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
             return;
 
         // Checks farmer in collection state
-        Farmer farmer = Main.getFarmers().get(regionID);
+        Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
         if (farmer.getState() == 0)
             return;
 

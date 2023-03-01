@@ -26,6 +26,7 @@ public class BuyGui {
         // Filler item for empty slots
         gui.setFiller(GuiHelper.getFiller());
         // Buy item placer
+
         gui.addElement(new StaticGuiElement('b',
                 // Item here
                 GuiHelper.getBuyItem(),

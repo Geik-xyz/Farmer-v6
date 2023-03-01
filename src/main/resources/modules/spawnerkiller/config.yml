@@ -1,0 +1,20 @@
+settings:
+  # If you want auto spawner killer to be enabled
+  # set feature to true.
+  feature: false
+  # If you want to kill mobs without farmer set it false
+  requireFarmer: true
+  # Cook foods on spawner drop
+  cookFoods: true
+  # Remove mob can't see mob only spawn item.
+  removeMob: true
+  # If you want to use the whitelist, remove the'#'
+  # from the line below and add the mobs
+  # you want to whitelist.
+  # whitelist:
+  #  - 'ZOMBIE'
+
+  # You can add remove blacklist section
+  # if you want to use the whitelist.
+  blacklist:
+    - 'VILLAGER'

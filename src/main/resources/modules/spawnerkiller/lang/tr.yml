@@ -1,0 +1,15 @@
+enabled: "&aEnabled"
+disabled: "&cDisabled"
+
+moduleGui:
+  icon:
+    guiInterface: 's'
+    skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjg1NDA2MGFhNTc3NmI3MzY2OGM4OTg2NTkwOWQxMmQwNjIyNDgzZTYwMGI2NDZmOTBjMTg2YzY1Yjc1ZmY0NSJ9fX0="
+    name: "&eSpawner Killer"
+    lore:
+      - '&7You can kill spawners'
+      - '&7with this module.'
+      - ''
+      - 'Status: &6{status}'
+      - ''
+      - '&aClick for enable/disable.'

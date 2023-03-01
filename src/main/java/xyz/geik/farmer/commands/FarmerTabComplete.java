@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.voucher.Voucher;
@@ -58,8 +59,8 @@ public class FarmerTabComplete implements TabCompleter {
                         && regionID != null;
                 // Checks region id is valid, checks allowed worlds contain world which player in,
                 // Farmer exists and player has farmer.admin perm or owner of farmer.
-                if ((manage && Main.getFarmers().containsKey(regionID))
-                        && (player.hasPermission("farmer.admin") || Main.getFarmers().get(regionID).getOwnerUUID().equals(player.getUniqueId())))
+                if ((manage && FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
+                        && (player.hasPermission("farmer.admin") || FarmerAPI.getFarmerManager().getFarmers().get(regionID).getOwnerUUID().equals(player.getUniqueId())))
                     completes.add("manage");
                 // returning object of complete.
                 return completes;
