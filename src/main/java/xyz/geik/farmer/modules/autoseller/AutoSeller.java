@@ -38,15 +38,15 @@ public class AutoSeller extends FarmerModule {
         setDescription("Automatically sells items when capacity full");
         setModulePrefix("AutoSeller");
         setConfig(Main.getInstance());
-        setHasGui(true);
         instance = this;
-        getAllowedItems().addAll(getConfig().getStringList("items"));
         if (!getConfig().getBoolean("settings.feature"))
             setEnabled(false);
     }
 
     @Override
     public void onEnable() {
+        setHasGui(true);
+        getAllowedItems().addAll(getConfig().getStringList("items"));
         setLang(Settings.lang, Main.getInstance());
         customPerm = getConfig().getString("settings.customPerm");
         defaultStatus = getConfig().getBoolean("settings.defaultStatus");

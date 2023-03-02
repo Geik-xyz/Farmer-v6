@@ -161,7 +161,6 @@
                             <shadedPattern>xyz.geik.farmer.shades.xseries</shadedPattern>
                             <excludes>
                                 <exclude>com/cryptomorin/xseries/XBiome*</exclude>
-                                <exclude>com/cryptomorin/xseries/XBlock*</exclude>
                                 <exclude>com/cryptomorin/xseries/XEnchantment*</exclude>
                                 <exclude>com/cryptomorin/xseries/XEntity*</exclude>
                                 <exclude>com/cryptomorin/xseries/XPotion*</exclude>

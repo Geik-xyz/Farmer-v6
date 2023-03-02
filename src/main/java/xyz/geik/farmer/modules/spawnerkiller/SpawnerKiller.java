@@ -38,7 +38,6 @@ public class SpawnerKiller extends FarmerModule {
         this.setDescription("Automatically kills spawner mobs");
         this.setModulePrefix("SpawnerKiller");
         this.setConfig(Main.getInstance());
-        setHasGui(true);
         instance = this;
         if (!getConfig().getBoolean("settings.feature"))
             this.setEnabled(false);
@@ -46,6 +45,7 @@ public class SpawnerKiller extends FarmerModule {
 
     @Override
     public void onEnable() {
+        setHasGui(true);
         defaultStatus = getConfig().getBoolean("settings.defaultStatus");
         customPerm = getConfig().getString("settings.customPerm");
         removeMob = getConfig().getBoolean("settings.removeMob");
