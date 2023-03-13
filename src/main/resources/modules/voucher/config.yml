@@ -1,0 +1,14 @@
+settings:
+  # if you don't want to use voucher system
+  # which is place farmer with a voucher only console
+  # and players with farmer.admin permission can give voucher.
+  # you can disable buy feature and give farmer with command
+  feature: true
+
+voucher:
+  material: VILLAGER_SPAWN_EGG
+  name: "&eFarmer Voucher"
+  lore:
+  - ""
+  - "&7Level: &e{level}"
+  - "&7Right click to redeem"

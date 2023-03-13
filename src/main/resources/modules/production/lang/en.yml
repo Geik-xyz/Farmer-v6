@@ -1,0 +1,8 @@
+calculatingGeneration: "&f&oCalculating..."
+# Writes production amount with formatted number.
+# Example: 1000 -> 1k, 1000000 -> 1m, 1000000000 -> 1b, 1000000000000 -> 1t
+numberFormat:
+  thousand: "k"
+  million: "m"
+  billion: "b"
+  trillion: "t"

@@ -1,21 +1,25 @@
 # Main settings of farmer
 settings:
+  # if you want to give farmer with economy leave it true
+  buyFarmer: true
+  # price of farmer necessary if buyFarmer is true
+  farmerPrice: 1000
   # crates farmer automatically (If plugin supports)
   # also bypass money requirement
   autoCreateFarmer: false
   # default farmer user value
   # you can give farmer.user.<amount> perm to owner of farmer
   defaultMaxFarmerUser: 3
-  # price of farmer
-  farmerPrice: 1000
   # language from lang file
   lang: en
   # farmer ignore collecting if item dropped by player
   ignorePlayerDrop: false
   # Allowed worlds
   allowedWorlds:
-    - ASkyblock
+    - ASkyBlock
     - Island
+    - SuperiorWorld
+    - bskyblock_world
 
 # Tax rate
 # If you set it 0 then it useless

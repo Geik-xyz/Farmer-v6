@@ -22,13 +22,18 @@ boughtFarmer: "&6Farmer &8▸ &aFarmer bought successfully."
 inCooldown: "&6Farmer &8▸ &cYou should wait {time}s for do it again."
 inputCancelWord: "cancel"
 waitingInput: "&6Farmer &8▸ &aType input to chat in 6sec and type &c{cancel} &afor cancel."
+notOwner: "&6Farmer &8▸ &cYou must be the owner of the region to use this command."
 inputCancel: "&6Farmer &8▸ &cNo longer waiting for input."
 userAdded: "&6Farmer &8▸ &2{player} &aAdded successfully."
 userAlreadyExist: "&6Farmer &8▸ &4{player} &cAlready added."
 userCouldntFound: "&6Farmer &8▸ &cUser has not played before!"
 reachedMaxUser: "&6Farmer &8▸ &cYou have reached max user capacity."
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
+buyDisabled:
+  title: "&6Farmer"
+  subtitle: "&cVisit our website for farmer"
 
+# Farmer roles
 roles:
   owner: "&cOwner"
   member: "&aMember"
@@ -100,6 +105,10 @@ Gui:
       - " &8▪ &7Price: &f{price}$ each"
       - "&8&l  [{bar}&8&l] &r{percent}%"
       - ""
+      - "&7Average Production (min): &f{prod_min}"
+      - "&7Average Production (hour): &f{prod_hour}"
+      - "&7Average Production (day): &f{prod_day}"
+      - "{prod_blank}"
       - "&7Withdraw Stack &8[&eLeft Click&8]"
       - "&7Withdraw Max &8[&eRight Click&8]"
       - "&7Sell All &8[&eShift+Right Click&8]"
@@ -113,7 +122,7 @@ manageGui:
   # l -> level up icon
   # u -> user management icon
   interface:
-    - "         "
+    - "    m    "
     - " t  l  u "
     - "         "
   guiName: "&8Manager Panel"
@@ -163,6 +172,16 @@ manageGui:
       - '&7users in here.'
       - ''
       - '&aClick for open.'
+  modules:
+    skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTZlZmM4NmRiOTIyMTdjNWEzODk2NzJiMjgyNDI3NWU3YTIwNmQ3ZWMwZjJjN2U0Y2E0ODNjNmUxN2M5ZjZkNSJ9fX0="
+    name: "&eModules"
+    lore:
+      - '&7You can modify farmer'
+      - '&7modules in here.'
+      - ''
+      - '&aClick for open.'
+
+# Buy Gui (Farmer)
 buyGui:
   interface:
     - "         "
@@ -179,7 +198,14 @@ buyGui:
       - ' &8▪ &7Price: &6{price}'
       - ''
       - '&aClick for buy!'
+
+# User gui for farmer
 usersGui:
+  # h -> help
+  # u -> user
+  # p -> previous page
+  # a -> add
+  # n -> next page
   interface:
     - "    h    "
     - "uuuuuuuuu"
@@ -210,3 +236,10 @@ usersGui:
     lore:
       - ''
       - '&aClick for add user.'
+
+moduleGui:
+  interface:
+    - "         "
+    - " s  k  h "
+    - "         "
+  guiName: "&8Farmer Modules"

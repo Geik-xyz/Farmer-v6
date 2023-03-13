@@ -21,7 +21,7 @@ public class BentoListener implements Listener {
     @EventHandler
     public void deleteEvent(@NotNull IslandDeleteEvent e) {
         String islandID = e.getIsland().getUniqueId().toString();
-        FarmerAPI.removeFarmer(islandID);
+        FarmerAPI.getFarmerManager().removeFarmer(islandID);
     }
 
     /**
@@ -30,7 +30,7 @@ public class BentoListener implements Listener {
      */
     @EventHandler
     public void ownerChangeEvent(@NotNull TeamSetownerEvent e) {
-        FarmerAPI.changeOwner(e.getOldOwner(), e.getNewOwner(), e.getIsland().getUniqueId().toString());
+        FarmerAPI.getFarmerManager().changeOwner(e.getOldOwner(), e.getNewOwner(), e.getIsland().getUniqueId().toString());
     }
 
     /**
@@ -42,7 +42,7 @@ public class BentoListener implements Listener {
     @EventHandler
     public void islandCreateEvent(@NotNull IslandCreatedEvent e) {
         if (Settings.autoCreateFarmer) {
-            new Farmer(e.getIsland().getUniqueId(), e.getOwner());
+            new Farmer(e.getIsland().getUniqueId(), e.getOwner(), 0);
             Bukkit.getPlayer(e.getOwner()).sendMessage(Main.getLangFile().getText("boughtFarmer"));
         }
     }

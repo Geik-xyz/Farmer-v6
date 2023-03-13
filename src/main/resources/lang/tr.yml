@@ -23,6 +23,7 @@ boughtFarmer: "&6Çiftçi &8▸ &aÇiftçi başarıyla alındı."
 inCooldown: "&6Çiftçi &8▸ &cBunu tekrar yapmak için {time}sn beklemelisin."
 inputCancelWord: "iptal"
 waitingInput: "&6Çiftçi &8▸ &a6 saniye içinde eklemek istediğin kullanıcı adını yaz veya iptal etmek için &c{cancel} &ayaz."
+notOwner: "&6Çiftçi &8▸ &cBu özelliği kullanmak için bölge sahibi olman gerek."
 inputCancel: "&6Çiftçi &8▸ &cKullanıcı ekleme işlemi iptal oldu."
 userAdded: "&6Çiftçi &8▸ &2{player} &aEklendi."
 userAlreadyExist: "&6Çiftçi &8▸ &4{player} &cZaten ekli."
@@ -30,6 +31,7 @@ userCouldntFound: "&6Çiftçi &8▸ &cBu oyuncu daha önce hiç oynamamış!"
 reachedMaxUser: "&6Çiftçi &8▸ &cDaha fazla üye alamazsın!"
 percentBar: "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪"
 
+# Farmer roles
 roles:
   owner: "&cLider"
   member: "&aÜye"
@@ -101,6 +103,10 @@ Gui:
       - " &8▪ &7Fiyat: &f{price}$ adet"
       - "&8&l  [{bar}&8&l] &r{percent}%"
       - ""
+      - "&7Ortalama Üretim (dakika): &f{prod_min}"
+      - "&7Ortalama Üretim (saat): &f{prod_hour}"
+      - "&7Ortalama Üretim (gün): &f{prod_day}"
+      - "{prod_blank}"
       - "&7Envanterine Bir Stack Al &8[&eSol Tık&8]"
       - "&7Envanterine Maks Al &8[&eSağ Tık&8]"
       - "&7Hepsini Sat &8[&eShift+Sağ Tık&8]"
@@ -111,7 +117,7 @@ Gui:
 # Management Gui
 manageGui:
   interface:
-    - "         "
+    - "    m    "
     - " t  l  u "
     - "         "
   guiName: "&8Yönetim Paneli"
@@ -161,6 +167,15 @@ manageGui:
       - '&7ekleyebilir/silebilir/düzenleyebilirsin'
       - ''
       - '&aAçmak için tıkla.'
+  modules:
+    skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTZlZmM4NmRiOTIyMTdjNWEzODk2NzJiMjgyNDI3NWU3YTIwNmQ3ZWMwZjJjN2U0Y2E0ODNjNmUxN2M5ZjZkNSJ9fX0="
+    name: "&eModüller"
+    lore:
+      - '&7Modül ayarlarına'
+      - '&7buradan erişebilirsin.'
+      - ''
+      - '&aAçmak için tıkla.'
+
 buyGui:
   interface:
     - "         "
@@ -208,3 +223,10 @@ usersGui:
     lore:
       - ''
       - '&aÜye eklemek için tıkla.'
+
+moduleGui:
+  interface:
+    - "         "
+    - " s  k  h "
+    - "         "
+  guiName: "&8Çiftçi Eklentileri"

@@ -4,22 +4,23 @@ import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Farmer Inventory has Set of FarmerItem
- * Because farmer has multiple items.
+ * Farmer item which contains item name, price, amount and material.
+ * Farmer item is an item which farmer can store in his inventory.
+ *
+ * @author Geik
  */
 @Setter
 @Getter
 public class FarmerItem {
 
-    // Name of item in config
-    // Old versions this can be INK_SACK-3
-    // -3 shows data id of it.
+    // Name of item (Material name)
     private String name;
 
     // Price of item
@@ -28,6 +29,7 @@ public class FarmerItem {
     // Amount of item
     private long amount;
 
+    // XMaterial of item Calculated in constructor
     private XMaterial material;
 
     /**

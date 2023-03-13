@@ -2,8 +2,7 @@ package xyz.geik.farmer.helpers.gui;
 
 import com.cryptomorin.xseries.SkullUtils;
 import com.cryptomorin.xseries.XMaterial;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
+import de.leonhard.storage.Config;
 import de.themoep.inventorygui.GuiElement;
 import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.StaticGuiElement;
@@ -17,14 +16,13 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
-
-import java.lang.reflect.Field;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
  *  All guis using this method for
  *  items and all items located here.
+ *
+ * @author Geik
  */
 public class GuiHelper {
 
@@ -50,23 +48,24 @@ public class GuiHelper {
      * get item with a material.
      */
     public static @NotNull ItemStack getItem(String path) {
+        return getItem(path, Main.getLangFile());
+    }
+
+    /**
+     * If item has skull it gets item as head with
+     * custom head data. Otherwise, check for material and
+     * get item with a material.
+     */
+    public static @NotNull ItemStack getItem(String path, @NotNull Config file) {
         ItemStack result;
         // If item is skull instead of material based item
-        if (Main.getLangFile().contains(path + ".skull")) {
+        if (file.contains(path + ".skull")) {
             result = XMaterial.matchXMaterial("PLAYER_HEAD").get().parseItem();
             try {
                 SkullMeta meta = (SkullMeta) result.getItemMeta();
                 assert meta != null;
                 // GameProfile, Filed etc. used mojang lib for catch player skull
-                SkullUtils.applySkin(meta, Main.getLangFile().getString(path + ".skull"));
-                ;
-                /** TODO: Fix this
-                GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-                profile.getProperties().put("textures", new Property("textures", Main.getLangFile().getString(path + ".skull")));
-                Field profileField = meta.getClass().getDeclaredField("profile");
-                profileField.setAccessible(true);
-                profileField.set(meta, profile);
-                */
+                SkullUtils.applySkin(meta, file.getString(path + ".skull"));
                 result.setItemMeta(meta);
             } catch (Exception e) {
                 result = new ItemStack(Material.STONE, 1);
@@ -74,12 +73,12 @@ public class GuiHelper {
         }
         // If item is material based something
         else
-            result = XMaterial.matchXMaterial(Main.getLangFile().getString(path + ".material")).get().parseItem();
+            result = XMaterial.matchXMaterial(file.getString(path + ".material")).get().parseItem();
 
         ItemMeta meta = result.getItemMeta();
-        if (Main.getLangFile().contains(path + ".lore"))
-            meta.setLore(Main.getLangFile().getTextList(path + ".lore"));
-        meta.setDisplayName(Main.getLangFile().getText(path + ".name"));
+        if (file.contains(path + ".lore"))
+            meta.setLore(file.getTextList(path + ".lore"));
+        meta.setDisplayName(file.getText(path + ".name"));
         result.setItemMeta(meta);
         return result;
     }

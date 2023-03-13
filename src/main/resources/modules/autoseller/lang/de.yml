@@ -1,0 +1,15 @@
+enabled: "&aErmöglicht"
+disabled: "&cDeaktiviert"
+
+moduleGui:
+  icon:
+    guiInterface: 's'
+    skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWYxMzc5YTgyMjkwZDdhYmUxZWZhYWJiYzcwNzEwZmYyZWMwMmRkMzRhZGUzODZiYzAwYzkzMGM0NjFjZjkzMiJ9fX0="
+    name: "&eAutomatischer Verkäufer"
+    lore:
+      - '&7Items in der automatischen Verkaufsliste'
+      - '&7werden automatisch verkauft.'
+      - ''
+      - '&7Status: &6{status}'
+      - ''
+      - '&aKlicken Sie für Änderungen!'

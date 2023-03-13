@@ -2,16 +2,15 @@ package xyz.geik.farmer.helpers.gui;
 
 import com.cryptomorin.xseries.SkullUtils;
 import com.cryptomorin.xseries.XMaterial;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.User;
+import xyz.geik.farmer.modules.production.ProductionModel;
 
 import java.util.stream.Collectors;
 
@@ -31,7 +30,9 @@ public class GroupItems {
      * @param tax
      * @return
      */
-    public static @NotNull ItemStack getGroupItem(@NotNull FarmerItem farmerItem, long capacity, double tax) {
+    public static @NotNull ItemStack getGroupItem(@NotNull Farmer farmer, @NotNull FarmerItem farmerItem) {
+        long capacity = farmer.getLevel().getCapacity();
+        double tax = farmer.getLevel().getTax();
         ItemStack result = farmerItem.getMaterial().parseItem();
         ItemMeta meta = result.getItemMeta();
         // Stock amount of farmer
@@ -42,15 +43,29 @@ public class GroupItems {
         int percent = (int) (100*stock/capacity);
         // Select color of stock capacity
         String color = selectFillColor(percent);
+        // Average production of item cache if it's null
+        // it won't be displayed because there is no calculation required
+        ProductionModel productionModel = farmer.getInv().getProductionModels().stream()
+                .filter(g -> g.getMaterial().equals(farmerItem.getMaterial()))
+                .findFirst().orElse(null);
+        // Lore map
         meta.setLore(Main.getLangFile().getTextList("Gui.groupItem.lore").stream().map(key -> {
-            return key.replace("{stock}", color + stock)
-                    .replace("{maxstock}", String.valueOf(capacity))
-                    .replace("{price}", String.valueOf(price))
+            // If key contains {prod_ it will be replaced with average production data
+            // If there is no data then makes it null
+            if (key.contains("{prod_"))
+                return ProductionModel.updateLore(productionModel, key);
+            // Default replace
+            else
+                return key.replace("{stock}", color + stock)
+                    .replace("{maxstock}", capacity +"")
+                    .replace("{price}", price +"")
                     .replace("{bar}", getFilledProgressBar(percent, stock, capacity, color))
                     .replace("{percent}", color + percent)
-                    .replace("{stack_price}", String.valueOf((price*64)))
-                    .replace("{tax}", String.valueOf(tax));
-        }).collect(Collectors.toList()));
+                    .replace("{stack_price}", (price*64) +"")
+                    .replace("{tax}", tax +"");
+        // Filters null values
+        }).filter(key -> key != null)
+                .collect(Collectors.toList()));
         result.setItemMeta(meta);
         return result;
     }

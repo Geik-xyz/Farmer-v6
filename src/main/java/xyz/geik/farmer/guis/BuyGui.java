@@ -1,5 +1,6 @@
 package xyz.geik.farmer.guis;
 
+import com.cryptomorin.xseries.XSound;
 import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
 import org.bukkit.entity.Player;
@@ -25,6 +26,7 @@ public class BuyGui {
         // Filler item for empty slots
         gui.setFiller(GuiHelper.getFiller());
         // Buy item placer
+
         gui.addElement(new StaticGuiElement('b',
                 // Item here
                 GuiHelper.getBuyItem(),
@@ -37,7 +39,8 @@ public class BuyGui {
                         Main.getEcon().withdrawPlayer(player, Settings.farmerPrice);
                         // Creates new farmer
                         Farmer farmer = new Farmer(Main.getIntegration()
-                                .getRegionID(player.getLocation()), Main.getIntegration().getOwnerUUID(player.getLocation()));
+                                .getRegionID(player.getLocation()), Main.getIntegration().getOwnerUUID(player.getLocation()), 0);
+                        XSound.ENTITY_PLAYER_LEVELUP.play(player);
                         // Opens farmer gui to buyer
                         MainGui.showGui(player, farmer);
                         // Sends message to player

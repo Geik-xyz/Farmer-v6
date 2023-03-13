@@ -9,6 +9,7 @@ import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
 import xyz.geik.farmer.helpers.Settings;
@@ -19,6 +20,34 @@ import xyz.geik.farmer.model.inventory.FarmerInv;
  * Main event of farmer which collect items to storage
  */
 public class ItemEvent implements Listener {
+
+    @EventHandler
+    public void farmerCollectItemEvent(@NotNull FarmerItemCollectEvent event) {
+        if (event.isCancelled())
+            return;
+        Farmer farmer = event.getFarmer();
+        ItemStack item = event.getItem();
+        long left = -1;
+        // Summing item amount to the farmer if stock is not full
+        // And catch the left amount
+        left = farmer.getInv().sumItemAmount(XMaterial.matchXMaterial(item), item.getAmount());
+        // If left amount is not 0 then it means stock is full
+        if (left != 0) {
+            // Calls FarmerStorageFullEvent
+            FarmerStorageFullEvent storageFullEvent = new FarmerStorageFullEvent(farmer, item, (int) left, event.getItemSpawnEvent());
+            Bukkit.getPluginManager().callEvent(storageFullEvent);
+            // Checks if FarmerStorageFullEvent is not cancelled
+            // And if drop item is false then it will force sum the item
+            // To the stock
+            if (!storageFullEvent.isCancelled() && !storageFullEvent.isDropItem()) {
+                farmer.getInv().forceSumItem(XMaterial.matchXMaterial(item), left);
+                return;
+            }
+            // Execute only on drop item is true
+            event.getItem().setAmount((int) left);
+        }
+        else event.getItemSpawnEvent().setCancelled(true);
+    }
 
     /**
      * Has Item in farmer
@@ -51,40 +80,16 @@ public class ItemEvent implements Listener {
         // Checks item dropped in region of a player
         // And checks region owner has a farmer
         String regionID = Main.getIntegration().getRegionID(e.getLocation());
-        if (regionID == null || !Main.getFarmers().containsKey(regionID))
+        if (regionID == null || !FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
             return;
 
         // Checks farmer in collection state
-        Farmer farmer = Main.getFarmers().get(regionID);
+        Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
         if (farmer.getState() == 0)
             return;
 
-        long left = -1;
-
         // Calls FarmerItemCollectEvent
-        FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, item);
+        FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, item, item.getAmount(), e);
         Bukkit.getPluginManager().callEvent(collectEvent);
-        // Checks if event is cancelled
-        if (!collectEvent.isCancelled()) {
-            // Summing item amount to the farmer if stock is not full
-            // And catch the left amount
-            left = farmer.getInv().sumItemAmount(XMaterial.matchXMaterial(item), item.getAmount());
-            // If left amount is not 0 then it means stock is full
-            if (left != 0) {
-                // Calls FarmerStorageFullEvent
-                FarmerStorageFullEvent storageFullEvent = new FarmerStorageFullEvent(farmer, item, (int) left);
-                Bukkit.getPluginManager().callEvent(storageFullEvent);
-                // Checks if FarmerStorageFullEvent is not cancelled
-                // And if drop item is false then it will force sum the item
-                // To the stock
-                if (!storageFullEvent.isCancelled() && !storageFullEvent.isDropItem()) {
-                    farmer.getInv().forceSumItem(XMaterial.matchXMaterial(item), left);
-                    return;
-                }
-                // Execute only on drop item is true
-                e.getEntity().getItemStack().setAmount((int) left);
-            }
-            else e.setCancelled(true);
-        }
     }
 }

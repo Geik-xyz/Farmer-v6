@@ -1,13 +1,16 @@
 package xyz.geik.farmer.helpers;
 
+import com.cryptomorin.xseries.XMaterial;
+import de.leonhard.storage.Config;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 
 /**
  * Loads items from items.yml to ingame cache
+ *
+ * @author Geik
  */
 public class ItemsLoader {
 
@@ -21,18 +24,14 @@ public class ItemsLoader {
 
         // Loops Items in items.yml
         Main.getItemsFile().singleLayerKeySet("Items").stream().forEach(key -> {
-            try {
-                // Checks material if it valid
-                String checkKey = (key.contains("-")) ? key.split("-")[0] : key;
-                Material.getMaterial(checkKey);
-                // Price of item
-                double price = Main.getItemsFile().getDouble("Items." + key + ".price");
-                FarmerItem defaultItem = new FarmerItem(key, price, 0);
-                FarmerInv.defaultItems.add(defaultItem);
+            Config config = Main.getItemsFile();
+            if (!XMaterial.matchXMaterial(key).isPresent()) {
+                Bukkit.getConsoleSender().sendMessage("§c[Farmer] §7Item §e" + key + " §7is not valid material!");
+                return;
             }
-            catch (Exception e1) {
-                Bukkit.getConsoleSender().sendMessage(Main.color("&4Material isn't correct. " + key));
-            }
+            double price = config.getDouble("Items." + key + ".price");
+            FarmerItem defaultItem = new FarmerItem(key, price, 0);
+            FarmerInv.defaultItems.add(defaultItem);
         });
     }
 

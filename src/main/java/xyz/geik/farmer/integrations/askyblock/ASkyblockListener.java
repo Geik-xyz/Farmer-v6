@@ -24,7 +24,7 @@ public class ASkyblockListener implements Listener {
      */
     @EventHandler
     public void onIslandDeleteEvent(@NotNull IslandDeleteEvent e) {
-        FarmerAPI.removeFarmer(e.getPlayerUUID().toString());
+        FarmerAPI.getFarmerManager().removeFarmer(e.getPlayerUUID().toString());
     }
 
     /**
@@ -33,7 +33,7 @@ public class ASkyblockListener implements Listener {
      */
     @EventHandler
     public void onIslandResetEvent(@NotNull IslandResetEvent e) {
-        FarmerAPI.removeFarmer(e.getPlayer().getUniqueId().toString());
+        FarmerAPI.getFarmerManager().removeFarmer(e.getPlayer().getUniqueId().toString());
     }
 
     /**
@@ -42,6 +42,6 @@ public class ASkyblockListener implements Listener {
      */
     @EventHandler
     public void onIslandOwnerChangeEvent(@NotNull IslandChangeOwnerEvent e) {
-        FarmerAPI.changeOwner(e.getOldOwner(), e.getNewOwner(), e.getOldOwner().toString());
+        FarmerAPI.getFarmerManager().changeOwner(e.getOldOwner(), e.getNewOwner(), e.getOldOwner().toString());
     }
 }

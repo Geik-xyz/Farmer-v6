@@ -1,7 +1,19 @@
 Items:
-  WHEAT:
-    price: 0.08
   CACTUS:
     price: 0.1
+  WHEAT:
+    price: 0.1
   PUMPKIN:
-    price: 0.275
+    price: 0.1
+  COCOA_BEANS:
+    price: 0.1
+  POTATO:
+    price: 0.1
+  CARROT:
+    price: 0.1
+  MELON:
+    price: 0.1
+  SUGAR_CANE:
+    price: 0.1
+  NETHER_WART:
+    price: 0.1
