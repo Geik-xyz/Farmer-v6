@@ -144,22 +144,24 @@ public class Commands implements CommandExecutor {
      */
     private boolean reloadCommand(@NotNull CommandSender sender) {
         // Creating time long for calculating time it takes.
-        long time = System.currentTimeMillis();
-        // Saves all farmer
-        DBQueries.updateAllFarmersAsync();
-        // Clears cached farmers
-        FarmerAPI.getFarmerManager().getFarmers().clear();
-        // Regenerates settings
-        Settings.regenSettings();
-        // Reloading items it also clears old list
-        new ItemsLoader();
-        // Reloading levels it also clears old list
-        FarmerLevel.loadLevels();
-        // Reloading farmers again.
-        DBQueries.loadAllFarmers();
-        // Sends message to sender who send this command and also calculating millisecond difference.
-        sender.sendMessage(Main.getLangFile().getText("reloadSuccess").replace("%ms%",
-                System.currentTimeMillis() - time + "ms"));
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+            long time = System.currentTimeMillis();
+            // Saves all farmer
+            DBQueries.updateAllFarmers();
+            // Clears cached farmers
+            FarmerAPI.getFarmerManager().getFarmers().clear();
+            // Regenerates settings
+            Settings.regenSettings();
+            // Reloading items it also clears old list
+            new ItemsLoader();
+            // Reloading levels it also clears old list
+            FarmerLevel.loadLevels();
+            // Reloading farmers again.
+            DBQueries.loadAllFarmers();
+            // Sends message to sender who send this command and also calculating millisecond difference.
+            sender.sendMessage(Main.getLangFile().getText("reloadSuccess").replace("%ms%",
+                    System.currentTimeMillis() - time + "ms"));
+        });
         return true;
     }
 

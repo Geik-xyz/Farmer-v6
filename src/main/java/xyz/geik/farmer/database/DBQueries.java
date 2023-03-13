@@ -216,9 +216,11 @@ public class DBQueries {
                 if (FarmerAPI.getFarmerManager().getFarmers().containsKey(farmer.getRegionID()))
                     FarmerAPI.getFarmerManager().getFarmers().remove(farmer.getRegionID());
 
-                // Calls remove farmer event
-                FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(FarmerAPI.getFarmerManager().getFarmers().get(farmer.getRegionID()));
-                Bukkit.getPluginManager().callEvent(removeEvent);
+                Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                    // Calls remove farmer event
+                    FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(FarmerAPI.getFarmerManager().getFarmers().get(farmer.getRegionID()));
+                    Bukkit.getPluginManager().callEvent(removeEvent);
+                });
             }
             catch (Exception e) { e.printStackTrace(); }
         });

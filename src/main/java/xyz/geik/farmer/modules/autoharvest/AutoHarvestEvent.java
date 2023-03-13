@@ -1,6 +1,7 @@
 package xyz.geik.farmer.modules.autoharvest;
 
 import com.cryptomorin.xseries.XMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,14 +22,15 @@ import xyz.geik.farmer.model.inventory.FarmerItem;
 public class AutoHarvestEvent implements Listener {
 
     @EventHandler
-    public void onHarvestGrowEvent(BlockGrowEvent event) {
+    public void onHarvestGrowEvent(@NotNull BlockGrowEvent event) {
         Block block = event.getNewState().getBlock();
+        XMaterial material = parseMaterial(XMaterial.matchXMaterial(event.getNewState().getType()));
         // Checks world suitable for farmer
         if (!Settings.allowedWorlds.contains(block.getLocation().getWorld().getName()))
             return;
 
         // Checks auto harvest, harvests this block.
-        if (!AutoHarvest.checkCrop(event.getNewState()))
+        if (!AutoHarvest.checkCrop(material))
             return;
 
         if (!AutoHarvest.getInstance().isWithoutFarmer()) {
@@ -44,7 +46,7 @@ public class AutoHarvestEvent implements Listener {
             if (!FarmerAPI.getModuleManager().getAttributeStatus("autoharvest", farmer))
                 return;
 
-            if (!hasStock(farmer, XMaterial.matchXMaterial(event.getNewState().getType()))) {
+            if (!hasStock(farmer, material)) {
                 event.setCancelled(true);
                 return;
             }
@@ -56,14 +58,13 @@ public class AutoHarvestEvent implements Listener {
                 return;
         }
 
-        XMaterial material = XMaterial.matchXMaterial(event.getNewState().getType());
         if (harvestCrops(event.getNewState(), material))
             return;
 
         else if (harvestCocoa(event.getNewState(), material))
             return;
 
-        else if (harvestBlocks(event.getNewState(), material))
+        else if (harvestBlocks(event.getNewState(), material, event))
             return;
 
         else return;
@@ -71,11 +72,12 @@ public class AutoHarvestEvent implements Listener {
 
     private boolean hasStock(Farmer farmer, XMaterial material) {
         if (AutoHarvest.getInstance().isCheckStock()) {
+            // Checks if farmer has autoseller module and is enabled for this farmer
+            if (farmer.getModuleAttributes().containsKey("autoseller"))
+                return true;
             long capacity = farmer.getInv().getCapacity();
-            material = material == XMaterial.valueOf("COCOA") ? XMaterial.valueOf("COCOA_BEANS")
-                    : material == XMaterial.valueOf("MELON") ? XMaterial.valueOf("MELON_SLICE") : material;
             FarmerItem item = farmer.getInv()
-                    .getStockedItem(material == XMaterial.valueOf("COCOA") ? XMaterial.valueOf("COCOA_BEANS") : material);
+                    .getStockedItem(material);
             if (item.getAmount() == capacity)
                 return false;
         }
@@ -89,13 +91,14 @@ public class AutoHarvestEvent implements Listener {
      * @param material
      * @return
      */
-    private boolean harvestBlocks(BlockState state, @NotNull XMaterial material) {
+    private boolean harvestBlocks(BlockState state, @NotNull XMaterial material, BlockGrowEvent event) {
         if (isBlockHarvestable(material)) {
+            event.setCancelled(true);
             ItemStack item = material.parseItem();
-            if (material.equals(XMaterial.valueOf("MELON"))) {
-                item = XMaterial.valueOf("MELON_SLICE").parseItem();
+            if (material.equals(XMaterial.valueOf("MELON_SLICE")))
                 item.setAmount(4);
-            }
+            else if (material.equals(XMaterial.valueOf("SWEET_BERRIES")))
+                item.setAmount(3);
             state.getWorld().dropItemNaturally(state.getLocation(), item);
             state.setType(Material.AIR);
             return true;
@@ -103,21 +106,22 @@ public class AutoHarvestEvent implements Listener {
         else return false;
     }
 
-    private boolean isBlockHarvestable(XMaterial material) {
+    private boolean isBlockHarvestable(@NotNull XMaterial material) {
         return material.equals(XMaterial.valueOf("SUGAR_CANE"))
-                || material.equals(XMaterial.valueOf("MELON"))
+                || material.equals(XMaterial.valueOf("MELON_SLICE"))
                 || material.equals(XMaterial.valueOf("PUMPKIN"))
                 || material.equals(XMaterial.valueOf("CHORUS_FLOWER"))
                 || material.equals(XMaterial.valueOf("CHORUS_PLANT"));
     }
 
-    private boolean isCropsHarvestable(XMaterial material) {
-        return material.equals(XMaterial.valueOf("WHEAT"))
-                || material.equals(XMaterial.valueOf("CARROTS"))
-                || material.equals(XMaterial.valueOf("POTATOES"))
-                || material.equals(XMaterial.valueOf("BEETROOTS"))
-                || material.equals(XMaterial.valueOf("SWEET_BERRY_BUSH"))
+    private boolean isCropsHarvestable(@NotNull XMaterial material) {
+        boolean status = material.equals(XMaterial.valueOf("WHEAT"))
+                || material.equals(XMaterial.valueOf("CARROT"))
+                || material.equals(XMaterial.valueOf("POTATO"))
+                || material.equals(XMaterial.valueOf("BEETROOT"))
+                || material.equals(XMaterial.valueOf("SWEET_BERRIES"))
                 || material.equals(XMaterial.valueOf("NETHER_WART"));
+        return status;
     }
 
     /**
@@ -132,7 +136,10 @@ public class AutoHarvestEvent implements Listener {
             MaterialData data = state.getData();
             // Other crops
             if (data.getData() == 7
-                    || (material.equals(XMaterial.valueOf("NETHER_WART")) && data.getData() == 3)) {
+                    || ((material.equals(XMaterial.valueOf("NETHER_WART"))
+                        || material.equals(XMaterial.valueOf("BEETROOT"))
+                        || material.equals(XMaterial.valueOf("SWEET_BERRIES")))
+                            && data.getData() == 3)) {
                 ItemStack item = material.parseItem();
                 // Checks if stock is not full then drops item
                 // item of crop
@@ -149,14 +156,33 @@ public class AutoHarvestEvent implements Listener {
     }
 
     /**
+     * Parses itemstack of crops
+     */
+    private XMaterial parseMaterial(XMaterial material) {
+        if (material.equals(XMaterial.valueOf("BEETROOTS")))
+            material = XMaterial.valueOf("BEETROOT");
+        else if (material.equals(XMaterial.valueOf("POTATOES")))
+            material = XMaterial.valueOf("POTATO");
+        else if (material.equals(XMaterial.valueOf("CARROTS")))
+            material = XMaterial.valueOf("CARROT");
+        else if (material.equals(XMaterial.valueOf("SWEET_BERRY_BUSH")))
+            material = XMaterial.valueOf("SWEET_BERRIES");
+        else if (material.equals(XMaterial.valueOf("MELON")))
+            material = XMaterial.valueOf("MELON_SLICE");
+        else if (material.equals(XMaterial.valueOf("COCOA")))
+            material = XMaterial.valueOf("COCOA_BEANS");
+        return material;
+    }
+
+    /**
      * Used in harvestCrops for item drops and age of crop
      * @param state
      */
-    private boolean harvestCocoa(BlockState state, XMaterial material) {
-        if (material.equals(XMaterial.valueOf("COCOA"))) {
+    private boolean harvestCocoa(BlockState state, @NotNull XMaterial material) {
+        if (material.equals(XMaterial.valueOf("COCOA_BEANS"))) {
             CocoaPlant data = (CocoaPlant) state.getData();
             if (data.getSize().equals(CocoaPlant.CocoaPlantSize.LARGE)) {
-                ItemStack item = XMaterial.valueOf("COCOA_BEANS").parseItem();
+                ItemStack item = material.parseItem();
                 item.setAmount(3);
                 state.getWorld().dropItemNaturally(state.getLocation(), item);
 

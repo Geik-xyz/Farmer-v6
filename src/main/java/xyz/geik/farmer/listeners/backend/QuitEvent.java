@@ -28,14 +28,16 @@ public class QuitEvent implements Listener {
     @EventHandler
     public void onQuitEvent(@NotNull PlayerQuitEvent e) {
         final Location loc = e.getPlayer().getLocation();
-        final UUID playerUUID = e.getPlayer().getUniqueId();
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             if (Settings.allowedWorlds.contains(loc.getWorld().getName())) {
-                String regionID = Main.getIntegration().getRegionID(loc);
-                if (regionID == null || !FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
-                    return;
-                Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
-                farmer.saveFarmerAsync();
+                try {
+                    String regionID = Main.getIntegration().getRegionID(loc);
+                    if (regionID == null || !FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
+                        return;
+                    Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
+                    farmer.saveFarmerAsync();
+                }
+                catch (Exception ex) {}
             }
         });
     }

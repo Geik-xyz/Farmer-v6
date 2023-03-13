@@ -71,7 +71,7 @@ public class AutoHarvest extends FarmerModule {
      * @param state
      * @return
      */
-    public static boolean checkCrop(BlockState state) {
-        return getInstance().getCrops().stream().anyMatch(crop -> XMaterial.matchXMaterial(state.getType()).equals(XMaterial.valueOf(crop)));
+    public static boolean checkCrop(XMaterial material) {
+        return getInstance().getCrops().stream().anyMatch(crop -> material.equals(XMaterial.valueOf(crop)));
     }
 }

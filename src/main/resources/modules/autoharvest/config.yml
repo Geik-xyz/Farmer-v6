@@ -21,12 +21,11 @@ settings:
   checkStock: true
   customPerm: "autoharvest.harvest"
   # write the crops you want to harvest here
-  # *IMPORTANT* Write 1 type of item from the crop
-  # for example if you write WHEAT here, you can't write WHEAT_SEEDS here because it's drop from same crop
-  # if you want to harvest all crops, you can write ALL here (*if you remove this setting, it can cause errors*)
+  # *IMPORTANT* Write only base item of crops. for example, if you want to harvest wheat, you must write WHEAT here
+  # if you want to harvest all crops, you must write all items here (*if you remove this setting, it can cause errors*)
   # also you must write the crop names same as items.yml items.
   items:
     - WHEAT
-    - CARROTS
-    - POTATOES
+    - CARROT
+    - POTATO
     - PUMPKIN
