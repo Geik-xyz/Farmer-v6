@@ -29,7 +29,7 @@ public class QuitEvent implements Listener {
     public void onQuitEvent(@NotNull PlayerQuitEvent e) {
         final Location loc = e.getPlayer().getLocation();
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            if (Settings.allowedWorlds.contains(loc.getWorld().getName())) {
+            if (Settings.isWorldAllowed(loc.getWorld().getName())) {
                 try {
                     String regionID = Main.getIntegration().getRegionID(loc);
                     if (regionID == null || !FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))

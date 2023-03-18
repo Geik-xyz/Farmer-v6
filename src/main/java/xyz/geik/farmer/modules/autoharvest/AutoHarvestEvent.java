@@ -32,7 +32,7 @@ public class AutoHarvestEvent implements Listener {
         Block block = event.getNewState().getBlock();
         XMaterial material = parseMaterial(XMaterial.matchXMaterial(event.getNewState().getType()));
         // Checks world suitable for farmer
-        if (!Settings.allowedWorlds.contains(block.getLocation().getWorld().getName()))
+        if (!Settings.isWorldAllowed(block.getWorld().getName()))
             return;
 
         // Checks auto harvest, harvests this block.

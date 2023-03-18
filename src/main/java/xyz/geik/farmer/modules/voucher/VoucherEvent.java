@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.guis.MainGui;
+import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 
 public class VoucherEvent implements Listener {
@@ -32,7 +33,7 @@ public class VoucherEvent implements Listener {
         if (!voucherBase.equals(event.getItem()))
             return;
         event.setCancelled(true);
-        if (!Farmer.farmerWorldCheck(event.getPlayer())) {
+        if (!Settings.isWorldAllowed(player.getWorld().getName())) {
             player.sendMessage(Voucher.getInstance().getInstance().getLang().getText("wrongWorld"));
             return;
         }

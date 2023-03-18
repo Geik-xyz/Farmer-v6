@@ -82,7 +82,7 @@ public class Commands implements CommandExecutor {
             return false;
         }
         // Check world is suitable for farmer
-        if (!Farmer.farmerWorldCheck(player)
+        if (!Settings.isWorldAllowed(player.getWorld().getName())
                 && !arg.equalsIgnoreCase("reload")) {
             player.sendMessage(Main.getLangFile().getText("wrongWorld"));
             return false;
@@ -220,7 +220,7 @@ public class Commands implements CommandExecutor {
      */
     private boolean farmerBaseCommand(Player player) {
         // There is another world check
-        if (!Farmer.farmerWorldCheck(player)) {
+        if (!Settings.isWorldAllowed(player.getWorld().getName())) {
             player.sendMessage(Main.getLangFile().getText("wrongWorld"));
             return true;
         }

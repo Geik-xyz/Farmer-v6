@@ -60,7 +60,7 @@ public class ItemEvent implements Listener {
     @EventHandler(priority= EventPriority.HIGHEST)
     public void itemSpawnEvent(@NotNull ItemSpawnEvent e) {
         // Checks world suitable for farmer
-        if (!Settings.allowedWorlds.contains(e.getLocation().getWorld().getName()))
+        if (!Settings.isWorldAllowed(e.getLocation().getWorld().getName()))
             return;
         // Checks if player dropped or naturally dropped
         // if settings contain Cancel player drop then it cancel collecting it.

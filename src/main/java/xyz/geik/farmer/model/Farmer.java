@@ -218,18 +218,4 @@ public class Farmer {
         });
         return true;
     }
-
-    /**
-     * Helper method which checks is
-     * world suitable for farmer
-     *
-     * @param player
-     * @return
-     */
-    public static boolean farmerWorldCheck(@NotNull Player player) {
-        if (!Settings.allowedWorlds.contains(player.getWorld().getName()))
-            return false;
-        else return true;
-    }
-
 }

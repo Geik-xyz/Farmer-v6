@@ -11,4 +11,5 @@ voucher:
   lore:
   - ""
   - "&7Level: &e{level}"
+  - ""
   - "&7Right click to redeem"

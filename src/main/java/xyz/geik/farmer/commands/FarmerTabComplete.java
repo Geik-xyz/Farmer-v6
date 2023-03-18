@@ -55,7 +55,7 @@ public class FarmerTabComplete implements TabCompleter {
                 }
                 String regionID = Main.getIntegration().getRegionID(player.getLocation());
                 // First creating a true object if world and region exists
-                boolean manage = Settings.allowedWorlds.contains(player.getWorld().getName())
+                boolean manage = Settings.isWorldAllowed(player.getWorld().getName())
                         && regionID != null;
                 // Checks region id is valid, checks allowed worlds contain world which player in,
                 // Farmer exists and player has farmer.admin perm or owner of farmer.
