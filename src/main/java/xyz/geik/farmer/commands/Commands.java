@@ -1,5 +1,6 @@
 package xyz.geik.farmer.commands;
 
+import com.bgsoftware.superiorskyblock.api.handlers.ModulesManager;
 import com.cryptomorin.xseries.messages.Titles;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.managers.ModuleManager;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.guis.BuyGui;
 import xyz.geik.farmer.guis.MainGui;
@@ -17,6 +19,7 @@ import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.voucher.VoucherCommand;
 
 import java.util.UUID;
@@ -158,6 +161,7 @@ public class Commands implements CommandExecutor {
             FarmerLevel.loadLevels();
             // Reloading farmers again.
             DBQueries.loadAllFarmers();
+            FarmerAPI.getModuleManager().getModuleList().forEach(FarmerModule::onReload);
             // Sends message to sender who send this command and also calculating millisecond difference.
             sender.sendMessage(Main.getLangFile().getText("reloadSuccess").replace("%ms%",
                     System.currentTimeMillis() - time + "ms"));

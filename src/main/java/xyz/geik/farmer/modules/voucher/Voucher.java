@@ -30,6 +30,9 @@ public class Voucher extends FarmerModule {
     }
 
     @Override
+    public void onReload() {}
+
+    @Override
     public void onDisable() {}
 
     @Override

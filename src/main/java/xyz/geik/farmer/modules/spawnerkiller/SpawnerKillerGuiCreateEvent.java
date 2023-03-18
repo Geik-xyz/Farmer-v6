@@ -21,7 +21,11 @@ import java.util.stream.Collectors;
  */
 public class SpawnerKillerGuiCreateEvent implements Listener {
 
-    // TODO Description
+    /**
+     * Creates the GUI element for the farmer GUI for the module
+     *
+     * @param e
+     */
     @EventHandler
     public void onGuiCreateEvent(@NotNull FarmerModuleGuiCreateEvent e) {
         char icon = SpawnerKiller.getInstance()
@@ -47,7 +51,12 @@ public class SpawnerKillerGuiCreateEvent implements Listener {
         );
     }
 
-    // TODO Description
+    /**
+     * Gets item of gui
+     *
+     * @param farmer
+     * @return
+     */
     @Contract(" -> new")
     private @NotNull ItemStack getGuiItem(Farmer farmer) {
         ItemStack item = GuiHelper.getItem("moduleGui.icon", SpawnerKiller.getInstance().getLang());

@@ -55,9 +55,22 @@ public class AutoHarvest extends FarmerModule {
         checkAllDirections = getConfig().getBoolean("settings.checkAllDirections");
         withoutFarmer = getConfig().getBoolean("settings.withoutFarmer");
         checkStock = getConfig().getBoolean("settings.checkStock");
+        customPerm = getConfig().getString("settings.customPerm");
         registerListener(new AutoHarvestEvent());
         registerListener(new AutoHarvestGuiCreateEvent());
         setLang(Settings.lang, Main.getInstance());
+    }
+
+    @Override
+    public void onReload() {
+        if (!getCrops().isEmpty())
+            getCrops().clear();
+        getCrops().addAll(getConfig().getStringList("settings.items"));
+        requirePiston = getConfig().getBoolean("settings.requirePiston");
+        checkAllDirections = getConfig().getBoolean("settings.checkAllDirections");
+        withoutFarmer = getConfig().getBoolean("settings.withoutFarmer");
+        checkStock = getConfig().getBoolean("settings.checkStock");
+        customPerm = getConfig().getString("settings.customPerm");
     }
 
     @Override
@@ -68,7 +81,7 @@ public class AutoHarvest extends FarmerModule {
     /**
      * Checks if auto harvest collect this crop.
      *
-     * @param state
+     * @param material
      * @return
      */
     public static boolean checkCrop(XMaterial material) {

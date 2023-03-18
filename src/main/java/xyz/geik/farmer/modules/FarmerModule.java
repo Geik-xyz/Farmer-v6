@@ -73,6 +73,11 @@ public abstract class FarmerModule {
     public abstract void onDisable();
 
     /**
+     * When reload the module this method will be called
+     */
+    public abstract void onReload();
+
+    /**
      * Set default config of plugin
      * You may use it in your onLoad
      * or onEnable method of your module

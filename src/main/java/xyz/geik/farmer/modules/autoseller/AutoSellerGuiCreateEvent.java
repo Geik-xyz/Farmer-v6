@@ -17,7 +17,11 @@ import java.util.stream.Collectors;
 
 public class AutoSellerGuiCreateEvent implements Listener {
 
-    // TODO Description
+    /**
+     * Creates the GUI element for the module and adds it to the GUI
+     *
+     * @param e
+     */
     @EventHandler
     public void onGuiCreateEvent(@NotNull FarmerModuleGuiCreateEvent e) {
         char icon = AutoSeller.getInstance()
@@ -43,7 +47,12 @@ public class AutoSellerGuiCreateEvent implements Listener {
         );
     }
 
-    // TODO Description
+    /**
+     * Get the item for the GUI
+     *
+     * @param farmer
+     * @return
+     */
     @Contract(" -> new")
     private @NotNull ItemStack getGuiItem(Farmer farmer) {
         ItemStack item = GuiHelper.getItem("moduleGui.icon", AutoSeller.getInstance().getLang());

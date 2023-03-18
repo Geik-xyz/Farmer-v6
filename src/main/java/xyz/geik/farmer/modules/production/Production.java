@@ -57,6 +57,14 @@ public class Production extends FarmerModule {
     }
 
     @Override
+    public void onReload() {
+        numberFormat[0] = getLang().getText("numberFormat.thousand");
+        numberFormat[1] = getLang().getText("numberFormat.million");
+        numberFormat[2] = getLang().getText("numberFormat.billion");
+        numberFormat[3] = getLang().getText("numberFormat.trillion");
+    }
+
+    @Override
     public void onDisable() {}
 
     public static boolean isCalculateItem(@NotNull FarmerItem item) {

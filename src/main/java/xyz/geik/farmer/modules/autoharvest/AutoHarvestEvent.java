@@ -17,10 +17,16 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 
 public class AutoHarvestEvent implements Listener {
 
+    /**
+     * Main event of autoharvest
+     *
+     * @param event
+     */
     @EventHandler
     public void onHarvestGrowEvent(@NotNull BlockGrowEvent event) {
         Block block = event.getNewState().getBlock();
@@ -58,6 +64,7 @@ public class AutoHarvestEvent implements Listener {
                 return;
         }
 
+        // Harvests crops
         if (harvestCrops(event.getNewState(), material))
             return;
 
@@ -70,6 +77,13 @@ public class AutoHarvestEvent implements Listener {
         else return;
     }
 
+    /**
+     * Checks if block harvestable or not.
+     *
+     * @param farmer
+     * @param material
+     * @return
+     */
     private boolean hasStock(Farmer farmer, XMaterial material) {
         if (AutoHarvest.getInstance().isCheckStock()) {
             // Checks if farmer has autoseller module and is enabled for this farmer
@@ -80,12 +94,19 @@ public class AutoHarvestEvent implements Listener {
                     .getStockedItem(material);
             if (item.getAmount() == capacity)
                 return false;
+
+            // Seed stock check
+            XMaterial seed = hasSeed(material);
+            if (!seed.equals(XMaterial.AIR)) {
+                if (FarmerInv.checkMaterial(seed.parseItem()))
+                    return hasStock(farmer, seed);
+            }
         }
         return true;
     }
 
     /**
-     * TODO Description
+     * Harvest block typed crops which remove after harvest
      *
      * @param state
      * @param material
@@ -106,6 +127,11 @@ public class AutoHarvestEvent implements Listener {
         else return false;
     }
 
+    /**
+     * Checks if grown crop type of block
+     * @param material
+     * @return
+     */
     private boolean isBlockHarvestable(@NotNull XMaterial material) {
         return material.equals(XMaterial.valueOf("SUGAR_CANE"))
                 || material.equals(XMaterial.valueOf("MELON_SLICE"))
@@ -114,6 +140,11 @@ public class AutoHarvestEvent implements Listener {
                 || material.equals(XMaterial.valueOf("CHORUS_PLANT"));
     }
 
+    /**
+     * Checks if grown crop type of ageable crop
+     * @param material
+     * @return
+     */
     private boolean isCropsHarvestable(@NotNull XMaterial material) {
         boolean status = material.equals(XMaterial.valueOf("WHEAT"))
                 || material.equals(XMaterial.valueOf("CARROT"))
@@ -125,7 +156,20 @@ public class AutoHarvestEvent implements Listener {
     }
 
     /**
-     * TODO Description
+     * Checks if crop has seed for stock check
+     * @param material
+     * @return
+     */
+    private XMaterial hasSeed(@NotNull XMaterial material) {
+        if (material.equals(XMaterial.valueOf("WHEAT")))
+            return XMaterial.valueOf("WHEAT_SEEDS");
+        else if (material.equals(XMaterial.valueOf("BEETROOT")))
+            return XMaterial.valueOf("BEETROOT_SEEDS");
+        else return XMaterial.AIR;
+    }
+
+    /**
+     * Harvests crop which ageable and makes age of it 0
      *
      * @param state
      * @param material
@@ -195,7 +239,7 @@ public class AutoHarvestEvent implements Listener {
     }
 
     /**
-     * TODO Description
+     * Checks if piston is near the block
      *
      * @param location
      * @return

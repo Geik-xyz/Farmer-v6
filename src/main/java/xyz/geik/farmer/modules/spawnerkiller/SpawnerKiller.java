@@ -61,6 +61,23 @@ public class SpawnerKiller extends FarmerModule {
     }
 
     @Override
+    public void onReload() {
+        defaultStatus = getConfig().getBoolean("settings.defaultStatus");
+        customPerm = getConfig().getString("settings.customPerm");
+        removeMob = getConfig().getBoolean("settings.removeMob");
+        cookFoods = getConfig().getBoolean("settings.cookFoods");
+        requireFarmer = getConfig().getBoolean("settings.requireFarmer");
+        if (!whitelist.isEmpty())
+            whitelist.clear();
+        if (!blacklist.isEmpty())
+            blacklist.clear();
+        if (getConfig().contains("settings.whitelist"))
+            getConfig().getTextList("settings.whitelist").forEach(whitelist::add);
+        if (getConfig().contains("settings.blacklist"))
+            getConfig().getTextList("settings.blacklist").forEach(blacklist::add);
+    }
+
+    @Override
     public void onDisable() {
 
     }

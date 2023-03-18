@@ -16,7 +16,8 @@ import xyz.geik.farmer.model.inventory.FarmerItem;
 public class AutoSellerEvent implements Listener {
 
     /**
-     * TODO Description
+     * Automatically sells stocked item when farmer storage is full
+     *
      * @param event
      */
     @EventHandler

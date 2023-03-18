@@ -29,7 +29,6 @@ public class SpawnerKillerEvent implements Listener {
     public void onCreatureEvent(@NotNull CreatureSpawnEvent e) {
         Entity en = e.getEntity();
         if (en instanceof Damageable) {
-
             if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.MOUNT)
                     || e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.JOCKEY))
                 e.setCancelled(true);
@@ -91,7 +90,9 @@ public class SpawnerKillerEvent implements Listener {
     }
 
     /**
-     * Kill calculator for experience and drops
+     * Kill calculator for experience and drops minecraft calculates the experience and drops
+     * for mobs and animals when they die with a cause. This is a custom method to calculate
+     * because there is no cause to kill them.
      *
      * @param entity
      * @param amount
