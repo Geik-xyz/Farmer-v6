@@ -3,8 +3,6 @@ package xyz.geik.farmer.model.inventory;
 import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -46,6 +44,14 @@ public class FarmerItem {
         this.material = XMaterial.matchXMaterial(name).get();
     }
 
+    /**
+     * Clones FarmerItem
+     * @return
+     */
+    public FarmerItem clone() {
+        return new FarmerItem(this.name, this.price, this.amount);
+    }
+
     // Summing x to amount
     public void sumAmount(long sum) {
         this.amount += sum;
@@ -82,9 +88,12 @@ public class FarmerItem {
      * @return
      */
     public static List<FarmerItem> deserializeItems(String items) {
+        List<FarmerItem> result = new ArrayList<>();
+        // Cloning default items to farmer inventory
+        result.addAll(FarmerInv.defaultItems.stream().map(FarmerItem::clone).collect(Collectors.toList()));
         // Return default items if item list is null
         if (items == null)
-            return new ArrayList<>(FarmerInv.defaultItems);
+            return result;
 
         HashMap<String, Long> tempItems = new LinkedHashMap<>();
         Arrays.stream(items.split(",")).forEach(key -> {
@@ -92,7 +101,6 @@ public class FarmerItem {
             tempItems.put(rawArr[0], Long.parseLong(rawArr[1]));
         });
 
-        List<FarmerItem> result = new ArrayList<>(FarmerInv.defaultItems);
         result = result.stream().map(farmerItem -> {
             if (tempItems.containsKey(farmerItem.getName()))
                 farmerItem.setAmount(tempItems.get(farmerItem.getName()));

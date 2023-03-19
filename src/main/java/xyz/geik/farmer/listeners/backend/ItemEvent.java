@@ -12,6 +12,7 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerInv;
@@ -80,11 +81,11 @@ public class ItemEvent implements Listener {
         // Checks item dropped in region of a player
         // And checks region owner has a farmer
         String regionID = Main.getIntegration().getRegionID(e.getLocation());
-        if (regionID == null || !FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
+        if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
             return;
 
         // Checks farmer in collection state
-        Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
+        Farmer farmer = FarmerManager.getFarmers().get(regionID);
         if (farmer.getState() == 0)
             return;
 

@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerRemoveEvent;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.guis.MainGui;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
@@ -45,9 +46,9 @@ public class VoucherEvent implements Listener {
             player.sendMessage(Main.getLangFile().getText("notOwner"));
             return;
         }
-        if (FarmerAPI.getFarmerManager().getFarmers().containsKey(Main.getIntegration().getRegionID(player.getLocation()))) {
+        if (FarmerManager.getFarmers().containsKey(Main.getIntegration().getRegionID(player.getLocation()))) {
             if (Voucher.getInstance().isOverrideFarmer()) {
-                Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(Main.getIntegration().getRegionID(player.getLocation()));
+                Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(player.getLocation()));
                 if ((voucherLevel-1) > FarmerLevel.getAllLevels().indexOf(farmer.getLevel())) {
                     farmer.setLevel(FarmerLevel.getAllLevels().get(voucherLevel-1));
                     player.sendMessage(Voucher.getInstance().getLang().getText("changedLevel")

@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.model.Farmer;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class SpawnerKillerEvent implements Listener {
             if (SpawnerKiller.getInstance().isRequireFarmer()) {
                 if (!FarmerAPI.getFarmerManager().hasFarmer(e.getLocation()))
                     return;
-                Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(Main.getIntegration().getRegionID(e.getLocation()));
+                Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(e.getLocation()));
                 if (!farmer.getAttributeStatus("spawnerkiller"))
                     return;
             }

@@ -16,6 +16,7 @@ import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerInv;
@@ -44,10 +45,10 @@ public class AutoHarvestEvent implements Listener {
             // Checks item dropped in region of a player
             // And checks region owner has a farmer
             String regionID = Main.getIntegration().getRegionID(block.getLocation());
-            if (regionID == null || !FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
+            if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
                 return;
 
-            Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
+            Farmer farmer = FarmerManager.getFarmers().get(regionID);
 
             // Checks farmer can auto harvest
             if (!farmer.getAttributeStatus("autoharvest"))

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.database.DBConnection;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.helpers.Settings;
@@ -135,7 +136,7 @@ public class Farmer {
         this.inv = new FarmerInv();
         this.level = FarmerLevel.getAllLevels().get(level);
         this.state = 1;
-        FarmerAPI.getFarmerManager().getFarmers().put(regionID, this);
+        FarmerManager.getFarmers().put(regionID, this);
         DBQueries.createFarmer(this, ownerUUID);
     }
 

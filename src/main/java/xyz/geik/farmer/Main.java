@@ -10,6 +10,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.commands.Commands;
 import xyz.geik.farmer.commands.FarmerTabComplete;
 import xyz.geik.farmer.database.DBQueries;
@@ -17,7 +18,6 @@ import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.integrations.Integrations;
 import xyz.geik.farmer.listeners.ListenerRegister;
-import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
@@ -174,7 +174,7 @@ public class Main extends JavaPlugin {
         metrics.addCustomChart(new Metrics.SingleLineChart("ciftci_sayisi", new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return FarmerAPI.getFarmerManager().getFarmers().size();
+                return FarmerManager.getFarmers().size();
             }
         }));
         metrics.addCustomChart(new Metrics.SimplePie("api_eklentisi", new Callable<String>() {

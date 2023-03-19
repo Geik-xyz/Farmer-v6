@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 
@@ -32,9 +33,9 @@ public class QuitEvent implements Listener {
             if (Settings.isWorldAllowed(loc.getWorld().getName())) {
                 try {
                     String regionID = Main.getIntegration().getRegionID(loc);
-                    if (regionID == null || !FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
+                    if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
                         return;
-                    Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
+                    Farmer farmer = FarmerManager.getFarmers().get(regionID);
                     farmer.saveFarmerAsync();
                 }
                 catch (Exception ex) {}
