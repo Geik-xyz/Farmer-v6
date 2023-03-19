@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.inventory.ItemStack;
@@ -27,7 +28,7 @@ public class AutoHarvestEvent implements Listener {
      *
      * @param event
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onHarvestGrowEvent(@NotNull BlockGrowEvent event) {
         Block block = event.getNewState().getBlock();
         XMaterial material = parseMaterial(XMaterial.matchXMaterial(event.getNewState().getType()));
@@ -49,7 +50,7 @@ public class AutoHarvestEvent implements Listener {
             Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
 
             // Checks farmer can auto harvest
-            if (!FarmerAPI.getModuleManager().getAttributeStatus("autoharvest", farmer))
+            if (!farmer.getAttributeStatus("autoharvest"))
                 return;
 
             if (!hasStock(farmer, material)) {
@@ -87,7 +88,7 @@ public class AutoHarvestEvent implements Listener {
     private boolean hasStock(Farmer farmer, XMaterial material) {
         if (AutoHarvest.getInstance().isCheckStock()) {
             // Checks if farmer has autoseller module and is enabled for this farmer
-            if (farmer.getModuleAttributes().containsKey("autoseller"))
+            if (farmer.getAttributeStatus("autoseller"))
                 return true;
             long capacity = farmer.getInv().getCapacity();
             FarmerItem item = farmer.getInv()

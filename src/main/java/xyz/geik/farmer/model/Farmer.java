@@ -14,6 +14,9 @@ import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
+import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
+import xyz.geik.farmer.modules.autoseller.AutoSeller;
+import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,6 +51,55 @@ public class Farmer {
     private int state, id;
 
     private HashMap<String, Boolean> moduleAttributes = new HashMap<>();
+
+    /**
+     * Gets attribute from Farmer
+     *
+     * @param attribute
+     * @return
+     */
+    public boolean getAttributeStatus(String attribute) {
+        if (getModuleAttributes().containsKey(attribute))
+            return getModuleAttributes().get(attribute);
+        else return getDefaultStatus(attribute);
+    }
+
+    /**
+     * Change attribute
+     *
+     * @param attribute
+     * @return
+     */
+    public boolean changeAttribute(String attribute) {
+        if (getModuleAttributes().containsKey(attribute)) {
+            getModuleAttributes().remove(attribute);
+            return getDefaultStatus(attribute);
+        }
+        else {
+            boolean status = !getDefaultStatus(attribute);
+            getModuleAttributes().put(attribute, status);
+            return status;
+        }
+    }
+
+    /**
+     * Get default status of attribute
+     *
+     * @param attribute
+     * @return
+     */
+    private boolean getDefaultStatus(@NotNull String attribute) {
+        switch (attribute) {
+            case "spawnerkiller":
+                return SpawnerKiller.getInstance().isDefaultStatus();
+            case "autoharvest":
+                return AutoHarvest.getInstance().isDefaultStatus();
+            case "autoseller":
+                return AutoSeller.getInstance().isDefaultStatus();
+            default:
+                return false;
+        }
+    }
 
     /**
      * First constructor of farmer which already created before

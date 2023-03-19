@@ -5,3 +5,19 @@ notNumber: "&6Landwirt &8▸ &cBitte gib eine Zahl ein."
 enterValidLevel: "&6Landwirt &8▸ &cBitte gib eine gültige Stufe ein."
 voucherReceived: "&6Landwirt &8▸ &aDu hast einen %level% Stufe Landwirt Gutschein erhalten."
 voucherGiven: "&6Landwirt &8▸ &aDu hast einen %level% Stufe Landwirt Gutschein an %player% gegeben."
+changedLevel: "&6Landwirt &8▸ &aDu hast deine Landwirt Stufe auf %level% geändert."
+levelHigher: "&6Landwirt &8▸ &cDeine Landwirt Stufe ist höher als der Gutschein."
+
+voucher:
+  material: VILLAGER_SPAWN_EGG
+  glow: true
+  name: "&eLandwirt Gutschein"
+  lore:
+    - "&7"
+    - "&7  Stufe: &a%level%"
+    - "&7"
+    - "&7  Hallo, ich werde dir helfen,"
+    - "&7  deine Gegenstände einfach zu"
+    - "&7  verkaufen, indem du sie vom"
+    - "&7  Boden einsammelst. Versuche"
+    - "&7  mich auf den Boden zu stellen."

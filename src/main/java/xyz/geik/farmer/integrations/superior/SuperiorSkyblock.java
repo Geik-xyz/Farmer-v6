@@ -42,6 +42,6 @@ public class SuperiorSkyblock extends Integrations {
      */
     @Override
     public String getRegionID(Location location) {
-        return SuperiorSkyblockAPI.getIslandAt(location).getOwner().getUniqueId().toString();
+        return SuperiorSkyblockAPI.getIslandAt(location).getUniqueId().toString();
     }
 }

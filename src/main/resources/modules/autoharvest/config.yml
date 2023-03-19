@@ -19,8 +19,10 @@ settings:
   # if you set this to false, the crops will grow even if the stock is full.
   # and the crops will be harvested and dropped on the ground.
   checkStock: true
+  # default value of autoharvest module
+  defaultStatus: false
   # there is perm for use this module default: autoharvest.harvest
-  customPerm: "autoharvest.harvest"
+  customPerm: "farmer.autoharvest"
   # write the crops you want to harvest here
   # *IMPORTANT* Write only base item of crops. for example, if you want to harvest wheat, you must write WHEAT here
   # if you want to harvest all crops, you must write all items here (*if you remove this setting, it can cause errors*)

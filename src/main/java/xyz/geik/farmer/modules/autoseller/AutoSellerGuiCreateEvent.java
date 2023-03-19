@@ -39,7 +39,7 @@ public class AutoSellerGuiCreateEvent implements Listener {
                                     if (!e.getPlayer().hasPermission(AutoSeller.getInstance().getCustomPerm()))
                                         return true;
                                     // Change attribute
-                                    FarmerAPI.getModuleManager().changeAttribute("autoseller", e.getFarmer());
+                                    e.getFarmer().changeAttribute("autoseller");
                                     e.getGui().draw();
                                     return true;
                                 })
@@ -57,7 +57,7 @@ public class AutoSellerGuiCreateEvent implements Listener {
     private @NotNull ItemStack getGuiItem(Farmer farmer) {
         ItemStack item = GuiHelper.getItem("moduleGui.icon", AutoSeller.getInstance().getLang());
         ItemMeta meta = item.getItemMeta();
-        String status = FarmerAPI.getModuleManager().getAttributeStatus("autoseller", farmer) ?
+        String status = farmer.getAttributeStatus("autoseller") ?
                 AutoSeller.getInstance().getLang().getText("enabled") :
                 AutoSeller.getInstance().getLang().getText("disabled");
         meta.setLore(meta.getLore().stream().map(line -> line.replace("{status}", status))

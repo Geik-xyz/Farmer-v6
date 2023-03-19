@@ -13,7 +13,7 @@ import xyz.geik.farmer.model.Farmer;
 public class FarmerRemoveEvent extends Event {
 
     // Farmer object
-    private Farmer farmer;
+    private final Farmer farmer;
 
     // is cancelled boolean
     private boolean isCancelled = false;

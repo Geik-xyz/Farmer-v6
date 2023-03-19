@@ -94,10 +94,10 @@ public class FarmerInv {
      */
     public long sumItemAmount(XMaterial material, long amount) {
         FarmerItem item = getStockedItem(material);
-        long summed = item.getAmount() + amount;
-        if (summed > capacity) {
+        long canTake = capacity - item.getAmount();
+        if (canTake < amount) {
             setItemAmount(material, capacity);
-            return summed-capacity;
+            return amount - canTake;
         }
         else {
             item.sumAmount(amount);

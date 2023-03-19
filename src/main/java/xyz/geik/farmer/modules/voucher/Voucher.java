@@ -18,6 +18,8 @@ public class Voucher extends FarmerModule {
         return instance;
     }
 
+    private boolean overrideFarmer = false, giveVoucherWhenRemove = false;
+
     @Override
     public void onLoad() {
         this.setName("Voucher");
@@ -30,7 +32,10 @@ public class Voucher extends FarmerModule {
     }
 
     @Override
-    public void onReload() {}
+    public void onReload() {
+        overrideFarmer = getConfig().get("settings.useWhenFarmerExist", false);
+        giveVoucherWhenRemove = getConfig().get("settings.giveVoucherWhenRemove", false);
+    }
 
     @Override
     public void onDisable() {}
@@ -39,5 +44,7 @@ public class Voucher extends FarmerModule {
     public void onEnable() {
         this.setLang(Settings.lang, Main.getInstance());
         registerListener(new VoucherEvent());
+        overrideFarmer = getConfig().get("settings.useWhenFarmerExist", false);
+        giveVoucherWhenRemove = getConfig().get("settings.giveVoucherWhenRemove", false);
     }
 }

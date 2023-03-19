@@ -135,6 +135,10 @@ public class Commands implements CommandExecutor {
             farmer.getInv().getItems().stream().forEach(key -> {
                 player.sendMessage(Main.color("&6" + key.getMaterial().name() + " &e" + key.getAmount()));
             });
+            player.sendMessage(Main.color("&c----------------------"));
+            farmer.getModuleAttributes().forEach((key, value) -> {
+                player.sendMessage(Main.color("&a" + key + " &f- &3" + value));
+            });
         }
         return true;
     }

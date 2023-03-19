@@ -21,7 +21,7 @@ import xyz.geik.farmer.model.inventory.FarmerInv;
  */
 public class ItemEvent implements Listener {
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void farmerCollectItemEvent(@NotNull FarmerItemCollectEvent event) {
         if (event.isCancelled())
             return;
@@ -44,7 +44,7 @@ public class ItemEvent implements Listener {
                 return;
             }
             // Execute only on drop item is true
-            event.getItem().setAmount((int) left);
+            event.getItemSpawnEvent().getEntity().getItemStack().setAmount((int) left);
         }
         else event.getItemSpawnEvent().setCancelled(true);
     }
@@ -57,7 +57,7 @@ public class ItemEvent implements Listener {
      * Checks has farmer on location
      * Checks if farmer closed
      */
-    @EventHandler(priority= EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void itemSpawnEvent(@NotNull ItemSpawnEvent e) {
         // Checks world suitable for farmer
         if (!Settings.isWorldAllowed(e.getLocation().getWorld().getName()))

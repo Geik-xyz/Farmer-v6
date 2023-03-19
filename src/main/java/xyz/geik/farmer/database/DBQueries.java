@@ -212,15 +212,15 @@ public class DBQueries {
                 removeUsers.executeUpdate();
                 removeUsers.close();
 
+                Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                    // Calls remove farmer event
+                    FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(farmer);
+                    Bukkit.getPluginManager().callEvent(removeEvent);
+                });
+
                 // Removes from cached farmers
                 if (FarmerAPI.getFarmerManager().getFarmers().containsKey(farmer.getRegionID()))
                     FarmerAPI.getFarmerManager().getFarmers().remove(farmer.getRegionID());
-
-                Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-                    // Calls remove farmer event
-                    FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(FarmerAPI.getFarmerManager().getFarmers().get(farmer.getRegionID()));
-                    Bukkit.getPluginManager().callEvent(removeEvent);
-                });
             }
             catch (Exception e) { e.printStackTrace(); }
         });

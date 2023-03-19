@@ -16,6 +16,7 @@ import xyz.geik.farmer.modules.voucher.Voucher;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Tab complete class which shown on up
@@ -35,19 +36,18 @@ public class FarmerTabComplete implements TabCompleter {
         List<String> completes = new ArrayList<>();
         // if player has farmer.admin perm or player name is Geyik adding info and reload hover
         // I probably should see this ^.^
-        if (sender.hasPermission("farmer.admin") || sender.getName().equals("Geyik")) {
-            completes.add("info");
-            completes.add("reload");
-            completes.add("give");
-        }
+        if (sender.hasPermission("farmer.admin") || sender.getName().equals("Geyik"))
+            completes.addAll(Arrays.asList("info", "reload", "give"));
         try {
+            if (args.length > 1)
+                completes.clear();
             // checking if sender player
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (args.length > 1 && Voucher.getInstance().isEnabled()) {
+                if (args.length > 1 && Voucher.getInstance().isEnabled() && args[0].equalsIgnoreCase("give")) {
                     completes.clear();
                     if (args.length == 2)
-                        completes.add(Bukkit.getServer().getOnlinePlayers().stream().map(Player::getName).reduce("", (a, b) -> a + " " + b).trim());
+                        completes.addAll(Bukkit.getServer().getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
                     else if (args.length == 3)
                         for (int i = 1; i <= FarmerLevel.getAllLevels().size(); i++)
                             completes.add(String.valueOf(i));

@@ -5,3 +5,19 @@ notNumber: "&6Farmer &8▸ &cPlease enter a number."
 enterValidLevel: "&6Farmer &8▸ &cPlease enter a valid level."
 voucherReceived: "&6Farmer &8▸ &aYou received a %level% level farmer voucher."
 voucherGiven: "&6Farmer &8▸ &aYou gave a %level% level farmer voucher to %player%."
+changedLevel: "&6Farmer &8▸ &aYou changed your farmer level to %level%."
+levelHigher: "&6Farmer &8▸ &cYour farmer level is higher than voucher."
+
+voucher:
+  material: VILLAGER_SPAWN_EGG
+  glow: true
+  name: "&eFarmer Voucher"
+  lore:
+    - "&7"
+    - "&7  Level: &a%level%"
+    - "&7"
+    - "&7  Hello, I will help you to"
+    - "&7  easily sell your items"
+    - "&7  by collecting them from"
+    - "&7  the ground. Try to place me"
+    - "&7  on the ground."

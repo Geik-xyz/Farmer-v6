@@ -2,6 +2,7 @@ package xyz.geik.farmer.integrations.superior;
 
 import com.bgsoftware.superiorskyblock.api.events.IslandCreateEvent;
 import com.bgsoftware.superiorskyblock.api.events.IslandDisbandEvent;
+import com.bgsoftware.superiorskyblock.api.events.IslandTransferEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,7 @@ public class SuperiorListener implements Listener {
      */
     @EventHandler
     public void disbandEvent(@NotNull IslandDisbandEvent e) {
-        FarmerAPI.getFarmerManager().removeFarmer(e.getIsland().getOwner().getUniqueId().toString());
+        FarmerAPI.getFarmerManager().removeFarmer(e.getIsland().getUniqueId().toString());
     }
 
     /**
@@ -37,8 +38,14 @@ public class SuperiorListener implements Listener {
     @EventHandler
     public void createIslandEvent(IslandCreateEvent e) {
         if (Settings.autoCreateFarmer) {
-            Farmer farmer = new Farmer(e.getIsland().getOwner().getUniqueId().toString(), e.getIsland().getOwner().getUniqueId(), 0);
+            Farmer farmer = new Farmer(e.getIsland().getUniqueId().toString(), e.getIsland().getOwner().getUniqueId(), 0);
             e.getIsland().getOwner().asPlayer().sendMessage(Main.getLangFile().getText("boughtFarmer"));
         }
+    }
+
+    @EventHandler
+    public void transferIslandEvent(IslandTransferEvent event) {
+        FarmerAPI.getFarmerManager()
+                .changeOwner(event.getOldOwner().getUniqueId(), event.getNewOwner().getUniqueId(), event.getIsland().getUniqueId().toString());
     }
 }

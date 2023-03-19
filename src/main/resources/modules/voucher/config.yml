@@ -4,12 +4,11 @@ settings:
   # and players with farmer.admin permission can give voucher.
   # you can disable buy feature and give farmer with command
   feature: true
-
-voucher:
-  material: VILLAGER_SPAWN_EGG
-  name: "&eFarmer Voucher"
-  lore:
-  - ""
-  - "&7Level: &e{level}"
-  - ""
-  - "&7Right click to redeem"
+  # if you want to use voucher system with override method
+  # you can enable this setting. it will override voucher to farmer
+  # which replace farmer level same as voucher level when voucher level
+  # is higher than farmer level.
+  useWhenFarmerExist: false
+  # if you want to give voucher when farmer removed
+  # you can enable this setting. it will give voucher to player
+  giveVoucherWhenRemove: false

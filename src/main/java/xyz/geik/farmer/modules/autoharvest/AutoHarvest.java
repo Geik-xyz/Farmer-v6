@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 public class AutoHarvest extends FarmerModule {
 
-    private boolean requirePiston = false, checkAllDirections = false, withoutFarmer = false, checkStock = true;
+    private boolean requirePiston = false, checkAllDirections = false, withoutFarmer = false, checkStock = true, defaultStatus = false;
     private String customPerm = "farmer.autoharvest";
     private List<String> crops = new ArrayList<>();
 
@@ -56,6 +56,7 @@ public class AutoHarvest extends FarmerModule {
         withoutFarmer = getConfig().getBoolean("settings.withoutFarmer");
         checkStock = getConfig().getBoolean("settings.checkStock");
         customPerm = getConfig().getString("settings.customPerm");
+        defaultStatus = getConfig().getBoolean("settings.defaultStatus");
         registerListener(new AutoHarvestEvent());
         registerListener(new AutoHarvestGuiCreateEvent());
         setLang(Settings.lang, Main.getInstance());
@@ -71,6 +72,7 @@ public class AutoHarvest extends FarmerModule {
         withoutFarmer = getConfig().getBoolean("settings.withoutFarmer");
         checkStock = getConfig().getBoolean("settings.checkStock");
         customPerm = getConfig().getString("settings.customPerm");
+        defaultStatus = getConfig().getBoolean("settings.defaultStatus");
     }
 
     @Override
