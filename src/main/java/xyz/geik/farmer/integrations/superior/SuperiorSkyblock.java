@@ -26,7 +26,7 @@ public class SuperiorSkyblock extends Integrations {
      */
     @Override
     public UUID getOwnerUUID(String regionId) {
-        return UUID.fromString(regionId);
+        return SuperiorSkyblockAPI.getIslandByUUID(UUID.fromString(regionId)).getOwner().getUniqueId();
     }
 
     /**

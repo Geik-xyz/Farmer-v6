@@ -58,6 +58,8 @@ public class Production extends FarmerModule {
 
     @Override
     public void onReload() {
+        if (!this.isEnabled())
+            return;
         numberFormat[0] = getLang().getText("numberFormat.thousand");
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");

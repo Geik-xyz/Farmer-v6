@@ -138,6 +138,7 @@ public class AutoHarvestEvent implements Listener {
         return material.equals(XMaterial.valueOf("SUGAR_CANE"))
                 || material.equals(XMaterial.valueOf("MELON_SLICE"))
                 || material.equals(XMaterial.valueOf("PUMPKIN"))
+                || material.equals(XMaterial.valueOf("CACTUS"))
                 || material.equals(XMaterial.valueOf("CHORUS_FLOWER"))
                 || material.equals(XMaterial.valueOf("CHORUS_PLANT"));
     }

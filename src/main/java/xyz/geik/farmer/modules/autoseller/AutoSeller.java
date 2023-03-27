@@ -56,6 +56,8 @@ public class AutoSeller extends FarmerModule {
 
     @Override
     public void onReload() {
+        if (!this.isEnabled())
+            return;
         if (!getAllowedItems().isEmpty())
             getAllowedItems().clear();
         getAllowedItems().addAll(getConfig().getStringList("items"));

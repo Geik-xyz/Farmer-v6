@@ -64,6 +64,8 @@ public class AutoHarvest extends FarmerModule {
 
     @Override
     public void onReload() {
+        if (!this.isEnabled())
+            return;
         if (!getCrops().isEmpty())
             getCrops().clear();
         getCrops().addAll(getConfig().getStringList("settings.items"));

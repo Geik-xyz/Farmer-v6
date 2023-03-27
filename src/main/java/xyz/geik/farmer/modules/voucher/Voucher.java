@@ -33,6 +33,8 @@ public class Voucher extends FarmerModule {
 
     @Override
     public void onReload() {
+        if (!this.isEnabled())
+            return;
         overrideFarmer = getConfig().get("settings.useWhenFarmerExist", false);
         giveVoucherWhenRemove = getConfig().get("settings.giveVoucherWhenRemove", false);
     }

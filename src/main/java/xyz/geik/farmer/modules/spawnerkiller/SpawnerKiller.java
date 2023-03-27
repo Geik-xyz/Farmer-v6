@@ -62,6 +62,8 @@ public class SpawnerKiller extends FarmerModule {
 
     @Override
     public void onReload() {
+        if (!this.isEnabled())
+            return;
         defaultStatus = getConfig().getBoolean("settings.defaultStatus");
         customPerm = getConfig().getString("settings.customPerm");
         removeMob = getConfig().getBoolean("settings.removeMob");

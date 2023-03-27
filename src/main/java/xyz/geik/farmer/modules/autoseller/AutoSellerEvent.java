@@ -43,6 +43,8 @@ public class AutoSellerEvent implements Listener {
             // Or if the allowed items list is empty because all items allowed for this setting
             if (AutoSeller.getInstance().getAllowedItems().contains(farmerItem.getName())
                     || AutoSeller.getInstance().getAllowedItems().isEmpty()) {
+                if (farmerItem.getPrice() <= 0)
+                    return;
                 FarmerItemSellEvent itemSellEvent = new FarmerItemSellEvent(farmer, farmerItem, owner);
                 Bukkit.getPluginManager().callEvent(itemSellEvent);
 
