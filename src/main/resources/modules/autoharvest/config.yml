@@ -1,7 +1,7 @@
 settings:
   # auto harvest crops addon harvest crops automatically
   # if you want this module to be enabled, you can set this to true
-  feature: true
+  feature: false
   # if you want to make a little difficult to players, you can set this to true
   # also it can do 1 check for each crop can impact performance small amount, but it can be a problem if you have a lot of crops
   # if you set this to true, the crops will be harvested only if the piston is top direction of the crops
@@ -19,11 +19,15 @@ settings:
   # if you set this to false, the crops will grow even if the stock is full.
   # and the crops will be harvested and dropped on the ground.
   checkStock: true
-  customPerm: "autoharvest.harvest"
+  # default value of autoharvest module
+  defaultStatus: false
+  # there is perm for use this module default: autoharvest.harvest
+  customPerm: "farmer.autoharvest"
   # write the crops you want to harvest here
   # *IMPORTANT* Write only base item of crops. for example, if you want to harvest wheat, you must write WHEAT here
   # if you want to harvest all crops, you must write all items here (*if you remove this setting, it can cause errors*)
   # also you must write the crop names same as items.yml items.
+  # Available harvests: WHEAT, CARROT, POTATO, PUMPKIN, MELON, BEETROOT, NETHER_WART, SUGAR_CANE, COCOA_BEANS
   items:
     - WHEAT
     - CARROT

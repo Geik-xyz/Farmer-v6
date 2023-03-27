@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.voucher.Voucher;
@@ -16,6 +17,7 @@ import xyz.geik.farmer.modules.voucher.Voucher;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Tab complete class which shown on up
@@ -35,19 +37,18 @@ public class FarmerTabComplete implements TabCompleter {
         List<String> completes = new ArrayList<>();
         // if player has farmer.admin perm or player name is Geyik adding info and reload hover
         // I probably should see this ^.^
-        if (sender.hasPermission("farmer.admin") || sender.getName().equals("Geyik")) {
-            completes.add("info");
-            completes.add("reload");
-            completes.add("give");
-        }
+        if (sender.hasPermission("farmer.admin") || sender.getName().equals("Geyik"))
+            completes.addAll(Arrays.asList("info", "reload", "give"));
         try {
+            if (args.length > 1)
+                completes.clear();
             // checking if sender player
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (args.length > 1 && Voucher.getInstance().isEnabled()) {
+                if (args.length > 1 && Voucher.getInstance().isEnabled() && args[0].equalsIgnoreCase("give")) {
                     completes.clear();
                     if (args.length == 2)
-                        completes.add(Bukkit.getServer().getOnlinePlayers().stream().map(Player::getName).reduce("", (a, b) -> a + " " + b).trim());
+                        completes.addAll(Bukkit.getServer().getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
                     else if (args.length == 3)
                         for (int i = 1; i <= FarmerLevel.getAllLevels().size(); i++)
                             completes.add(String.valueOf(i));
@@ -55,12 +56,12 @@ public class FarmerTabComplete implements TabCompleter {
                 }
                 String regionID = Main.getIntegration().getRegionID(player.getLocation());
                 // First creating a true object if world and region exists
-                boolean manage = Settings.allowedWorlds.contains(player.getWorld().getName())
+                boolean manage = Settings.isWorldAllowed(player.getWorld().getName())
                         && regionID != null;
                 // Checks region id is valid, checks allowed worlds contain world which player in,
                 // Farmer exists and player has farmer.admin perm or owner of farmer.
-                if ((manage && FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
-                        && (player.hasPermission("farmer.admin") || FarmerAPI.getFarmerManager().getFarmers().get(regionID).getOwnerUUID().equals(player.getUniqueId())))
+                if ((manage && FarmerManager.getFarmers().containsKey(regionID))
+                        && (player.hasPermission("farmer.admin") || FarmerManager.getFarmers().get(regionID).getOwnerUUID().equals(player.getUniqueId())))
                     completes.add("manage");
                 // returning object of complete.
                 return completes;

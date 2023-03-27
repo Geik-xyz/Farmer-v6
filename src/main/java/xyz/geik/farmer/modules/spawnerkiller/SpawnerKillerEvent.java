@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.managers.FarmerManager;
+import xyz.geik.farmer.model.Farmer;
 
 import java.util.List;
 import java.util.Random;
@@ -29,7 +31,6 @@ public class SpawnerKillerEvent implements Listener {
     public void onCreatureEvent(@NotNull CreatureSpawnEvent e) {
         Entity en = e.getEntity();
         if (en instanceof Damageable) {
-
             if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.MOUNT)
                     || e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.JOCKEY))
                 e.setCancelled(true);
@@ -48,9 +49,8 @@ public class SpawnerKillerEvent implements Listener {
             if (SpawnerKiller.getInstance().isRequireFarmer()) {
                 if (!FarmerAPI.getFarmerManager().hasFarmer(e.getLocation()))
                     return;
-                if (!FarmerAPI.getModuleManager()
-                        .getAttributeStatus("spawnerkiller",
-                                FarmerAPI.getFarmerManager().getFarmers().get(Main.getIntegration().getRegionID(e.getLocation()))))
+                Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(e.getLocation()));
+                if (!farmer.getAttributeStatus("spawnerkiller"))
                     return;
             }
 
@@ -91,7 +91,9 @@ public class SpawnerKillerEvent implements Listener {
     }
 
     /**
-     * Kill calculator for experience and drops
+     * Kill calculator for experience and drops minecraft calculates the experience and drops
+     * for mobs and animals when they die with a cause. This is a custom method to calculate
+     * because there is no cause to kill them.
      *
      * @param entity
      * @param amount

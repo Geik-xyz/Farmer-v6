@@ -55,6 +55,8 @@ public class GroupItems {
             if (key.contains("{prod_"))
                 return ProductionModel.updateLore(productionModel, key);
             // Default replace
+            else if (key.contains("{price}") && price < 0)
+                return null;
             else
                 return key.replace("{stock}", color + stock)
                     .replace("{maxstock}", capacity +"")

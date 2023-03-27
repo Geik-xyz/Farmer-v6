@@ -29,7 +29,7 @@ public class ItemsLoader {
                 Bukkit.getConsoleSender().sendMessage("§c[Farmer] §7Item §e" + key + " §7is not valid material!");
                 return;
             }
-            double price = config.getDouble("Items." + key + ".price");
+            double price = config.contains("Items." + key + ".price") ? config.getDouble("Items." + key + ".price") : -1.0;
             FarmerItem defaultItem = new FarmerItem(key, price, 0);
             FarmerInv.defaultItems.add(defaultItem);
         });

@@ -12,6 +12,7 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerInv;
@@ -21,7 +22,7 @@ import xyz.geik.farmer.model.inventory.FarmerInv;
  */
 public class ItemEvent implements Listener {
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void farmerCollectItemEvent(@NotNull FarmerItemCollectEvent event) {
         if (event.isCancelled())
             return;
@@ -44,7 +45,7 @@ public class ItemEvent implements Listener {
                 return;
             }
             // Execute only on drop item is true
-            event.getItem().setAmount((int) left);
+            event.getItemSpawnEvent().getEntity().getItemStack().setAmount((int) left);
         }
         else event.getItemSpawnEvent().setCancelled(true);
     }
@@ -57,10 +58,10 @@ public class ItemEvent implements Listener {
      * Checks has farmer on location
      * Checks if farmer closed
      */
-    @EventHandler(priority= EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void itemSpawnEvent(@NotNull ItemSpawnEvent e) {
         // Checks world suitable for farmer
-        if (!Settings.allowedWorlds.contains(e.getLocation().getWorld().getName()))
+        if (!Settings.isWorldAllowed(e.getLocation().getWorld().getName()))
             return;
         // Checks if player dropped or naturally dropped
         // if settings contain Cancel player drop then it cancel collecting it.
@@ -80,11 +81,11 @@ public class ItemEvent implements Listener {
         // Checks item dropped in region of a player
         // And checks region owner has a farmer
         String regionID = Main.getIntegration().getRegionID(e.getLocation());
-        if (regionID == null || !FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
+        if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
             return;
 
         // Checks farmer in collection state
-        Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
+        Farmer farmer = FarmerManager.getFarmers().get(regionID);
         if (farmer.getState() == 0)
             return;
 

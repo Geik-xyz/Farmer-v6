@@ -5,3 +5,19 @@ notNumber: "&6Çiftçi &8▸ &cLütfen bir sayı girin."
 enterValidLevel: "&6Çiftçi &8▸ &cLütfen geçerli bir seviye girin."
 voucherReceived: "&6Çiftçi &8▸ &a%level% seviye çiftçi bileti aldın."
 voucherGiven: "&6Çiftçi &8▸ &a%level% seviye çiftçi bileti %player% oyuncusuna verildi."
+changedLevel: "&6Çiftçi &8▸ &aÇiftçi seviyen %level% olarak değiştirildi."
+levelHigher: "&6Çiftçi &8▸ &cÇiftçi seviyen biletten daha yüksek."
+
+voucher:
+  material: VILLAGER_SPAWN_EGG
+  glow: true
+  name: "&eÇiftçi Bileti"
+  lore:
+    - "&7"
+    - "&7  Seviye: &a%level%"
+    - "&7"
+    - "&7 Merhaba, arsandaki eşyaları"
+    - "&7 toplamayarak onları kolayca"
+    - "&7 satmanda sana yardım edeceğim."
+    - "&7 beni çağırmak için yere"
+    - "&7 yerleştirmeyi denemelisin."

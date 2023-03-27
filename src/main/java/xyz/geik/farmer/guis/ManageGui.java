@@ -16,8 +16,6 @@ import xyz.geik.farmer.model.FarmerLevel;
  */
 public class ManageGui {
 
-    // TODO ADDON GUI
-
     /**
      * Shows gui to player also contains event of it
      *

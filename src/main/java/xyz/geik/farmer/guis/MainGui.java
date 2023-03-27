@@ -79,6 +79,8 @@ public class MainGui {
                                 FarmerItem slotItem = farmer.getInv().getStockedItem(material);
                                 // Sells all stock of an item
                                 if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
+                                    if (slotItem.getPrice() < 0)
+                                        return true;
                                     // Calls FarmerItemSellEvent
                                     FarmerItemSellEvent itemSellEvent = new FarmerItemSellEvent(farmer, slotItem, player);
                                     Bukkit.getPluginManager().callEvent(itemSellEvent);

@@ -1,6 +1,7 @@
 package xyz.geik.farmer.listeners.backend;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
@@ -17,7 +18,7 @@ public class ItemSellEvent implements Listener {
      * @param event
      * @return
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void sellItemEvent(@NotNull FarmerItemSellEvent event) {
         FarmerItem slotItem = event.getFarmerItem();
         Farmer farmer = event.getFarmer();
@@ -35,10 +36,10 @@ public class ItemSellEvent implements Listener {
         if (Settings.depositTax)
             Main.getEcon()
                     .depositPlayer(Settings.taxUser, tax);
-        Main.getEcon().depositPlayer(event.getPlayer(), profit);
+        Main.getEcon().depositPlayer(event.getOfflinePlayer(), profit);
         slotItem.setAmount(0);
-        if (event.getPlayer().isOnline())
-            event.getPlayer().sendMessage(Main.getLangFile().getText("sellComplete")
+        if (event.getOfflinePlayer().isOnline())
+            event.getOfflinePlayer().getPlayer().sendMessage(Main.getLangFile().getText("sellComplete")
                 .replace("{money}", roundDouble(profit))
                 .replace("{tax}", roundDouble(tax)));
     }

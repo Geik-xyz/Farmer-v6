@@ -8,6 +8,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.guis.UsersGui;
 import xyz.geik.farmer.model.Farmer;
 
@@ -36,7 +37,7 @@ public class ChatEvent implements Listener {
                 e.getPlayer().sendMessage(Main.getLangFile().getText("inputCancel"));
                 return;
             }
-            Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(getPlayers().get(e.getPlayer().getName()));
+            Farmer farmer = FarmerManager.getFarmers().get(getPlayers().get(e.getPlayer().getName()));
             try {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(msg);
                 if (!farmer.getUsers().stream().anyMatch(user -> {

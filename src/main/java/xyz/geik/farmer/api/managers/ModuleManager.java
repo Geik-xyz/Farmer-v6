@@ -145,38 +145,6 @@ public class ModuleManager {
     }
 
     /**
-     * Gets attribute from Farmer
-     *
-     * @param attribute
-     * @param farmer
-     * @return
-     */
-    public boolean getAttributeStatus(String attribute, @NotNull Farmer farmer) {
-        if (farmer.getModuleAttributes().containsKey(attribute))
-            return farmer.getModuleAttributes().get(attribute);
-        else return SpawnerKiller.getInstance().isDefaultStatus();
-    }
-
-    /**
-     * Change attribute
-     *
-     * @param attribute
-     * @param farmer
-     * @return
-     */
-    public boolean changeAttribute(String attribute, @NotNull Farmer farmer) {
-        if (farmer.getModuleAttributes().containsKey(attribute)) {
-            farmer.getModuleAttributes().remove(attribute);
-            return SpawnerKiller.getInstance().isDefaultStatus();
-        }
-        else {
-            boolean status = !SpawnerKiller.getInstance().isDefaultStatus();
-            farmer.getModuleAttributes().put(attribute, status);
-            return status;
-        }
-    }
-
-    /**
      * Save attributes to database
      *
      * @param con

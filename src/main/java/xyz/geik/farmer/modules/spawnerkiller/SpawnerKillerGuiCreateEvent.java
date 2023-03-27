@@ -21,7 +21,11 @@ import java.util.stream.Collectors;
  */
 public class SpawnerKillerGuiCreateEvent implements Listener {
 
-    // TODO Description
+    /**
+     * Creates the GUI element for the farmer GUI for the module
+     *
+     * @param e
+     */
     @EventHandler
     public void onGuiCreateEvent(@NotNull FarmerModuleGuiCreateEvent e) {
         char icon = SpawnerKiller.getInstance()
@@ -39,7 +43,7 @@ public class SpawnerKillerGuiCreateEvent implements Listener {
                             if (!e.getPlayer().hasPermission(SpawnerKiller.getInstance().getCustomPerm()))
                                 return true;
                             // Change attribute
-                            FarmerAPI.getModuleManager().changeAttribute("spawnerkiller", e.getFarmer());
+                            e.getFarmer().changeAttribute("spawnerkiller");
                             e.getGui().draw();
                             return true;
                     })
@@ -47,12 +51,17 @@ public class SpawnerKillerGuiCreateEvent implements Listener {
         );
     }
 
-    // TODO Description
+    /**
+     * Gets item of gui
+     *
+     * @param farmer
+     * @return
+     */
     @Contract(" -> new")
     private @NotNull ItemStack getGuiItem(Farmer farmer) {
         ItemStack item = GuiHelper.getItem("moduleGui.icon", SpawnerKiller.getInstance().getLang());
         ItemMeta meta = item.getItemMeta();
-        String status = FarmerAPI.getModuleManager().getAttributeStatus("spawnerkiller", farmer) ?
+        String status = farmer.getAttributeStatus("spawnerkiller") ?
                 SpawnerKiller.getInstance().getLang().getText("enabled") :
                 SpawnerKiller.getInstance().getLang().getText("disabled");
         meta.setLore(meta.getLore().stream().map(line -> line.replace("{status}", status))

@@ -17,7 +17,11 @@ import java.util.stream.Collectors;
 
 public class AutoHarvestGuiCreateEvent implements Listener {
 
-    // TODO Description
+    /**
+     * Creates the GUI element for the farmer GUI for the module
+     *
+     * @param e
+     */
     @EventHandler
     public void onGuiCreateEvent(@NotNull FarmerModuleGuiCreateEvent e) {
         char icon = AutoHarvest.getInstance()
@@ -35,7 +39,7 @@ public class AutoHarvestGuiCreateEvent implements Listener {
                                     if (!e.getPlayer().hasPermission(AutoHarvest.getInstance().getCustomPerm()))
                                         return true;
                                     // Change attribute
-                                    FarmerAPI.getModuleManager().changeAttribute("autoharvest", e.getFarmer());
+                                    e.getFarmer().changeAttribute("autoharvest");
                                     e.getGui().draw();
                                     return true;
                                 })
@@ -43,12 +47,17 @@ public class AutoHarvestGuiCreateEvent implements Listener {
         );
     }
 
-    // TODO Description
+    /**
+     * Gets item of gui
+     *
+     * @param farmer
+     * @return
+     */
     @Contract(" -> new")
     private @NotNull ItemStack getGuiItem(Farmer farmer) {
         ItemStack item = GuiHelper.getItem("moduleGui.icon", AutoHarvest.getInstance().getLang());
         ItemMeta meta = item.getItemMeta();
-        String status = FarmerAPI.getModuleManager().getAttributeStatus("autoharvest", farmer) ?
+        String status = farmer.getAttributeStatus("autoharvest") ?
                 AutoHarvest.getInstance().getLang().getText("enabled") :
                 AutoHarvest.getInstance().getLang().getText("disabled");
         meta.setLore(meta.getLore().stream().map(line -> line.replace("{status}", status))

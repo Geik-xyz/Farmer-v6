@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.api.FarmerAPI;
@@ -16,13 +17,14 @@ import xyz.geik.farmer.model.inventory.FarmerItem;
 public class AutoSellerEvent implements Listener {
 
     /**
-     * TODO Description
+     * Automatically sells stocked item when farmer storage is full
+     *
      * @param event
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onAutoSellerEvent(@NotNull FarmerStorageFullEvent event) {
         Farmer farmer = event.getFarmer();
-        if (FarmerAPI.getModuleManager().getAttributeStatus("autoseller", farmer)) {
+        if (farmer.getAttributeStatus("autoseller")) {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(farmer.getOwnerUUID());
             // Checks if the farmer is not true for default status
             // Checks if the farmer owner is online for perm check
@@ -31,7 +33,7 @@ public class AutoSellerEvent implements Listener {
             if (!AutoSeller.getInstance().isDefaultStatus()
                     && owner.isOnline()
                     && !owner.getPlayer().hasPermission(AutoSeller.getInstance().getCustomPerm())) {
-                FarmerAPI.getModuleManager().changeAttribute("autoseller", farmer);
+                farmer.changeAttribute("autoseller");
                 return;
             }
             XMaterial material = XMaterial.matchXMaterial(event.getItem());
@@ -41,7 +43,9 @@ public class AutoSellerEvent implements Listener {
             // Or if the allowed items list is empty because all items allowed for this setting
             if (AutoSeller.getInstance().getAllowedItems().contains(farmerItem.getName())
                     || AutoSeller.getInstance().getAllowedItems().isEmpty()) {
-                FarmerItemSellEvent itemSellEvent = new FarmerItemSellEvent(farmer, farmerItem, owner.getPlayer());
+                if (farmerItem.getPrice() <= 0)
+                    return;
+                FarmerItemSellEvent itemSellEvent = new FarmerItemSellEvent(farmer, farmerItem, owner);
                 Bukkit.getPluginManager().callEvent(itemSellEvent);
 
                 FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, event.getItem(), event.getLeftAmount(), event.getItemSpawnEvent());

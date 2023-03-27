@@ -6,6 +6,7 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerBoughtEvent;
 import xyz.geik.farmer.api.handlers.FarmerRemoveEvent;
+import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.model.inventory.FarmerInv;
@@ -70,7 +71,7 @@ public class DBQueries {
         // Connection
         try (Connection con = DBConnection.connect()) {
             // foreach for all farmers
-            for (Farmer farmer : FarmerAPI.getFarmerManager().getFarmers().values()) {
+            for (Farmer farmer : FarmerManager.getFarmers().values()) {
                 // quick save method written on farmer class
                 farmer.saveFarmer(con);
                 FarmerAPI.getModuleManager().databaseUpdateAttribute(con, farmer);
@@ -133,7 +134,7 @@ public class DBQueries {
                 Farmer farmer = new Farmer(farmerID, regionID, users, inv, level, state);
                 FarmerAPI.getModuleManager().databaseGetAttributes(con, farmer);
                 // Adding it to cache
-                FarmerAPI.getFarmerManager().getFarmers().put(regionID, farmer);
+                FarmerManager.getFarmers().put(regionID, farmer);
                 // Closing user resultset and statement
                 userSet.close();
                 userState.close();
@@ -174,10 +175,10 @@ public class DBQueries {
                 idGetter.setString(1, farmer.getRegionID());
                 int id = idGetter.executeQuery().getInt("id");
                 // Updated id
-                FarmerAPI.getFarmerManager().getFarmers().get(farmer.getRegionID()).setId(id);
+                FarmerManager.getFarmers().get(farmer.getRegionID()).setId(id);
                 idGetter.close();
 
-                FarmerAPI.getFarmerManager().getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
+                FarmerManager.getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
 
                 // Calls event of farmer creation
                 Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
@@ -212,15 +213,15 @@ public class DBQueries {
                 removeUsers.executeUpdate();
                 removeUsers.close();
 
-                // Removes from cached farmers
-                if (FarmerAPI.getFarmerManager().getFarmers().containsKey(farmer.getRegionID()))
-                    FarmerAPI.getFarmerManager().getFarmers().remove(farmer.getRegionID());
-
                 Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                     // Calls remove farmer event
-                    FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(FarmerAPI.getFarmerManager().getFarmers().get(farmer.getRegionID()));
+                    FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(farmer);
                     Bukkit.getPluginManager().callEvent(removeEvent);
                 });
+
+                // Removes from cached farmers
+                if (FarmerManager.getFarmers().containsKey(farmer.getRegionID()))
+                    FarmerManager.getFarmers().remove(farmer.getRegionID());
             }
             catch (Exception e) { e.printStackTrace(); }
         });

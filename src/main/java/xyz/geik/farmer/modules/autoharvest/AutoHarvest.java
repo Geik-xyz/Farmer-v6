@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 public class AutoHarvest extends FarmerModule {
 
-    private boolean requirePiston = false, checkAllDirections = false, withoutFarmer = false, checkStock = true;
+    private boolean requirePiston = false, checkAllDirections = false, withoutFarmer = false, checkStock = true, defaultStatus = false;
     private String customPerm = "farmer.autoharvest";
     private List<String> crops = new ArrayList<>();
 
@@ -55,9 +55,26 @@ public class AutoHarvest extends FarmerModule {
         checkAllDirections = getConfig().getBoolean("settings.checkAllDirections");
         withoutFarmer = getConfig().getBoolean("settings.withoutFarmer");
         checkStock = getConfig().getBoolean("settings.checkStock");
+        customPerm = getConfig().getString("settings.customPerm");
+        defaultStatus = getConfig().getBoolean("settings.defaultStatus");
         registerListener(new AutoHarvestEvent());
         registerListener(new AutoHarvestGuiCreateEvent());
         setLang(Settings.lang, Main.getInstance());
+    }
+
+    @Override
+    public void onReload() {
+        if (!this.isEnabled())
+            return;
+        if (!getCrops().isEmpty())
+            getCrops().clear();
+        getCrops().addAll(getConfig().getStringList("settings.items"));
+        requirePiston = getConfig().getBoolean("settings.requirePiston");
+        checkAllDirections = getConfig().getBoolean("settings.checkAllDirections");
+        withoutFarmer = getConfig().getBoolean("settings.withoutFarmer");
+        checkStock = getConfig().getBoolean("settings.checkStock");
+        customPerm = getConfig().getString("settings.customPerm");
+        defaultStatus = getConfig().getBoolean("settings.defaultStatus");
     }
 
     @Override
@@ -68,7 +85,7 @@ public class AutoHarvest extends FarmerModule {
     /**
      * Checks if auto harvest collect this crop.
      *
-     * @param state
+     * @param material
      * @return
      */
     public static boolean checkCrop(XMaterial material) {

@@ -3,6 +3,7 @@ package xyz.geik.farmer.model.inventory;
 import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.FarmerLevel;
@@ -10,6 +11,7 @@ import xyz.geik.farmer.modules.production.ProductionModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Farmer inventory which contains items.
@@ -25,7 +27,7 @@ public class FarmerInv {
     public static List<FarmerItem> defaultItems = new ArrayList<>();
 
     // stocked items farmer has
-    private List<FarmerItem> items;
+    private List<FarmerItem> items = new ArrayList<>();
 
     /**
      * Generation cache of farmer
@@ -53,7 +55,7 @@ public class FarmerInv {
      * Creating with default item set.
      */
     public FarmerInv() {
-        items = new ArrayList<>(defaultItems);
+        items.addAll(defaultItems.stream().map(FarmerItem::clone).collect(Collectors.toList()));
         capacity = FarmerLevel.getAllLevels().get(0).getCapacity();
     }
 
@@ -94,10 +96,10 @@ public class FarmerInv {
      */
     public long sumItemAmount(XMaterial material, long amount) {
         FarmerItem item = getStockedItem(material);
-        long summed = item.getAmount() + amount;
-        if (summed > capacity) {
+        long canTake = capacity - item.getAmount();
+        if (canTake < amount) {
             setItemAmount(material, capacity);
-            return summed-capacity;
+            return amount - canTake;
         }
         else {
             item.sumAmount(amount);

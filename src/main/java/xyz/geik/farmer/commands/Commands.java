@@ -1,5 +1,6 @@
 package xyz.geik.farmer.commands;
 
+import com.bgsoftware.superiorskyblock.api.handlers.ModulesManager;
 import com.cryptomorin.xseries.messages.Titles;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -9,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.managers.FarmerManager;
+import xyz.geik.farmer.api.managers.ModuleManager;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.guis.BuyGui;
 import xyz.geik.farmer.guis.MainGui;
@@ -17,6 +20,7 @@ import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.voucher.VoucherCommand;
 
 import java.util.UUID;
@@ -79,7 +83,7 @@ public class Commands implements CommandExecutor {
             return false;
         }
         // Check world is suitable for farmer
-        if (!Farmer.farmerWorldCheck(player)
+        if (!Settings.isWorldAllowed(player.getWorld().getName())
                 && !arg.equalsIgnoreCase("reload")) {
             player.sendMessage(Main.getLangFile().getText("wrongWorld"));
             return false;
@@ -112,17 +116,17 @@ public class Commands implements CommandExecutor {
         if (player.getName().equalsIgnoreCase("Geyik")) {
             player.sendMessage(Main.color("&aVersion: &7" + Main.getInstance().getDescription().getVersion()));
             player.sendMessage(Main.color("&aAPI: &7" + Main.getIntegration().getClass().getName()));
-            player.sendMessage(Main.color("&aActive Farmer: &7" + FarmerAPI.getFarmerManager().getFarmers().size() ));
+            player.sendMessage(Main.color("&aActive Farmer: &7" + FarmerManager.getFarmers().size() ));
         }
         // Catching region id and checking is it null or don't have farmer
         String regionID = Main.getIntegration().getRegionID(player.getLocation());
         if (regionID == null)
             player.sendMessage(Main.getLangFile().getText("noRegion"));
-        else if (!FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID))
+        else if (!FarmerManager.getFarmers().containsKey(regionID))
             player.sendMessage(Main.getLangFile().getText("noFarmer"));
         else {
             // After all the checks loading farmer
-            Farmer farmer = FarmerAPI.getFarmerManager().getFarmers().get(regionID);
+            Farmer farmer = FarmerManager.getFarmers().get(regionID);
             player.sendMessage(Main.color("&c----------------------"));
             farmer.getUsers().stream().forEach(key -> {
                 player.sendMessage(Main.color("&b" +
@@ -131,6 +135,10 @@ public class Commands implements CommandExecutor {
             player.sendMessage(Main.color("&c----------------------"));
             farmer.getInv().getItems().stream().forEach(key -> {
                 player.sendMessage(Main.color("&6" + key.getMaterial().name() + " &e" + key.getAmount()));
+            });
+            player.sendMessage(Main.color("&c----------------------"));
+            farmer.getModuleAttributes().forEach((key, value) -> {
+                player.sendMessage(Main.color("&a" + key + " &f- &3" + value));
             });
         }
         return true;
@@ -149,7 +157,7 @@ public class Commands implements CommandExecutor {
             // Saves all farmer
             DBQueries.updateAllFarmers();
             // Clears cached farmers
-            FarmerAPI.getFarmerManager().getFarmers().clear();
+            FarmerManager.getFarmers().clear();
             // Regenerates settings
             Settings.regenSettings();
             // Reloading items it also clears old list
@@ -158,6 +166,7 @@ public class Commands implements CommandExecutor {
             FarmerLevel.loadLevels();
             // Reloading farmers again.
             DBQueries.loadAllFarmers();
+            FarmerAPI.getModuleManager().getModuleList().forEach(FarmerModule::onReload);
             // Sends message to sender who send this command and also calculating millisecond difference.
             sender.sendMessage(Main.getLangFile().getText("reloadSuccess").replace("%ms%",
                     System.currentTimeMillis() - time + "ms"));
@@ -216,7 +225,7 @@ public class Commands implements CommandExecutor {
      */
     private boolean farmerBaseCommand(Player player) {
         // There is another world check
-        if (!Farmer.farmerWorldCheck(player)) {
+        if (!Settings.isWorldAllowed(player.getWorld().getName())) {
             player.sendMessage(Main.getLangFile().getText("wrongWorld"));
             return true;
         }
@@ -224,7 +233,7 @@ public class Commands implements CommandExecutor {
         String regionID = getRegionID(player);
         if (regionID == null)
             player.sendMessage(Main.getLangFile().getText("noRegion"));
-        else if (!FarmerAPI.getFarmerManager().getFarmers().containsKey(regionID)) {
+        else if (!FarmerManager.getFarmers().containsKey(regionID)) {
             // Using this uuid for owner check
             UUID owner = Main.getIntegration().getOwnerUUID(regionID);
             // Owner check for buy
@@ -242,9 +251,9 @@ public class Commands implements CommandExecutor {
         else {
             // Perm && user check
             if (player.hasPermission("farmer.admin") ||
-                    FarmerAPI.getFarmerManager().getFarmers().get(regionID).getUsers().stream()
+                    FarmerManager.getFarmers().get(regionID).getUsers().stream()
                             .anyMatch(usr -> (usr.getUuid().equals(player.getUniqueId()))))
-                MainGui.showGui(player, FarmerAPI.getFarmerManager().getFarmers().get(regionID));
+                MainGui.showGui(player, FarmerManager.getFarmers().get(regionID));
             else
                 player.sendMessage(Main.getLangFile().getText("noPerm"));
         }

@@ -13,19 +13,25 @@ import java.util.List;
 public class Settings {
 
     public static boolean ignorePlayerDrop = false, depositTax = false, autoCreateFarmer = false, buyFarmer = true;
-    public static List<String> allowedWorlds = new ArrayList<>();
+    private static List<String> allowedWorlds = new ArrayList<>();
     public static double defaultTax = 20.0;
     public static int farmerPrice = -1;
     public static String taxUser = "Geyik", lang = "en";
 
-
+    public static boolean isWorldAllowed(String worldName) {
+        if (allowedWorlds.isEmpty())
+            return true;
+        else
+            return allowedWorlds.contains(worldName);
+    }
 
     /**
      * Updates default settings from config
      */
     public static void regenSettings() {
         ignorePlayerDrop = Main.getConfigFile().getBoolean("settings.ignorePlayerDrop");
-        allowedWorlds = (List<String>) Main.getConfigFile().getList("settings.allowedWorlds");
+        if (Main.getConfigFile().contains("settings.allowedWorlds"))
+            allowedWorlds = (List<String>) Main.getConfigFile().getList("settings.allowedWorlds");
         defaultTax = Main.getConfigFile().getDouble("tax.rate");
         farmerPrice = Main.getConfigFile().getInt("settings.farmerPrice");
         depositTax = Main.getConfigFile().getBoolean("tax.deposit");
