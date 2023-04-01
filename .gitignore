@@ -4,6 +4,8 @@ dependency-reduced-pom.xml
 .DS_Store
 /idea/
 /idea/*
+/.idea/
+/.idea/*
 Farmer-v6.iml
 Farmer.iml
 .idea/compiler.xml
