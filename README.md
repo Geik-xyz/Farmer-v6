@@ -1,4 +1,4 @@
-### [Javadoc](https://poyrazinan.github.io/FarmerAPI/)
+### [Javadoc](https://poyrazinan.github.io/Farmer-v6/)
 # Farmer
  Collects products of a region or island and store them in inventory of himself.
 
