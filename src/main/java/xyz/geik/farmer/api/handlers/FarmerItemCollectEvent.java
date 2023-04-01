@@ -8,22 +8,52 @@ import org.bukkit.inventory.ItemStack;
 import xyz.geik.farmer.model.Farmer;
 
 /**
- * FarmerItemCollectEvent
+ * FarmerItemCollectEvent fires when Farmer collects an item
+ *
+ * @author poyrazinan
  */
 @Getter
 public class FarmerItemCollectEvent extends Event {
 
-    // Farmer object
+    /**
+     * Farmer object which collects the item
+     * @see Farmer
+     */
     private Farmer farmer;
+
+    /**
+     * Item which is collected
+     * @see ItemStack
+     */
     private ItemStack item;
+
+    /**
+     * Amount of item which is collected
+     */
     private int collectAmount;
 
-    // is cancelled boolean
+    /**
+     * Cancel state of event
+     */
     private boolean isCancelled = false;
 
+    /**
+     * Inherited class
+     */
     private ItemSpawnEvent itemSpawnEvent;
 
-    // Main constructor of event
+    /**
+     * FarmerItemCollectEvent constructor which takes farmer, item, collectAmount and event as parameters
+     * <p>Event can be cancelable</p>
+     *
+     * @param farmer Farmer object which collects the item
+     * @param item Item which is collected
+     * @param collectAmount Amount of item which is collected
+     * @param event Inherited class
+     * @see ItemSpawnEvent
+     * @see Farmer
+     * @see ItemStack
+     */
     public FarmerItemCollectEvent(Farmer farmer, ItemStack item, int collectAmount, ItemSpawnEvent event) {
         this.farmer = farmer;
         this.item = item;
@@ -31,15 +61,18 @@ public class FarmerItemCollectEvent extends Event {
         this.itemSpawnEvent = event;
     }
 
-    // Only setter method of event
-    public void setCancelled(boolean arg0) {
-        this.isCancelled = arg0;
+    /**
+     * Cancels the event
+     *
+     * @param status status of cancel, true for cancel
+     */
+    public void setCancelled(boolean status) {
+        this.isCancelled = status;
     }
 
     /**
      * Spigot handlers requirements
-     *
-     * @return
+     * @see HandlerList
      */
     private static final HandlerList HANDLERS = new HandlerList();
 

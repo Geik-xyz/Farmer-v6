@@ -8,12 +8,14 @@ import xyz.geik.farmer.api.managers.StorageManager;
 
 /**
  * All the api configuration can be found here.
+ * @author poyrazinan
  */
 public class FarmerAPI {
 
     /**
      * Returns instance of Main class
-     * @return
+     * @return Main instance
+     * @see xyz.geik.farmer.Main
      */
     public static Main getInstance() {
         return Main.getInstance();
@@ -23,6 +25,7 @@ public class FarmerAPI {
 
     /**
      * Storage manager for config and json files.
+     * @see xyz.geik.farmer.api.managers.StorageManager
      */
     public static StorageManager getStorageManager() {
         if (storageManager == null)
@@ -34,7 +37,8 @@ public class FarmerAPI {
 
     /**
      * Farmer manager for farmer manipulations.
-     * @return
+     * @return FarmerManager
+     * @see xyz.geik.farmer.api.managers.FarmerManager
      */
     public static FarmerManager getFarmerManager() {
         if (farmerManager == null)
@@ -46,7 +50,8 @@ public class FarmerAPI {
 
     /**
      * Module manager for module manipulations.
-     * @return
+     * @return ModuleManager
+     * @see xyz.geik.farmer.api.managers.ModuleManager
      */
     public static ModuleManager getModuleManager() {
         if (moduleManager == null)
@@ -58,7 +63,8 @@ public class FarmerAPI {
 
     /**
      * Database manager for database manipulations.
-     * @return
+     * @return DatabaseManager
+     * @see xyz.geik.farmer.api.managers.DatabaseManager
      */
     public static DatabaseManager getDatabaseManager() {
         if (databaseManager == null)

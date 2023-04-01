@@ -6,15 +6,25 @@ import org.bukkit.event.HandlerList;
 import xyz.geik.farmer.model.Farmer;
 
 /**
- * FarmerBoughtEvent
+ * FarmerBoughtEvent fired when a farmer is bought
+ *
+ * @author poyrazinan
  */
 @Getter
 public class FarmerBoughtEvent extends Event {
 
-    // Farmer object
+    /**
+     * Bought farmer object
+     * @see Farmer
+     */
     private Farmer farmer;
 
-    // Main constructor of event
+    /**
+     * FarmerBoughtEvent constructor
+     *
+     * @param farmer Bought farmer object
+     *               @see Farmer
+     */
     public FarmerBoughtEvent(Farmer farmer) {
         this.farmer = farmer;
     }

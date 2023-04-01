@@ -7,25 +7,39 @@ import org.bukkit.event.HandlerList;
 import xyz.geik.farmer.model.Farmer;
 
 /**
- * FarmerRemoveEvent
+ * FarmerRemoveEvent is called when a farmer is removed
+ *
+ * @author poyrazinan
  */
 @Getter
 public class FarmerRemoveEvent extends Event {
 
-    // Farmer object
+    /**
+     * Farmer object of event
+     * @see Farmer
+     */
     private final Farmer farmer;
 
-    // is cancelled boolean
+    /**
+     * Cancelled state of event
+     */
     private boolean isCancelled = false;
 
-    // Main constructor of event
+    /**
+     * Constructor of FarmerRemoveEvent class with farmer object as parameter
+     * @param farmer Farmer object of event
+     *               @see Farmer
+     */
     public FarmerRemoveEvent(Farmer farmer) {
         this.farmer = farmer;
     }
 
-    // Only setter method of event
-    public void setCancelled(boolean arg0) {
-        this.isCancelled = arg0;
+    /**
+     * Sets cancelled state of event
+     * @param status Cancelled state of event (true/false)
+     */
+    public void setCancelled(boolean status) {
+        this.isCancelled = status;
     }
 
     /**

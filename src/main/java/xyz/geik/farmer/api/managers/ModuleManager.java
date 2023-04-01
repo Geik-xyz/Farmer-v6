@@ -12,7 +12,6 @@ import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.exceptions.ModuleExistException;
 import xyz.geik.farmer.modules.exceptions.ReloadModuleException;
-import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,15 +22,18 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Module Manager
+ * Module Manager class for module management
  *
- * @author Geyik
+ * @author poyrazinan
  */
 @Getter
 @Setter
 public class ModuleManager {
 
-    // Module list of Farmer
+    /**
+     * List of modules
+     * @see FarmerModule
+     */
     private List<FarmerModule> moduleList = new ArrayList<>();
 
     private boolean isModulesUseGui = false;
@@ -41,7 +43,8 @@ public class ModuleManager {
      * Use addModule to force load module.
      * This method is used for module load on startup.
      *
-     * @param farmerModule
+     * @param farmerModule Module to register
+     *                     @see FarmerModule
      */
     public void registerModule(@NotNull FarmerModule farmerModule) {
         farmerModule.onLoad();
@@ -50,9 +53,10 @@ public class ModuleManager {
 
     /**
      * Add module after module load.
-     * Force load module.
+     * Force loads module.
      *
-     * @param farmerModule
+     * @param farmerModule Module to add
+     *                     @see FarmerModule
      */
     public void addModule(FarmerModule farmerModule) throws ModuleExistException {
         if (getModuleList().contains(farmerModule))
@@ -63,8 +67,9 @@ public class ModuleManager {
     }
 
     /**
-     * Remove module
-     * @param farmerModule
+     * Remove module method for removing module from Farmer
+     * @param farmerModule Module to remove
+     *                     @see FarmerModule
      */
     public void removeModule(@NotNull FarmerModule farmerModule) {
         farmerModule.setEnabled(false);
@@ -74,10 +79,11 @@ public class ModuleManager {
     }
 
     /**
-     * Reload module
+     * Reloads module
      *
-     * @param farmerModule
-     * @throws ReloadModuleException
+     * @param farmerModule Module to reload
+     * @throws ReloadModuleException if module cannot be reloaded
+     * @see FarmerModule
      */
     public void reloadModule(FarmerModule farmerModule) throws ReloadModuleException {
         getModuleList().remove(farmerModule);
@@ -95,8 +101,9 @@ public class ModuleManager {
     /**
      * Gets module by name which is registered in Farmer
      *
-     * @param module
-     * @return
+     * @param module Module name to get
+     * @return FarmerModule
+     * @see FarmerModule
      */
     public FarmerModule getByName(String module) {
         FarmerModule farmerModuleSelected = null;
@@ -111,7 +118,8 @@ public class ModuleManager {
 
     /**
      * Close module
-     * @param farmerModule
+     * @param farmerModule Module to close
+     *                     @see FarmerModule
      */
     public void close(@NotNull FarmerModule farmerModule) {
         farmerModule.onDisable();
@@ -147,9 +155,9 @@ public class ModuleManager {
     /**
      * Save attributes to database
      *
-     * @param con
-     * @param farmer
-     * @throws SQLException
+     * @param con Connection to database
+     * @param farmer Farmer to save
+     * @throws SQLException if SQL error occurs
      */
     public void databaseUpdateAttribute(@NotNull Connection con, @NotNull Farmer farmer) throws SQLException {
         final String SQL_QUERY = "UPDATE Farmers SET attributes = ? WHERE id = ?";
@@ -163,9 +171,9 @@ public class ModuleManager {
     /**
      * Get attributes from database
      *
-     * @param con
-     * @param farmer
-     * @throws SQLException
+     * @param con Connection to database
+     * @param farmer Farmer to get attributes
+     * @throws SQLException if SQL error occurs
      */
     public void databaseGetAttributes(Connection con, @NotNull Farmer farmer) throws SQLException {
         final String SQL_QUERY = "SELECT attributes FROM Farmers WHERE id = ?";
@@ -181,8 +189,8 @@ public class ModuleManager {
     /**
      * Serialize attribute data to save in database
      *
-     * @param attributes
-     * @return
+     * @param attributes Attributes to serialize
+     * @return Serialized attributes
      */
     private @Nullable String attributeSerializer(@NotNull HashMap<String, Boolean> attributes) {
         if (attributes.isEmpty())
@@ -200,12 +208,12 @@ public class ModuleManager {
     /**
      * Deserialize attribute data from database
      *
-     * @param attributes
-     * @return
+     * @param attributes Attributes to deserialize
+     * @return Deserialized attributes
      */
     private @NotNull HashMap<String, Boolean> attributeDeserializer(@NotNull String attributes) {
         HashMap<String, Boolean> map = new HashMap<>();
-        if (attributes == null || attributes.isBlank())
+        if (attributes == null || attributes.isEmpty())
             return map;
         for (String attribute : attributes.split(";"))
             if (!attribute.isEmpty())
@@ -214,9 +222,8 @@ public class ModuleManager {
     }
 
     /**
-     * Checks if any module uses GUI
-     *
-     * @return
+     * Checks if any module uses GUI and makes action
+     * @see FarmerModule#isHasGui()
      */
     public static void calculateModulesUseGui() {
         FarmerAPI.getModuleManager().setModulesUseGui(FarmerAPI.getModuleManager().getModuleList().stream().anyMatch(FarmerModule::isHasGui));

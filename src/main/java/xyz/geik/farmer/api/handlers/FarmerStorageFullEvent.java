@@ -8,22 +8,49 @@ import org.bukkit.inventory.ItemStack;
 import xyz.geik.farmer.model.Farmer;
 
 /**
- * FarmerStorageFullEvent
+ * FarmerStorageFullEvent fired when farmer storage is full
+ *
+ * @author poyrazinan
  */
 @Getter
 public class FarmerStorageFullEvent extends Event {
 
-    // Farmer object
+    /**
+     * Farmer object which storage is full
+     * @see Farmer
+     */
     private Farmer farmer;
+
+    /**
+     * Item which farmer can't add to storage
+     * @see ItemStack
+     */
     private ItemStack item;
+
+    /**
+     * Left amount of item which farmer can't add to storage
+     */
     private int leftAmount = 0;
 
-    // is cancelled boolean
+    // Drop item and cancel event booleans
     private boolean isCancelled = false, dropItem = true;
 
+    /**
+     * Inherited class
+     * @see ItemSpawnEvent
+     */
     private ItemSpawnEvent itemSpawnEvent;
 
-    // Main constructor of event
+    /**
+     * FarmerStorageFullEvent constructor with farmer, item, leftAmount and itemSpawnEvent parameters
+     * @param farmer Farmer object which storage is full
+     * @param item Item which farmer can't add to storage
+     * @param leftAmount Left amount of item which farmer can't add to storage
+     * @param itemSpawnEvent Inherited class
+     *                       @see ItemSpawnEvent
+     *                       @see Farmer
+     *                       @see ItemStack
+     */
     public FarmerStorageFullEvent(Farmer farmer, ItemStack item, int leftAmount, ItemSpawnEvent itemSpawnEvent) {
         this.farmer = farmer;
         this.item = item;
@@ -36,9 +63,13 @@ public class FarmerStorageFullEvent extends Event {
         this.isCancelled = arg0;
     }
 
-    // Drop item or add to farmer storage
-    public void setDropItem(boolean arg0) {
-        this.dropItem = arg0;
+    /**
+     * Whether to drop the item or not
+     *
+     * @param status true to drop the item, false to not drop the item
+     */
+    public void setDropItem(boolean status) {
+        this.dropItem = status;
     }
 
     /**
