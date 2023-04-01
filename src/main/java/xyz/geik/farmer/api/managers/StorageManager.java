@@ -8,6 +8,7 @@ import xyz.geik.farmer.Main;
 
 /**
  * Uses SimplixStorage dependency to init config and json files
+ * @author poyrazinan, firatkaya
  */
 public class StorageManager {
 
@@ -16,18 +17,20 @@ public class StorageManager {
     /**
      * Initiating config file
      *
-     * @param fileName
-     * @return
+     * @param fileName name of the file
+     * @return Config
+     * @see Config
      */
     public Config initConfig(String fileName) {
         return initConfig(fileName, Main.getInstance());
     }
 
     /**
-     * Initiating config file
+     * Initiating lang file into lang folder
      *
-     * @param fileName
-     * @return
+     * @param fileName name of the file
+     * @return Config
+     * @see Config
      */
     public Config initLangFile(String fileName) {
         Config config = initConfig("lang/" + fileName, Main.getInstance());
@@ -39,9 +42,10 @@ public class StorageManager {
     /**
      * Initiating config file for addons
      *
-     * @param fileName
-     * @param plugin
-     * @return
+     * @param fileName name of the file
+     * @param plugin  plugin instance
+     * @return Config
+     * @see Config
      */
     public Config initConfig(String fileName, @NotNull JavaPlugin plugin) {
         fileName += ".yml";
@@ -52,8 +56,9 @@ public class StorageManager {
     /**
      * Initiating json file
      *
-     * @param fileName
-     * @return
+     * @param fileName name of the file
+     * @return Json
+     * @see Json
      */
     public Json initJson(String fileName) {
         return initJson(fileName, Main.getInstance());
@@ -62,8 +67,9 @@ public class StorageManager {
     /**
      * Initiating json file
      *
-     * @param fileName
-     * @return
+     * @param fileName name of the file
+     * @return Json
+     * @see Json
      */
     public Json initJson(String fileName, @NotNull JavaPlugin plugin) {
         fileName += ".json";

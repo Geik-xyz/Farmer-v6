@@ -15,6 +15,7 @@ import java.util.UUID;
 
 /**
  * Farmer Manager class manages all farmer related methods.
+ * @author poyrazinan
  */
 public class FarmerManager {
 
@@ -22,15 +23,23 @@ public class FarmerManager {
      * Loaded farmer cache.
      */
     private static HashMap<String, Farmer> farmers = new HashMap<>();
+
+    /**
+     * Gets farmer cache which contains all loaded farmers.
+     * @return farmers as HashMap of String and Farmer (regionId, farmer)
+     * @see Farmer
+     */
     public static HashMap<String, Farmer> getFarmers() { return farmers; }
 
     /**
-     * **DANGER**
-     * Remove farmer from database and cache.
-     * Cannot be UNDONE.
+     * <b>DANGER</b> - Use with caution.
+     * <p>
+     *     Remove farmer from database and cache.
+     *     Cannot be UNDONE.
+     * </p>
      *
-     * @param regionId
-     * @return
+     * @param regionId Region id of farmer
+     * @return true if farmer was removed, false if not
      */
     public boolean removeFarmer(String regionId) {
         if (getFarmers().containsKey(regionId)) {
@@ -43,9 +52,9 @@ public class FarmerManager {
     /**
      * Changes owner of farmer.
      *
-     * @param oldOwner
-     * @param newOwner
-     * @param regionId
+     * @param oldOwner Old owner of farmer
+     * @param newOwner New owner of farmer
+     * @param regionId Region id of farmer
      */
     public void changeOwner(UUID oldOwner, UUID newOwner, String regionId) {
         if (getFarmers().containsKey(regionId)) {
@@ -77,8 +86,8 @@ public class FarmerManager {
     /**
      * Checks if farmer exists on location.
      *
-     * @param location
-     * @return
+     * @param location Location to check
+     * @return true if farmer exists, false if not
      */
     public boolean hasFarmer(Location location) {
         return getFarmers().keySet().contains(Main.getIntegration().getRegionID(location));
@@ -87,18 +96,22 @@ public class FarmerManager {
     /**
      * Finds user list of farmer from region id.
      *
-     * @param farmerId
-     * @return
+     * @param regionId region id of farmer
+     * @return user set of farmer
+     * @see User
+     * @see Set
      */
-    public Set<User> getUsers(String farmerId) {
-        return getFarmers().get(farmerId).getUsers();
+    public Set<User> getUsers(String regionId) {
+        return getFarmers().get(regionId).getUsers();
     }
 
     /**
      * Finds user list of farmer from location.
      *
-     * @param location
-     * @return
+     * @param location location of farmer region
+     * @return user set of farmer
+     * @see User
+     * @see Set
      */
     public Set<User> getUsers(Location location) {
         return getFarmers().get(Main.getIntegration().getRegionID(location)).getUsers();

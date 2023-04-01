@@ -1,28 +1,46 @@
 package xyz.geik.farmer.api.handlers;
 
-import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.inventory.ItemStack;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 
 /**
- * FarmerItemSellEvent
+ * FarmerItemSellEvent event fires when a player sells a FarmerItem
+ * @see Farmer
+ * @see FarmerItem
+ * @author poyrazinan
  */
 @Getter
 public class FarmerItemSellEvent extends Event {
 
-    // Farmer object
+    /**
+     * Farmer object which contains the FarmerItem
+     * @see Farmer
+     */
     private Farmer farmer;
+
+    /**
+     * FarmerItem object which is sold
+     * @see FarmerItem
+     */
     private FarmerItem farmerItem;
 
+    /**
+     * OfflinePlayer object which is the seller
+     * @see OfflinePlayer
+     */
     private final OfflinePlayer offlinePlayer;
 
-    // Main constructor of event
+    /**
+     * FarmerItemSellEvent constructor with Farmer, FarmerItem and OfflinePlayer
+     *
+     * @param farmer Farmer object which contains the FarmerItem
+     * @param farmerItem FarmerItem object which is sold
+     * @param offlinePlayer OfflinePlayer object which is the seller
+     */
     public FarmerItemSellEvent(Farmer farmer, FarmerItem farmerItem, OfflinePlayer offlinePlayer) {
         this.farmer = farmer;
         this.farmerItem = farmerItem;
