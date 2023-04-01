@@ -76,6 +76,6 @@ public class FarmerLevel {
      * @return
      */
     public static @NotNull FarmerLevel getLevel(String name) {
-        return getAllLevels().stream().filter(level -> (level.getDataName() == name)).findFirst().get();
+        return getAllLevels().stream().filter(level -> (level.getDataName().equals(name))).findFirst().get();
     }
 }

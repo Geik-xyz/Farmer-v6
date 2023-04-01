@@ -20,7 +20,7 @@ public class BuyGui {
      */
     public static void showGui(Player player) {
         // Gui template as array
-        String[] buyGui = Main.getLangFile().getList("buyGui.interface").toArray(String[]::new);
+        String[] buyGui = Main.getLangFile().getStringList("buyGui.interface").toArray(new String[0]);
         // Inventory object
         InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("buyGui.guiName"), buyGui);
         // Filler item for empty slots
