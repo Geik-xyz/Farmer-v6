@@ -1,3 +1,4 @@
+### [Javadoc](https://poyrazinan.github.io/Farmer-v6/)
 # Farmer
  Collects products of a region or island and store them in inventory of himself.
 
@@ -352,9 +353,44 @@ This is a module of Farmer which calculates average of items which farmer collec
 
 ## API
 
+### Maven:
+
+Add this to your pom.xml if you use in maven.
+
+```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+```
+```xml
+<dependency>
+    <groupId>com.github.poyrazinan</groupId>
+    <artifactId>Farmer-v6</artifactId>
+    <version>{RELEASE-VERSION}</version>
+</dependency>
+```
+
+### Gradle:
+
+Add this to your build.gradle if you use in gradle.
+
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+```
+```groovy
+dependencies {
+    implementation 'com.github.poyrazinan:Farmer-v6:{RELEASE-VERSION}'
+}
+```
+
 ### How to use?
 
-FarmerAPI has good javadoc. You can check it out [here]
+FarmerAPI has good javadoc.
+
+You can check it out the farmer javadoc [Java-Doc](https://poyrazinan.github.io/Farmer-v6/)
 
 ```java
 public class Main extends JavaPlugin {
