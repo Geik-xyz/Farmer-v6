@@ -34,7 +34,7 @@ public class MainGui {
      */
     public static void showGui(Player player, Farmer farmer) {
         // Array of gui interface
-        String[] guiSetup = Main.getLangFile().getList("Gui.interface").toArray(String[]::new);
+        String[] guiSetup = Main.getLangFile().getStringList("Gui.interface").toArray(new String[0]);
         // Gui object
         InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("Gui.guiName"), guiSetup);
         // Fills empty spaces on  gui

@@ -11,7 +11,7 @@ public class ModuleGui {
 
     public static void showGui(Player player, Farmer farmer) {
         // Gui template as array
-        String[] moduleGui = Main.getLangFile().getList("moduleGui.interface").toArray(String[]::new);
+        String[] moduleGui = Main.getLangFile().getStringList("moduleGui.interface").toArray(new String[0]);
         // Inventory object
         InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("moduleGui.guiName"), moduleGui);
         // Filler item for empty slots

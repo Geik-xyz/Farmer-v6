@@ -24,7 +24,7 @@ public class ManageGui {
      */
     public static void showGui(Player player, Farmer farmer) {
         // Gui interface array
-        String[] guiSetup = Main.getLangFile().getList("manageGui.interface").toArray(String[]::new);
+        String[] guiSetup = Main.getLangFile().getStringList("manageGui.interface").toArray(new String[0]);
         // Inventory object
         InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("manageGui.guiName"), guiSetup);
         // Filler for empty slots
@@ -71,12 +71,16 @@ public class ManageGui {
                         FarmerLevel nextLevel = FarmerLevel.getAllLevels()
                                 .get(nextLevelIndex);
                         if (Main.getEcon().getBalance(player) >= nextLevel.getReqMoney()) {
-                            Main.getEcon().withdrawPlayer(player, nextLevel.getReqMoney());
-                            farmer.setLevel(nextLevel);
-                            farmer.getInv().setCapacity(nextLevel.getCapacity());
-                            player.sendMessage(Main.getLangFile().getText("levelUpgraded")
-                                    .replace("{level}", String.valueOf(nextLevelIndex+1))
-                                    .replace("{capacity}", String.valueOf(nextLevel.getCapacity())));
+                            if (nextLevel.getPerm() != null && !player.hasPermission(nextLevel.getPerm()))
+                                player.sendMessage(Main.getLangFile().getText("noPerm"));
+                            else {
+                                Main.getEcon().withdrawPlayer(player, nextLevel.getReqMoney());
+                                farmer.setLevel(nextLevel);
+                                farmer.getInv().setCapacity(nextLevel.getCapacity());
+                                player.sendMessage(Main.getLangFile().getText("levelUpgraded")
+                                        .replace("{level}", String.valueOf(nextLevelIndex+1))
+                                        .replace("{capacity}", String.valueOf(nextLevel.getCapacity())));
+                            }
                         }
                         else
                             player.sendMessage(Main.getLangFile().getText("notEnoughMoney")

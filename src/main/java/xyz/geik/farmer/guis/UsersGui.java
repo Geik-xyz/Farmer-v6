@@ -31,7 +31,7 @@ public class UsersGui {
      */
     public static void showGui(Player player, @NotNull Farmer farmer) {
         // Gui interface array
-        String[] userGui = Main.getLangFile().getList("usersGui.interface").toArray(String[]::new);
+        String[] userGui = Main.getLangFile().getStringList("usersGui.interface").toArray(new String[0]);
         // Inventory object
         InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("usersGui.guiName"), userGui);
         // Filler fills empty slots
