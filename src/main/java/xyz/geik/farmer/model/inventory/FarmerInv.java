@@ -1,9 +1,11 @@
 package xyz.geik.farmer.model.inventory;
 
+import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.FarmerLevel;
@@ -94,8 +96,11 @@ public class FarmerInv {
      * Respects capacity and if it above capacity
      * return additional amount.
      */
-    public long sumItemAmount(XMaterial material, long amount) {
+    public long sumItemAmount(XMaterial material, Item collectedItem) {
         FarmerItem item = getStockedItem(material);
+        long amount = item.getAmount();
+        if (Bukkit.getPluginManager().isPluginEnabled("WildStacker"))
+            amount = WildStackerAPI.getItemAmount(collectedItem);
         long canTake = capacity - item.getAmount();
         if (canTake < amount) {
             setItemAmount(material, capacity);
