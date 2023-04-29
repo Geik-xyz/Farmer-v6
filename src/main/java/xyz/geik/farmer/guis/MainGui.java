@@ -4,14 +4,13 @@ import com.cryptomorin.xseries.XMaterial;
 import de.themoep.inventorygui.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerMainGuiOpenEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.helpers.gui.GroupItems;
 import xyz.geik.farmer.model.Farmer;
@@ -149,8 +148,9 @@ public class MainGui {
      */
     private static int getEmptySlots(@NotNull Player player) {
         int count = 0;
-        for (ItemStack i : player.getInventory()) {
-            if (i == null) {
+        for (int i = 0; i <= 35; i++) {
+            if (player.getInventory().getItem(i) == null
+                    || player.getInventory().getItem(i).getType().isAir()) {
                 count++;
             } else
                 continue;

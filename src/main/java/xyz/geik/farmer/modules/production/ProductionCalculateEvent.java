@@ -8,7 +8,6 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerMainGuiOpenEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemProductionEvent;
-import xyz.geik.farmer.model.inventory.FarmerItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +77,6 @@ public class ProductionCalculateEvent implements Listener {
         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> {
             event.getFarmer().getInv().setProductionModels(new ArrayList<>());
             event.getFarmer().getInv().setProductionCalculated(false);
-        }, 20L*60L*15L);
+        }, 20L*60L*Production.getInstance().getReCalculate());
     }
 }

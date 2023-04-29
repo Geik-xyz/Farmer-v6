@@ -21,6 +21,7 @@ public class Production extends FarmerModule {
     private static Production instance;
 
     private String[] numberFormat = new String[]{"k", "m", "b", "t"};
+    private long reCalculate = 15L;
 
     private List<String> productionItems = new ArrayList<>();
 
@@ -54,6 +55,7 @@ public class Production extends FarmerModule {
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");
         numberFormat[3] = getLang().getText("numberFormat.trillion");
+        reCalculate = getConfig().getLong("settings.reCalculate");
     }
 
     @Override
@@ -64,6 +66,7 @@ public class Production extends FarmerModule {
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");
         numberFormat[3] = getLang().getText("numberFormat.trillion");
+        reCalculate = getConfig().getLong("settings.reCalculate");
     }
 
     @Override

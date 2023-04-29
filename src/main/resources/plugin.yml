@@ -3,8 +3,8 @@ author: Geik
 main: xyz.geik.farmer.Main
 version: 6b01
 api-version: 1.13
-softdepend: [BentoBox, Vault, ASkyBlock, SuperiorSkyblock2, GriefPrevention, WildStacker]
-loadbefore: [AutoPickup]
+softdepend: [BentoBox, Vault, ASkyBlock, SuperiorSkyblock2, GriefPrevention]
+loadbefore: [AutoPickup, WildStacker]
 commands:
   farmer:
     description: Main command of farmer

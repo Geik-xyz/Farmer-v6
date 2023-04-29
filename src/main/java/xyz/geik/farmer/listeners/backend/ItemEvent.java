@@ -9,7 +9,6 @@ import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
 import xyz.geik.farmer.api.managers.FarmerManager;
@@ -24,7 +23,7 @@ public class ItemEvent implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void farmerCollectItemEvent(@NotNull FarmerItemCollectEvent event) {
-        if (event.isCancelled())
+        if (event.getItemSpawnEvent().isCancelled() || event.isCancelled())
             return;
         Farmer farmer = event.getFarmer();
         ItemStack item = event.getItem();
