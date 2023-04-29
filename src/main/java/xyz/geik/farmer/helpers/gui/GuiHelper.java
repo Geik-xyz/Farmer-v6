@@ -200,14 +200,12 @@ public class GuiHelper {
         }
         // Upgradeable lore update
         else {
-            meta.setLore(meta.getLore().stream().map(key -> {
-                return key.replace("{level}", String.valueOf(level))
-                        .replace("{capacity}", String.valueOf(capacity))
-                        .replace("{max_level}", String.valueOf(FarmerLevel.getAllLevels().size()))
-                        .replace("{next_level}", String.valueOf(level+1))
-                        .replace("{next_capacity}", String.valueOf(nextLevel.getCapacity()))
-                        .replace("{req_money}", String.valueOf(nextLevel.getReqMoney()));
-            }).collect(Collectors.toList()));
+            meta.setLore(meta.getLore().stream().map(key -> key.replace("{level}", String.valueOf(level))
+                    .replace("{capacity}", String.valueOf(capacity))
+                    .replace("{max_level}", String.valueOf(FarmerLevel.getAllLevels().size()))
+                    .replace("{next_level}", String.valueOf(level+1))
+                    .replace("{next_capacity}", String.valueOf(nextLevel.getCapacity()))
+                    .replace("{req_money}", String.valueOf(nextLevel.getReqMoney()))).collect(Collectors.toList()));
         }
         meta.setDisplayName(meta.getDisplayName().replace("{level}", String.valueOf(level)));
         result.setItemMeta(meta);

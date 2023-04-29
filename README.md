@@ -1,4 +1,5 @@
-### [Javadoc](https://poyrazinan.github.io/Farmer-v6/)
+### [Javadoc](https://poyrazinan.github.io/Farmer-v6/)  [![](https://jitpack.io/v/poyrazinan/Farmer-v6.svg)](https://jitpack.io/#poyrazinan/Farmer-v6) [![Java CI with Maven](https://github.com/poyrazinan/Farmer-v6/actions/workflows/maven.yml/badge.svg)](https://github.com/poyrazinan/Farmer-v6/actions/workflows/maven.yml)
+
 # Farmer
  Collects products of a region or island and store them in inventory of himself.
 
