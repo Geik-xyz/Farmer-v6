@@ -44,20 +44,23 @@ public class AutoHarvestEvent implements Listener {
         if (!AutoHarvest.getInstance().isWithoutFarmer()) {
             // Checks item dropped in region of a player
             // And checks region owner has a farmer
-            String regionID = Main.getIntegration().getRegionID(block.getLocation());
-            if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
-                return;
+            try {
+                String regionID = Main.getIntegration().getRegionID(block.getLocation());
+                if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
+                    return;
 
-            Farmer farmer = FarmerManager.getFarmers().get(regionID);
+                Farmer farmer = FarmerManager.getFarmers().get(regionID);
 
-            // Checks farmer can auto harvest
-            if (!farmer.getAttributeStatus("autoharvest"))
-                return;
+                // Checks farmer can auto harvest
+                if (!farmer.getAttributeStatus("autoharvest"))
+                    return;
 
-            if (!hasStock(farmer, material)) {
-                event.setCancelled(true);
-                return;
+                if (!hasStock(farmer, material)) {
+                    event.setCancelled(true);
+                    return;
+                }
             }
+            catch (Exception ignored) {}
         }
 
         // Checks piston

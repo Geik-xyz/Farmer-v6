@@ -55,7 +55,7 @@ public class Production extends FarmerModule {
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");
         numberFormat[3] = getLang().getText("numberFormat.trillion");
-        reCalculate = getConfig().getLong("settings.reCalculate");
+        reCalculate = getConfig().get("settings.reCalculate", 15L);
     }
 
     @Override
@@ -66,17 +66,14 @@ public class Production extends FarmerModule {
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");
         numberFormat[3] = getLang().getText("numberFormat.trillion");
-        reCalculate = getConfig().getLong("settings.reCalculate");
+        reCalculate = getConfig().get("settings.reCalculate", 15L);
     }
 
     @Override
     public void onDisable() {}
 
     public static boolean isCalculateItem(@NotNull FarmerItem item) {
-        boolean status = false;
-        if (Production.getInstance().getProductionItems().contains(item.getName()) || getInstance().getProductionItems().isEmpty())
-            status = true;
-
-        return status;
+        return Production.getInstance().getProductionItems().contains(item.getName())
+                || getInstance().getProductionItems().isEmpty();
     }
 }

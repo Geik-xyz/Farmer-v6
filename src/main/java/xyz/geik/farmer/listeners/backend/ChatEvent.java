@@ -37,7 +37,7 @@ public class ChatEvent implements Listener {
                 e.getPlayer().sendMessage(Main.getLangFile().getText("inputCancel"));
                 return;
             }
-            Farmer farmer = FarmerManager.getFarmers().get(getPlayers().get(e.getPlayer().getName()));
+            Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(e.getPlayer().getLocation()));
             try {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(msg);
                 if (!farmer.getUsers().stream().anyMatch(user -> {

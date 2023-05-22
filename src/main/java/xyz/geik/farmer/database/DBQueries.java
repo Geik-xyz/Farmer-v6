@@ -177,9 +177,6 @@ public class DBQueries {
                 // Updated id
                 FarmerManager.getFarmers().get(farmer.getRegionID()).setId(id);
                 idGetter.close();
-
-                FarmerManager.getFarmers().get(farmer.getRegionID()).addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
-
                 // Calls event of farmer creation
                 Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                     FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
