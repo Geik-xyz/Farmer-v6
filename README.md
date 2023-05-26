@@ -437,3 +437,4 @@ public class Main extends JavaPlugin {
 * [GriefPrevention](https://www.spigotmc.org/resources/griefprevention.1884/)
 * [BentoBox](https://www.spigotmc.org/resources/bentobox-bskyblock-acidisland-skygrid-caveblock-aoneblock-boxed.73261/)
 * [ASkyBlock](https://www.spigotmc.org/resources/askyblock.1220/)
+* [FabledSkyblock](https://github.com/craftaro/FabledSkyBlock)
