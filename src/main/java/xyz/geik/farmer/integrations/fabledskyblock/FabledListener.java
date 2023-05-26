@@ -8,6 +8,10 @@ import xyz.geik.farmer.api.FarmerAPI;
 
 import java.util.UUID;
 
+/**
+ * @author Heron4gf
+ * @since v6-beta b9
+ */
 public class FabledListener implements Listener {
 
     /**
@@ -17,23 +21,22 @@ public class FabledListener implements Listener {
 
     /**
      * Remove farmer on island deletion
-     * @param event
+     * @param event IslandDeleteEvent event
      */
     @EventHandler
-    void onIslandDeleteEvent(IslandDeleteEvent event) {
+    public void onIslandDeleteEvent(IslandDeleteEvent event) {
         FarmerAPI.getFarmerManager().removeFarmer(event.getIsland().getOwnerUUID().toString());
     }
 
 
     // IN FABLEDSKYBLOCK THERE IS NO RESET COMMAND, FOR THIS REASON THERE IS NO EVENT FOR THAT
 
-
     /**
      * Change farmer owner on island transfer
-     * @param event
+     * @param event IslandOwnershipTransferEvent event
      */
     @EventHandler
-    void onIslandOwnerChangeEvent(IslandOwnershipTransferEvent event) {
+    public void onIslandOwnerChangeEvent(IslandOwnershipTransferEvent event) {
         UUID oldOwner = event.getIsland().getOriginalOwnerUUID();
         FarmerAPI.getFarmerManager().changeOwner(oldOwner, event.getOwner().getUniqueId(), oldOwner.toString());
     }

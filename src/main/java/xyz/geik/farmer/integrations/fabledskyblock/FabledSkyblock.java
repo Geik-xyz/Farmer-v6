@@ -5,6 +5,10 @@ import org.bukkit.Location;
 import xyz.geik.farmer.integrations.Integrations;
 import java.util.UUID;
 
+/**
+ * @author Heron4gf
+ * @since v6-beta b9
+ */
 public class FabledSkyblock extends Integrations {
     /**
      * Constructor register event of super class

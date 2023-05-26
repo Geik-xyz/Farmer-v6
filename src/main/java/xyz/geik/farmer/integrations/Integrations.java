@@ -63,6 +63,5 @@ public abstract class Integrations {
             Main.setIntegration(new Askyblock());
         else if(Bukkit.getPluginManager().isPluginEnabled("FabledSkyBlock"))
             Main.setIntegration(new FabledSkyblock());
-        else return;
     }
 }
