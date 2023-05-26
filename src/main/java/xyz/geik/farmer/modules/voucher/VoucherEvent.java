@@ -30,7 +30,6 @@ public class VoucherEvent implements Listener {
     public void onVoucherUseEvent(@NotNull PlayerInteractEvent event) {
         if (event.getItem() == null) return;
         if (event.getItem().getItemMeta() == null) return;
-        if (event.getItem().getItemMeta().getDisplayName() == null) return;
         Player player = event.getPlayer();
         int voucherLevel = NBT.get(event.getItem(), voucher -> (voucher.getInteger("farmerLevel")));
         ItemStack voucherBase = VoucherItem.getVoucherItem(voucherLevel);

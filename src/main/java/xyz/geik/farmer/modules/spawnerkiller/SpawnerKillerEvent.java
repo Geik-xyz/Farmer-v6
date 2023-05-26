@@ -86,7 +86,7 @@ public class SpawnerKillerEvent implements Listener {
                 killCalculator(entity, 1);
             }
         }
-        catch (NullPointerException | NumberFormatException e1) {}
+        catch (Exception ignored) {}
 
     }
 

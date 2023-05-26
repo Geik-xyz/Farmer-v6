@@ -3,6 +3,7 @@ package xyz.geik.farmer.guis;
 import com.cryptomorin.xseries.XMaterial;
 import de.themoep.inventorygui.*;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.EquipmentSlot;
@@ -74,7 +75,8 @@ public class MainGui {
                                     !user.getPerm().equals(FarmerPerm.COOP)
                                             && user.getName().equalsIgnoreCase(player.getName())))) {
                                 // XMaterial check for old version
-                                XMaterial material = XMaterial.matchXMaterial(click.getEvent().getCurrentItem());
+                                ItemStack cursorItem = click.getEvent().getCurrentItem();
+                                XMaterial material = XMaterial.matchXMaterial(cursorItem);
                                 FarmerItem slotItem = farmer.getInv().getStockedItem(material);
                                 // Sells all stock of an item
                                 if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
@@ -96,11 +98,11 @@ public class MainGui {
                                     // But if there is less than one stack
                                     // Then overriding this amount to count.
                                     if (click.getType().equals(ClickType.LEFT))
-                                        count = (slotItem.getAmount() >= 64) ? 64 : slotItem.getAmount();
+                                        count = (slotItem.getAmount() >= cursorItem.getMaxStackSize()) ? cursorItem.getMaxStackSize() : slotItem.getAmount();
 
                                     // Withdraws max player can take from stocked amount
                                     else if (click.getType().equals(ClickType.RIGHT)) {
-                                        int playerEmpty = getEmptySlots(player) * material.parseMaterial().getMaxStackSize();
+                                        int playerEmpty = getEmptySlots(player) * cursorItem.getMaxStackSize();
                                         count = (slotItem.getAmount() >= playerEmpty)
                                                 ? playerEmpty
                                                 : slotItem.getAmount();
@@ -110,8 +112,23 @@ public class MainGui {
                                     if (count == 0)
                                         return true;
                                     ItemStack returnItem = material.parseItem();
-                                    returnItem.setAmount((int) count);
-                                    player.getInventory().addItem(returnItem);
+                                    // Give item separately for != 64 amount of item
+                                    // Because bukkit library forces item to max stack amount 64
+                                    if (returnItem.getMaxStackSize() != 64) {
+                                        returnItem.setAmount(returnItem.getMaxStackSize());
+                                        long additional = count % returnItem.getMaxStackSize();
+                                        for (int i = 1; i <= count/returnItem.getMaxStackSize() ; i++)
+                                            player.getInventory().addItem(returnItem);
+                                        if (additional != 0) {
+                                            returnItem.setAmount((int) additional);
+                                            player.getInventory().addItem(returnItem);
+                                        }
+                                    }
+                                    // if max stack amount equals 64 does another method
+                                    else {
+                                        returnItem.setAmount((int) count);
+                                        player.getInventory().addItem(returnItem);
+                                    }
                                     slotItem.negateAmount(count);
                                 }
                                 gui.draw();
@@ -150,7 +167,7 @@ public class MainGui {
         int count = 0;
         for (int i = 0; i <= 35; i++) {
             if (player.getInventory().getItem(i) == null
-                    || player.getInventory().getItem(i).getType().isAir()) {
+                    || player.getInventory().getItem(i).getType().equals(Material.AIR)) {
                 count++;
             } else
                 continue;

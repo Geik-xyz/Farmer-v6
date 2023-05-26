@@ -1,6 +1,5 @@
 package xyz.geik.farmer.commands;
 
-import com.bgsoftware.superiorskyblock.api.handlers.ModulesManager;
 import com.cryptomorin.xseries.messages.Titles;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -11,11 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.api.managers.ModuleManager;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.guis.BuyGui;
 import xyz.geik.farmer.guis.MainGui;
-import xyz.geik.farmer.guis.ModuleGui;
 import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
@@ -73,20 +70,19 @@ public class Commands implements CommandExecutor {
      *
      * @param player
      * @param arg
-     * @return
      */
-    public boolean oneArgCommands(@NotNull Player player, String arg) {
+    public void oneArgCommands(@NotNull Player player, String arg) {
         // Checking perm if sender is player and if they don't have perm just returns task
         if ((!player.hasPermission("farmer.admin") && !player.getName().equalsIgnoreCase("Geyik"))
-                && !arg.equalsIgnoreCase("manage")) {
+                && !arg.equalsIgnoreCase("manage") && !arg.equalsIgnoreCase("remove")) {
             player.sendMessage(Main.getLangFile().getText("noPerm"));
-            return false;
+            return;
         }
         // Check world is suitable for farmer
         if (!Settings.isWorldAllowed(player.getWorld().getName())
                 && !arg.equalsIgnoreCase("reload")) {
             player.sendMessage(Main.getLangFile().getText("wrongWorld"));
-            return false;
+            return;
         }
         // Reload command caller
         if (arg.equalsIgnoreCase("reload"))
@@ -100,7 +96,6 @@ public class Commands implements CommandExecutor {
         // Remove command caller
         else if (arg.equalsIgnoreCase("remove"))
             removeFarmerCommand(player);
-        return true;
     }
 
     /**
@@ -109,9 +104,8 @@ public class Commands implements CommandExecutor {
      * I have permission to use it for debugs and support.
      *
      * @param player
-     * @return
      */
-    private boolean infoCommand(@NotNull Player player) {
+    private void infoCommand(@NotNull Player player) {
         // My debug command for bug reports
         if (player.getName().equalsIgnoreCase("Geyik")) {
             player.sendMessage(Main.color("&aVersion: &7" + Main.getInstance().getDescription().getVersion()));
@@ -141,16 +135,14 @@ public class Commands implements CommandExecutor {
                 player.sendMessage(Main.color("&a" + key + " &f- &3" + value));
             });
         }
-        return true;
     }
 
     /**
      * Reload command method which reloads everything it can
      *
      * @param sender
-     * @return
      */
-    private boolean reloadCommand(@NotNull CommandSender sender) {
+    private void reloadCommand(@NotNull CommandSender sender) {
         // Creating time long for calculating time it takes.
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             long time = System.currentTimeMillis();
@@ -171,7 +163,6 @@ public class Commands implements CommandExecutor {
             sender.sendMessage(Main.getLangFile().getText("reloadSuccess").replace("%ms%",
                     System.currentTimeMillis() - time + "ms"));
         });
-        return true;
     }
 
 
@@ -179,19 +170,26 @@ public class Commands implements CommandExecutor {
      * Removes farmer where command sender at.
      *
      * @param player
-     * @return
      */
-    private boolean removeFarmerCommand(Player player) {
+    private void removeFarmerCommand(Player player) {
         // Checks if region id suitable for farmer
         String regionID = getRegionID(player);
-        if (regionID == null)
+        if (regionID == null) {
             player.sendMessage(Main.getLangFile().getText("noRegion"));
+            return;
+        }
 
-        // Removing by #FarmerAPI and sending message by result
-        boolean result = FarmerAPI.getFarmerManager().removeFarmer(regionID);
-        if (result)
-            player.sendMessage(Main.getLangFile().getText("removedFarmer"));
-        return result;
+        UUID ownerUUID = Main.getIntegration().getOwnerUUID(regionID);
+        // Custom perm check for remove command
+        if ((player.hasPermission("farmer.remove") && ownerUUID.equals(player.getUniqueId()))
+                || player.hasPermission("farmer.admin")) {
+            // Removing by #FarmerAPI and sending message by result
+            boolean result = FarmerAPI.getFarmerManager().removeFarmer(regionID);
+            if (result)
+                player.sendMessage(Main.getLangFile().getText("removedFarmer"));
+        }
+        else
+            player.sendMessage(Main.getLangFile().getText("noPerm"));
     }
 
     /**
@@ -221,13 +219,12 @@ public class Commands implements CommandExecutor {
      * Open farmer inventory gui if has farmer.
      *
      * @param player
-     * @return
      */
-    private boolean farmerBaseCommand(Player player) {
+    private void farmerBaseCommand(Player player) {
         // There is another world check
         if (!Settings.isWorldAllowed(player.getWorld().getName())) {
             player.sendMessage(Main.getLangFile().getText("wrongWorld"));
-            return true;
+            return;
         }
         // and also one more region check
         String regionID = getRegionID(player);
@@ -257,6 +254,5 @@ public class Commands implements CommandExecutor {
             else
                 player.sendMessage(Main.getLangFile().getText("noPerm"));
         }
-        return true;
     }
 }

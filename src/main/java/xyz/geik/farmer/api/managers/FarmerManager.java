@@ -4,11 +4,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.database.DBConnection;
 import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
@@ -63,12 +65,12 @@ public class FarmerManager {
             if (toUpdate.getUsers().stream().noneMatch(user -> user.getUuid().equals(newOwner)))
                 toUpdate.getUsers().add(new User(toUpdate.getId(), Bukkit.getOfflinePlayer(newOwner).getName(), newOwner, FarmerPerm.OWNER));
             // Update role on cache
-            toUpdate.getUsers().stream().forEach(user -> {
+            for (User user : toUpdate.getUsers()) {
                 if (user.getUuid().equals(oldOwner))
                     user.setPerm(FarmerPerm.COOP);
                 else if (user.getUuid().equals(newOwner) && !user.getPerm().equals(FarmerPerm.OWNER))
                     user.setPerm(FarmerPerm.OWNER);
-            });
+            }
             // Update role on database
             int farmerId = toUpdate.getId();
             User.updateRole(oldOwner, 1, farmerId);
@@ -78,7 +80,11 @@ public class FarmerManager {
                 toUpdate.setRegionID(newOwner.toString());
                 getFarmers().put(newOwner.toString(), toUpdate);
                 getFarmers().remove(regionId);
-                toUpdate.saveFarmerAsync();
+                try {
+                    toUpdate.saveFarmer(DBConnection.connect());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

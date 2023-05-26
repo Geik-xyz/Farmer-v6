@@ -135,6 +135,7 @@ public class Farmer {
         this.state = 1;
         FarmerManager.getFarmers().put(regionID, this);
         DBQueries.createFarmer(this, ownerUUID);
+        addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
     }
 
     /**
@@ -143,7 +144,7 @@ public class Farmer {
      * @return
      */
     public UUID getOwnerUUID() {
-        return users.stream().filter(this::isUserOwner).findFirst().get().getUuid();
+        return users.stream().filter(this::isUserOwner).collect(Collectors.toList()).get(0).getUuid();
     }
 
     /**
@@ -172,7 +173,7 @@ public class Farmer {
      * @return
      */
     private boolean isUserNotOwner(@NotNull User user) {
-        return user.getPerm().equals(FarmerPerm.OWNER);
+        return !user.getPerm().equals(FarmerPerm.OWNER);
     }
 
     /**
