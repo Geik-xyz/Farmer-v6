@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.integrations.askyblock.Askyblock;
 import xyz.geik.farmer.integrations.bentobox.Bento;
+import xyz.geik.farmer.integrations.fabledskyblock.FabledSkyblock;
 import xyz.geik.farmer.integrations.grief.GriefPrevent;
 import xyz.geik.farmer.integrations.superior.SuperiorSkyblock;
 
@@ -60,6 +61,7 @@ public abstract class Integrations {
             Main.setIntegration(new Bento());
         else if (Bukkit.getPluginManager().isPluginEnabled("ASkyBlock"))
             Main.setIntegration(new Askyblock());
-        else return;
+        else if(Bukkit.getPluginManager().isPluginEnabled("FabledSkyBlock"))
+            Main.setIntegration(new FabledSkyblock());
     }
 }
