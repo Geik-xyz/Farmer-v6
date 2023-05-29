@@ -98,6 +98,7 @@ public class DBQueries {
         // Connection
         try (Connection con = DBConnection.connect()) {
             // statement for farmer query
+            assert con != null;
             PreparedStatement pst = con.prepareStatement(FARMER_QUERY);
             ResultSet resultSet = pst.executeQuery();
             // Gets all data
