@@ -40,6 +40,10 @@ public class FabledSkyblock extends Integrations {
      */
     @Override
     public String getRegionID(Location location) {
+        System.out.println(location);
+        System.out.println(SkyBlockAPI.getIslandManager());
+        System.out.println(SkyBlockAPI.getIslandManager().getIslandAtLocation(location));
+        System.out.println(SkyBlockAPI.getIslandManager().getIslandAtLocation(location).getIslandUUID().toString());
         return SkyBlockAPI.getIslandManager().getIslandAtLocation(location).getIslandUUID().toString();
     }
 }
