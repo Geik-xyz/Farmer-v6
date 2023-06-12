@@ -3,22 +3,24 @@ package xyz.geik.farmer.integrations.fabledskyblock;
 import com.songoda.skyblock.api.SkyBlockAPI;
 import org.bukkit.Location;
 import xyz.geik.farmer.integrations.Integrations;
+
 import java.util.UUID;
 
 /**
- * @author Heron4gf
- * @since v6-beta b9
+ * @author mehmet-27
  */
 public class FabledSkyblock extends Integrations {
+
     /**
-     * Constructor register event of super class
+     * Integrations#super calls here
+     * Constructor for abstract class
      */
-    public FabledSkyblock() {super(new FabledListener());}
+    public FabledSkyblock() {
+        super(new FabledSkyListener());
+    }
 
     /**
      * Get owner UUID of region
-     * @param regionID
-     * @return
      */
     @Override
     public UUID getOwnerUUID(String regionID) {
@@ -26,9 +28,7 @@ public class FabledSkyblock extends Integrations {
     }
 
     /**
-     * Get owner UUID of location
-     * @param location
-     * @return
+     * Get owner UUID by location
      */
     @Override
     public UUID getOwnerUUID(Location location) {
@@ -36,9 +36,7 @@ public class FabledSkyblock extends Integrations {
     }
 
     /**
-     * Get region ID of location
-     * @param location
-     * @return
+     * Get region ID by location
      */
     @Override
     public String getRegionID(Location location) {
