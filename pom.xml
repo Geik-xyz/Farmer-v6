@@ -24,6 +24,12 @@
             <version>1.19.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- FabledSkyblock -->
+        <dependency>
+            <groupId>com.songoda</groupId>
+            <artifactId>skyblock</artifactId>
+            <version>2.3.30</version>
+        </dependency>
         <!-- Vault -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
@@ -84,13 +90,6 @@
             <groupId>com.wasteofplastic</groupId>
             <artifactId>askyblock</artifactId>
             <version>3.0.9.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- FabledSkyblock -->
-        <dependency>
-            <groupId>com.songoda</groupId>
-            <artifactId>skyblock</artifactId>
-            <version>2.3.30</version>
             <scope>provided</scope>
         </dependency>
         <!-- xSeries -->

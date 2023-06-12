@@ -38,9 +38,6 @@ public class Farmer {
     // User list of farmer
     private Set<User> users;
 
-    // Owner UUID
-    private UUID ownerUUID;
-
     // Inventory of farmer
     private FarmerInv inv;
 
@@ -121,7 +118,6 @@ public class Farmer {
         this.inv = inv;
         this.level = level;
         this.state = state;
-        this.ownerUUID = Main.getIntegration().getOwnerUUID(regionID);
     }
 
     /**
@@ -137,10 +133,18 @@ public class Farmer {
         this.inv = new FarmerInv();
         this.level = FarmerLevel.getAllLevels().get(level);
         this.state = 1;
-        this.ownerUUID = ownerUUID;
         FarmerManager.getFarmers().put(regionID, this);
         DBQueries.createFarmer(this, ownerUUID);
         addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
+    }
+
+    /**
+     * Gets owner uuid of farmer
+     *
+     * @return
+     */
+    public UUID getOwnerUUID() {
+        return users.stream().filter(this::isUserOwner).collect(Collectors.toList()).get(0).getUuid();
     }
 
     /**
