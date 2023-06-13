@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - v6
+      - main
 
 jobs:
   publish:
