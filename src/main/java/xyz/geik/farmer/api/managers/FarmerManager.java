@@ -1,5 +1,6 @@
 package xyz.geik.farmer.api.managers;
 
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import xyz.geik.farmer.Main;
@@ -12,6 +13,7 @@ import xyz.geik.farmer.model.user.User;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -58,34 +60,30 @@ public class FarmerManager {
      * @param newOwner New owner of farmer
      * @param regionId Region id of farmer
      */
+    @SneakyThrows
     public void changeOwner(UUID oldOwner, UUID newOwner, String regionId) {
         if (getFarmers().containsKey(regionId)) {
-            Farmer toUpdate = getFarmers().get(regionId);
+            Farmer farmer = getFarmers().get(regionId);
+            Farmer newFarmer = farmer.clone();
+            getFarmers().remove(regionId);
+            FarmerAPI.getFarmerManager().removeFarmer(regionId);
+            // Replaces old owner role to coop on db
+            User.updateRole(oldOwner, 1, newFarmer.getId());
+            // Replace old owner role to coop on cache
+            newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(oldOwner)).findFirst().get().setPerm(FarmerPerm.COOP);
             // Adds player if not exists on farmer users
-            if (toUpdate.getUsers().stream().noneMatch(user -> user.getUuid().equals(newOwner)))
-                toUpdate.getUsers().add(new User(toUpdate.getId(), Bukkit.getOfflinePlayer(newOwner).getName(), newOwner, FarmerPerm.OWNER));
-            // Update role on cache
-            for (User user : toUpdate.getUsers()) {
-                if (user.getUuid().equals(oldOwner))
-                    user.setPerm(FarmerPerm.COOP);
-                else if (user.getUuid().equals(newOwner) && !user.getPerm().equals(FarmerPerm.OWNER))
-                    user.setPerm(FarmerPerm.OWNER);
-            }
-            // Update role on database
-            int farmerId = toUpdate.getId();
-            User.updateRole(oldOwner, 1, farmerId);
-            User.updateRole(newOwner, 2, farmerId);
+            if (newFarmer.getUsers().stream().noneMatch(user -> user.getUuid().equals(newOwner)))
+                newFarmer.getUsers().add(new User(newFarmer.getId(), Bukkit.getOfflinePlayer(newOwner).getName(), newOwner, FarmerPerm.OWNER));
+            // Replaces new owner role to owner on db
+            User.updateRole(newOwner, 2, newFarmer.getId());
+            // Replaces new owner role to owner on cache
+            newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(oldOwner)).findFirst().get().setPerm(FarmerPerm.OWNER);
             // Update farmer regionId if same as ownerid
-            if (regionId.equals(oldOwner.toString())) {
-                toUpdate.setRegionID(newOwner.toString());
-                getFarmers().put(newOwner.toString(), toUpdate);
-                getFarmers().remove(regionId);
-                try {
-                    toUpdate.saveFarmer(DBConnection.connect());
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            if (regionId.equals(oldOwner.toString()))
+                newFarmer.setRegionID(newOwner.toString());
+            getFarmers().put(newFarmer.getRegionID(), newFarmer);
+            // Saves farmer to db
+            newFarmer.saveFarmer(Objects.requireNonNull(DBConnection.connect()));
         }
     }
 

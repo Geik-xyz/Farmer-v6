@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  */
 @Setter
 @Getter
-public class Farmer {
+public class Farmer implements Cloneable {
 
     // Region id of farmer
     private String regionID;
@@ -144,7 +144,7 @@ public class Farmer {
      * @return
      */
     public UUID getOwnerUUID() {
-        return users.stream().filter(this::isUserOwner).collect(Collectors.toList()).get(0).getUuid();
+        return Main.getIntegration().getOwnerUUID(getRegionID());
     }
 
     /**
@@ -268,5 +268,19 @@ public class Farmer {
             catch (Exception e) { e.printStackTrace(); }
         });
         return true;
+    }
+
+    /**
+     * Clones farmer object
+     * @return Farmer object
+     */
+    @Override
+    public Farmer clone() {
+        try {
+            Farmer clone = (Farmer) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

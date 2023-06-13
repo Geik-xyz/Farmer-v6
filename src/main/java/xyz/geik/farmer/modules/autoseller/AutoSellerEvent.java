@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
+import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
@@ -25,7 +26,7 @@ public class AutoSellerEvent implements Listener {
     public void onAutoSellerEvent(@NotNull FarmerStorageFullEvent event) {
         Farmer farmer = event.getFarmer();
         if (farmer.getAttributeStatus("autoseller")) {
-            OfflinePlayer owner = Bukkit.getOfflinePlayer(farmer.getOwnerUUID());
+            OfflinePlayer owner = Bukkit.getOfflinePlayer(Main.getIntegration().getOwnerUUID(event.getItemSpawnEvent().getLocation()));
             // Checks if the farmer is not true for default status
             // Checks if the farmer owner is online for perm check
             // Checks if the farmer owner has the custom perm
