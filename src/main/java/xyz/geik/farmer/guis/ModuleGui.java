@@ -7,8 +7,17 @@ import xyz.geik.farmer.api.handlers.FarmerModuleGuiCreateEvent;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.Farmer;
 
+/**
+ * Module Gui class
+ * @author poyraz
+ * @since 1.0.0
+ */
 public class ModuleGui {
 
+    /**
+     * @param player player to show
+     * @param farmer farmer object
+     */
     public static void showGui(Player player, Farmer farmer) {
         // Gui template as array
         String[] moduleGui = Main.getLangFile().getStringList("moduleGui.interface").toArray(new String[0]);

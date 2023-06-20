@@ -23,9 +23,18 @@ public class ChatEvent implements Listener {
     // Which cancel player text on chat
     private static HashMap<String, String> players = new HashMap<>();
 
-    // Getter of players hashmap
+    /**
+     * Getter of players hashmap
+     *
+     * @return HashMap of player
+     */
     public static HashMap<String, String> getPlayers() { return players; }
 
+    /**
+     * Chat event listener
+     *
+     * @param e Listener event
+     */
     @EventHandler
     public void chatEvent(@NotNull AsyncPlayerChatEvent e) {
         if (getPlayers().keySet().contains(e.getPlayer().getName())) {

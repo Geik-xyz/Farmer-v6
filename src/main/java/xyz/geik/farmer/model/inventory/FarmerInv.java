@@ -25,10 +25,14 @@ import java.util.stream.Collectors;
 @Getter
 public class FarmerInv {
 
-    // default items which farmer can take
+    /**
+     * default items which farmer can take
+     */
     public static List<FarmerItem> defaultItems = new ArrayList<>();
 
-    // stocked items farmer has
+    /**
+     * stocked items farmer has
+     */
     private List<FarmerItem> items = new ArrayList<>();
 
     /**
@@ -38,14 +42,20 @@ public class FarmerInv {
      */
     private List<ProductionModel> productionModels = new ArrayList<>();
 
-    // Checks if average production is calculated
+    /**
+     * Checks if average production is calculated
+     */
     private boolean isProductionCalculated = false;
 
-    // Farmer stock capacity
+    /**
+     * Farmer stock capacity
+     */
     private long capacity;
 
     /**
      * Farmer inv which contains items set.
+     * @param items item list of inventory
+     * @param capacity capacity of inventory item can hold
      */
     public FarmerInv(List<FarmerItem> items, long capacity) {
         this.items = items;
@@ -95,6 +105,9 @@ public class FarmerInv {
      * Adding item amount to stock.
      * Respects capacity and if it above capacity
      * return additional amount.
+     * @param material xmaterial of item
+     * @param collectedItem item of collected item
+     * @return long left amount of item
      */
     public long sumItemAmount(XMaterial material, @NotNull Item collectedItem) {
         FarmerItem item = getStockedItem(material);
@@ -125,8 +138,11 @@ public class FarmerInv {
 
     /**
      * Removing x amount of item from stock.
-     * Respects 0 if amount bigger then stock.
+     * Respects 0 if amount bigger than stock.
      * And return the abs of negative number.
+     * @param material xmaterial of item
+     * @param amount amount of negate
+     * @return long amount of abs
      */
     public long negateItemAmount(XMaterial material, long amount) {
         FarmerItem item = getStockedItem(material);

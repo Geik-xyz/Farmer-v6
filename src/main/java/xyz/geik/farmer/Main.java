@@ -28,7 +28,6 @@ import xyz.geik.farmer.modules.voucher.Voucher;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 /**
  * Main class of farmer
@@ -38,7 +37,9 @@ import java.util.concurrent.Callable;
 @Getter
 public class Main extends JavaPlugin {
 
-    // Register module to this class
+    /**
+     * Listener list of modules
+     */
     public Map<FarmerModule, Listener> listenerList = new HashMap<>();
 
     /**
@@ -102,7 +103,6 @@ public class Main extends JavaPlugin {
     /**
      * disable method calls from spigot api.
      * executing it right before close.
-     *
      * async tasks can be fail because server
      * can't handle async tasks while shutting down
      */
@@ -111,32 +111,54 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * Getter for files, instance, integration, farmers, economy.
+     * Gets config file
+     * @return Config file
      */
     public static Config getConfigFile() { return configFile; }
+
+    /**
+     * Gets items file
+     * @return Config file
+     */
     public static Config getItemsFile() { return itemsFile; }
+
+    /**
+     * Gets lang file
+     * @return Config file
+     */
     public static Config getLangFile() { return langFile; }
+
+    /**
+     * Gets instance
+     * @return Main class of main
+     */
     public static Main getInstance() { return instance; }
+
+    /**
+     * Gets Integration plugin instance
+     * @return Integrations plugin of integration
+     */
     public static Integrations getIntegration() { return integration; }
+
+    /**
+     * Gets items file
+     * @return Economy gets economy plugin
+     */
     public static Economy getEcon() { return econ; }
 
     /**
      * Integration setter
      *
-     * @param data
+     * @param data data of integration
      */
     public static void setIntegration(Integrations data) {
         integration = data;
     }
 
     /**
-     * Basic color translate method which changing '&' to '§'
-     *
-     * Because minecraft using '§' for color example: '§a Hello World!'
-     * But it's hard to write so traditionally everyone using '&' for
-     * color codes. This method converting '&' to '§'.
-     * @param text
-     * @return
+     * Basic color translate method which changes minecraft color code to known one
+     * @param text String of message
+     * @return String of replaced text
      */
     public static @NotNull String color(String text) {
         return ChatColor.translateAlternateColorCodes('&', text);
@@ -144,16 +166,14 @@ public class Main extends JavaPlugin {
 
     /**
      * Setup economy by Vault.
-     * @return
      */
-    private boolean setupEconomy() {
+    private void setupEconomy() {
         if (Main.instance.getServer().getPluginManager().getPlugin("Vault") == null)
-            return false;
+            return;
         RegisteredServiceProvider<Economy> rsp = Main.instance.getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null)
-            return false;
+            return;
         econ = rsp.getProvider();
-        return econ != null;
     }
 
     /**
@@ -171,18 +191,10 @@ public class Main extends JavaPlugin {
      */
     private void loadMetrics() {
         Metrics metrics = new Metrics(Main.instance, 9646);
-        metrics.addCustomChart(new Metrics.SingleLineChart("ciftci_sayisi", new Callable<Integer>() {
-            @Override
-            public Integer call() throws Exception {
-                return FarmerManager.getFarmers().size();
-            }
-        }));
-        metrics.addCustomChart(new Metrics.SimplePie("api_eklentisi", new Callable<String>() {
-            @Override
-            public String call() {
-                String[] data = getIntegration().getClass().getName().split(".");
-                return data[data.length-1];
-            }
+        metrics.addCustomChart(new Metrics.SingleLineChart("ciftci_sayisi", () -> FarmerManager.getFarmers().size()));
+        metrics.addCustomChart(new Metrics.SimplePie("api_eklentisi", () -> {
+            String[] data = getIntegration().getClass().getName().split(".");
+            return data[data.length-1];
         }));
     }
 

@@ -57,6 +57,7 @@ public class ModuleManager {
      *
      * @param farmerModule Module to add
      *                     @see FarmerModule
+     * @throws ModuleExistException if module doesn't exist it throws this exception
      */
     public void addModule(FarmerModule farmerModule) throws ModuleExistException {
         if (getModuleList().contains(farmerModule))

@@ -10,6 +10,11 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.Farmer;
 
+/**
+ * Production model object
+ * @author poyraz
+ * @since 1.0.0
+ */
 @Getter
 @Setter
 public class ProductionModel {
@@ -73,6 +78,11 @@ public class ProductionModel {
         return (getResult() * 60 * 24);
     }
 
+    /**
+     * @param productionModel model of production
+     * @param key key of production placeholders
+     * @return String of updated lore
+     */
     public static String updateLore(ProductionModel productionModel, String key) {
         if (productionModel == null || !Production.getInstance().isEnabled())
             return null;

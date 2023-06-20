@@ -15,6 +15,9 @@ import xyz.geik.farmer.model.Farmer;
 
 import java.util.UUID;
 
+/**
+ * Bento listener class
+ */
 public class BentoListener implements Listener {
 
     /**

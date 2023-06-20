@@ -26,14 +26,14 @@ public class DBQueries {
 
     /**
      * Create table if not exists.
-     *
+     * <p>
      * Farmers:
      * id (INTEGER PK AI), // Primary key, auto increment
      * RegionID (varchar(30), No Null, Unique), // Region id of farmer
      * State (smallint(1), default 1), // Gather state 1 farmer work, 0 they don't
      * items (text, default null), // items formatted info
      * level (int, default 0) // level of farmer
-     *
+     * <p>
      * FarmerUsers:
      * farmerId (int not null), // Farmers#id for primary key of it
      * name (varchar(30) DEFAULT User), // Display User as username if something goes wrong

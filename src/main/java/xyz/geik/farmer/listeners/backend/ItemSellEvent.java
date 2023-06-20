@@ -10,6 +10,10 @@ import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 
+/**
+ * @author poyraz
+ * @since 1.0.0
+ */
 public class ItemSellEvent implements Listener {
 
     /**

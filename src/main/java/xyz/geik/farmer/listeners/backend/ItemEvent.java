@@ -21,6 +21,9 @@ import xyz.geik.farmer.model.inventory.FarmerInv;
  */
 public class ItemEvent implements Listener {
 
+    /**
+     * @param event event of collect event
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void farmerCollectItemEvent(@NotNull FarmerItemCollectEvent event) {
         if (event.getItemSpawnEvent().isCancelled() || event.isCancelled())
@@ -56,6 +59,7 @@ public class ItemEvent implements Listener {
      * Checks World
      * Checks has farmer on location
      * Checks if farmer closed
+     * @param e event of item spawn event
      */
     @EventHandler(priority = EventPriority.MONITOR)
     public void itemSpawnEvent(@NotNull ItemSpawnEvent e) {

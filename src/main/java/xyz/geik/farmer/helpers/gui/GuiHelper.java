@@ -46,6 +46,8 @@ public class GuiHelper {
      * If item has skull it gets item as head with
      * custom head data. Otherwise, check for material and
      * get item with a material.
+     * @param path path of item (e. Items.storage)
+     * @return ItemStack of destination item
      */
     public static @NotNull ItemStack getItem(String path) {
         return getItem(path, Main.getLangFile());
@@ -55,6 +57,9 @@ public class GuiHelper {
      * If item has skull it gets item as head with
      * custom head data. Otherwise, check for material and
      * get item with a material.
+     * @param path path of item (e. Items.storage)
+     * @param file file of item (e. items.yml)
+     * @return ItemStack of destination item
      */
     public static @NotNull ItemStack getItem(String path, @NotNull Config file) {
         ItemStack result;

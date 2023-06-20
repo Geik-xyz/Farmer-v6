@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * VoucherItem class
  *
- * @author
+ * @author Geik
  * @version 1.0.0
  * @since 1.0.0
  */
@@ -25,8 +25,8 @@ public class VoucherItem {
     /**
      * Get voucher item with level
      *
-     * @param level
-     * @return
+     * @param level Integer level of voucher
+     * @return ItemStack Item of voucher
      */
     public static @NotNull ItemStack getVoucherItem(int level) {
         // Item loader
@@ -54,6 +54,8 @@ public class VoucherItem {
      * If item has skull it gets item as head with
      * custom head data. Otherwise, check for material and
      * get item with a material.
+     * @param path item path
+     * @return ItemStack of destination item
      */
     public static @NotNull ItemStack getItem(String path) {
         ItemStack result;

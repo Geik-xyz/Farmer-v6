@@ -54,6 +54,9 @@ public class FarmerRemoveEvent extends Event {
         return HANDLERS;
     }
 
+    /**
+     * @return HandlerList
+     */
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }

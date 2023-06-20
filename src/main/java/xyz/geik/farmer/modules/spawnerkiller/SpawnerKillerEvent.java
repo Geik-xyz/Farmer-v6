@@ -19,6 +19,11 @@ import xyz.geik.farmer.model.Farmer;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Spawner Killer Listener
+ * @author poyraz
+ * @since 1.0.0
+ */
 public class SpawnerKillerEvent implements Listener {
 
     /**

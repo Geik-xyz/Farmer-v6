@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.api.FarmerAPI;
 
 /**
- * ASkyblock integration listeners
+ * ASky-block integration listeners
  */
 public class ASkyblockListener implements Listener {
 

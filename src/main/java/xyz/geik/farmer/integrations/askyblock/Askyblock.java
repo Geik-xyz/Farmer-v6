@@ -7,7 +7,9 @@ import xyz.geik.farmer.integrations.Integrations;
 import java.util.UUID;
 
 /**
- * ASkyblock integration
+ * ASky-block integration
+ * @author poyraz
+ * @since 1.0.0
  */
 public class Askyblock extends Integrations {
 
@@ -18,8 +20,8 @@ public class Askyblock extends Integrations {
 
     /**
      * Get owner UUID of region
-     * @param regionID
-     * @return
+     * @param regionID id of region
+     * @return UUID of owner
      */
     @Override
     public UUID getOwnerUUID(String regionID) {
@@ -28,8 +30,8 @@ public class Askyblock extends Integrations {
 
     /**
      * Get owner UUID of location
-     * @param location
-     * @return
+     * @param location of region
+     * @return UUID of owner
      */
     @Override
     public UUID getOwnerUUID(Location location) {
@@ -38,8 +40,8 @@ public class Askyblock extends Integrations {
 
     /**
      * Get region ID of location
-     * @param location
-     * @return
+     * @param location location of region
+     * @return String id of region
      */
     @Override
     public String getRegionID(Location location) {

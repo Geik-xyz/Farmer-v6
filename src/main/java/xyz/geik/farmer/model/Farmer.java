@@ -123,8 +123,9 @@ public class Farmer {
     /**
      * Second constructor of farmer which creates fresh farmer.
      *
-     * @param regionID
-     * @param ownerUUID
+     * @param regionID id of region
+     * @param ownerUUID uuid of owner
+     * @param level level of farmer
      */
     public Farmer(String regionID, UUID ownerUUID, int level) {
         this.regionID = regionID;

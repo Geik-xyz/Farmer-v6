@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 /**
  * Tab complete class which shown on up
  * generally use for hover display args.
- *
+ * <p>
  * Tab complete class which implements TabCompleter
  * Interface class and register Tab Complete on Main#onEnable()
  */

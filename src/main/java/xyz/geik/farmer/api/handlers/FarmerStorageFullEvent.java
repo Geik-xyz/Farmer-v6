@@ -58,7 +58,9 @@ public class FarmerStorageFullEvent extends Event {
         this.itemSpawnEvent = itemSpawnEvent;
     }
 
-    // Only setter method of event
+    /**
+     * @param arg0 boolean of cancelled or not default: false
+     */
     public void setCancelled(boolean arg0) {
         this.isCancelled = arg0;
     }
@@ -84,6 +86,9 @@ public class FarmerStorageFullEvent extends Event {
         return HANDLERS;
     }
 
+    /**
+     * @return HandlerList
+     */
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }

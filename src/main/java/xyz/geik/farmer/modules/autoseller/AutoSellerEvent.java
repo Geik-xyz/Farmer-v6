@@ -14,6 +14,9 @@ import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 
+/**
+ * Auto Seller listener class
+ */
 public class AutoSellerEvent implements Listener {
 
     /**
