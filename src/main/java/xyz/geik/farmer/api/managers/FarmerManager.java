@@ -84,10 +84,12 @@ public class FarmerManager {
                  * @author WaterArchery
                  */
                 newFarmer.addUser(newOwner, Bukkit.getOfflinePlayer(newOwner).getName(), FarmerPerm.OWNER);
-            // Replaces new owner role to owner on db
-            User.updateRole(newOwner, 2, newFarmer.getId());
-            // Replaces new owner role to owner on cache
-            newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(newOwner)).findFirst().get().setPerm(FarmerPerm.OWNER);
+            else {
+                // Replaces new owner role to owner on db
+                User.updateRole(newOwner, 2, newFarmer.getId());
+                // Replaces new owner role to owner on cache
+                newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(newOwner)).findFirst().get().setPerm(FarmerPerm.OWNER);
+            }
             // Update farmer regionId if same as ownerid
             if (regionId.equals(oldOwner.toString()))
                 newFarmer.setRegionID(newOwner.toString());

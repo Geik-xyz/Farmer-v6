@@ -91,9 +91,9 @@ public class Main extends JavaPlugin {
         getCommand("farmer").setExecutor(new Commands());
         getCommand("farmer").setTabCompleter(new FarmerTabComplete());
         DBQueries.createTable();
-        DBQueries.loadAllFarmers();
         Integrations.registerIntegrations();
         sendEnableMessage();
+        DBQueries.loadAllFarmers();
         new ListenerRegister();
         loadMetrics();
         registerModules();
