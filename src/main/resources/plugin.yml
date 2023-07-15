@@ -1,7 +1,7 @@
 name: Farmer
 author: Geik
 main: xyz.geik.farmer.Main
-version: 6b02
+version: 6b03
 api-version: 1.13
 softdepend: [BentoBox, Vault, ASkyBlock, SuperiorSkyblock2, GriefPrevention, FabledSkyBlock]
 loadbefore: [AutoPickup, WildStacker]

@@ -11,7 +11,6 @@ import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
@@ -21,7 +20,7 @@ import java.util.UUID;
  * Farmer Manager class manages all farmer related methods.
  * @author poyrazinan
  */
-public class    FarmerManager {
+public class FarmerManager {
 
     /**
      * Loaded farmer cache.
@@ -70,7 +69,7 @@ public class    FarmerManager {
             // Replaces old owner role to coop on db
             User.updateRole(oldOwner, 1, newFarmer.getId());
             // Replace old owner role to coop on cache
-            newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(oldOwner)).findFirst().get().setPerm(FarmerPerm.COOP);
+            newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(oldOwner)).findFirst().get().setPerm(FarmerPerm.MEMBER);
             // Adds player if not exists on farmer users
             if (newFarmer.getUsers().stream().noneMatch(user -> user.getUuid().equals(newOwner)))
                 /*
@@ -81,13 +80,14 @@ public class    FarmerManager {
                  * Because adding array not saving
                  * into database on new players
                  * and removes farmer on restart.
+                 *
+                 * @author WaterArchery
                  */
                 newFarmer.addUser(newOwner, Bukkit.getOfflinePlayer(newOwner).getName(), FarmerPerm.OWNER);
-            //newFarmer.getUsers().add(new User(newFarmer.getId(), Bukkit.getOfflinePlayer(newOwner).getName(), newOwner, FarmerPerm.OWNER));
             // Replaces new owner role to owner on db
             User.updateRole(newOwner, 2, newFarmer.getId());
             // Replaces new owner role to owner on cache
-            newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(oldOwner)).findFirst().get().setPerm(FarmerPerm.OWNER);
+            newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(newOwner)).findFirst().get().setPerm(FarmerPerm.OWNER);
             // Update farmer regionId if same as ownerid
             if (regionId.equals(oldOwner.toString()))
                 newFarmer.setRegionID(newOwner.toString());

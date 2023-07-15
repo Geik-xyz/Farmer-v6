@@ -95,20 +95,8 @@ public class DBQueries {
         final String FARMER_QUERY = "SELECT * FROM Farmers;";
         // Query of farmer users
         final String USERS_QUERY = "SELECT * FROM FarmerUsers WHERE farmerId = ?";
-        final String FIX_QUERY = "DELETE FROM FarmerUsers WHERE farmerId = ?";
         // Connection
         try (Connection con = DBConnection.connect()) {
-            /*
-             * Fix operation for corrupted
-             * users on database
-             * it basically deletes all user
-             * rows which owns the farmer
-             * numbered 0
-             */
-            PreparedStatement fixState = con.prepareStatement(FIX_QUERY);
-            fixState.setInt(1, 0);
-            fixState.executeUpdate();
-
             // statement for farmer query
             PreparedStatement pst = con.prepareStatement(FARMER_QUERY);
             ResultSet resultSet = pst.executeQuery();
@@ -150,7 +138,6 @@ public class DBQueries {
                 // Closing user resultset and statement
                 userSet.close();
                 userState.close();
-                fixState.close();
             }
             // Closing farmer resultset and statement
             resultSet.close();
@@ -167,7 +154,7 @@ public class DBQueries {
      * @param farmer
      * @param ownerUUID
      */
-    public static void createFarmer(Farmer farmer, UUID ownerUUID) {
+    public static void createFarmer(Farmer farmer) {
         // Query
         final String SQL_QUERY = "INSERT INTO Farmers (regionID, state, level) VALUES (?, ?, ?)";
         // Asynchronously task scheduler for running this task for async without delay
@@ -187,11 +174,12 @@ public class DBQueries {
                 PreparedStatement idGetter = con.prepareStatement("SELECT id FROM Farmers WHERE regionID = ?");
                 idGetter.setString(1, farmer.getRegionID());
                 int id = idGetter.executeQuery().getInt("id");
-                // Updated id
-                FarmerManager.getFarmers().get(farmer.getRegionID()).setId(id);
                 idGetter.close();
+
                 // Calls event of farmer creation
                 Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                    farmer.setId(id);
+                    // Event of listener
                     FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
                     Bukkit.getPluginManager().callEvent(boughtEvent);
                 });
