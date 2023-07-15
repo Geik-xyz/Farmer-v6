@@ -19,6 +19,7 @@ public class ListenerRegister {
         register(new QuitEvent());
         register(new ChatEvent());
         register(new ItemSellEvent());
+        register(new BuyFarmerEvent());
     }
 
     /**

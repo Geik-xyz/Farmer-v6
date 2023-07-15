@@ -3,6 +3,7 @@ package xyz.geik.farmer.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.managers.FarmerManager;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @Setter
 @Getter
-public class Farmer {
+public class Farmer implements Cloneable {
 
     // Region id of farmer
     private String regionID;
@@ -134,9 +135,7 @@ public class Farmer {
         this.inv = new FarmerInv();
         this.level = FarmerLevel.getAllLevels().get(level);
         this.state = 1;
-        FarmerManager.getFarmers().put(regionID, this);
-        DBQueries.createFarmer(this, ownerUUID);
-        addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
+        DBQueries.createFarmer(this);
     }
 
     /**
@@ -145,7 +144,7 @@ public class Farmer {
      * @return
      */
     public UUID getOwnerUUID() {
-        return users.stream().filter(this::isUserOwner).collect(Collectors.toList()).get(0).getUuid();
+        return Main.getIntegration().getOwnerUUID(getRegionID());
     }
 
     /**
@@ -269,5 +268,19 @@ public class Farmer {
             catch (Exception e) { e.printStackTrace(); }
         });
         return true;
+    }
+
+    /**
+     * Clones farmer object
+     * @return Farmer object
+     */
+    @Override
+    public Farmer clone() {
+        try {
+            Farmer clone = (Farmer) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
