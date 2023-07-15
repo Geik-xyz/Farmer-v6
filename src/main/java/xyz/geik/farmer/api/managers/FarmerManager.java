@@ -21,7 +21,7 @@ import java.util.UUID;
  * Farmer Manager class manages all farmer related methods.
  * @author poyrazinan
  */
-public class FarmerManager {
+public class    FarmerManager {
 
     /**
      * Loaded farmer cache.
@@ -73,7 +73,17 @@ public class FarmerManager {
             newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(oldOwner)).findFirst().get().setPerm(FarmerPerm.COOP);
             // Adds player if not exists on farmer users
             if (newFarmer.getUsers().stream().noneMatch(user -> user.getUuid().equals(newOwner)))
-                newFarmer.getUsers().add(new User(newFarmer.getId(), Bukkit.getOfflinePlayer(newOwner).getName(), newOwner, FarmerPerm.OWNER));
+                /*
+                 * Changed to use farmer's
+                 * addUser method instead of
+                 * adding into array.
+                 *
+                 * Because adding array not saving
+                 * into database on new players
+                 * and removes farmer on restart.
+                 */
+                newFarmer.addUser(newOwner, Bukkit.getOfflinePlayer(newOwner).getName(), FarmerPerm.OWNER);
+            //newFarmer.getUsers().add(new User(newFarmer.getId(), Bukkit.getOfflinePlayer(newOwner).getName(), newOwner, FarmerPerm.OWNER));
             // Replaces new owner role to owner on db
             User.updateRole(newOwner, 2, newFarmer.getId());
             // Replaces new owner role to owner on cache

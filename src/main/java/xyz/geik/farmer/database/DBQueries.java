@@ -95,8 +95,20 @@ public class DBQueries {
         final String FARMER_QUERY = "SELECT * FROM Farmers;";
         // Query of farmer users
         final String USERS_QUERY = "SELECT * FROM FarmerUsers WHERE farmerId = ?";
+        final String FIX_QUERY = "DELETE FROM FarmerUsers WHERE farmerId = ?";
         // Connection
         try (Connection con = DBConnection.connect()) {
+            /*
+             * Fix operation for corrupted
+             * users on database
+             * it basically deletes all user
+             * rows which owns the farmer
+             * numbered 0
+             */
+            PreparedStatement fixState = con.prepareStatement(FIX_QUERY);
+            fixState.setInt(1, 0);
+            fixState.executeUpdate();
+
             // statement for farmer query
             PreparedStatement pst = con.prepareStatement(FARMER_QUERY);
             ResultSet resultSet = pst.executeQuery();
@@ -138,6 +150,7 @@ public class DBQueries {
                 // Closing user resultset and statement
                 userSet.close();
                 userState.close();
+                fixState.close();
             }
             // Closing farmer resultset and statement
             resultSet.close();

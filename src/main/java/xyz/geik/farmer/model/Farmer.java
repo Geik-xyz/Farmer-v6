@@ -3,6 +3,7 @@ package xyz.geik.farmer.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.managers.FarmerManager;
@@ -135,7 +136,17 @@ public class Farmer implements Cloneable {
         this.state = 1;
         FarmerManager.getFarmers().put(regionID, this);
         DBQueries.createFarmer(this, ownerUUID);
-        addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
+        /*
+         * added slight delay to avoid
+         * adding user into a farmer with an id
+         * of 0
+         */
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                addUser(ownerUUID, Bukkit.getOfflinePlayer(ownerUUID).getName(), FarmerPerm.OWNER);
+            }
+        }.runTaskLater(Main.getInstance(), 20);
     }
 
     /**
