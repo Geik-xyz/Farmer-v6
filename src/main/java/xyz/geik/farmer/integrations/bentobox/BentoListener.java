@@ -20,6 +20,9 @@ import xyz.geik.farmer.model.user.FarmerPerm;
 
 import java.util.UUID;
 
+/**
+ * Bento listener class
+ */
 public class BentoListener implements Listener {
 
     /**

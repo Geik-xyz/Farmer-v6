@@ -12,6 +12,9 @@ import xyz.geik.farmer.Main;
  */
 public class StorageManager {
 
+    /**
+     * StorageManager constructor method
+     */
     public StorageManager() {}
 
     /**
@@ -68,6 +71,7 @@ public class StorageManager {
      * Initiating json file
      *
      * @param fileName name of the file
+     * @param plugin main class of project
      * @return Json
      * @see Json
      */

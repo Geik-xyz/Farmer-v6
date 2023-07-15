@@ -8,13 +8,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerModuleGuiCreateEvent;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.Farmer;
 
 import java.util.stream.Collectors;
 
+/**
+ * Auto Harvest Gui Events
+ */
 public class AutoHarvestGuiCreateEvent implements Listener {
 
     /**

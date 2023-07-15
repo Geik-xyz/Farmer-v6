@@ -11,6 +11,9 @@ import xyz.geik.farmer.listeners.backend.*;
  */
 public class ListenerRegister {
 
+    /**
+     * Listener Register constructor register listeners
+     */
     public ListenerRegister() {
         register(new ItemEvent());
         register(new QuitEvent());

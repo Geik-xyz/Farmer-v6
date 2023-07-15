@@ -19,6 +19,11 @@ import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 
+/**
+ * Voucher Event Listener class
+ * @author poyraz
+ * @since 1.0.0
+ */
 public class VoucherEvent implements Listener {
 
     /**

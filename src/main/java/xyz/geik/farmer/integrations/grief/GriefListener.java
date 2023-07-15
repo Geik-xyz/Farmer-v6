@@ -12,6 +12,9 @@ import xyz.geik.farmer.api.FarmerAPI;
  */
 public class GriefListener implements Listener {
 
+    /**
+     * GriefPrevention listener class
+     */
     public GriefListener() {}
 
     /**

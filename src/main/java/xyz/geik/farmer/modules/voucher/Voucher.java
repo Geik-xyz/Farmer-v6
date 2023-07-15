@@ -14,6 +14,9 @@ public class Voucher extends FarmerModule {
     // Instance of the module
     private static Voucher instance;
 
+    /**
+     * @return Voucher instance
+     */
     public static Voucher getInstance() {
         return instance;
     }

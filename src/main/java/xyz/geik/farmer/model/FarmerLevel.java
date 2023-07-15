@@ -21,7 +21,11 @@ public class FarmerLevel {
     // Level array which has all levels in it lower to higher
     private static List<FarmerLevel> farmerLevels = new ArrayList<>();
 
-    // Getter of farmerLevels
+    /**
+     * Getter of farmerLevels
+     * @return List of levels
+     */
+    //
     public static List<FarmerLevel> getAllLevels() {
         return farmerLevels;
     }
@@ -39,6 +43,13 @@ public class FarmerLevel {
     // Required permission of this level
     private String perm;
 
+    /**
+     * @param dataName data name of level
+     * @param capacity capacity of level
+     * @param reqMoney required money of level
+     * @param tax tax amount of level
+     * @param perm permission requirement of level
+     */
     public FarmerLevel(String dataName, long capacity, long reqMoney, double tax, String perm) {
         this.dataName = dataName;
         this.capacity = capacity;

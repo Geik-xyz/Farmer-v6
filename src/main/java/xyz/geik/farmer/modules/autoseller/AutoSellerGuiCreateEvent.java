@@ -15,6 +15,9 @@ import xyz.geik.farmer.model.Farmer;
 
 import java.util.stream.Collectors;
 
+/**
+ * Auto Seller Gui listener and events
+ */
 public class AutoSellerGuiCreateEvent implements Listener {
 
     /**

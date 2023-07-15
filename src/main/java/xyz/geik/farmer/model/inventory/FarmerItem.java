@@ -52,12 +52,20 @@ public class FarmerItem {
         return new FarmerItem(this.name, this.price, this.amount);
     }
 
-    // Summing x to amount
+    /**
+     * Summing x to amount
+     *
+     * @param sum sum amount
+     */
     public void sumAmount(long sum) {
         this.amount += sum;
     }
 
-    // Negating x from amount
+    /**
+     * Negating x from amount
+     *
+     * @param negate negate amount
+     */
     public void negateAmount(long negate) {
         this.amount -= negate;
     }
@@ -82,10 +90,10 @@ public class FarmerItem {
     }
 
     /**
-     * Deserializeing FarmerItem from flat string to Set<FarmerItem>
+     * Deserialize FarmerItem from flat string to a list
      *
-     * @param items
-     * @return
+     * @param items serialized item list
+     * @return List deserialized item list
      */
     public static List<FarmerItem> deserializeItems(String items) {
         List<FarmerItem> result = new ArrayList<>();

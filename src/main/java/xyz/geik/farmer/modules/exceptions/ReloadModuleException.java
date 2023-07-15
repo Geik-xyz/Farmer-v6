@@ -5,7 +5,10 @@ package xyz.geik.farmer.modules.exceptions;
  * if the module is not loaded or the module is not found
  */
 public class ReloadModuleException extends Exception {
-        public ReloadModuleException(String message) {
-            super(message);
-        }
+    /**
+     * @param message message of error
+     */
+    public ReloadModuleException(String message) {
+        super(message);
+    }
 }

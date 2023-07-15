@@ -21,6 +21,9 @@ import java.util.UUID;
  */
 public class SuperiorListener implements Listener {
 
+    /**
+     * Superior listener constructor
+     */
     public SuperiorListener() {}
 
     /**
@@ -49,7 +52,7 @@ public class SuperiorListener implements Listener {
     /**
      * Transfers farmer when island transfer
      *
-     * @param event
+     * @param event transfer island event
      */
     @EventHandler
     public void transferIslandEvent(IslandTransferEvent event) {

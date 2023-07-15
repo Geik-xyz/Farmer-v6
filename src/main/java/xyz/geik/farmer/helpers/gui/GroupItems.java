@@ -22,13 +22,12 @@ public class GroupItems {
 
     /**
      * Farmer stock item which can be anything in items.yml
-     * It also calculates stock and percent for display stock
+     * It also calculates stock and percent for display stock.
      * Stock can be seen by color of lore or bar in lore
      *
-     * @param farmerItem
-     * @param capacity
-     * @param tax
-     * @return
+     * @param farmer farmer object
+     * @param farmerItem item of farmer
+     * @return ItemStack of farmer held
      */
     public static @NotNull ItemStack getGroupItem(@NotNull Farmer farmer, @NotNull FarmerItem farmerItem) {
         long capacity = farmer.getLevel().getCapacity();

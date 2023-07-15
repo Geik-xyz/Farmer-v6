@@ -26,6 +26,7 @@ public class FarmerAPI {
     /**
      * Storage manager for config and json files.
      * @see xyz.geik.farmer.api.managers.StorageManager
+     * @return StorageManager
      */
     public static StorageManager getStorageManager() {
         if (storageManager == null)

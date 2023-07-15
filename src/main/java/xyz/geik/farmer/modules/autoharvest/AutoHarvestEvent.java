@@ -22,6 +22,12 @@ import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 
+/**
+ * Auto Harvest Listener class
+ *
+ * @author poyraz
+ * @since 1.0.0
+ */
 public class AutoHarvestEvent implements Listener {
 
     /**

@@ -72,6 +72,10 @@ public class Production extends FarmerModule {
     @Override
     public void onDisable() {}
 
+    /**
+     * @param item item of farmer
+     * @return boolean
+     */
     public static boolean isCalculateItem(@NotNull FarmerItem item) {
         return Production.getInstance().getProductionItems().contains(item.getName())
                 || getInstance().getProductionItems().isEmpty();

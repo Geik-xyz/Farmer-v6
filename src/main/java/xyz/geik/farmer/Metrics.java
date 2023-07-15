@@ -32,6 +32,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Metrics class which created by BStats
+ * @author BStats
+ */
 public class Metrics {
 
     private final Plugin plugin;
@@ -135,6 +139,9 @@ public class Metrics {
         }
     }
 
+    /**
+     *
+     */
     public static class MetricsBase {
 
         /** The version of the Metrics class. */
@@ -227,6 +234,9 @@ public class Metrics {
             }
         }
 
+        /**
+         * @param chart
+         */
         public void addCustomChart(CustomChart chart) {
             this.customCharts.add(chart);
         }
@@ -359,6 +369,9 @@ public class Metrics {
         }
     }
 
+    /**
+     *
+     */
     public static class AdvancedBarChart extends CustomChart {
 
         private final Callable<Map<String, int[]>> callable;
@@ -399,6 +412,9 @@ public class Metrics {
         }
     }
 
+    /**
+     *
+     */
     public static class SimpleBarChart extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
@@ -429,6 +445,9 @@ public class Metrics {
         }
     }
 
+    /**
+     *
+     */
     public static class MultiLineChart extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
@@ -469,6 +488,9 @@ public class Metrics {
         }
     }
 
+    /**
+     *
+     */
     public static class AdvancedPie extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
@@ -509,6 +531,9 @@ public class Metrics {
         }
     }
 
+    /**
+     *
+     */
     public abstract static class CustomChart {
 
         private final String chartId;
@@ -520,6 +545,11 @@ public class Metrics {
             this.chartId = chartId;
         }
 
+        /**
+         * @param errorLogger
+         * @param logErrors
+         * @return
+         */
         public JsonObjectBuilder.JsonObject getRequestJsonObject(
                 BiConsumer<String, Throwable> errorLogger, boolean logErrors) {
             JsonObjectBuilder builder = new JsonObjectBuilder();
@@ -543,6 +573,9 @@ public class Metrics {
         protected abstract JsonObjectBuilder.JsonObject getChartData() throws Exception;
     }
 
+    /**
+     *
+     */
     public static class SingleLineChart extends CustomChart {
 
         private final Callable<Integer> callable;
@@ -569,6 +602,9 @@ public class Metrics {
         }
     }
 
+    /**
+     *
+     */
     public static class SimplePie extends CustomChart {
 
         private final Callable<String> callable;
@@ -595,6 +631,9 @@ public class Metrics {
         }
     }
 
+    /**
+     *
+     */
     public static class DrilldownPie extends CustomChart {
 
         private final Callable<Map<String, Map<String, Integer>>> callable;
@@ -651,6 +690,9 @@ public class Metrics {
 
         private boolean hasAtLeastOneField = false;
 
+        /**
+         *
+         */
         public JsonObjectBuilder() {
             builder.append("{");
         }

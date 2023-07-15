@@ -13,7 +13,7 @@ import xyz.geik.farmer.model.user.FarmerPerm;
 import java.util.UUID;
 
 /**
- * ASkyblock integration listeners
+ * ASky-block integration listeners
  */
 public class ASkyblockListener implements Listener {
 

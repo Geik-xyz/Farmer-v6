@@ -24,6 +24,7 @@ public class FabledSkyListener implements Listener {
 
     /**
      * Automatically creates a farmer when island is created
+     * @param event listener event of create
      */
     @EventHandler
     public void onIslandCreate(IslandCreateEvent event) {
@@ -36,6 +37,7 @@ public class FabledSkyListener implements Listener {
 
     /**
      * Remove farmer on island delete
+     * @param event listener event of delete
      */
     @EventHandler
     public void onIslandDelete(IslandDeleteEvent event) {
@@ -44,6 +46,7 @@ public class FabledSkyListener implements Listener {
 
     /**
      * Change farmer owner on island transfer
+     * @param event listener event of transfer
      */
     @EventHandler
     public void transferIslandEvent(IslandOwnershipTransferEvent event) {
@@ -55,6 +58,7 @@ public class FabledSkyListener implements Listener {
 
     /**
      * Remove farmer on island reset
+     * @param event listener event of reset
      */
     @EventHandler
     public void onIslandResetEvent(@NotNull IslandLevelChangeEvent event) {

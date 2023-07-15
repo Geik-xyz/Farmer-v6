@@ -1,18 +1,20 @@
 package xyz.geik.farmer.integrations.bentobox;
 
 import org.bukkit.Location;
-import org.bukkit.event.Listener;
 import world.bentobox.bentobox.BentoBox;
 import xyz.geik.farmer.integrations.Integrations;
 
 import java.util.UUID;
 
+/**
+ * Bentobox integration
+ * @author poyraz
+ * @since 1.0.0
+ */
 public class Bento extends Integrations {
 
     /**
      * Constructor register event of super class
-     *
-     * @param listener
      */
     public Bento() {
         super(new BentoListener());
@@ -21,8 +23,8 @@ public class Bento extends Integrations {
     /**
      * Gets OwnerUUID by RegionID
      *
-     * @param regionID
-     * @return
+     * @param regionID id of region
+     * @return UUID of owner
      */
     @Override
     public UUID getOwnerUUID(String regionID) {
@@ -32,8 +34,8 @@ public class Bento extends Integrations {
     /**
      * Gets Owner UUID by Location
      *
-     * @param location
-     * @return
+     * @param location location of region
+     * @return UUID of player
      */
     @Override
     public UUID getOwnerUUID(Location location) {
@@ -43,8 +45,8 @@ public class Bento extends Integrations {
     /**
      * Gets RegionId by Location
      *
-     * @param location
-     * @return
+     * @param location of region
+     * @return String of region id
      */
     @Override
     public String getRegionID(Location location) {

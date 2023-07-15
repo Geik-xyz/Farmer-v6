@@ -12,12 +12,45 @@ import java.util.List;
  */
 public class Settings {
 
-    public static boolean ignorePlayerDrop = false, depositTax = false, autoCreateFarmer = false, buyFarmer = true;
+    /**
+     * ignores player drop configuration
+     */
+    public static boolean ignorePlayerDrop = false,
+    /**
+     * deposit tax configuration
+     */
+            depositTax = false,
+    /**
+     * autoCreateFarmer configuration
+     */
+            autoCreateFarmer = false,
+    /**
+     * buyFarmer configuration
+     */
+            buyFarmer = true;
     private static List<String> allowedWorlds = new ArrayList<>();
-    public static double defaultTax = 20.0;
-    public static int farmerPrice = -1;
-    public static String taxUser = "Geyik", lang = "en";
 
+    /**
+     * default tax value
+     */
+    public static double defaultTax = 20.0;
+    /**
+     * price of farmer
+     */
+    public static int farmerPrice = -1;
+    /**
+     * tax user who deposited to this account
+     */
+    public static String taxUser = "Geyik",
+    /**
+     * default language file
+     */
+            lang = "en";
+
+    /**
+     * @param worldName name of world
+     * @return boolean is allowed
+     */
     public static boolean isWorldAllowed(String worldName) {
         if (allowedWorlds.isEmpty())
             return true;

@@ -16,11 +16,14 @@ import java.util.UUID;
  * Abstract class for Integration hook
  * Which getting owner UUID and region ID
  * for necessary sections.
+ *
+ * @author geik
  */
 public abstract class Integrations {
 
     /**
      * Constructor register event of super class
+     * @param listener Listener class of integration
      */
     public Integrations(Listener listener) {
         Bukkit.getPluginManager().registerEvents(listener, Main.getInstance());
@@ -29,14 +32,16 @@ public abstract class Integrations {
     /**
      * Getting Owner UUID by Region ID
      *
-     * @param regionID
+     * @param regionID id of region
+     * @return UUID owner uuid
      */
     public abstract UUID getOwnerUUID(String regionID);
 
     /**
      * Getting Owner UUID by Location of player
      *
-     * @param location
+     * @param location location of region
+     * @return UUID owner uuid
      */
     public abstract UUID getOwnerUUID(Location location);
 
@@ -44,7 +49,8 @@ public abstract class Integrations {
      *
      * Getting Region ID by Location of player
      *
-     * @param location
+     * @param location location of region
+     * @return String regionId
      */
     public abstract String getRegionID(Location location);
 

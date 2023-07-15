@@ -8,8 +8,17 @@ import xyz.geik.farmer.Main;
  * Enum class of farmer permission of user
  */
 public enum FarmerPerm {
+    /**
+     * COOP perm of farmer
+     */
     COOP,
+    /**
+     * MEMBER perm of player
+     */
     MEMBER,
+    /**
+     * OWNER perm of farmer
+     */
     OWNER;
 
     /**
