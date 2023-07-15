@@ -154,7 +154,7 @@ public class DBQueries {
      * @param farmer
      * @param ownerUUID
      */
-    public static void createFarmer(Farmer farmer, UUID ownerUUID) {
+    public static void createFarmer(Farmer farmer) {
         // Query
         final String SQL_QUERY = "INSERT INTO Farmers (regionID, state, level) VALUES (?, ?, ?)";
         // Asynchronously task scheduler for running this task for async without delay
@@ -174,11 +174,12 @@ public class DBQueries {
                 PreparedStatement idGetter = con.prepareStatement("SELECT id FROM Farmers WHERE regionID = ?");
                 idGetter.setString(1, farmer.getRegionID());
                 int id = idGetter.executeQuery().getInt("id");
-                // Updated id
-                FarmerManager.getFarmers().get(farmer.getRegionID()).setId(id);
                 idGetter.close();
+
                 // Calls event of farmer creation
                 Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                    farmer.setId(id);
+                    // Event of listener
                     FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
                     Bukkit.getPluginManager().callEvent(boughtEvent);
                 });
