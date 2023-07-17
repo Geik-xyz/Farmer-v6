@@ -176,42 +176,6 @@ public class Farmer implements Cloneable {
      */
     public void addUser(UUID uuid, String name) {
         addUser(uuid, name, FarmerPerm.COOP);
-<<<<<<< HEAD
-=======
-    }
-
-    /**
-     * Adds user to farmer with desired role
-     *
-     * @param uuid uuid of player
-     * @param name name of player
-     * @param perm perm of player
-     */
-    public void addUser(UUID uuid, String name, FarmerPerm perm) {
-        Main.getInstance().getSql().addUser(uuid, name, perm);
->>>>>>> 24a23791105179ad0b7c743292abfd38f3444e70
-    }
-
-    /**
-     * Adds user to farmer with desired role
-     *
-     * @param uuid uuid of player
-     * @param name name of player
-     * @param perm perm of player
-     */
-    public void addUser(UUID uuid, String name, FarmerPerm perm) {
-        Main.getInstance().getSql().addUser(uuid, name, perm);
-    }
-
-    /**
-     * Adds user to farmer with desired role
-     *
-     * @param uuid uuid of player
-     * @param name name of player
-     * @param perm perm of player
-     */
-    public void addUser(UUID uuid, String name, FarmerPerm perm) {
-        Main.getInstance().getSql().addUser(uuid, name, perm);
     }
 
     /**
