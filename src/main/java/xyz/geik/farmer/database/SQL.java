@@ -131,19 +131,20 @@ public abstract class SQL {
      */
     public void createFarmer(@NotNull Farmer farmer) {
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        PreparedStatement saveStatement = null;
+        PreparedStatement selectStatement = null;
         final String SQL_QUERY = "INSERT INTO Farmers (regionID, state, level) VALUES (?, ?, ?)";
         try {
             connection = this.hikariCP.getHikariDataSource().getConnection();
-            preparedStatement = connection.prepareStatement(SQL_QUERY);
-            preparedStatement.setString(1, farmer.getRegionID());
-            preparedStatement.setInt(2, farmer.getState());
-            preparedStatement.setInt(3, FarmerLevel.getAllLevels().indexOf(farmer.getLevel()));
-            preparedStatement.executeUpdate();
+            saveStatement = connection.prepareStatement(SQL_QUERY);
+            saveStatement.setString(1, farmer.getRegionID());
+            saveStatement.setInt(2, farmer.getState());
+            saveStatement.setInt(3, FarmerLevel.getAllLevels().indexOf(farmer.getLevel()));
+            saveStatement.executeUpdate();
 
-            preparedStatement = connection.prepareStatement("SELECT id FROM Farmers WHERE regionID = ?");
-            preparedStatement.setString(1, farmer.getRegionID());
-            int id = preparedStatement.executeQuery().getInt("id");
+            selectStatement = connection.prepareStatement("SELECT id FROM Farmers WHERE regionID = ?");
+            selectStatement.setString(1, farmer.getRegionID());
+            int id = selectStatement.executeQuery().getInt("id");
 
             Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                 farmer.setId(id);
@@ -154,7 +155,8 @@ public abstract class SQL {
         } catch (SQLException throwables) {
             this.plugin.getLogger().info("Error while creating Farmer: " + throwables.getMessage());
         } finally {
-            closeConnections(preparedStatement, connection, null);
+            closeConnections(saveStatement, connection, null);
+            closeConnections(selectStatement, connection, null);
         }
     }
 
