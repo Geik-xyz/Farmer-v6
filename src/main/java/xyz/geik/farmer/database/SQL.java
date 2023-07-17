@@ -133,6 +133,7 @@ public abstract class SQL {
         Connection connection = null;
         PreparedStatement saveStatement = null;
         PreparedStatement selectStatement = null;
+        ResultSet resultSet = null;
         final String SQL_QUERY = "INSERT INTO Farmers (regionID, state, level) VALUES (?, ?, ?)";
         try {
             connection = this.hikariCP.getHikariDataSource().getConnection();
@@ -144,19 +145,20 @@ public abstract class SQL {
 
             selectStatement = connection.prepareStatement("SELECT id FROM Farmers WHERE regionID = ?");
             selectStatement.setString(1, farmer.getRegionID());
-            int id = selectStatement.executeQuery().getInt("id");
-
-            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-                farmer.setId(id);
-                FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
-                Bukkit.getPluginManager().callEvent(boughtEvent);
-            });
-
+            resultSet = selectStatement.executeQuery();
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                    farmer.setId(id);
+                    FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
+                    Bukkit.getPluginManager().callEvent(boughtEvent);
+                });
+            }
         } catch (SQLException throwables) {
             this.plugin.getLogger().info("Error while creating Farmer: " + throwables.getMessage());
         } finally {
-            closeConnections(saveStatement, connection, null);
-            closeConnections(selectStatement, connection, null);
+            closeConnections(saveStatement, connection, resultSet);
+            closeConnections(selectStatement, connection, resultSet);
         }
     }
 
