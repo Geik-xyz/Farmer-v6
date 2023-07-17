@@ -73,7 +73,7 @@ public class SuperiorListener implements Listener {
         Farmer farmer = FarmerManager.getFarmers().get(islandId);
         // Adds player if added to farmer
         if (farmer.getUsers().stream().noneMatch(user -> user.getUuid().equals(member)))
-            Main.getInstance().getSql().addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
+            farmer.addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
     }
 
     /**

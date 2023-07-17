@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
-import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerBoughtEvent;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.model.Farmer;
@@ -31,7 +30,7 @@ public class BuyFarmerEvent implements Listener {
     public void farmerBoughtEvent(@NotNull FarmerBoughtEvent e) {
         Farmer farmer = e.getFarmer();
         // Adds owner uuid to farmer
-        Main.getInstance().getSql().addUser(farmer.getOwnerUUID(), Bukkit.getOfflinePlayer(farmer.getOwnerUUID()).getName(), FarmerPerm.OWNER);
+        farmer.addUser(farmer.getOwnerUUID(), Bukkit.getOfflinePlayer(farmer.getOwnerUUID()).getName(), FarmerPerm.OWNER);
         // Adds farmer to cache
         FarmerManager.getFarmers().put(e.getFarmer().getRegionID(), e.getFarmer());
     }

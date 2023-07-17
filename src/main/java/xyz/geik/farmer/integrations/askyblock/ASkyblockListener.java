@@ -77,6 +77,6 @@ public class ASkyblockListener implements Listener {
         Farmer farmer = FarmerManager.getFarmers().get(e.getNewTeamLeader().toString());
         // Adds player if added to farmer
         if (farmer.getUsers().stream().noneMatch(user -> user.getUuid().equals(member)))
-            Main.getInstance().getSql().addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
+            farmer.addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
     }
 }
