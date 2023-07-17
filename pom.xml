@@ -112,6 +112,12 @@
             <version>2022.6</version>
             <scope>provided</scope>
         </dependency>
+        <!-- HikariCP -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.0.1</version>
+        </dependency>
     </dependencies>
 
     <!-- Repos -->
@@ -200,6 +206,10 @@
                             <pattern>de.tr7zw.nbtapi</pattern>
                             <shadedPattern>xyz.geik.farmer.shades.nbtapi</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>com.zaxxer.hikari</pattern>
+                            <shadedPattern>xyz.geik.farmer.shades.hikari</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -210,7 +220,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin><plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><configuration><source>8</source><target>8</target></configuration></plugin>
         </plugins>
     </build>
 </project>

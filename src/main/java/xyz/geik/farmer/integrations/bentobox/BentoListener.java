@@ -69,7 +69,7 @@ public class BentoListener implements Listener {
         Farmer farmer = FarmerManager.getFarmers().get(islandId);
         // Adds player if added to farmer
         if (farmer.getUsers().stream().noneMatch(user -> user.getUuid().equals(member)))
-            farmer.addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
+            Main.getInstance().getSql().addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
     }
 
     /**
@@ -102,7 +102,7 @@ public class BentoListener implements Listener {
         Farmer farmer = FarmerManager.getFarmers().get(islandId);
         // Removes player if added to farmer
         if (farmer.getUsers().stream().anyMatch(user -> user.getUuid().equals(member)))
-            farmer.removeUser(farmer.getUsers().stream().filter(user -> user.getUuid().equals(member)).findFirst().get());
+            Main.getInstance().getSql().removeUser(farmer.getUsers().stream().filter(user -> user.getUuid().equals(member)).findFirst().get());
     }
 
     /**

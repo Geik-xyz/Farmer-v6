@@ -1,0 +1,9 @@
+database:
+  type: sqlite # mysql or sqlite
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password: "ilovegeikplugins"
+  database: geik_farmer
+  farmers_table: farmers
+  farmer_users_table: farmer_users

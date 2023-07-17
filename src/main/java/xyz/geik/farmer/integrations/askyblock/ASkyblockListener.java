@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
+import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.model.Farmer;
@@ -61,7 +62,7 @@ public class ASkyblockListener implements Listener {
         Farmer farmer = FarmerManager.getFarmers().get(e.getOldTeamLeader().toString());
         // Removes player if added to farmer
         if (farmer.getUsers().stream().anyMatch(user -> user.getUuid().equals(member)))
-            farmer.removeUser(farmer.getUsers().stream().filter(user -> user.getUuid().equals(member)).findFirst().get());
+            Main.getInstance().getSql().removeUser(farmer.getUsers().stream().filter(user -> user.getUuid().equals(member)).findFirst().get());
     }
 
     /**
@@ -76,6 +77,6 @@ public class ASkyblockListener implements Listener {
         Farmer farmer = FarmerManager.getFarmers().get(e.getNewTeamLeader().toString());
         // Adds player if added to farmer
         if (farmer.getUsers().stream().noneMatch(user -> user.getUuid().equals(member)))
-            farmer.addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
+            Main.getInstance().getSql().addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
     }
 }

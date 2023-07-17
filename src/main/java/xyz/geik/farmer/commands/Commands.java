@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.guis.BuyGui;
 import xyz.geik.farmer.guis.MainGui;
 import xyz.geik.farmer.helpers.ItemsLoader;
@@ -147,7 +146,7 @@ public class Commands implements CommandExecutor {
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             long time = System.currentTimeMillis();
             // Saves all farmer
-            DBQueries.updateAllFarmers();
+            Main.getInstance().getSql().updateAllFarmers();
             // Clears cached farmers
             FarmerManager.getFarmers().clear();
             // Regenerates settings
@@ -157,7 +156,7 @@ public class Commands implements CommandExecutor {
             // Reloading levels it also clears old list
             FarmerLevel.loadLevels();
             // Reloading farmers again.
-            DBQueries.loadAllFarmers();
+            Main.getInstance().getSql().loadAllFarmers();
             FarmerAPI.getModuleManager().getModuleList().forEach(FarmerModule::onReload);
             // Sends message to sender who send this command and also calculating millisecond difference.
             sender.sendMessage(Main.getLangFile().getText("reloadSuccess").replace("%ms%",

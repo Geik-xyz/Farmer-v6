@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.database.DBConnection;
 import xyz.geik.farmer.model.Farmer;
 
 import java.sql.Connection;
@@ -58,38 +57,15 @@ public class User {
     public static synchronized boolean updateUserRole(User user, Farmer farmer) {
         if (user.getPerm().equals(FarmerPerm.COOP)) {
             user.setPerm(FarmerPerm.MEMBER);
-            updateRole(user.getUuid(), 1, farmer.getId());
+            Main.getInstance().getSql().updateRole(user.getUuid(), 1, farmer.getId());
             return true;
         }
         else if (user.getPerm().equals(FarmerPerm.MEMBER)) {
             user.setPerm(FarmerPerm.COOP);
-            updateRole(user.getUuid(), 0, farmer.getId());
+            Main.getInstance().getSql().updateRole(user.getUuid(), 0, farmer.getId());
             return true;
         }
         else return false;
-    }
-
-    /**
-     * Updates player role on database created for #updateUserRole but can be required
-     * in another class if necessary.
-     *
-     * @param uuid
-     * @param roleId
-     * @param farmerId
-     */
-    public static void updateRole(UUID uuid, int roleId, int farmerId) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            final String QUERY = "UPDATE FarmerUsers SET role = ? WHERE uuid = ? AND farmerId = ?";
-            try (Connection con = DBConnection.connect()) {
-                PreparedStatement statement = con.prepareStatement(QUERY);
-                statement.setInt(1, roleId);
-                statement.setString(2, uuid.toString());
-                statement.setInt(3, farmerId);
-                statement.executeUpdate();
-                statement.close();
-            }
-            catch (Exception e) {}
-        });
     }
 
     /**

@@ -13,7 +13,9 @@ import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.commands.Commands;
 import xyz.geik.farmer.commands.FarmerTabComplete;
-import xyz.geik.farmer.database.DBQueries;
+import xyz.geik.farmer.database.MySQL;
+import xyz.geik.farmer.database.SQL;
+import xyz.geik.farmer.database.SQLite;
 import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.integrations.Integrations;
@@ -43,6 +45,11 @@ public class Main extends JavaPlugin {
     public Map<FarmerModule, Listener> listenerList = new HashMap<>();
 
     /**
+     * SQL Manager
+     */
+    private SQL sql;
+
+    /**
      * Instance of this class
      */
     private static Main instance;
@@ -51,7 +58,7 @@ public class Main extends JavaPlugin {
      * Config files which using SimplixStorage API for it.
      * Also, you can find usage code of API on helpers#StorageAPI
      */
-    private static Config configFile, itemsFile, langFile;
+    private static Config configFile, itemsFile, langFile, databaseFile;
 
     /**
      * Main integration of plugin integrations#Integrations
@@ -73,6 +80,7 @@ public class Main extends JavaPlugin {
         configFile = FarmerAPI.getStorageManager().initConfig("config");
         itemsFile = FarmerAPI.getStorageManager().initConfig("items");
         langFile = FarmerAPI.getStorageManager().initLangFile(getConfigFile().getString("settings.lang"));
+        databaseFile = FarmerAPI.getStorageManager().initConfig("storage/database");
     }
 
     /**
@@ -91,10 +99,10 @@ public class Main extends JavaPlugin {
         FarmerLevel.loadLevels();
         getCommand("farmer").setExecutor(new Commands());
         getCommand("farmer").setTabCompleter(new FarmerTabComplete());
-        DBQueries.createTable();
         Integrations.registerIntegrations();
         sendEnableMessage();
-        DBQueries.loadAllFarmers();
+        setDatabaseManager();
+        this.sql.loadAllFarmers();
         new ListenerRegister();
         loadMetrics();
         registerModules();
@@ -107,7 +115,7 @@ public class Main extends JavaPlugin {
      * can't handle async tasks while shutting down
      */
     public void onDisable() {
-        DBQueries.updateAllFarmers();
+        this.sql.updateAllFarmers();
     }
 
     /**
@@ -129,10 +137,24 @@ public class Main extends JavaPlugin {
     public static Config getLangFile() { return langFile; }
 
     /**
+     * Gets database file
+     * @return Config file
+     */
+    public static Config getDatabaseFile() { return databaseFile; }
+
+    /**
      * Gets instance
      * @return Main class of main
      */
     public static Main getInstance() { return instance; }
+
+    /**
+     * Gets SQL Manager
+     * @return SQL Manager
+     */
+    public SQL getSql() {
+        return this.sql;
+    }
 
     /**
      * Gets Integration plugin instance
@@ -196,6 +218,20 @@ public class Main extends JavaPlugin {
             String[] data = getIntegration().getClass().getName().split(".");
             return data[data.length-1];
         }));
+    }
+
+    /**
+     * Registering Database Manager
+     */
+    private void setDatabaseManager() {
+        String sqlType = getDatabaseFile().getString("database.type");
+        sqlType = sqlType.toLowerCase();
+
+        if (sqlType.equals("sqlite")) {
+            this.sql = new SQLite();
+        } else if (sqlType.equals("mysql")) {
+            this.sql = new MySQL();
+        }
     }
 
     /**
