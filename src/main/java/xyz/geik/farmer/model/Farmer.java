@@ -2,6 +2,7 @@ package xyz.geik.farmer.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.inventory.FarmerInv;
@@ -186,7 +187,7 @@ public class Farmer implements Cloneable {
      * @param perm perm of player
      */
     public void addUser(UUID uuid, String name, FarmerPerm perm) {
-        Main.getInstance().getSql().addUser(uuid, name, perm);
+        Main.getInstance().getSql().addUser(uuid, name, perm, this);
     }
 
     /**
@@ -196,7 +197,21 @@ public class Farmer implements Cloneable {
      * @return
      */
     public boolean removeUser(@NotNull User user) {
-        return Main.getInstance().getSql().removeUser(user);
+        return Main.getInstance().getSql().removeUser(user, this);
+    }
+
+    /**
+     * Saves farmer async
+     */
+    public void saveFarmerAsync() {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), this::saveFarmer);
+    }
+
+    /**
+     * Saves farmer sync
+     */
+    public void saveFarmer() {
+        Main.getInstance().getSql().saveFarmer(this);
     }
 
     /**

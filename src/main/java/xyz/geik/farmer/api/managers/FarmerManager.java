@@ -9,9 +9,7 @@ import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
 
-import java.sql.Connection;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -94,7 +92,7 @@ public class FarmerManager {
                 newFarmer.setRegionID(newOwner.toString());
             getFarmers().put(newFarmer.getRegionID(), newFarmer);
             // Saves farmer to db
-            Main.getInstance().getSql().saveFarmer((Connection) Objects.requireNonNull(Main.getInstance().getSql()));
+            farmer.saveFarmer();
         }
     }
 

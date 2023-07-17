@@ -3,11 +3,37 @@ package xyz.geik.farmer.database;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+/**
+ * HikariCP main configuration class
+ * @since b000
+ * @author Amowny
+ */
 public class HikariCP {
+
+    /**
+     * DataSource object of HikariCP
+     */
     private HikariDataSource hikariDataSource;
+
+    /**
+     * MySQL auth information
+     */
     protected String hostname, database, username, password;
+
+    /**
+     * MySQL port for connection
+     */
     protected int port;
 
+    /**
+     * Constructor of HikariCP for MySQL
+     *
+     * @param hostname of mysql
+     * @param port of mysql
+     * @param username of mysql
+     * @param password of mysql
+     * @param database of mysql
+     */
     public HikariCP(String hostname, int port, String username, String password, String database) {
         this.hostname = hostname;
         this.port = port;
@@ -16,6 +42,16 @@ public class HikariCP {
         this.database = database;
     }
 
+    /**
+     * Constructor of HikariCP for SQLite
+     * Empty on SQLite because there is no auth protection.
+     */
+    public HikariCP() {}
+
+    /**
+     * Sets property of mysql/sqlite
+     * @param sql
+     */
     public void setProperties(SQL sql) {
         HikariConfig hikariConfig = new HikariConfig();
         if (sql.getDatabaseType() == DatabaseType.MYSQL) {
@@ -35,8 +71,10 @@ public class HikariCP {
         this.hikariDataSource = new HikariDataSource(hikariConfig);
     }
 
-    public HikariCP() {}
-
+    /**
+     * Data source of hikariCP
+     * @return HikariDataSource configuration
+     */
     public HikariDataSource getHikariDataSource() {
         return this.hikariDataSource;
     }

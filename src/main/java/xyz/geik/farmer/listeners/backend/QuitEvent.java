@@ -7,12 +7,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
-
-import java.util.UUID;
 
 /**
  * Player quit event basically save farmer when player quits
@@ -36,7 +33,7 @@ public class QuitEvent implements Listener {
                     if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
                         return;
                     Farmer farmer = FarmerManager.getFarmers().get(regionID);
-                    Main.getInstance().getSql().saveFarmerAsync();
+                    farmer.saveFarmerAsync();
                 }
                 catch (Exception ex) {}
             }
