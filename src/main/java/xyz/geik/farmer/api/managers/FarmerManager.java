@@ -82,7 +82,7 @@ public class FarmerManager {
                  *
                  * @author WaterArchery
                  */
-                Main.getInstance().getSql().addUser(newOwner, Bukkit.getOfflinePlayer(newOwner).getName(), FarmerPerm.OWNER);
+                farmer.addUser(newOwner, Bukkit.getOfflinePlayer(newOwner).getName(), FarmerPerm.OWNER);
             else {
                 // Replaces new owner role to owner on db
                 Main.getInstance().getSql().updateRole(newOwner, 2, newFarmer.getId());

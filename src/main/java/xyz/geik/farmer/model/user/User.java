@@ -57,16 +57,29 @@ public class User {
     public static synchronized boolean updateUserRole(User user, Farmer farmer) {
         if (user.getPerm().equals(FarmerPerm.COOP)) {
             user.setPerm(FarmerPerm.MEMBER);
-            Main.getInstance().getSql().updateRole(user.getUuid(), 1, farmer.getId());
+            updateRole(user.getUuid(), 1, farmer.getId());
             return true;
         }
         else if (user.getPerm().equals(FarmerPerm.MEMBER)) {
             user.setPerm(FarmerPerm.COOP);
-            Main.getInstance().getSql().updateRole(user.getUuid(), 0, farmer.getId());
+            updateRole(user.getUuid(), 0, farmer.getId());
             return true;
         }
         else return false;
     }
+
+    /**
+     * Updates player role on database created for #updateUserRole but can be required
+     * in another class if necessary.
+     *
+     * @param uuid
+     * @param roleId
+     * @param farmerId
+     */
+    public static void updateRole(UUID uuid, int roleId, int farmerId) {
+        Main.getInstance().getSql().updateRole(uuid, roleId, farmerId);
+    }
+
 
     /**
      * How many user can player add to farmer.

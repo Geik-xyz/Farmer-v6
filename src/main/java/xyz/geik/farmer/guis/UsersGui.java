@@ -99,7 +99,7 @@ public class UsersGui {
                             response = User.updateUserRole(user, farmer);
                         // Shift right click for remove user
                         else if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
-                            response = Main.getInstance().getSql().removeUser(user);
+                            response = farmer.removeUser(user);
                             if (response) {
                                 gui.destroy();
                                 return true;
