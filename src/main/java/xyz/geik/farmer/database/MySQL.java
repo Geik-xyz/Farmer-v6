@@ -215,6 +215,7 @@ public class MySQL extends SQL{
                 preparedStatement.setString(3, (serializedItems == "") ? null : serializedItems);
                 preparedStatement.setInt(4, FarmerLevel.getAllLevels().indexOf(farmer.getLevel()));
                 preparedStatement.setInt(5, farmer.getId());
+                preparedStatement.executeUpdate();
             }
         } catch (SQLException throwables) {
             this.plugin.getLogger().info("Error while save Farmer: " + throwables.getMessage());
