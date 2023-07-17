@@ -13,7 +13,3 @@ database:
   password: "ilovegeikplugins"
   # database name of mysql default: <no any default>
   database: geik_farmer
-  # table of farmer in sql default: farmers
-  farmers_table: farmers
-  # users table of farmer in sql default: farmer_users
-  farmer_users_table: farmer_users

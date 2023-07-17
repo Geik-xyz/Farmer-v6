@@ -15,16 +15,6 @@ import java.sql.SQLException;
 public class MySQL extends SQL {
 
     /**
-     * Farmer database table name
-     */
-    private final String farmers_table;
-
-    /**
-     * Farmer users table name
-     */
-    private final String farmer_users_table;
-
-    /**
      * Main constructor of MySQL init configurations
      */
     public MySQL() {
@@ -33,8 +23,6 @@ public class MySQL extends SQL {
         String username = Main.getDatabaseFile().getString("database.username");
         String password = Main.getDatabaseFile().getString("database.password");
         String database = Main.getDatabaseFile().getString("database.database");
-        this.farmers_table = Main.getDatabaseFile().getString("database.farmers_table");
-        this.farmer_users_table = Main.getDatabaseFile().getString("database.farmer_users_table");
         this.hikariCP = new HikariCP(hostname, port, username, password, database);
         this.hikariCP.setProperties(this);
         createTable();
@@ -48,9 +36,9 @@ public class MySQL extends SQL {
         PreparedStatement preparedStatement = null;
         try {
             connection = this.hikariCP.getHikariDataSource().getConnection();
-            preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + this.farmers_table + " (id INT AUTO_INCREMENT, regionID varchar(36) NOT NULL UNIQUE, `state` smallint(1) DEFAULT 1, `items` text DEFAULT NULL, `attributes` text DEFAULT NULL, `level` int DEFAULT 0, PRIMARY KEY (id))");
+            preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS Farmers (id INT AUTO_INCREMENT, regionID varchar(36) NOT NULL UNIQUE, `state` smallint(1) DEFAULT 1, `items` text DEFAULT NULL, `attributes` text DEFAULT NULL, `level` int DEFAULT 0, PRIMARY KEY (id))");
             preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + this.farmer_users_table + " (`farmerId` int NOT NULL, `name` varchar(30) DEFAULT 'User', `uuid` char(36) DEFAULT '0', `role` smallint(1) DEFAULT 0)");
+            preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS FarmerUsers (`farmerId` int NOT NULL, `name` varchar(30) DEFAULT 'User', `uuid` char(36) DEFAULT '0', `role` smallint(1) DEFAULT 0)");
             preparedStatement.executeUpdate();
             this.plugin.getLogger().info("MySQL tables created successfully!");
         } catch (SQLException throwables) {

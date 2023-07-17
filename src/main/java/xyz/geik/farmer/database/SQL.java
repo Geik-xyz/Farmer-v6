@@ -24,6 +24,8 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
+ * SQL Queries and abstracted methods exist in this class
+ *
  * @since b000
  * @author Amowny
  */
