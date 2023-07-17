@@ -215,6 +215,17 @@ public class Farmer implements Cloneable {
     }
 
     /**
+     * Adds user to farmer with desired role
+     *
+     * @param uuid uuid of player
+     * @param name name of player
+     * @param perm perm of player
+     */
+    public void addUser(UUID uuid, String name, FarmerPerm perm) {
+        Main.getInstance().getSql().addUser(uuid, name, perm);
+    }
+
+    /**
      * Delete user from farmer
      *
      * @param user
