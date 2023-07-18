@@ -112,6 +112,12 @@
             <version>2022.6</version>
             <scope>provided</scope>
         </dependency>
+        <!-- HikariCP -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.0.1</version>
+        </dependency>
     </dependencies>
 
     <!-- Repos -->
@@ -199,6 +205,10 @@
                         <relocation>
                             <pattern>de.tr7zw.nbtapi</pattern>
                             <shadedPattern>xyz.geik.farmer.shades.nbtapi</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.zaxxer.hikari</pattern>
+                            <shadedPattern>xyz.geik.farmer.shades.hikari</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

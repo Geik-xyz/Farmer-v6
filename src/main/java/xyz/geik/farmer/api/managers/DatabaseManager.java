@@ -1,6 +1,6 @@
 package xyz.geik.farmer.api.managers;
 
-import xyz.geik.farmer.database.DBConnection;
+import xyz.geik.farmer.Main;
 
 import java.sql.Connection;
 
@@ -10,6 +10,8 @@ import java.sql.Connection;
  */
 public class DatabaseManager {
 
+    // MAYBE NOT WORK WITH NEW SYSTEM
+
     /**
      * Connects database of farmer.
      *
@@ -17,7 +19,7 @@ public class DatabaseManager {
      * @see Connection
      */
     public static Connection connectDatabase() {
-        return DBConnection.connect();
+        return (Connection) Main.getInstance().getSql();
     }
 
 }

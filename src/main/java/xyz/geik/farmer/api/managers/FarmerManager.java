@@ -5,14 +5,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
-import xyz.geik.farmer.database.DBConnection;
-import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -46,7 +43,7 @@ public class FarmerManager {
      */
     public boolean removeFarmer(String regionId) {
         if (getFarmers().containsKey(regionId)) {
-            DBQueries.removeFarmer(getFarmers().get(regionId));
+            Main.getInstance().getSql().removeFarmer(getFarmers().get(regionId));
             return true;
         }
         return false;
@@ -67,7 +64,7 @@ public class FarmerManager {
             getFarmers().remove(regionId);
             FarmerAPI.getFarmerManager().removeFarmer(regionId);
             // Replaces old owner role to coop on db
-            User.updateRole(oldOwner, 1, newFarmer.getId());
+            Main.getInstance().getSql().updateRole(oldOwner, 1, newFarmer.getId());
             // Replace old owner role to coop on cache
             newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(oldOwner)).findFirst().get().setPerm(FarmerPerm.MEMBER);
             // Adds player if not exists on farmer users
@@ -83,10 +80,10 @@ public class FarmerManager {
                  *
                  * @author WaterArchery
                  */
-                newFarmer.addUser(newOwner, Bukkit.getOfflinePlayer(newOwner).getName(), FarmerPerm.OWNER);
+                farmer.addUser(newOwner, Bukkit.getOfflinePlayer(newOwner).getName(), FarmerPerm.OWNER);
             else {
                 // Replaces new owner role to owner on db
-                User.updateRole(newOwner, 2, newFarmer.getId());
+                Main.getInstance().getSql().updateRole(newOwner, 2, newFarmer.getId());
                 // Replaces new owner role to owner on cache
                 newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(newOwner)).findFirst().get().setPerm(FarmerPerm.OWNER);
             }
@@ -95,7 +92,7 @@ public class FarmerManager {
                 newFarmer.setRegionID(newOwner.toString());
             getFarmers().put(newFarmer.getRegionID(), newFarmer);
             // Saves farmer to db
-            newFarmer.saveFarmer(Objects.requireNonNull(DBConnection.connect()));
+            farmer.saveFarmer();
         }
     }
 
