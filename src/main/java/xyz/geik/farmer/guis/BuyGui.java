@@ -39,7 +39,7 @@ public class BuyGui {
                         Main.getEcon().withdrawPlayer(player, Settings.farmerPrice);
                         // Creates new farmer
                         Farmer farmer = new Farmer(Main.getIntegration()
-                                .getRegionID(player.getLocation()), Main.getIntegration().getOwnerUUID(player.getLocation()), 0);
+                                .getRegionID(player.getLocation()), 0);
                         XSound.ENTITY_PLAYER_LEVELUP.play(player);
                         // Opens farmer gui to buyer
                         MainGui.showGui(player, farmer);

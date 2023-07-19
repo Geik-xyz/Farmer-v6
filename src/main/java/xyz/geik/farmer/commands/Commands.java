@@ -55,6 +55,13 @@ public class Commands implements CommandExecutor {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("reload"))
                     reloadCommand(sender);
+                else if (args[0].equals("fix")) {
+                    int player_count = Bukkit.getOnlinePlayers().size();
+                    if (player_count == 0)
+                        Main.getInstance().getSql().fixDatabase();
+                    else
+                        Main.getInstance().getLogger().info("You can run this command only when no player online!");
+                }
             }
             else if (args.length == 3)
                     VoucherCommand.give(sender, args);
