@@ -2,9 +2,9 @@ package xyz.geik.farmer;
 
 import de.leonhard.storage.Config;
 import lombok.Getter;
+import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,6 +30,8 @@ import xyz.geik.farmer.modules.voucher.Voucher;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Main class of farmer
@@ -183,6 +185,15 @@ public class Main extends JavaPlugin {
      * @return String of replaced text
      */
     public static @NotNull String color(String text) {
+        final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+        if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18") || Bukkit.getVersion().contains("1.19") || Bukkit.getVersion().contains("1.20")) {
+            Matcher matcher = pattern.matcher(text);
+            while (matcher.find()) {
+                String color = text.substring(matcher.start(), matcher.end());
+                text = text.replace(color, ChatColor.of(color) + "");
+                matcher = pattern.matcher(text);
+            }
+        }
         return ChatColor.translateAlternateColorCodes('&', text);
     }
 
