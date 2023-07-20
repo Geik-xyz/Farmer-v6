@@ -29,7 +29,7 @@ public class FabledSkyListener implements Listener {
     @EventHandler
     public void onIslandCreate(IslandCreateEvent event) {
         if (Settings.autoCreateFarmer) {
-            new Farmer(event.getIsland().getIslandUUID().toString(), event.getIsland().getOwnerUUID(), 0);
+            new Farmer(event.getIsland().getIslandUUID().toString(), 0);
             Player player = Bukkit.getPlayer(event.getIsland().getOwnerUUID());
             if (player != null) player.sendMessage(Main.getLangFile().getText("boughtFarmer"));
         }

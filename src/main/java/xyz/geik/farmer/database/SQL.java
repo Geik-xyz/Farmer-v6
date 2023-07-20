@@ -1,6 +1,7 @@
 package xyz.geik.farmer.database;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
@@ -102,16 +103,16 @@ public abstract class SQL {
 
                 FarmerInv inv = new FarmerInv(items, level.getCapacity());
 
-                preparedStatement = connection.prepareStatement(USERS_QUERY);
-                preparedStatement.setInt(1, farmerID);
-                resultSet = preparedStatement.executeQuery();
+                PreparedStatement userStatement = connection.prepareStatement(USERS_QUERY);
+                userStatement.setInt(1, farmerID);
+                ResultSet userSet = userStatement.executeQuery();
                 Set<User> users = new LinkedHashSet<>();
 
-                while (resultSet.next()) {
-                    String name = resultSet.getString("name");
-                    String uuid = resultSet.getString("uuid");
+                while (userSet.next()) {
+                    String name = userSet.getString("name");
+                    String uuid = userSet.getString("uuid");
 
-                    FarmerPerm role = FarmerPerm.getRole(resultSet.getInt("role"));
+                    FarmerPerm role = FarmerPerm.getRole(userSet.getInt("role"));
                     users.add(new User(farmerID, name, UUID.fromString(uuid), role));
                 }
                 Farmer farmer = new Farmer(farmerID, regionID, users, inv, level, state);
@@ -168,18 +169,19 @@ public abstract class SQL {
      */
     public void removeFarmer(@NotNull Farmer farmer) {
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        PreparedStatement removeFarmerStatement = null;
+        PreparedStatement removeUsersStatement = null;
         String DELETE_FARMER = "DELETE FROM Farmers WHERE id = ?";
         String DELETE_USERS = "DELETE FROM FarmerUsers WHERE farmerId = ?";
         try {
             connection = this.hikariCP.getHikariDataSource().getConnection();
-            preparedStatement = connection.prepareStatement(DELETE_FARMER);
-            preparedStatement.setInt(1, farmer.getId());
-            preparedStatement.executeUpdate();
+            removeFarmerStatement = connection.prepareStatement(DELETE_FARMER);
+            removeFarmerStatement.setInt(1, farmer.getId());
+            removeFarmerStatement.executeUpdate();
 
-            preparedStatement = connection.prepareStatement(DELETE_USERS);
-            preparedStatement.setInt(1, farmer.getId());
-            preparedStatement.executeUpdate();
+            removeUsersStatement = connection.prepareStatement(DELETE_USERS);
+            removeUsersStatement.setInt(1, farmer.getId());
+            removeUsersStatement.executeUpdate();
 
             Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                 FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(farmer);
@@ -192,13 +194,14 @@ public abstract class SQL {
         } catch (SQLException throwables) {
             this.plugin.getLogger().info("Error while removing Farmer: " + throwables.getMessage());
         } finally {
-            closeConnections(preparedStatement, connection, null);
+            closeConnections(removeFarmerStatement, connection, null);
+            closeConnections(removeUsersStatement, connection, null);
         }
     }
 
     /**
      * Saves farmer sync
-     * @param connection connection object
+     * @param farmer farmer object
      */
     public void saveFarmer(@NotNull Farmer farmer) {
         Connection connection = null;
@@ -230,6 +233,13 @@ public abstract class SQL {
      */
     public void addUser(UUID uuid, String name, FarmerPerm perm, @NotNull Farmer farmer) {
         farmer.getUsers().add(new User(farmer.getId(), name, uuid, perm));
+        addUser(uuid, name, perm, farmer.getId());
+    }
+
+    /**
+     * Adds user to farmer in sql only
+     */
+    public void addUser(@NotNull UUID uuid, String name, FarmerPerm perm, int farmerId) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             Connection connection = null;
             PreparedStatement preparedStatement = null;
@@ -237,7 +247,7 @@ public abstract class SQL {
             try {
                 connection = this.hikariCP.getHikariDataSource().getConnection();
                 preparedStatement = connection.prepareStatement(SQL_QUERY);
-                preparedStatement.setInt(1, farmer.getId());
+                preparedStatement.setInt(1, farmerId);
                 preparedStatement.setString(2, name);
                 preparedStatement.setString(3, uuid.toString());
                 preparedStatement.setInt(4, FarmerPerm.getRoleId(perm));
@@ -331,6 +341,81 @@ public abstract class SQL {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Fix database method
+     *  <p>Fixes users and owners if there is any corruption occurred in older versions or blackouts.</p>
+     */
+    public void fixDatabase() {
+        Main.getInstance().getSql().updateAllFarmers();
+        this.plugin.getLogger().info("Preparing data for fix please wait...");
+        Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+            long ms = System.currentTimeMillis();
+            FarmerManager.getFarmers().clear();
+            fixUsersInDatabase(ms);
+        }, 200L);
+    }
+
+    /**
+     * Check users if something exceptional in db
+     */
+    private void fixUsersInDatabase(long ms) {
+        this.plugin.getLogger().info("Farmer fixing users in progress..");
+        final String QUERY = "DELETE FROM FarmerUsers\n" +
+                "WHERE (farmerId, uuid, role) NOT IN (\n" +
+                "    SELECT farmerId, uuid, MAX(role) AS max_role\n" +
+                "    FROM FarmerUsers\n" +
+                "    GROUP BY farmerId, uuid\n" +
+                ");";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = this.hikariCP.getHikariDataSource().getConnection();
+            statement = connection.prepareStatement(QUERY);
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            this.plugin.getLogger().info("Error while trying to fix database: " + throwables.getMessage());
+        } finally {
+            closeConnections(statement, connection, null);
+            this.plugin.getLogger().info("Farmer fixing users completed.");
+            // Next step
+            fixOwnersInDatabase(ms);
+        }
+    }
+
+    /**
+     * Checks farmers if there is no owner on farmer in db
+     */
+    private void fixOwnersInDatabase(long ms) {
+        this.plugin.getLogger().info("Farmer fixing owners in progress..");
+        final String QUERY = "SELECT * FROM Farmers WHERE id NOT IN (\n" +
+                "  SELECT farmerId FROM FarmerUsers WHERE role = 2\n" +
+                ");";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet;
+        try {
+            connection = this.hikariCP.getHikariDataSource().getConnection();
+            statement = connection.prepareStatement(QUERY);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int farmerID = resultSet.getInt("id");
+                String regionID = resultSet.getString("regionID");
+                OfflinePlayer owner = Bukkit.getOfflinePlayer(Main.getIntegration().getOwnerUUID(regionID));
+                this.addUser(owner.getUniqueId(), owner.getName(), FarmerPerm.OWNER, farmerID);
+                this.plugin.getLogger().info("Fixed owner in database " + owner.getName());
+            }
+        } catch (SQLException throwables) {
+            this.plugin.getLogger().info("Error while trying to fix database: " + throwables.getMessage());
+        } finally {
+            closeConnections(statement, connection, null);
+            this.plugin.getLogger().info("Farmer fixing owners completed.");
+            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> {
+                Main.getInstance().getSql().loadAllFarmers();
+                this.plugin.getLogger().info("Fixing database task has completed in " + (System.currentTimeMillis() - ms) + "ms");
+            }, 200L);
         }
     }
 }

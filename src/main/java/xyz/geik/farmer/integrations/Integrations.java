@@ -2,6 +2,7 @@ package xyz.geik.farmer.integrations;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.integrations.askyblock.Askyblock;
@@ -9,6 +10,7 @@ import xyz.geik.farmer.integrations.bentobox.Bento;
 import xyz.geik.farmer.integrations.fabledskyblock.FabledSkyblock;
 import xyz.geik.farmer.integrations.grief.GriefPrevent;
 import xyz.geik.farmer.integrations.superior.SuperiorSkyblock;
+import xyz.geik.farmer.integrations.townyadvanced.TownyAdvanced;
 
 import java.util.UUID;
 
@@ -55,6 +57,15 @@ public abstract class Integrations {
     public abstract String getRegionID(Location location);
 
     /**
+     *
+     * Getting Region ID by Player
+     *
+     * @param player player of region
+     * @return String regionId
+     */
+    public abstract String getRegionIDWithPlayer(Player player);
+
+    /**
      * Catches plugin that server uses
      * and loads integration class of it.
      */
@@ -69,5 +80,7 @@ public abstract class Integrations {
             Main.setIntegration(new Askyblock());
         else if(Bukkit.getPluginManager().isPluginEnabled("FabledSkyBlock"))
             Main.setIntegration(new FabledSkyblock());
+        else if (Bukkit.getPluginManager().isPluginEnabled("Towny"))
+            Main.setIntegration(new TownyAdvanced());
     }
 }

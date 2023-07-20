@@ -21,6 +21,8 @@ settings:
     - SuperiorWorld
     - bskyblock_world
     - island_normal_world
+  # This need because bentobox api is not working properly
+  bentoboxWorld: ASkyBlock
 
 # Tax rate
 # If you set it 0 then it useless

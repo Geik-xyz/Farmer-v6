@@ -70,7 +70,7 @@ public class VoucherEvent implements Listener {
         }
         // Creates new farmer
         Farmer farmer = new Farmer(Main.getIntegration()
-                .getRegionID(player.getLocation()), Main.getIntegration().getOwnerUUID(player.getLocation()), voucherLevel-1);
+                .getRegionID(player.getLocation()), voucherLevel-1);
         // Opens farmer gui to buyer
         MainGui.showGui(player, farmer);
         // Sends message to player

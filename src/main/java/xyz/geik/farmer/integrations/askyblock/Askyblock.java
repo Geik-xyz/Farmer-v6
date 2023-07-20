@@ -2,6 +2,7 @@ package xyz.geik.farmer.integrations.askyblock;
 
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import xyz.geik.farmer.integrations.Integrations;
 
 import java.util.UUID;
@@ -46,5 +47,15 @@ public class Askyblock extends Integrations {
     @Override
     public String getRegionID(Location location) {
         return ASkyBlockAPI.getInstance().getOwner(location).toString();
+    }
+
+    /**
+     * Get region ID of player
+     * @param player player of region
+     * @return String id of region
+     */
+    @Override
+    public String getRegionIDWithPlayer(Player player) {
+        return ASkyBlockAPI.getInstance().getIslandOwnedBy(player.getUniqueId()).getOwner().toString();
     }
 }

@@ -120,7 +120,7 @@ public class Farmer implements Cloneable {
      * @param ownerUUID uuid of owner
      * @param level level of farmer
      */
-    public Farmer(String regionID, UUID ownerUUID, int level) {
+    public Farmer(String regionID, int level) {
         this.regionID = regionID;
         Set<User> users = new LinkedHashSet<>();
         this.users = users;

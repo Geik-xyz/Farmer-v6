@@ -2,6 +2,7 @@ package xyz.geik.farmer.listeners.backend;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.api.handlers.FarmerBoughtEvent;
@@ -26,7 +27,7 @@ public class BuyFarmerEvent implements Listener {
      *
      * @param e FarmerBoughtEvent listener
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void farmerBoughtEvent(@NotNull FarmerBoughtEvent e) {
         Farmer farmer = e.getFarmer();
         // Adds owner uuid to farmer
