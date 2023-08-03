@@ -7,7 +7,6 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.geik.farmer.model.FarmerLevel;
-import xyz.geik.farmer.model.user.UserData;
 import xyz.geik.farmer.modules.voucher.Voucher;
 
 import java.util.ArrayList;
@@ -45,13 +44,9 @@ public class FarmerTabComplete implements TabCompleter {
                 }
             }
             if (args.length == 2 && args[0].equalsIgnoreCase("open")) {
-                for (String playerName : UserData.allPlayers.keySet()) {
-                    return Arrays.asList(playerName);
-                }
+                return online_players();
             } else if (args.length == 2 && args[0].equalsIgnoreCase("remove")) {
-                for (String playerName : UserData.allPlayers.keySet()) {
-                    return Arrays.asList(playerName);
-                }
+                return online_players();
             }
         } else {
             if (args.length == 1) {

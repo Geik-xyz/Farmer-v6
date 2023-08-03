@@ -57,15 +57,6 @@ public abstract class Integrations {
     public abstract String getRegionID(Location location);
 
     /**
-     *
-     * Getting Region ID by Player
-     *
-     * @param player player of region
-     * @return String regionId
-     */
-    public abstract String getRegionIDWithPlayer(Player player);
-
-    /**
      * Catches plugin that server uses
      * and loads integration class of it.
      */

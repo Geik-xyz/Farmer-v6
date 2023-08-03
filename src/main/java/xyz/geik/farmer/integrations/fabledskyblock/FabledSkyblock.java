@@ -2,7 +2,6 @@ package xyz.geik.farmer.integrations.fabledskyblock;
 
 import com.songoda.skyblock.api.SkyBlockAPI;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import xyz.geik.farmer.integrations.Integrations;
 
 import java.util.UUID;
@@ -43,14 +42,4 @@ public class FabledSkyblock extends Integrations {
     public String getRegionID(Location location) {
         return SkyBlockAPI.getIslandManager().getIslandAtLocation(location).getIslandUUID().toString();
     }
-
-    /**
-     * Get region ID by player
-     */
-    @Override
-    public String getRegionIDWithPlayer(Player player) {
-        return SkyBlockAPI.getIslandManager().getIslandPlayerAt(player).getIslandUUID().toString();
-    }
-
-
 }

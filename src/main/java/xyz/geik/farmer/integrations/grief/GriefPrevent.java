@@ -1,9 +1,7 @@
 package xyz.geik.farmer.integrations.grief;
 
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.integrations.Integrations;
 
@@ -54,13 +52,5 @@ public class GriefPrevent extends Integrations {
     @Override
     public String getRegionID(Location location) {
         return grief.dataStore.getClaimAt(location, true, null).getID().toString();
-    }
-
-    /**
-     * Getting Region ID by Player
-     */
-    @Override
-    public String getRegionIDWithPlayer(Player player) {
-        return grief.dataStore.getPlayerData(player.getUniqueId()).lastClaim.toString();
     }
 }

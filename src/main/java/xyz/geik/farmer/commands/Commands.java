@@ -16,7 +16,6 @@ import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
-import xyz.geik.farmer.model.user.UserData;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.voucher.VoucherCommand;
 
@@ -84,7 +83,7 @@ public class Commands implements CommandExecutor {
             player.sendMessage(Main.getLangFile().getText("wrongWorld"));
             return;
         }
-        String regionID = getRegionIDWithPlayer(player);
+        String regionID = getRegionID(player);
         if (regionID == null)
             player.sendMessage(Main.getLangFile().getText("noRegion"));
         else if (!FarmerManager.getFarmers().containsKey(regionID)) {
@@ -117,12 +116,13 @@ public class Commands implements CommandExecutor {
      * @param player
      */
     private void selfRemoveCommand(@NotNull Player player) {
-        String regionID = getRegionIDWithPlayer(player);
+        String regionID = getRegionID(player);
         if (regionID == null)
             player.sendMessage(Main.getLangFile().getText("noRegion"));
 
         UUID ownerUUID = Main.getIntegration().getOwnerUUID(regionID);
-        if (player.hasPermission("farmer.remove") && ownerUUID.equals(player.getUniqueId())) {
+        // Custom perm check for remove command
+        if (player.hasPermission("farmer.remove") && ownerUUID.equals(player.getUniqueId()) || player.hasPermission("farmer.admin")) {
             // Removing by #FarmerAPI and sending message by result
             boolean result = FarmerAPI.getFarmerManager().removeFarmer(regionID);
             if (result)
@@ -270,7 +270,7 @@ public class Commands implements CommandExecutor {
         if (arg[0].equalsIgnoreCase("open")) {
             Player target = Bukkit.getOfflinePlayer(arg[1]).getPlayer();
 
-            String regionID = getRegionIDWithPlayer(target);
+            String regionID = getRegionID(target);
             if (regionID == null)
                 player.sendMessage(Main.getLangFile().getText("noRegion"));
 
@@ -281,17 +281,6 @@ public class Commands implements CommandExecutor {
                     MainGui.showGui(player, FarmerManager.getFarmers().get(regionID));
             }
 
-        } else if (arg[0].equalsIgnoreCase("remove")) {
-            Player target = Bukkit.getPlayer(arg[1]);
-
-            String regionID = getRegionIDWithPlayer(target);
-            if (regionID == null)
-                player.sendMessage(Main.getLangFile().getText("noRegion"));
-
-            // Removing by #FarmerAPI and sending message by result
-            boolean result = FarmerAPI.getFarmerManager().removeFarmer(regionID);
-            if (result)
-                player.sendMessage(Main.getLangFile().getText("removedFarmer"));
         }
     }
 
@@ -315,23 +304,4 @@ public class Commands implements CommandExecutor {
         return regionID;
     }
 
-    /**
-     * Gets region id with #Integration
-     * if there has a region.
-     *
-     * @param player
-     * @return
-     */
-    private String getRegionIDWithPlayer(Player player) {
-        String regionID;
-        // Simple try catch method for
-        // compatibility with all plugins
-        try {
-            regionID = Main.getIntegration().getRegionIDWithPlayer(player);
-        }
-        catch (Exception e) {
-            regionID = null;
-        }
-        return regionID;
-    }
 }

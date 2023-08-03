@@ -2,7 +2,6 @@ package xyz.geik.farmer.integrations.superior;
 
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import xyz.geik.farmer.integrations.Integrations;
 
 import java.util.UUID;
@@ -44,13 +43,5 @@ public class SuperiorSkyblock extends Integrations {
     @Override
     public String getRegionID(Location location) {
         return SuperiorSkyblockAPI.getIslandAt(location).getUniqueId().toString();
-    }
-
-    /**
-     * Getting Region ID by Player
-     */
-    @Override
-    public String getRegionIDWithPlayer(Player player) {
-        return SuperiorSkyblockAPI.getPlayer(player.getUniqueId()).getIsland().getUniqueId().toString();
     }
 }
