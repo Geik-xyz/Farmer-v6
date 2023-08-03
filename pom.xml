@@ -93,6 +93,13 @@
             <version>3.0.9.4</version>
             <scope>provided</scope>
         </dependency>
+        <!-- TownyAdvanced -->
+        <dependency>
+            <groupId>com.palmergames.bukkit.towny</groupId>
+            <artifactId>towny</artifactId>
+            <version>0.99.5.0</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- xSeries -->
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
@@ -160,6 +167,11 @@
         <repository>
             <id>codemc-repo</id>
             <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
+        <!-- TownyAdvanced -->
+        <repository>
+            <id>glaremasters repo</id>
+            <url>https://repo.glaremasters.me/repository/towny/</url>
         </repository>
     </repositories>
 
