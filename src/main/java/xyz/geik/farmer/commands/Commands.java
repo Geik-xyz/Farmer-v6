@@ -127,9 +127,8 @@ public class Commands implements CommandExecutor {
             boolean result = FarmerAPI.getFarmerManager().removeFarmer(regionID);
             if (result)
                 player.sendMessage(Main.getLangFile().getText("removedFarmer"));
-        } else {
+        } else
             player.sendMessage(Main.getLangFile().getText("noPerm"));
-        }
     }
 
     /**
@@ -141,7 +140,7 @@ public class Commands implements CommandExecutor {
         player.sendMessage(Main.color("&7&m----------------------------------------"));
         player.sendMessage(Main.color("#FFA500          FARMER &7- &6v" + Main.getInstance().getDescription().getVersion()));
         player.sendMessage(Main.color("#3CB371Author: #90EE90Geik"));
-        player.sendMessage(Main.color("#FF7F50Contributors: #FFA07AAmowny&f, #FFA07AWaterArchery&f, #FFA07AHeron4gf&7, #FFA07Amehmet-27"));
+        player.sendMessage(Main.color("#FF7F50Contributors: #FFA07A" + Main.getInstance().getDescription().getAuthors().stream().toArray()));
         player.sendMessage(Main.color("#7289DADiscord: &7&ohttps://discord.geik.xyz"));
         player.sendMessage(Main.color("#FFD700Website: &7&ohttps://geik.xyz"));
         player.sendMessage(Main.color("&7&m----------------------------------------"));
@@ -192,6 +191,10 @@ public class Commands implements CommandExecutor {
      * @param sender
      */
     private void reloadCommand(@NotNull CommandSender sender) {
+        if (!sender.hasPermission("farmer.admin")) {
+            sender.sendMessage(Main.getLangFile().getText("noPerm"));
+            return;
+        }
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             long time = System.currentTimeMillis();
             // Saves all farmer
