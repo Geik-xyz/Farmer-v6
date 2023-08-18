@@ -124,7 +124,7 @@ public class BentoListener implements Listener {
      */
     private void autoCreate(String regionId, UUID owner) {
         if (Settings.autoCreateFarmer) {
-            new Farmer(regionId, owner, 0);
+            new Farmer(regionId, 0);
             Bukkit.getPlayer(owner).sendMessage(Main.getLangFile().getText("boughtFarmer"));
         }
     }

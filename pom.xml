@@ -6,12 +6,12 @@
 
     <groupId>xyz.geik.farmer</groupId>
     <artifactId>Farmer</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>v6-b001</version>
 
     <properties>
         <shaded.package>org.cas.osd.platform.ciam.shaded</shaded.package>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19.3-R0.1-SNAPSHOT</version>
+            <version>1.20.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- FabledSkyblock -->
@@ -33,23 +33,23 @@
         </dependency>
         <!-- Vault -->
         <dependency>
-            <groupId>com.github.MilkBowl</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>9520d8847e</version>
+            <groupId>com.github.milkbowl</groupId>
+            <artifactId>Vault</artifactId>
+            <version>1.7.3</version>
             <scope>provided</scope>
         </dependency>
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>1.18.26</version>
             <scope>provided</scope>
         </dependency>
         <!-- SimplixStorage -->
         <dependency>
-            <groupId>com.github.Son-Hukumdar</groupId>
+            <groupId>com.github.poyrazinan</groupId>
             <artifactId>SimplixStorage</artifactId>
-            <version>1.0.0-RELOADED</version>
+            <version>-ae92994823-1</version>
         </dependency>
         <!-- InventoryAPI -->
         <dependency>
@@ -93,17 +93,24 @@
             <version>3.0.9.4</version>
             <scope>provided</scope>
         </dependency>
+        <!-- TownyAdvanced -->
+        <dependency>
+            <groupId>com.palmergames.bukkit.towny</groupId>
+            <artifactId>towny</artifactId>
+            <version>0.99.5.0</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- xSeries -->
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
-            <version>9.3.0</version>
+            <version>9.4.0</version>
         </dependency>
         <!-- NBT Api -->
         <dependency>
             <groupId>de.tr7zw</groupId>
             <artifactId>item-nbt-api-plugin</artifactId>
-            <version>2.11.1</version>
+            <version>2.11.3</version>
         </dependency>
         <!-- WildStacker -->
         <dependency>
@@ -111,6 +118,12 @@
             <artifactId>WildStackerAPI</artifactId>
             <version>2022.6</version>
             <scope>provided</scope>
+        </dependency>
+        <!-- HikariCP -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.0.1</version>
         </dependency>
     </dependencies>
 
@@ -124,7 +137,7 @@
         <!-- Jitpack Repo -->
         <repository>
             <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <url>https://www.jitpack.io</url>
         </repository>
         <!-- Spigot Repo -->
         <repository>
@@ -155,6 +168,11 @@
             <id>codemc-repo</id>
             <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
+        <!-- TownyAdvanced -->
+        <repository>
+            <id>glaremasters repo</id>
+            <url>https://repo.glaremasters.me/repository/towny/</url>
+        </repository>
     </repositories>
 
     <build>
@@ -163,7 +181,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.0</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <minimizeJar>true</minimizeJar>
@@ -200,6 +218,10 @@
                             <pattern>de.tr7zw.nbtapi</pattern>
                             <shadedPattern>xyz.geik.farmer.shades.nbtapi</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>com.zaxxer.hikari</pattern>
+                            <shadedPattern>xyz.geik.farmer.shades.hikari</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -210,6 +232,16 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
             </plugin>
         </plugins>
     </build>

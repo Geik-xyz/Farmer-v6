@@ -47,4 +47,5 @@ public class Askyblock extends Integrations {
     public String getRegionID(Location location) {
         return ASkyBlockAPI.getInstance().getOwner(location).toString();
     }
+
 }

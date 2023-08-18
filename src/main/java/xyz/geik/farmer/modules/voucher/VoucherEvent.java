@@ -33,8 +33,10 @@ public class VoucherEvent implements Listener {
      */
     @EventHandler
     public void onVoucherUseEvent(@NotNull PlayerInteractEvent event) {
-        if (event.getItem() == null) return;
-        if (event.getItem().getItemMeta() == null) return;
+        if (event.getItem() == null)
+            return;
+        if (event.getItem().getItemMeta() == null)
+            return;
         Player player = event.getPlayer();
         int voucherLevel = NBT.get(event.getItem(), voucher -> (voucher.getInteger("farmerLevel")));
         ItemStack voucherBase = VoucherItem.getVoucherItem(voucherLevel);
@@ -43,7 +45,7 @@ public class VoucherEvent implements Listener {
             return;
         event.setCancelled(true);
         if (!Settings.isWorldAllowed(player.getWorld().getName())) {
-            player.sendMessage(Voucher.getInstance().getInstance().getLang().getText("wrongWorld"));
+            player.sendMessage(Voucher.getInstance().getLang().getText("wrongWorld"));
             return;
         }
         if (!Main.getIntegration().getOwnerUUID(player.getLocation()).equals(player.getUniqueId())) {
@@ -70,7 +72,7 @@ public class VoucherEvent implements Listener {
         }
         // Creates new farmer
         Farmer farmer = new Farmer(Main.getIntegration()
-                .getRegionID(player.getLocation()), Main.getIntegration().getOwnerUUID(player.getLocation()), voucherLevel-1);
+                .getRegionID(player.getLocation()), voucherLevel-1);
         // Opens farmer gui to buyer
         MainGui.showGui(player, farmer);
         // Sends message to player

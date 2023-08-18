@@ -1,7 +1,6 @@
 package xyz.geik.farmer.integrations.grief;
 
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.integrations.Integrations;

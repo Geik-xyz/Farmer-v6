@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.database.DBConnection;
 import xyz.geik.farmer.model.Farmer;
 
 import java.sql.Connection;
@@ -78,19 +77,9 @@ public class User {
      * @param farmerId
      */
     public static void updateRole(UUID uuid, int roleId, int farmerId) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-            final String QUERY = "UPDATE FarmerUsers SET role = ? WHERE uuid = ? AND farmerId = ?";
-            try (Connection con = DBConnection.connect()) {
-                PreparedStatement statement = con.prepareStatement(QUERY);
-                statement.setInt(1, roleId);
-                statement.setString(2, uuid.toString());
-                statement.setInt(3, farmerId);
-                statement.executeUpdate();
-                statement.close();
-            }
-            catch (Exception e) {}
-        });
+        Main.getInstance().getSql().updateRole(uuid, roleId, farmerId);
     }
+
 
     /**
      * How many user can player add to farmer.

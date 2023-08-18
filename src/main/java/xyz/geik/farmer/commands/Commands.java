@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.database.DBQueries;
 import xyz.geik.farmer.guis.BuyGui;
 import xyz.geik.farmer.guis.MainGui;
 import xyz.geik.farmer.helpers.ItemsLoader;
@@ -40,62 +39,114 @@ public class Commands implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         // Checking if sender instanceof player
-        if (sender instanceof Player){
+        if (sender instanceof Player) {
             Player player = (Player) sender;
-            // No arg main command
-            if (args.length == 0)
+            if (args.length == 0) {
                 farmerBaseCommand(player);
-            // 1 arg for 1 arg commands
-            else if (args.length == 1)
+            } else if (args.length == 1) {
                 oneArgCommands(player, args[0]);
-            else if (args.length == 3)
+            } else if (args.length == 2) {
+                twoArgCommands(player, args);
+            } else if (args.length == 3) {
                 VoucherCommand.give(sender, args);
-        }
-        // Also console section here for reload command.
-        else {
+            }
+        } else {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("reload"))
                     reloadCommand(sender);
+                else if (args[0].equals("fix")) {
+                    int player_count = Bukkit.getOnlinePlayers().size();
+                    if (player_count == 0)
+                        Main.getInstance().getSql().fixDatabase();
+                    else
+                        Main.getInstance().getLogger().info("You can run this command only when no player online!");
+                } else if (args[0].equalsIgnoreCase("about")) {
+                    aboutCommand(sender);
+                }
             }
             else if (args.length == 3)
-                    VoucherCommand.give(sender, args);
+                VoucherCommand.give(sender, args);
         }
         return false;
     }
 
+
     /**
-     * One arg commands which reload, manage, info and remove commands
-     * Manage usable by administrator or owner of farmer
-     * Remove, reload and info are administrator commands
+     * Base command for coop, member, owner
+     * It basically open farmer buy gui unless don't have it.
+     * Open farmer inventory gui if has farmer.
      *
      * @param player
-     * @param arg
      */
-    public void oneArgCommands(@NotNull Player player, String arg) {
-        // Checking perm if sender is player and if they don't have perm just returns task
-        if ((!player.hasPermission("farmer.admin") && !player.getName().equalsIgnoreCase("Geyik"))
-                && !arg.equalsIgnoreCase("manage") && !arg.equalsIgnoreCase("remove")) {
-            player.sendMessage(Main.getLangFile().getText("noPerm"));
-            return;
-        }
-        // Check world is suitable for farmer
-        if (!Settings.isWorldAllowed(player.getWorld().getName())
-                && !arg.equalsIgnoreCase("reload")) {
+    private void farmerBaseCommand(@NotNull Player player) {
+        if (!Settings.isWorldAllowed(player.getWorld().getName())) {
             player.sendMessage(Main.getLangFile().getText("wrongWorld"));
             return;
         }
-        // Reload command caller
-        if (arg.equalsIgnoreCase("reload"))
-            reloadCommand(player);
-        // Manage command caller
-        else if (arg.equalsIgnoreCase("manage"))
-            farmerBaseCommand(player);
-        // Info command caller
-        else if (arg.equalsIgnoreCase("info"))
-            infoCommand(player);
-        // Remove command caller
-        else if (arg.equalsIgnoreCase("remove"))
-            removeFarmerCommand(player);
+        String regionID = getRegionID(player);
+        if (regionID == null)
+            player.sendMessage(Main.getLangFile().getText("noRegion"));
+        else if (!FarmerManager.getFarmers().containsKey(regionID)) {
+            // Using this uuid for owner check
+            UUID owner = Main.getIntegration().getOwnerUUID(regionID);
+            // Owner check for buy
+            if (owner.equals(player.getUniqueId())) {
+                if (Settings.buyFarmer)
+                    BuyGui.showGui(player);
+                else {
+                    Titles.sendTitle(player, Main.getLangFile().getText("buyDisabled.title"),
+                            Main.getLangFile().getText("buyDisabled.subtitle"));
+                }
+            }
+            else
+                player.sendMessage(Main.getLangFile().getText("mustBeOwner"));
+        } else {
+            // Perm && user check
+            if (FarmerManager.getFarmers().get(regionID).getUsers().stream()
+                            .anyMatch(usr -> (usr.getUuid().equals(player.getUniqueId()))))
+                MainGui.showGui(player, FarmerManager.getFarmers().get(regionID));
+            else
+                player.sendMessage(Main.getLangFile().getText("noPerm"));
+        }
+    }
+
+    /**
+     * Removes farmer from command sender.
+     *
+     * @param player
+     */
+    private void selfRemoveCommand(@NotNull Player player) {
+        String regionID = getRegionID(player);
+        if (regionID == null)
+            player.sendMessage(Main.getLangFile().getText("noRegion"));
+
+        UUID ownerUUID = Main.getIntegration().getOwnerUUID(regionID);
+        // Custom perm check for remove command
+        if (player.hasPermission("farmer.remove") && ownerUUID.equals(player.getUniqueId()) || player.hasPermission("farmer.admin")) {
+            // Removing by #FarmerAPI and sending message by result
+            boolean result = FarmerAPI.getFarmerManager().removeFarmer(regionID);
+            if (result)
+                player.sendMessage(Main.getLangFile().getText("removedFarmer"));
+        } else
+            player.sendMessage(Main.getLangFile().getText("noPerm"));
+    }
+
+    /**
+     * Sends the player information about the Farmer plugin
+     *
+     * @param player
+     */
+    private void aboutCommand(@NotNull CommandSender player) {
+        player.sendMessage(Main.color("&7&m----------------------------------------"));
+        player.sendMessage(Main.color("#FFA500          FARMER &7- &6v" + Main.getInstance().getDescription().getVersion()));
+        player.sendMessage(Main.color("#3CB371Author: #90EE90Geik"));
+        player.sendMessage(Main.color("#FF7F50Contributors: #FFA07A" + Main.getInstance().getDescription().getAuthors().stream().toArray()));
+        player.sendMessage(Main.color("#7289DADiscord: &7&ohttps://discord.geik.xyz"));
+        player.sendMessage(Main.color("#FFD700Website: &7&ohttps://geik.xyz"));
+        player.sendMessage(Main.color("&7&m----------------------------------------"));
+        player.sendMessage(Main.color("&aAPI: &7" + Main.getIntegration().getClass().getName()));
+        player.sendMessage(Main.color("&aActive Farmer: &7" + FarmerManager.getFarmers().size() ));
+        player.sendMessage(Main.color("&7&m----------------------------------------"));
     }
 
     /**
@@ -106,21 +157,18 @@ public class Commands implements CommandExecutor {
      * @param player
      */
     private void infoCommand(@NotNull Player player) {
-        // My debug command for bug reports
-        if (player.getName().equalsIgnoreCase("Geyik")) {
-            player.sendMessage(Main.color("&aVersion: &7" + Main.getInstance().getDescription().getVersion()));
-            player.sendMessage(Main.color("&aAPI: &7" + Main.getIntegration().getClass().getName()));
-            player.sendMessage(Main.color("&aActive Farmer: &7" + FarmerManager.getFarmers().size() ));
-        }
-        // Catching region id and checking is it null or don't have farmer
-        String regionID = Main.getIntegration().getRegionID(player.getLocation());
+        String regionID = getRegionID(player);
         if (regionID == null)
             player.sendMessage(Main.getLangFile().getText("noRegion"));
         else if (!FarmerManager.getFarmers().containsKey(regionID))
             player.sendMessage(Main.getLangFile().getText("noFarmer"));
         else {
-            // After all the checks loading farmer
             Farmer farmer = FarmerManager.getFarmers().get(regionID);
+            player.sendMessage(Main.color("&c----------------------"));
+            player.sendMessage(Main.color("&bRegion ID: &f" + regionID));
+            player.sendMessage(Main.color("&bID: &f" + farmer.getId()));
+            player.sendMessage(Main.color("&bOwner: &f" + Bukkit.getOfflinePlayer(farmer.getOwnerUUID()).getName()));
+            player.sendMessage(Main.color("&bLevel: &f" + FarmerLevel.getAllLevels().indexOf(farmer.getLevel())));
             player.sendMessage(Main.color("&c----------------------"));
             farmer.getUsers().stream().forEach(key -> {
                 player.sendMessage(Main.color("&b" +
@@ -143,11 +191,14 @@ public class Commands implements CommandExecutor {
      * @param sender
      */
     private void reloadCommand(@NotNull CommandSender sender) {
-        // Creating time long for calculating time it takes.
+        if (!sender.hasPermission("farmer.admin")) {
+            sender.sendMessage(Main.getLangFile().getText("noPerm"));
+            return;
+        }
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             long time = System.currentTimeMillis();
             // Saves all farmer
-            DBQueries.updateAllFarmers();
+            Main.getInstance().getSql().updateAllFarmers();
             // Clears cached farmers
             FarmerManager.getFarmers().clear();
             // Regenerates settings
@@ -157,7 +208,7 @@ public class Commands implements CommandExecutor {
             // Reloading levels it also clears old list
             FarmerLevel.loadLevels();
             // Reloading farmers again.
-            DBQueries.loadAllFarmers();
+            Main.getInstance().getSql().loadAllFarmers();
             FarmerAPI.getModuleManager().getModuleList().forEach(FarmerModule::onReload);
             // Sends message to sender who send this command and also calculating millisecond difference.
             sender.sendMessage(Main.getLangFile().getText("reloadSuccess").replace("%ms%",
@@ -165,31 +216,75 @@ public class Commands implements CommandExecutor {
         });
     }
 
-
     /**
-     * Removes farmer where command sender at.
+     * One arg commands which about, info, reload and remove commands
+     * Manage usable by administrator or owner of farmer
+     * Remove, reload, about and info are administrator commands
      *
      * @param player
+     * @param arg
      */
-    private void removeFarmerCommand(Player player) {
-        // Checks if region id suitable for farmer
-        String regionID = getRegionID(player);
-        if (regionID == null) {
-            player.sendMessage(Main.getLangFile().getText("noRegion"));
+    public void oneArgCommands(@NotNull Player player, String arg) {
+        // Checking perm if sender is player and if they don't have perm just returns task
+        if ((!player.hasPermission("farmer.admin") && !player.getName().equalsIgnoreCase("Geyik")) && !arg.equalsIgnoreCase("remove")) {
+            player.sendMessage(Main.getLangFile().getText("noPerm"));
             return;
         }
-
-        UUID ownerUUID = Main.getIntegration().getOwnerUUID(regionID);
-        // Custom perm check for remove command
-        if ((player.hasPermission("farmer.remove") && ownerUUID.equals(player.getUniqueId()))
-                || player.hasPermission("farmer.admin")) {
-            // Removing by #FarmerAPI and sending message by result
-            boolean result = FarmerAPI.getFarmerManager().removeFarmer(regionID);
-            if (result)
-                player.sendMessage(Main.getLangFile().getText("removedFarmer"));
+        // Check world is suitable for farmer
+        if (!Settings.isWorldAllowed(player.getWorld().getName())
+                && !arg.equalsIgnoreCase("reload")) {
+            player.sendMessage(Main.getLangFile().getText("wrongWorld"));
+            return;
         }
-        else
+        // About command caller
+        if (arg.equalsIgnoreCase("about")) {
+            aboutCommand(player);
+        // Info command caller
+        } else if (arg.equalsIgnoreCase("info")) {
+            infoCommand(player);
+        // Reload command caller
+        } else if (arg.equalsIgnoreCase("reload")) {
+            reloadCommand(player);
+            // Remove command caller
+        } else if (arg.equalsIgnoreCase("remove")) {
+            selfRemoveCommand(player);
+        }
+    }
+
+    /**
+     * Two arg commands which open and remove commands
+     * Manage usable by administrator
+     * Remove and open are administrator commands
+     *
+     * @param player
+     * @param arg
+     */
+    public void twoArgCommands(@NotNull Player player, String @NotNull ... arg) {
+        if ((!player.hasPermission("farmer.admin"))) {
             player.sendMessage(Main.getLangFile().getText("noPerm"));
+            return;
+        }
+        // Check world is suitable for farmer
+        if (!Settings.isWorldAllowed(player.getWorld().getName())) {
+            player.sendMessage(Main.getLangFile().getText("wrongWorld"));
+            return;
+        }
+        // Open command caller
+        if (arg[0].equalsIgnoreCase("open")) {
+            Player target = Bukkit.getOfflinePlayer(arg[1]).getPlayer();
+
+            String regionID = getRegionID(target);
+            if (regionID == null)
+                player.sendMessage(Main.getLangFile().getText("noRegion"));
+
+            if (!FarmerManager.getFarmers().containsKey(regionID))
+                player.sendMessage(Main.getLangFile().getText("noFarmer"));
+            else {
+                if (FarmerManager.getFarmers().get(regionID).getUsers().stream().anyMatch(usr -> (usr.getUuid().equals(target.getUniqueId()))))
+                    MainGui.showGui(player, FarmerManager.getFarmers().get(regionID));
+            }
+
+        }
     }
 
     /**
@@ -212,47 +307,4 @@ public class Commands implements CommandExecutor {
         return regionID;
     }
 
-    /**
-     * Base command for coop, member, owner
-     * and ofc for administrator. It basically
-     * open farmer buy gui unless don't have it.
-     * Open farmer inventory gui if has farmer.
-     *
-     * @param player
-     */
-    private void farmerBaseCommand(Player player) {
-        // There is another world check
-        if (!Settings.isWorldAllowed(player.getWorld().getName())) {
-            player.sendMessage(Main.getLangFile().getText("wrongWorld"));
-            return;
-        }
-        // and also one more region check
-        String regionID = getRegionID(player);
-        if (regionID == null)
-            player.sendMessage(Main.getLangFile().getText("noRegion"));
-        else if (!FarmerManager.getFarmers().containsKey(regionID)) {
-            // Using this uuid for owner check
-            UUID owner = Main.getIntegration().getOwnerUUID(regionID);
-            // Owner check for buy
-            if (owner.equals(player.getUniqueId()) || player.hasPermission("farmer.admin")) {
-                if (Settings.buyFarmer)
-                    BuyGui.showGui(player);
-                else {
-                    Titles.sendTitle(player, Main.getLangFile().getText("buyDisabled.title"),
-                            Main.getLangFile().getText("buyDisabled.subtitle"));
-                }
-            }
-            else
-                player.sendMessage(Main.getLangFile().getText("mustBeOwner"));
-        }
-        else {
-            // Perm && user check
-            if (player.hasPermission("farmer.admin") ||
-                    FarmerManager.getFarmers().get(regionID).getUsers().stream()
-                            .anyMatch(usr -> (usr.getUuid().equals(player.getUniqueId()))))
-                MainGui.showGui(player, FarmerManager.getFarmers().get(regionID));
-            else
-                player.sendMessage(Main.getLangFile().getText("noPerm"));
-        }
-    }
 }
