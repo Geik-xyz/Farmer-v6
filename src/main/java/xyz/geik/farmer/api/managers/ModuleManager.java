@@ -229,7 +229,7 @@ public class ModuleManager {
 
     /**
      * Checks if any module uses GUI and makes action
-     * @see FarmerModule#isHasGui()
+     * @see FarmerModule
      */
     public static void calculateModulesUseGui() {
         FarmerAPI.getModuleManager().setModulesUseGui(FarmerAPI.getModuleManager().getModuleList().stream().anyMatch(FarmerModule::isHasGui));

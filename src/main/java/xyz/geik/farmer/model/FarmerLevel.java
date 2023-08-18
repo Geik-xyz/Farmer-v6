@@ -58,6 +58,8 @@ public class FarmerLevel {
     private String perm;
 
     /**
+     * Main constructor of farmer level
+     *
      * @param dataName data name of level
      * @param capacity capacity of level
      * @param reqMoney required money of level
