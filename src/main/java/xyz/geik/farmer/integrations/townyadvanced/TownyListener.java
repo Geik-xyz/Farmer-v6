@@ -28,6 +28,11 @@ import java.util.UUID;
 public class TownyListener implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public TownyListener() {}
+
+    /**
      * Remove farmer on town deletion
      * @param e of event
      */

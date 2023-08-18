@@ -19,6 +19,11 @@ import java.util.List;
 public class FarmerLevel {
 
     /**
+     * Constructor of class
+     */
+    public FarmerLevel() {}
+
+    /**
      * Level array which has all levels in it lower to higher
      */
     private static List<FarmerLevel> farmerLevels = new ArrayList<>();

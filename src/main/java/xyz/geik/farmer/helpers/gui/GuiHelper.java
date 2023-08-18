@@ -27,6 +27,11 @@ import java.util.stream.Collectors;
 public class GuiHelper {
 
     /**
+     * Constructor of class
+     */
+    public GuiHelper() {}
+
+    /**
      * Filler item of guis.
      * Filler item basically fills empty slots of gui
      *

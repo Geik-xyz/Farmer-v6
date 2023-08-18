@@ -21,6 +21,11 @@ import java.util.stream.Collectors;
 public class AutoSellerGuiCreateEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public AutoSellerGuiCreateEvent() {}
+
+    /**
      * Creates the GUI element for the module and adds it to the GUI
      *
      * @param e of module gui create event

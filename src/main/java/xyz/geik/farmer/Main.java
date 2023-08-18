@@ -96,6 +96,11 @@ public class Main extends JavaPlugin {
     @Getter
     private static Economy econ = null;
 
+    /**
+     * Constructor of class
+     */
+    public Main() {}
+
 
     /**
      * Loading files before enable

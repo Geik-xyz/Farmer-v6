@@ -33,6 +33,11 @@ import java.util.UUID;
 public abstract class SQL {
 
     /**
+     * Constructor of class
+     */
+    public SQL() {}
+
+    /**
      * Instance of main
      */
     protected Main plugin = Main.getInstance();

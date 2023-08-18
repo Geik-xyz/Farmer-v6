@@ -16,6 +16,11 @@ import java.util.List;
 public class SpawnerKiller extends FarmerModule {
 
     /**
+     * Constructor of class
+     */
+    public SpawnerKiller() {}
+
+    /**
      * Whitelist of spawners
      */
     private List<String> whitelist = new ArrayList<>();

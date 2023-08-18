@@ -31,6 +31,11 @@ import xyz.geik.farmer.model.inventory.FarmerItem;
 public class AutoHarvestEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public AutoHarvestEvent() {}
+
+    /**
      * Main event of auto harvest
      *
      * @param event of block grow

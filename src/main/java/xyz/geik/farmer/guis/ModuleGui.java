@@ -15,6 +15,13 @@ import xyz.geik.farmer.model.Farmer;
 public class ModuleGui {
 
     /**
+     * Constructor of class
+     */
+    public ModuleGui() {}
+
+    /**
+     * Shows gui to player
+     *
      * @param player player to show
      * @param farmer farmer object
      */

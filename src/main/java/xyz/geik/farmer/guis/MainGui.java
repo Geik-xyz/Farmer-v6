@@ -27,6 +27,11 @@ import xyz.geik.farmer.model.user.FarmerPerm;
 public class MainGui {
 
     /**
+     * Constructor of class
+     */
+    public MainGui() {}
+
+    /**
      * Gui main command
      *
      * @param player to show gui

@@ -18,6 +18,11 @@ import java.util.List;
 public class Production extends FarmerModule {
 
     /**
+     * Constructor of class
+     */
+    public Production() {}
+
+    /**
      * -- GETTER --
      *  Get instance of module
      */
@@ -90,6 +95,8 @@ public class Production extends FarmerModule {
     public void onDisable() {}
 
     /**
+     * is item suitable to calculate
+     *
      * @param item item of farmer
      * @return boolean
      */

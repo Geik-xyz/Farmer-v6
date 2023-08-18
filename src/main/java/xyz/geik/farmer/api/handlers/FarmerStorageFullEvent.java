@@ -67,6 +67,8 @@ public class FarmerStorageFullEvent extends Event {
     }
 
     /**
+     * Cancel status of event
+     *
      * @param arg0 boolean of cancelled or not default: false
      */
     public void setCancelled(boolean arg0) {

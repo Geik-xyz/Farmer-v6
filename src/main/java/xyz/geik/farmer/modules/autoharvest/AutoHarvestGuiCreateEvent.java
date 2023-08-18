@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
 public class AutoHarvestGuiCreateEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public AutoHarvestGuiCreateEvent() {}
+
+    /**
      * Creates the GUI element for the farmer GUI for the module
      *
      * @param e of event

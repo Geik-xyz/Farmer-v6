@@ -17,6 +17,11 @@ import xyz.geik.farmer.model.Farmer;
 public class QuitEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public QuitEvent() {}
+
+    /**
      * Update database when a player disconnects in a
      * Farmer region. All farmers save on stop only.
      * (No need to be a user of a farmer)

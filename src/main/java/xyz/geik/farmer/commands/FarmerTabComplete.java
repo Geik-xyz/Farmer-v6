@@ -24,6 +24,11 @@ import java.util.List;
 public class FarmerTabComplete implements TabCompleter {
 
     /**
+     * Constructor of class
+     */
+    public FarmerTabComplete() {}
+
+    /**
      * tab complete for args there is no additional effect
      */
     @Nullable

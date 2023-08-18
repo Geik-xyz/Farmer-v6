@@ -13,6 +13,11 @@ import java.util.List;
 public class Settings {
 
     /**
+     * Constructor of class
+     */
+    public Settings() {}
+
+    /**
      * ignores player drop configuration
      */
     public static boolean ignorePlayerDrop = false,
@@ -48,6 +53,8 @@ public class Settings {
             lang = "en";
 
     /**
+     * is world allowed in farmer or not
+     *
      * @param worldName name of world
      * @return boolean is allowed
      */

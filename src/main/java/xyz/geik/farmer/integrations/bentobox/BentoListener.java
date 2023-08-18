@@ -26,6 +26,11 @@ import java.util.UUID;
 public class BentoListener implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public BentoListener() {}
+
+    /**
      * Island delete evet for remove farmer
      * @param e of event
      */

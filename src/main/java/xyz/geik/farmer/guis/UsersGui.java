@@ -24,6 +24,11 @@ import java.util.*;
 public class UsersGui {
 
     /**
+     * Constructor of class
+     */
+    public UsersGui() {}
+
+    /**
      * Opens gui of users
      *
      * @param player to show gui

@@ -16,6 +16,11 @@ import java.util.List;
 public class AutoSeller extends FarmerModule {
 
     /**
+     * Constructor of class
+     */
+    public AutoSeller() {}
+
+    /**
      * -- GETTER --
      *  Get instance of the module
      *

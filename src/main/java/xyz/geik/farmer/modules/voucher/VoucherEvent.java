@@ -27,6 +27,11 @@ import xyz.geik.farmer.model.FarmerLevel;
 public class VoucherEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public VoucherEvent() {}
+
+    /**
      * Uses voucher to farmer and opens farmer gui
      *
      * @param event of player interact event

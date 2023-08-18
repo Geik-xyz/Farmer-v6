@@ -19,6 +19,11 @@ import java.util.UUID;
 public class ASkyblockListener implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public ASkyblockListener() {}
+
+    /**
      * Remove farmer on island deletion
      * @param e of event
      */

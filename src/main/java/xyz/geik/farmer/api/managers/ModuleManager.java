@@ -31,6 +31,11 @@ import java.util.List;
 public class ModuleManager {
 
     /**
+     * Constructor of class
+     */
+    public ModuleManager() {}
+
+    /**
      * List of modules
      * @see FarmerModule
      */

@@ -18,9 +18,16 @@ import xyz.geik.farmer.model.user.FarmerPerm;
 import java.util.UUID;
 
 /**
+ * Fabledskyblock integration listener class
+ *
  * @author mehmet-27
  */
 public class FabledSkyListener implements Listener {
+
+    /**
+     * Constructor of class
+     */
+    public FabledSkyListener() {}
 
     /**
      * Automatically creates a farmer when island is created

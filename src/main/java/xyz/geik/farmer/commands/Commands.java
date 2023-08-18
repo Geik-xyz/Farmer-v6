@@ -29,6 +29,11 @@ import java.util.UUID;
 public class Commands implements CommandExecutor {
 
     /**
+     * Constructor of class
+     */
+    public Commands() {}
+
+    /**
      * Main section of commands executing
      *
      * @param sender the command executor

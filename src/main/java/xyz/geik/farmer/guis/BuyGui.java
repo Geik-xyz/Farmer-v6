@@ -15,6 +15,11 @@ import xyz.geik.farmer.model.Farmer;
 public class BuyGui {
 
     /**
+     * Constructor of class
+     */
+    public BuyGui() {}
+
+    /**
      * Opens gui to player
      * @param player to show gui
      */

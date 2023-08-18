@@ -24,7 +24,7 @@ public enum FarmerPerm {
     /**
      * Gets name of role
      *
-     * @return
+     * @return name of role
      */
     public String getName() {
         return Main.getLangFile().getText("roles." + this.name().toLowerCase());

@@ -16,6 +16,11 @@ import xyz.geik.farmer.model.user.FarmerPerm;
 public class BuyFarmerEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public BuyFarmerEvent() {}
+
+    /**
      * Farmer bought event contains;
      * <ul>
      *     <li>

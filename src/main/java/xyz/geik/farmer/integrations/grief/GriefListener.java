@@ -14,6 +14,11 @@ import xyz.geik.farmer.api.FarmerAPI;
 public class GriefListener implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public GriefListener() {}
+
+    /**
      * Calls ClaimDeleteEvent for removing farmer.
      *
      * @param e of event

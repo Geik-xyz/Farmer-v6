@@ -12,6 +12,11 @@ import xyz.geik.farmer.modules.FarmerModule;
 public class Voucher extends FarmerModule {
 
     /**
+     * Constructor of class
+     */
+    public Voucher() {}
+
+    /**
      * Instance of the module
      * -- GETTER --
      */

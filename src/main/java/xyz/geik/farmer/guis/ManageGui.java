@@ -17,6 +17,11 @@ import xyz.geik.farmer.model.FarmerLevel;
 public class ManageGui {
 
     /**
+     * Constructor of class
+     */
+    public ManageGui() {}
+
+    /**
      * Shows gui to player also contains event of it
      *
      * @param player to show gui

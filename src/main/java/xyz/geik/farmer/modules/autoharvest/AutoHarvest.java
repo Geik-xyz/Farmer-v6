@@ -16,6 +16,11 @@ import java.util.List;
 @Getter
 public class AutoHarvest extends FarmerModule {
 
+    /**
+     * Constructor of class
+     */
+    public AutoHarvest() {}
+
     private boolean requirePiston = false, checkAllDirections = false, withoutFarmer = false, checkStock = true, defaultStatus = false;
 
     /**

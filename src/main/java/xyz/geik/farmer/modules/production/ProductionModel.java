@@ -87,6 +87,8 @@ public class ProductionModel {
     }
 
     /**
+     * Updates lore of an item
+     *
      * @param productionModel model of production
      * @param key key of production placeholders
      * @return String of updated lore

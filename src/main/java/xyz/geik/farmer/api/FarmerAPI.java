@@ -13,6 +13,11 @@ import xyz.geik.farmer.api.managers.StorageManager;
 public class FarmerAPI {
 
     /**
+     * Constructor of class
+     */
+    public FarmerAPI() {}
+
+    /**
      * Returns instance of Main class
      * @return Main instance
      * @see xyz.geik.farmer.Main

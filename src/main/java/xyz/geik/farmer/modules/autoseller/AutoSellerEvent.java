@@ -20,6 +20,11 @@ import xyz.geik.farmer.model.inventory.FarmerItem;
 public class AutoSellerEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public AutoSellerEvent() {}
+
+    /**
      * Automatically sells stocked item when farmer storage is full
      *
      * @param event of storage full event

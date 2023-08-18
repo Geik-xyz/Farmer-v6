@@ -21,6 +21,11 @@ import java.util.UUID;
 public class FarmerManager {
 
     /**
+     * Constructor of class
+     */
+    public FarmerManager() {}
+
+    /**
      * Loaded farmer cache.
      * @see Farmer
      */

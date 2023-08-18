@@ -7,6 +7,8 @@ import xyz.geik.farmer.integrations.Integrations;
 import java.util.UUID;
 
 /**
+ * FabledSkyblock integration interface class
+ *
  * @author mehmet-27
  */
 public class FabledSkyblock extends Integrations {

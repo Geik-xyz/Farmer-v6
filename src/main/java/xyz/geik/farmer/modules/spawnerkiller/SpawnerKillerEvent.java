@@ -27,6 +27,11 @@ import java.util.Random;
 public class SpawnerKillerEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public SpawnerKillerEvent() {}
+
+    /**
      * Cancel spawn event if the entity is a jockey or mounted
      * Because jockey and mounted entities can't kill after spawning
      *

@@ -16,6 +16,11 @@ import xyz.geik.farmer.model.FarmerLevel;
 public class VoucherCommand {
 
     /**
+     * Constructor of class
+     */
+    public VoucherCommand() {}
+
+    /**
      * Give voucher to player
      *
      * @param sender of command

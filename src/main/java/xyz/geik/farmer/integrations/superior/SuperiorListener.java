@@ -20,6 +20,11 @@ import java.util.UUID;
 public class SuperiorListener implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public SuperiorListener() {}
+
+    /**
      * Island delete event for remove farmer
      * @param e of event
      */

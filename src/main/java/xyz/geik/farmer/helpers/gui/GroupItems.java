@@ -22,6 +22,11 @@ import java.util.stream.Collectors;
 public class GroupItems {
 
     /**
+     * Constructor of class
+     */
+    public GroupItems() {}
+
+    /**
      * Farmer stock item which can be anything in items.yml
      * It also calculates stock and percent for display stock.
      * Stock can be seen by color of lore or bar in lore

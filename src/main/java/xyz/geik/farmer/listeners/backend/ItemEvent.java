@@ -23,6 +23,13 @@ import xyz.geik.farmer.model.inventory.FarmerInv;
 public class ItemEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public ItemEvent() {}
+
+    /**
+     * Main event of item collection of farmer
+     *
      * @param event event of collect event
      */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)

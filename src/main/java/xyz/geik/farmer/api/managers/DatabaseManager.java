@@ -10,6 +10,11 @@ import java.sql.Connection;
  */
 public class DatabaseManager {
 
+    /**
+     * Constructor of class
+     */
+    public DatabaseManager() {}
+
     // MAYBE NOT WORK WITH NEW SYSTEM
 
     /**

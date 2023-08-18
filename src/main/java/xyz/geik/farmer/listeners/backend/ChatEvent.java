@@ -20,6 +20,11 @@ import java.util.HashMap;
 public class ChatEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public ChatEvent() {}
+
+    /**
      * Contains who currently adding someone to farmer
      * Which cancel player text on chat
      */

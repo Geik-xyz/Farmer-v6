@@ -11,10 +11,17 @@ import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 
 /**
+ * ItemSellEvent listener class
+ *
  * @author poyraz
  * @since 1.0.0
  */
 public class ItemSellEvent implements Listener {
+
+    /**
+     * Constructor of class
+     */
+    public ItemSellEvent() {}
 
     /**
      * Sell item event

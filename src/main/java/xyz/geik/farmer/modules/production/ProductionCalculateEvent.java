@@ -20,6 +20,11 @@ import java.util.List;
 public class ProductionCalculateEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public ProductionCalculateEvent() {}
+
+    /**
      * Listens FarmerGuiOpenEvent for recalculate cache
      *
      * @param event of gui open event

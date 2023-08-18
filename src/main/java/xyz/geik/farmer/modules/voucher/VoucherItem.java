@@ -23,6 +23,11 @@ import java.util.stream.Collectors;
 public class VoucherItem {
 
     /**
+     * Constructor of class
+     */
+    public VoucherItem() {}
+
+    /**
      * Get voucher item with level
      *
      * @param level Integer level of voucher
