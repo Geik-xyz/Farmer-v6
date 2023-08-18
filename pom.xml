@@ -6,7 +6,7 @@
 
     <groupId>xyz.geik.farmer</groupId>
     <artifactId>Farmer</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>v6-b001</version>
 
     <properties>
         <shaded.package>org.cas.osd.platform.ciam.shaded</shaded.package>
@@ -33,9 +33,9 @@
         </dependency>
         <!-- Vault -->
         <dependency>
-            <groupId>com.github.MilkBowl</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>9520d8847e</version>
+            <groupId>com.github.milkbowl</groupId>
+            <artifactId>Vault</artifactId>
+            <version>1.7.3</version>
             <scope>provided</scope>
         </dependency>
         <!-- Lombok -->
@@ -137,7 +137,7 @@
         <!-- Jitpack Repo -->
         <repository>
             <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <url>https://www.jitpack.io</url>
         </repository>
         <!-- Spigot Repo -->
         <repository>
@@ -181,7 +181,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.0</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <minimizeJar>true</minimizeJar>
@@ -232,6 +232,16 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
             </plugin>
         </plugins>
     </build>
