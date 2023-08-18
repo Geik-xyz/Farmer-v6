@@ -5,6 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.Farmer;
 
 /**
@@ -74,6 +75,15 @@ public class FarmerItemCollectEvent extends Event {
      * Spigot handlers requirements
      * @see HandlerList
      */
-    @Getter
     private static final HandlerList handlers = new HandlerList();
+
+    /**
+     * Spigot handlers requirement
+     * @return handler list
+     */
+    @NotNull
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 }

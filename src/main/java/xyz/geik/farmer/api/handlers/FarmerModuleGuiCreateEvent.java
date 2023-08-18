@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.Farmer;
 
 /**
@@ -67,6 +68,15 @@ public class FarmerModuleGuiCreateEvent extends Event {
      * Spigot handlers requirements
      * @see HandlerList
      */
-    @Getter
     private static final HandlerList handlers = new HandlerList();
+
+    /**
+     * Spigot handlers requirement
+     * @return handler list
+     */
+    @NotNull
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 }
