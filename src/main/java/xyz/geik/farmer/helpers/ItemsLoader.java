@@ -23,7 +23,7 @@ public class ItemsLoader {
             FarmerInv.defaultItems.clear();
 
         // Loops Items in items.yml
-        Main.getItemsFile().singleLayerKeySet("Items").stream().forEach(key -> {
+        Main.getItemsFile().singleLayerKeySet("Items").forEach(key -> {
             Config config = Main.getItemsFile();
             if (!XMaterial.matchXMaterial(key).isPresent()) {
                 Bukkit.getConsoleSender().sendMessage("§c[Farmer] §7Item §e" + key + " §7is not valid material!");

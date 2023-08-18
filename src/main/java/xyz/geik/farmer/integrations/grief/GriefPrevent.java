@@ -35,7 +35,7 @@ public class GriefPrevent extends Integrations {
      */
     @Override
     public UUID getOwnerUUID(String regionId) {
-        return grief.dataStore.getClaim(Long.valueOf(regionId)).getOwnerID();
+        return grief.dataStore.getClaim(Long.parseLong(regionId)).getOwnerID();
     }
 
     /**

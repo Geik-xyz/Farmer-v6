@@ -58,8 +58,8 @@ public abstract class SQL {
                 farmer.saveFarmer();
                 FarmerAPI.getModuleManager().databaseUpdateAttribute(connection, farmer);
             }
-        } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while updating Farmers: " + throwables.getMessage());
+        } catch (SQLException throwable) {
+            this.plugin.getLogger().info("Error while updating Farmers: " + throwable.getMessage());
         } finally {
             closeConnections(null, connection, null);
         }
@@ -217,8 +217,8 @@ public abstract class SQL {
             preparedStatement.setInt(4, FarmerLevel.getAllLevels().indexOf(farmer.getLevel()));
             preparedStatement.setInt(5, farmer.getId());
             preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while save Farmer: " + throwables.getMessage());
+        } catch (SQLException throwable) {
+            this.plugin.getLogger().info("Error while save Farmer: " + throwable.getMessage());
         } finally {
             closeConnections(preparedStatement, connection, null);
         }
@@ -230,6 +230,7 @@ public abstract class SQL {
      * @param uuid uuid of player
      * @param name name of player
      * @param perm perm of player
+     * @param farmer farmer of region
      */
     public void addUser(UUID uuid, String name, FarmerPerm perm, @NotNull Farmer farmer) {
         farmer.getUsers().add(new User(farmer.getId(), name, uuid, perm));
@@ -238,6 +239,11 @@ public abstract class SQL {
 
     /**
      * Adds user to farmer in sql only
+     *
+     * @param uuid of player
+     * @param name of player
+     * @param perm of player perm FarmerPerm#perm
+     * @param farmerId id of farmer
      */
     public void addUser(@NotNull UUID uuid, String name, FarmerPerm perm, int farmerId) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
@@ -264,6 +270,7 @@ public abstract class SQL {
      * Removes user from farmer in sql
      *
      * @param user user object
+     * @param farmer of region
      * @return status of task
      */
     public boolean removeUser(@NotNull User user, Farmer farmer) {
@@ -326,7 +333,7 @@ public abstract class SQL {
      *
      * @param preparedStatement statement
      * @param connection connection
-     * @param resultSet resultset
+     * @param resultSet resultSet
      */
     protected void closeConnections(PreparedStatement preparedStatement, Connection connection, ResultSet resultSet) {
         if (connection == null)

@@ -31,9 +31,9 @@ import xyz.geik.farmer.model.inventory.FarmerItem;
 public class AutoHarvestEvent implements Listener {
 
     /**
-     * Main event of autoharvest
+     * Main event of auto harvest
      *
-     * @param event
+     * @param event of block grow
      */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onHarvestGrowEvent(@NotNull BlockGrowEvent event) {
@@ -91,9 +91,9 @@ public class AutoHarvestEvent implements Listener {
     /**
      * Checks if block harvestable or not.
      *
-     * @param farmer
-     * @param material
-     * @return
+     * @param farmer of region
+     * @param material of farmer
+     * @return status of has stock
      */
     private boolean hasStock(Farmer farmer, XMaterial material) {
         if (AutoHarvest.getInstance().isCheckStock()) {
@@ -119,14 +119,15 @@ public class AutoHarvestEvent implements Listener {
     /**
      * Harvest block typed crops which remove after harvest
      *
-     * @param state
-     * @param material
-     * @return
+     * @param state of block
+     * @param material of block
+     * @return of harvest
      */
     private boolean harvestBlocks(BlockState state, @NotNull XMaterial material, BlockGrowEvent event) {
         if (isBlockHarvestable(material)) {
             event.setCancelled(true);
             ItemStack item = material.parseItem();
+            assert item != null;
             if (material.equals(XMaterial.valueOf("MELON_SLICE")))
                 item.setAmount(4);
             else if (material.equals(XMaterial.valueOf("SWEET_BERRIES")))
@@ -140,8 +141,8 @@ public class AutoHarvestEvent implements Listener {
 
     /**
      * Checks if grown crop type of block
-     * @param material
-     * @return
+     * @param material of block
+     * @return status of block harvestable
      */
     private boolean isBlockHarvestable(@NotNull XMaterial material) {
         return material.equals(XMaterial.valueOf("SUGAR_CANE"))
@@ -154,8 +155,8 @@ public class AutoHarvestEvent implements Listener {
 
     /**
      * Checks if grown crop type of ageable crop
-     * @param material
-     * @return
+     * @param material of block
+     * @return status of block harvestable
      */
     private boolean isCropsHarvestable(@NotNull XMaterial material) {
         boolean status = material.equals(XMaterial.valueOf("WHEAT"))
@@ -169,8 +170,8 @@ public class AutoHarvestEvent implements Listener {
 
     /**
      * Checks if crop has seed for stock check
-     * @param material
-     * @return
+     * @param material of block
+     * @return status of has seed
      */
     private XMaterial hasSeed(@NotNull XMaterial material) {
         if (material.equals(XMaterial.valueOf("WHEAT")))
@@ -181,11 +182,11 @@ public class AutoHarvestEvent implements Listener {
     }
 
     /**
-     * Harvests crop which ageable and makes age of it 0
+     * Harvests crop which age-able and makes age of it 0
      *
-     * @param state
-     * @param material
-     * @return
+     * @param state of block
+     * @param material of block
+     * @return is harvesting succeed
      */
     private boolean harvestCrops(@NotNull BlockState state, @NotNull XMaterial material) {
         if (isCropsHarvestable(material)) {
@@ -212,7 +213,7 @@ public class AutoHarvestEvent implements Listener {
     }
 
     /**
-     * Parses itemstack of crops
+     * Parses item stack of crops
      */
     private XMaterial parseMaterial(XMaterial material) {
         if (material.equals(XMaterial.valueOf("BEETROOTS")))
@@ -232,7 +233,8 @@ public class AutoHarvestEvent implements Listener {
 
     /**
      * Used in harvestCrops for item drops and age of crop
-     * @param state
+     * @param state of block
+     * @param material of block
      */
     private boolean harvestCocoa(BlockState state, @NotNull XMaterial material) {
         if (material.equals(XMaterial.valueOf("COCOA_BEANS"))) {
@@ -253,8 +255,8 @@ public class AutoHarvestEvent implements Listener {
     /**
      * Checks if piston is near the block
      *
-     * @param location
-     * @return
+     * @param location of block to check
+     * @return is piston check pass or not
      */
     private boolean pistonCheck(@NotNull Location location) {
         if (AutoHarvest.getInstance().isCheckAllDirections()) {

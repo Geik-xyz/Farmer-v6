@@ -40,7 +40,7 @@ public class FabledSkyListener implements Listener {
      * @param event listener event of delete
      */
     @EventHandler
-    public void onIslandDelete(IslandDeleteEvent event) {
+    public void onIslandDelete(@NotNull IslandDeleteEvent event) {
         FarmerAPI.getFarmerManager().removeFarmer(event.getIsland().getIslandUUID().toString());
     }
 
@@ -49,7 +49,7 @@ public class FabledSkyListener implements Listener {
      * @param event listener event of transfer
      */
     @EventHandler
-    public void transferIslandEvent(IslandOwnershipTransferEvent event) {
+    public void transferIslandEvent(@NotNull IslandOwnershipTransferEvent event) {
         FarmerAPI.getFarmerManager().changeOwner(event.getIsland().getOriginalOwnerUUID(),
                 event.getOwner().getUniqueId(),
                 event.getIsland().getIslandUUID().toString());
@@ -69,7 +69,7 @@ public class FabledSkyListener implements Listener {
 
     /**
      * Adds user to farmer
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void islandJoinEvent(@NotNull PlayerIslandJoinEvent e) {
@@ -85,7 +85,7 @@ public class FabledSkyListener implements Listener {
 
     /**
      * Removes user from farmer if added on leave
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void teamLeaveEvent(@NotNull IslandKickEvent e) {
@@ -94,7 +94,7 @@ public class FabledSkyListener implements Listener {
 
     /**
      * Removes user from farmer if added on kick
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void teamKickEvent(@NotNull PlayerIslandLeaveEvent e) {
@@ -104,8 +104,8 @@ public class FabledSkyListener implements Listener {
     /**
      * Remove function of kick and leave event
      *
-     * @param islandId
-     * @param member
+     * @param islandId id of island
+     * @param member member of island
      */
     private void kickAndLeaveEvent(String islandId, UUID member) {
         if (!FarmerManager.getFarmers().containsKey(islandId))

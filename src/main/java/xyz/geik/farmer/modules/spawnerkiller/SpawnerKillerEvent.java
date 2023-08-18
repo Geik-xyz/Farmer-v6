@@ -30,7 +30,7 @@ public class SpawnerKillerEvent implements Listener {
      * Cancel spawn event if the entity is a jockey or mounted
      * Because jockey and mounted entities can't kill after spawning
      *
-     * @param e
+     * @param e of creature spawn event
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCreatureEvent(@NotNull CreatureSpawnEvent e) {
@@ -46,7 +46,7 @@ public class SpawnerKillerEvent implements Listener {
     /**
      * Spawner spawn event
      * This event is called when a mob is spawned from a spawner
-     * @param e
+     * @param e of spawner spawn event
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onSpawnerSpawnEvent(SpawnerSpawnEvent e) {
@@ -100,8 +100,8 @@ public class SpawnerKillerEvent implements Listener {
      * for mobs and animals when they die with a cause. This is a custom method to calculate
      * because there is no cause to kill them.
      *
-     * @param entity
-     * @param amount
+     * @param entity of entity
+     * @param amount of spawn amount
      */
     public static void killCalculator(@NotNull Entity entity, int amount) {
         EntityType entityType = entity.getType();

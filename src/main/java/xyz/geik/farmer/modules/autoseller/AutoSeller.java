@@ -15,23 +15,32 @@ import java.util.List;
 @Getter
 public class AutoSeller extends FarmerModule {
 
+    /**
+     * -- GETTER --
+     *  Get instance of the module
+     *
+     */
+    @Getter
     private static AutoSeller instance;
 
+    /**
+     * Allowed items for auto sell
+     */
     private List<String> allowedItems = new ArrayList<>();
 
+    /**
+     * Perm for auto sell
+     */
     private String customPerm = "farmer.autoseller";
 
+    /**
+     * Default status of auto sell
+     */
     private boolean defaultStatus = false;
 
     /**
-     * Get instance of the module
-     *
-     * @return
+     * onLoad method of module
      */
-    public static AutoSeller getInstance() {
-        return instance;
-    }
-
     @Override
     public void onLoad() {
         setName("AutoSeller");
@@ -43,6 +52,9 @@ public class AutoSeller extends FarmerModule {
             setEnabled(false);
     }
 
+    /**
+     * onEnable method of module
+     */
     @Override
     public void onEnable() {
         setHasGui(true);
@@ -54,6 +66,9 @@ public class AutoSeller extends FarmerModule {
         registerListener(new AutoSellerGuiCreateEvent());
     }
 
+    /**
+     * onReload method of module
+     */
     @Override
     public void onReload() {
         if (!this.isEnabled())
@@ -65,6 +80,9 @@ public class AutoSeller extends FarmerModule {
         defaultStatus = getConfig().getBoolean("settings.defaultStatus");
     }
 
+    /**
+     * onDisable method of module
+     */
     @Override
     public void onDisable() {
 

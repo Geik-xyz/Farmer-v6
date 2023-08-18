@@ -30,7 +30,7 @@ public class GuiHelper {
      * Filler item of guis.
      * Filler item basically fills empty slots of gui
      *
-     * @return
+     * @return ItemStack of filler
      */
     public static ItemStack getFiller() {
         ItemStack item;
@@ -67,6 +67,7 @@ public class GuiHelper {
         if (file.contains(path + ".skull")) {
             result = XMaterial.matchXMaterial("PLAYER_HEAD").get().parseItem();
             try {
+                assert result != null;
                 SkullMeta meta = (SkullMeta) result.getItemMeta();
                 assert meta != null;
                 // GameProfile, Filed etc. used mojang lib for catch player skull
@@ -92,9 +93,9 @@ public class GuiHelper {
      * GuiElement creator simple way
      * for templates
      *
-     * @param path
-     * @param key
-     * @return
+     * @param path of element (file location)
+     * @param key to be in gui
+     * @return GuiElement is finalized element
      */
     @Contract("_, _ -> new")
     public static @NotNull GuiElement createGuiElement(String path, char key) {
@@ -107,7 +108,7 @@ public class GuiHelper {
     /**
      * Previous page item creator
      *
-     * @return
+     * @return GuiElement of previous menu icon
      */
     @Contract(" -> new")
     public static @NotNull GuiElement createPreviousPage() {
@@ -121,7 +122,7 @@ public class GuiHelper {
     /**
      * Next page item creator
      *
-     * @return
+     * @return GuiElement of next menu icon
      */
     @Contract(" -> new")
     public static @NotNull GuiElement createNextPage() {
@@ -136,8 +137,8 @@ public class GuiHelper {
      * Manage gui item which located on
      * farmer main gui.
      *
-     * @param farmer
-     * @return
+     * @param farmer of region
+     * @return ItemStack manage icon
      */
     public static @NotNull ItemStack getManageItemOnMain(Farmer farmer) {
         ItemStack manage = GuiHelper.getItem("Gui.manage");
@@ -155,8 +156,8 @@ public class GuiHelper {
      * Lore replacer for manager menu status item.
      * Changing status to toggleON or toggleOFF value.
      *
-     * @param status
-     * @return
+     * @param status of farmer collection
+     * @return ItemStack of status icon
      */
     public static @NotNull ItemStack getStatusItem(int status) {
         ItemStack statusItem = GuiHelper.getItem("manageGui.closeFarmer");
@@ -175,8 +176,8 @@ public class GuiHelper {
      * So crates it with checking if farmer in max level,
      * or can be upgradeable and also replacing placeholder keys
      *
-     * @param farmer
-     * @return
+     * @param farmer of region
+     * @return ItemStack of level icon
      */
     public static @NotNull ItemStack getLevelItem(@NotNull Farmer farmer){
         int level = FarmerLevel.getAllLevels().indexOf(farmer.getLevel())+1;
@@ -220,7 +221,7 @@ public class GuiHelper {
     /**
      * Buy item in BuyGui
      *
-     * @return
+     * @return ItemStack of buy farmer icon
      */
     public static @NotNull ItemStack getBuyItem() {
         ItemStack result = getItem("buyGui.item");

@@ -18,24 +18,32 @@ import java.util.stream.Collectors;
 @Getter
 public class FarmerItem {
 
-    // Name of item (Material name)
+    /**
+     * Name of item (Material name)
+     */
     private String name;
 
-    // Price of item
+    /**
+     * Price of item
+     */
     private double price;
 
-    // Amount of item
+    /**
+     * Amount of item
+     */
     private long amount;
 
-    // XMaterial of item Calculated in constructor
+    /**
+     * XMaterial of item Calculated in constructor
+     */
     private XMaterial material;
 
     /**
      * Constructor of FarmerItem
      *
-     * @param name
-     * @param price
-     * @param amount
+     * @param name of item
+     * @param price of item
+     * @param amount of item
      */
     public FarmerItem(String name, double price, long amount) {
         this.name = name;
@@ -46,7 +54,7 @@ public class FarmerItem {
 
     /**
      * Clones FarmerItem
-     * @return
+     * @return FarmerItem
      */
     public FarmerItem clone() {
         return new FarmerItem(this.name, this.price, this.amount);
@@ -74,8 +82,8 @@ public class FarmerItem {
      * Serializing FarmerItem set to flat string
      * Because it should save to database
      *
-     * @param items
-     * @return
+     * @param items list of item
+     * @return serialized string
      */
     public static String serializeItems(@NotNull List<FarmerItem> items) {
         StringBuilder builder = new StringBuilder();

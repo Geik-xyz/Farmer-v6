@@ -19,13 +19,8 @@ import java.util.UUID;
 public class ASkyblockListener implements Listener {
 
     /**
-     * Constructor register event of super class
-     */
-    public ASkyblockListener() {}
-
-    /**
      * Remove farmer on island deletion
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void onIslandDeleteEvent(@NotNull IslandDeleteEvent e) {
@@ -34,7 +29,7 @@ public class ASkyblockListener implements Listener {
 
     /**
      * Remove farmer on island reset
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void onIslandResetEvent(@NotNull IslandResetEvent e) {
@@ -43,7 +38,7 @@ public class ASkyblockListener implements Listener {
 
     /**
      * Change farmer owner on island transfer
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void onIslandOwnerChangeEvent(@NotNull IslandChangeOwnerEvent e) {
@@ -52,7 +47,7 @@ public class ASkyblockListener implements Listener {
 
     /**
      * Adds user to farmer
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void onPlayerKickEvent(@NotNull TeamLeaveEvent e) {
@@ -67,7 +62,7 @@ public class ASkyblockListener implements Listener {
 
     /**
      * Removes user from farmer if added on leave
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void onPlayerJoinEvent(@NotNull TeamJoinEvent e) {

@@ -23,7 +23,7 @@ public class AutoSellerGuiCreateEvent implements Listener {
     /**
      * Creates the GUI element for the module and adds it to the GUI
      *
-     * @param e
+     * @param e of module gui create event
      */
     @EventHandler
     public void onGuiCreateEvent(@NotNull FarmerModuleGuiCreateEvent e) {
@@ -53,11 +53,10 @@ public class AutoSellerGuiCreateEvent implements Listener {
     /**
      * Get the item for the GUI
      *
-     * @param farmer
-     * @return
+     * @param farmer of region
+     * @return item stack of module gui
      */
-    @Contract(" -> new")
-    private @NotNull ItemStack getGuiItem(Farmer farmer) {
+    private @NotNull ItemStack getGuiItem(@NotNull Farmer farmer) {
         ItemStack item = GuiHelper.getItem("moduleGui.icon", AutoSeller.getInstance().getLang());
         ItemMeta meta = item.getItemMeta();
         String status = farmer.getAttributeStatus("autoseller") ?

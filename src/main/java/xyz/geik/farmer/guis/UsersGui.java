@@ -26,8 +26,8 @@ public class UsersGui {
     /**
      * Opens gui of users
      *
-     * @param player
-     * @param farmer
+     * @param player to show gui
+     * @param farmer of region
      */
     public static void showGui(Player player, @NotNull Farmer farmer) {
         // Gui interface array

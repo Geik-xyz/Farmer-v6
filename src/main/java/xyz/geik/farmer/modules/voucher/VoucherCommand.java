@@ -18,9 +18,9 @@ public class VoucherCommand {
     /**
      * Give voucher to player
      *
-     * @param sender
-     * @param args
-     * @return
+     * @param sender of command
+     * @param args of command
+     * @return boolean of command status
      */
     public static boolean give(@NotNull CommandSender sender, String @NotNull ... args) {
         if (!args[0].equalsIgnoreCase("give")) {
@@ -61,8 +61,8 @@ public class VoucherCommand {
     /**
      * Checks value is numeric
      *
-     * @param strNum
-     * @return
+     * @param strNum to parse
+     * @return status of input numeric or not
      */
     public static boolean isNumeric(String strNum) {
         try {

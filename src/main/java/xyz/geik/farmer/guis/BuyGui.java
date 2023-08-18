@@ -16,7 +16,7 @@ public class BuyGui {
 
     /**
      * Opens gui to player
-     * @param player
+     * @param player to show gui
      */
     public static void showGui(Player player) {
         // Gui template as array

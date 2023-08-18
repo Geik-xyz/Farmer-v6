@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Default settings set and
  * there is a method which
- * updates this settings.
+ * updates these settings.
  */
 public class Settings {
 

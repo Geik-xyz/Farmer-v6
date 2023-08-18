@@ -19,12 +19,29 @@ import xyz.geik.farmer.model.user.FarmerPerm;
 
 import java.util.UUID;
 
+/**
+ * TownyAdvanced listener class
+ *
+ * @author Amowny
+ * @since v6-b001
+ */
 public class TownyListener implements Listener {
+
+    /**
+     * Remove farmer on town deletion
+     * @param e of event
+     */
     @EventHandler
     public void disbandEvent(@NotNull DeleteTownEvent e) {
         FarmerAPI.getFarmerManager().removeFarmer(e.getTownUUID().toString());
     }
 
+    /**
+     * Automatically creates farmer
+     * when town is created
+     *
+     * @param e of event
+     */
     @EventHandler
     public void createTownEvent(@NotNull NewTownEvent e) {
         if (Settings.autoCreateFarmer) {
@@ -33,11 +50,20 @@ public class TownyListener implements Listener {
         }
     }
 
+    /**
+     * Transfers farmer when town transfer
+     *
+     * @param e transfer island event
+     */
     @EventHandler
     public void transferTown(@NotNull TownMayorChangeEvent e) {
         FarmerAPI.getFarmerManager().changeOwner(e.getOldMayor().getUUID(), e.getNewMayor().getUUID(), e.getTown().getUUID().toString());
     }
 
+    /**
+     * Adds user to farmer
+     * @param e of event
+     */
     @EventHandler
     public void townJoinEvent(@NotNull PlayerEntersIntoTownBorderEvent e) {
         String townID = e.getEnteredTown().getUUID().toString();
@@ -49,16 +75,30 @@ public class TownyListener implements Listener {
             farmer.addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
     }
 
+    /**
+     * Removes user from farmer if added when leave
+     * @param e of event
+     */
     @EventHandler
     public void townLeaveEvent(@NotNull TownLeaveEvent e) {
         kickAndLeaveEvent(e.getTown().getUUID().toString(), e.getResident().getPlayer().getUniqueId());
     }
 
+    /**
+     * Removes user from farmer if added when kick
+     * @param e of event
+     */
     @EventHandler
     public void townKickEvent(@NotNull TownKickEvent e) {
         kickAndLeaveEvent(e.getTown().getUUID().toString(), e.getKickedResident().getPlayer().getUniqueId());
     }
 
+    /**
+     * Remove function of kick and leave event
+     *
+     * @param townID id of town
+     * @param member member of town
+     */
     private void kickAndLeaveEvent(String townID, UUID member) {
         if (!FarmerManager.getFarmers().containsKey(townID))
             return;

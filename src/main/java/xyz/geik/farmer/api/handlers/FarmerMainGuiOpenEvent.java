@@ -19,20 +19,20 @@ public class FarmerMainGuiOpenEvent extends Event {
      * Player object of event
      * @see Player
      */
-    private Player player;
+    private final Player player;
 
     /**
      * Farmer object of event
      * @see Farmer
      */
-    private Farmer farmer;
+    private final Farmer farmer;
 
     /**
      * InventoryGui object of event
      * @see InventoryGui
      * @see de.themoep.inventorygui.InventoryGui#show(org.bukkit.entity.HumanEntity)
      */
-    private InventoryGui gui;
+    private final InventoryGui gui;
 
     /**
      * Event status (cancelled or not)
@@ -67,20 +67,8 @@ public class FarmerMainGuiOpenEvent extends Event {
 
     /**
      * Spigot handlers requirements
-     *
-     * @return
+     * @see HandlerList
      */
-    private static final HandlerList HANDLERS = new HandlerList();
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLERS;
-    }
-
-    /**
-     * @return HandlerList
-     */
-    public static HandlerList getHandlerList() {
-        return HANDLERS;
-    }
+    @Getter
+    private static final HandlerList handlers = new HandlerList();
 }

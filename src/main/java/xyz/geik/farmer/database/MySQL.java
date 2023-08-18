@@ -41,8 +41,8 @@ public class MySQL extends SQL {
             preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS FarmerUsers (`farmerId` int NOT NULL, `name` varchar(30) DEFAULT 'User', `uuid` char(36) DEFAULT '0', `role` smallint(1) DEFAULT 0)");
             preparedStatement.executeUpdate();
             this.plugin.getLogger().info("MySQL tables created successfully!");
-        } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while creating table: " + throwables.getMessage());
+        } catch (SQLException throwable) {
+            this.plugin.getLogger().info("Error while creating table: " + throwable.getMessage());
         } finally {
             closeConnections(preparedStatement, connection, null);
         }

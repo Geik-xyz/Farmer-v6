@@ -11,18 +11,18 @@ import xyz.geik.farmer.modules.FarmerModule;
 @Getter
 public class Voucher extends FarmerModule {
 
-    // Instance of the module
-    private static Voucher instance;
-
     /**
-     * @return Voucher instance
+     * Instance of the module
+     * -- GETTER --
      */
-    public static Voucher getInstance() {
-        return instance;
-    }
+    @Getter
+    private static Voucher instance;
 
     private boolean overrideFarmer = false, giveVoucherWhenRemove = false;
 
+    /**
+     * onLoad method of module
+     */
     @Override
     public void onLoad() {
         this.setName("Voucher");
@@ -34,6 +34,20 @@ public class Voucher extends FarmerModule {
             this.setEnabled(false);
     }
 
+    /**
+     * onEnable method of module
+     */
+    @Override
+    public void onEnable() {
+        this.setLang(Settings.lang, Main.getInstance());
+        registerListener(new VoucherEvent());
+        overrideFarmer = getConfig().get("settings.useWhenFarmerExist", false);
+        giveVoucherWhenRemove = getConfig().get("settings.giveVoucherWhenRemove", false);
+    }
+
+    /**
+     * onReload method of module
+     */
     @Override
     public void onReload() {
         if (!this.isEnabled())
@@ -42,14 +56,9 @@ public class Voucher extends FarmerModule {
         giveVoucherWhenRemove = getConfig().get("settings.giveVoucherWhenRemove", false);
     }
 
+    /**
+     * onDisable method of module
+     */
     @Override
     public void onDisable() {}
-
-    @Override
-    public void onEnable() {
-        this.setLang(Settings.lang, Main.getInstance());
-        registerListener(new VoucherEvent());
-        overrideFarmer = getConfig().get("settings.useWhenFarmerExist", false);
-        giveVoucherWhenRemove = getConfig().get("settings.giveVoucherWhenRemove", false);
-    }
 }

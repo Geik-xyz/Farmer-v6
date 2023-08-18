@@ -3,6 +3,7 @@ package xyz.geik.farmer.integrations.grief;
 import me.ryanhamshire.GriefPrevention.events.ClaimDeletedEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.api.FarmerAPI;
 
 /**
@@ -13,17 +14,12 @@ import xyz.geik.farmer.api.FarmerAPI;
 public class GriefListener implements Listener {
 
     /**
-     * GriefPrevention listener class
-     */
-    public GriefListener() {}
-
-    /**
      * Calls ClaimDeleteEvent for removing farmer.
      *
-     * @param e
+     * @param e of event
      */
     @EventHandler
-    public void claimDeleteEvent(ClaimDeletedEvent e) {
+    public void claimDeleteEvent(@NotNull ClaimDeletedEvent e) {
         String regionID = e.getClaim().getID().toString();
         FarmerAPI.getFarmerManager().removeFarmer(regionID);
     }

@@ -44,20 +44,8 @@ public class FarmerRemoveEvent extends Event {
 
     /**
      * Spigot handlers requirements
-     *
-     * @return
+     * @see HandlerList
      */
-    private static final HandlerList HANDLERS = new HandlerList();
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLERS;
-    }
-
-    /**
-     * @return HandlerList
-     */
-    public static HandlerList getHandlerList() {
-        return HANDLERS;
-    }
+    @Getter
+    private static final HandlerList handlers = new HandlerList();
 }

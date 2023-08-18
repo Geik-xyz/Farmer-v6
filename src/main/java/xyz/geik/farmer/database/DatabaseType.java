@@ -6,6 +6,13 @@ package xyz.geik.farmer.database;
  * @author Amowny
  */
 public enum DatabaseType {
+
+    /**
+     * SQLite option of database
+     */
     SQLITE,
+    /**
+     * MySQL option of database
+     */
     MYSQL;
 }

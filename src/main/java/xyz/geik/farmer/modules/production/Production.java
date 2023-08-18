@@ -17,23 +17,31 @@ import java.util.List;
 @Getter
 public class Production extends FarmerModule {
 
-    // Instance of module
+    /**
+     * -- GETTER --
+     *  Get instance of module
+     */
+    @Getter
     private static Production instance;
 
+    /**
+     * number formats which is k,m,b,t for 1k instead of 1000
+     */
     private String[] numberFormat = new String[]{"k", "m", "b", "t"};
+
+    /**
+     * calculate interval time
+     */
     private long reCalculate = 15L;
 
+    /**
+     * items to calculate
+     */
     private List<String> productionItems = new ArrayList<>();
 
     /**
-     * Get instance of module
-     *
-     * @return instance
+     * onLoad method of module
      */
-    public static Production getInstance() {
-        return instance;
-    }
-
     @Override
     public void onLoad() {
         setName("Production");
@@ -47,6 +55,9 @@ public class Production extends FarmerModule {
             setEnabled(false);
     }
 
+    /**
+     * onEnable method of module
+     */
     @Override
     public void onEnable() {
         registerListener(new ProductionCalculateEvent());
@@ -58,6 +69,9 @@ public class Production extends FarmerModule {
         reCalculate = getConfig().get("settings.reCalculate", 15L);
     }
 
+    /**
+     * onReload method of module
+     */
     @Override
     public void onReload() {
         if (!this.isEnabled())
@@ -69,6 +83,9 @@ public class Production extends FarmerModule {
         reCalculate = getConfig().get("settings.reCalculate", 15L);
     }
 
+    /**
+     * onDisable method of module
+     */
     @Override
     public void onDisable() {}
 

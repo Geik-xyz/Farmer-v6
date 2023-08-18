@@ -29,7 +29,7 @@ public class VoucherEvent implements Listener {
     /**
      * Uses voucher to farmer and opens farmer gui
      *
-     * @param event
+     * @param event of player interact event
      */
     @EventHandler
     public void onVoucherUseEvent(@NotNull PlayerInteractEvent event) {
@@ -84,7 +84,7 @@ public class VoucherEvent implements Listener {
     /**
      * Gives voucher when farmer is removed to owner
      *
-     * @param event
+     * @param event of farmer remove event
      */
     @EventHandler
     public void onFarmerRemoveEvent(FarmerRemoveEvent event) {
@@ -103,8 +103,8 @@ public class VoucherEvent implements Listener {
     /**
      * Descent voucher amount in inventory
      *
-     * @param player
-     * @param voucher
+     * @param player to remove item
+     * @param voucher item of voucher
      */
     private void descentVoucher(Player player, @NotNull ItemStack voucher) {
         if (voucher.getAmount() == 1)

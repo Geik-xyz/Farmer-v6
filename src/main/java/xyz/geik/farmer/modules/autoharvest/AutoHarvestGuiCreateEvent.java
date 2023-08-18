@@ -22,7 +22,7 @@ public class AutoHarvestGuiCreateEvent implements Listener {
     /**
      * Creates the GUI element for the farmer GUI for the module
      *
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void onGuiCreateEvent(@NotNull FarmerModuleGuiCreateEvent e) {
@@ -52,11 +52,10 @@ public class AutoHarvestGuiCreateEvent implements Listener {
     /**
      * Gets item of gui
      *
-     * @param farmer
-     * @return
+     * @param farmer of region
+     * @return ItemStack of auto harvest gui
      */
-    @Contract(" -> new")
-    private @NotNull ItemStack getGuiItem(Farmer farmer) {
+    private @NotNull ItemStack getGuiItem(@NotNull Farmer farmer) {
         ItemStack item = GuiHelper.getItem("moduleGui.icon", AutoHarvest.getInstance().getLang());
         ItemMeta meta = item.getItemMeta();
         String status = farmer.getAttributeStatus("autoharvest") ?

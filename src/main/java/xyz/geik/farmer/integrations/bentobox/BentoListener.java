@@ -27,38 +27,38 @@ public class BentoListener implements Listener {
 
     /**
      * Island delete evet for remove farmer
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void deleteEvent(@NotNull IslandDeleteEvent e) {
-        String islandID = e.getIsland().getUniqueId().toString();
+        String islandID = e.getIsland().getUniqueId();
         FarmerAPI.getFarmerManager().removeFarmer(islandID);
     }
 
     /**
      * Island reset event for remove farmer
      *
-     * @param e
+     * @param e of event
      */
     @EventHandler
-    public void resetEvent(IslandResetEvent e) {
-        String islandID = e.getOldIsland().getUniqueId().toString();
+    public void resetEvent(@NotNull IslandResetEvent e) {
+        String islandID = e.getOldIsland().getUniqueId();
         FarmerAPI.getFarmerManager().removeFarmer(islandID);
         autoCreate(e.getIsland().getUniqueId(), e.getOwner());
     }
 
     /**
      * Island delete event for remove farmer
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void ownerChangeEvent(@NotNull TeamSetownerEvent e) {
-        FarmerAPI.getFarmerManager().changeOwner(e.getOldOwner(), e.getNewOwner(), e.getIsland().getUniqueId().toString());
+        FarmerAPI.getFarmerManager().changeOwner(e.getOldOwner(), e.getNewOwner(), e.getIsland().getUniqueId());
     }
 
     /**
      * Adds user to farmer
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void teamJoinEvent(@NotNull TeamJoinEvent e) {
@@ -74,7 +74,7 @@ public class BentoListener implements Listener {
 
     /**
      * Removes user from farmer if added on leave
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void teamLeaveEvent(@NotNull TeamLeaveEvent e) {
@@ -83,7 +83,7 @@ public class BentoListener implements Listener {
 
     /**
      * Removes user from farmer if added on kick
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void teamKickEvent(@NotNull TeamKickEvent e) {
@@ -93,8 +93,8 @@ public class BentoListener implements Listener {
     /**
      * Remove function of kick and leave event
      *
-     * @param islandId
-     * @param member
+     * @param islandId id of island
+     * @param member member uuid of island
      */
     private void kickAndLeaveEvent(String islandId, UUID member) {
         if (!FarmerManager.getFarmers().containsKey(islandId))
@@ -109,7 +109,7 @@ public class BentoListener implements Listener {
      * Automatically creates farmer
      * when island is created
      *
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void islandCreateEvent(@NotNull IslandCreatedEvent e) {
@@ -119,8 +119,8 @@ public class BentoListener implements Listener {
     /**
      * Creates farmer automatically function
      *
-     * @param regionId
-     * @param owner
+     * @param regionId id of region
+     * @param owner owner uuid
      */
     private void autoCreate(String regionId, UUID owner) {
         if (Settings.autoCreateFarmer) {

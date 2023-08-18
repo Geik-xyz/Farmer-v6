@@ -2,12 +2,15 @@ package xyz.geik.farmer.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * HikariCP main configuration class
  * @since b000
  * @author Amowny
  */
+@Getter
 public class HikariCP {
 
     /**
@@ -50,9 +53,9 @@ public class HikariCP {
 
     /**
      * Sets property of mysql/sqlite
-     * @param sql
+     * @param sql of hikaricp
      */
-    public void setProperties(SQL sql) {
+    public void setProperties(@NotNull SQL sql) {
         HikariConfig hikariConfig = new HikariConfig();
         if (sql.getDatabaseType() == DatabaseType.MYSQL) {
             String jdbcUrl = "jdbc:mysql://" + this.hostname + ":" + this.port + "/" + this.database;
@@ -70,13 +73,4 @@ public class HikariCP {
         }
         this.hikariDataSource = new HikariDataSource(hikariConfig);
     }
-
-    /**
-     * Data source of hikariCP
-     * @return HikariDataSource configuration
-     */
-    public HikariDataSource getHikariDataSource() {
-        return this.hikariDataSource;
-    }
-
 }

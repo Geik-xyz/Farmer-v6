@@ -49,28 +49,51 @@ public class Main extends JavaPlugin {
     /**
      * SQL Manager
      */
+    @Getter
     private SQL sql;
 
     /**
      * Instance of this class
      */
+    @Getter
     private static Main instance;
 
     /**
      * Config files which using SimplixStorage API for it.
      * Also, you can find usage code of API on helpers#StorageAPI
      */
-    private static Config configFile, itemsFile, langFile, databaseFile;
+    @Getter
+    private static Config itemsFile;
+
+    /**
+     * Lang file of plugin
+     */
+    @Getter
+    private static Config langFile;
+
+    /**
+     * Database file of plugin
+     */
+    @Getter
+    private static Config databaseFile;
+
+    /**
+     * Config file of plugin
+     */
+    @Getter
+    private static Config configFile;
 
     /**
      * Main integration of plugin integrations#Integrations
      */
+    @Getter
     private static Integrations integration;
 
     /**
      * Economy hookup it's initialing down below.
      * #setupEconomy
      */
+    @Getter
     private static Economy econ = null;
 
 
@@ -121,56 +144,6 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * Gets config file
-     * @return Config file
-     */
-    public static Config getConfigFile() { return configFile; }
-
-    /**
-     * Gets items file
-     * @return Config file
-     */
-    public static Config getItemsFile() { return itemsFile; }
-
-    /**
-     * Gets lang file
-     * @return Config file
-     */
-    public static Config getLangFile() { return langFile; }
-
-    /**
-     * Gets database file
-     * @return Config file
-     */
-    public static Config getDatabaseFile() { return databaseFile; }
-
-    /**
-     * Gets instance
-     * @return Main class of main
-     */
-    public static Main getInstance() { return instance; }
-
-    /**
-     * Gets SQL Manager
-     * @return SQL Manager
-     */
-    public SQL getSql() {
-        return this.sql;
-    }
-
-    /**
-     * Gets Integration plugin instance
-     * @return Integrations plugin of integration
-     */
-    public static Integrations getIntegration() { return integration; }
-
-    /**
-     * Gets items file
-     * @return Economy gets economy plugin
-     */
-    public static Economy getEcon() { return econ; }
-
-    /**
      * Integration setter
      *
      * @param data data of integration
@@ -210,7 +183,7 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * Sending enable message to console.
+     * Sends enable message to console.
      */
     private static void sendEnableMessage() {
         Bukkit.getConsoleSender().sendMessage(Main.color("&6&l		FARMER 		&b"));

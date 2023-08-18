@@ -19,6 +19,7 @@ import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.voucher.VoucherCommand;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -30,11 +31,11 @@ public class Commands implements CommandExecutor {
     /**
      * Main section of commands executing
      *
-     * @param sender Source of the command
+     * @param sender the command executor
      * @param command Command which was executed
      * @param label Alias of the command which was used
      * @param args Passed command arguments
-     * @return
+     * @return boolean of command status
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -73,10 +74,10 @@ public class Commands implements CommandExecutor {
 
     /**
      * Base command for coop, member, owner
-     * It basically open farmer buy gui unless don't have it.
-     * Open farmer inventory gui if has farmer.
+     * It basically opens farmer buy gui unless don't have it.
+     * Open farmer inventory gui if they have farmer.
      *
-     * @param player
+     * @param player the command executor
      */
     private void farmerBaseCommand(@NotNull Player player) {
         if (!Settings.isWorldAllowed(player.getWorld().getName())) {
@@ -113,7 +114,7 @@ public class Commands implements CommandExecutor {
     /**
      * Removes farmer from command sender.
      *
-     * @param player
+     * @param player the command executor
      */
     private void selfRemoveCommand(@NotNull Player player) {
         String regionID = getRegionID(player);
@@ -134,13 +135,13 @@ public class Commands implements CommandExecutor {
     /**
      * Sends the player information about the Farmer plugin
      *
-     * @param player
+     * @param player the command executor
      */
     private void aboutCommand(@NotNull CommandSender player) {
         player.sendMessage(Main.color("&7&m----------------------------------------"));
         player.sendMessage(Main.color("#FFA500          FARMER &7- &6v" + Main.getInstance().getDescription().getVersion()));
         player.sendMessage(Main.color("#3CB371Author: #90EE90Geik"));
-        player.sendMessage(Main.color("#FF7F50Contributors: #FFA07A" + Main.getInstance().getDescription().getAuthors().stream().toArray()));
+        player.sendMessage(Main.color("#FF7F50Contributors: #FFA07A" + Arrays.toString(Main.getInstance().getDescription().getAuthors().toArray())));
         player.sendMessage(Main.color("#7289DADiscord: &7&ohttps://discord.geik.xyz"));
         player.sendMessage(Main.color("#FFD700Website: &7&ohttps://geik.xyz"));
         player.sendMessage(Main.color("&7&m----------------------------------------"));
@@ -154,7 +155,7 @@ public class Commands implements CommandExecutor {
      * It can be usable who has farmer.admin permission, Geyik username and owner
      * I have permission to use it for debugs and support.
      *
-     * @param player
+     * @param player the command executor
      */
     private void infoCommand(@NotNull Player player) {
         String regionID = getRegionID(player);
@@ -188,7 +189,7 @@ public class Commands implements CommandExecutor {
     /**
      * Reload command method which reloads everything it can
      *
-     * @param sender
+     * @param sender the command sender
      */
     private void reloadCommand(@NotNull CommandSender sender) {
         if (!sender.hasPermission("farmer.admin")) {
@@ -221,8 +222,8 @@ public class Commands implements CommandExecutor {
      * Manage usable by administrator or owner of farmer
      * Remove, reload, about and info are administrator commands
      *
-     * @param player
-     * @param arg
+     * @param player the command executor
+     * @param arg of others
      */
     public void oneArgCommands(@NotNull Player player, String arg) {
         // Checking perm if sender is player and if they don't have perm just returns task
@@ -256,8 +257,8 @@ public class Commands implements CommandExecutor {
      * Manage usable by administrator
      * Remove and open are administrator commands
      *
-     * @param player
-     * @param arg
+     * @param player the command executor
+     * @param arg of others
      */
     public void twoArgCommands(@NotNull Player player, String @NotNull ... arg) {
         if ((!player.hasPermission("farmer.admin"))) {
@@ -291,8 +292,8 @@ public class Commands implements CommandExecutor {
      * Gets region id with #Integration
      * if there has a region.
      *
-     * @param player
-     * @return
+     * @param player the command executor
+     * @return String of region
      */
     private String getRegionID(Player player) {
         String regionID;

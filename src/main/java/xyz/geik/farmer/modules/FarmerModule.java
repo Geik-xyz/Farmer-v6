@@ -82,7 +82,7 @@ public abstract class FarmerModule {
      * You may use it in your onLoad
      * or onEnable method of your module
      *
-     * @param plugin
+     * @param plugin for instance
      */
     public void setConfig(JavaPlugin plugin) {
         config = FarmerAPI.getStorageManager()
@@ -98,8 +98,8 @@ public abstract class FarmerModule {
      * resources/lang folder, and it
      * must be named of lang as farmer.</p>
      *
-     * @param langName
-     * @param plugin
+     * @param langName name of lang
+     * @param plugin for instance
      */
     public void setLang(String langName, JavaPlugin plugin) {
         lang = FarmerAPI.getStorageManager()
@@ -109,7 +109,7 @@ public abstract class FarmerModule {
     /**
      * Register listener to this plugin
      *
-     * @param listener
+     * @param listener to register
      */
     public void registerListener(Listener listener) {
         PluginManager pm = Main.getInstance().getServer().getPluginManager();

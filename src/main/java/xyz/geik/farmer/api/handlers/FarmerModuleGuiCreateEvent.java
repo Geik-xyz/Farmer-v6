@@ -19,19 +19,19 @@ public class FarmerModuleGuiCreateEvent extends Event {
      * Player who opened the gui
      * @see Player
      */
-    private Player player;
+    private final Player player;
 
     /**
      * Gui that has created
      * @see InventoryGui
      */
-    private InventoryGui gui;
+    private final InventoryGui gui;
 
     /**
      * Farmer that has opened the gui as reference
      * @see Farmer
      */
-    private Farmer farmer;
+    private final Farmer farmer;
 
     /**
      * Cancel status of event (true = cancelled)
@@ -65,20 +65,8 @@ public class FarmerModuleGuiCreateEvent extends Event {
 
     /**
      * Spigot handlers requirements
-     *
-     * @return
+     * @see HandlerList
      */
-    private static final HandlerList HANDLERS = new HandlerList();
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLERS;
-    }
-
-    /**
-     * @return HandlerList
-     */
-    public static HandlerList getHandlerList() {
-        return HANDLERS;
-    }
+    @Getter
+    private static final HandlerList handlers = new HandlerList();
 }

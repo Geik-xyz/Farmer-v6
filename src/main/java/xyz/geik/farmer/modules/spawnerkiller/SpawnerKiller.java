@@ -15,23 +15,33 @@ import java.util.List;
 @Getter
 public class SpawnerKiller extends FarmerModule {
 
+    /**
+     * Whitelist of spawners
+     */
     private List<String> whitelist = new ArrayList<>();
+
+    /**
+     * Blacklist of spawners
+     */
     private List<String> blacklist = new ArrayList<>();
 
     private boolean requireFarmer = false, cookFoods = false, removeMob = true, defaultStatus = false;
 
+    /**
+     * Perm of spawner killer
+     */
     private String customPerm = "farmer.spawnerkiller";
 
+    /**
+     * -- GETTER --
+     *  Get instance of the module
+     */
+    @Getter
     private static SpawnerKiller instance;
 
     /**
-     * Get instance of the module
-     * @return
+     * onLoad method of module
      */
-    public static SpawnerKiller getInstance() {
-        return instance;
-    }
-
     @Override
     public void onLoad() {
         this.setName("SpawnerKiller");
@@ -43,6 +53,9 @@ public class SpawnerKiller extends FarmerModule {
             this.setEnabled(false);
     }
 
+    /**
+     * onEnable method of module
+     */
     @Override
     public void onEnable() {
         setHasGui(true);
@@ -60,6 +73,9 @@ public class SpawnerKiller extends FarmerModule {
             getConfig().getTextList("settings.blacklist").forEach(blacklist::add);
     }
 
+    /**
+     * onReload method of module
+     */
     @Override
     public void onReload() {
         if (!this.isEnabled())
@@ -79,6 +95,9 @@ public class SpawnerKiller extends FarmerModule {
             getConfig().getTextList("settings.blacklist").forEach(blacklist::add);
     }
 
+    /**
+     * onDisable method of module
+     */
     @Override
     public void onDisable() {
 

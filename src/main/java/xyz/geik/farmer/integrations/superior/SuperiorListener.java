@@ -16,19 +16,12 @@ import java.util.UUID;
 
 /**
  * SuperiorSkyblock2 listener class
- * Which is removing farmer if there is
- * a farmer on island.
  */
 public class SuperiorListener implements Listener {
 
     /**
-     * Superior listener constructor
-     */
-    public SuperiorListener() {}
-
-    /**
      * Island delete event for remove farmer
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void disbandEvent(@NotNull IslandDisbandEvent e) {
@@ -39,7 +32,7 @@ public class SuperiorListener implements Listener {
      * Automatically creates farmer
      * when island is created
      *
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void createIslandEvent(IslandCreateEvent e) {
@@ -55,14 +48,14 @@ public class SuperiorListener implements Listener {
      * @param event transfer island event
      */
     @EventHandler
-    public void transferIslandEvent(IslandTransferEvent event) {
+    public void transferIslandEvent(@NotNull IslandTransferEvent event) {
         FarmerAPI.getFarmerManager()
                 .changeOwner(event.getOldOwner().getUniqueId(), event.getNewOwner().getUniqueId(), event.getIsland().getUniqueId().toString());
     }
 
     /**
      * Adds user to farmer
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void islandJoinEvent(@NotNull IslandJoinEvent e) {
@@ -77,8 +70,8 @@ public class SuperiorListener implements Listener {
     }
 
     /**
-     * Removes user from farmer if added on leave
-     * @param e
+     * Removes user from farmer if added when leave
+     * @param e of event
      */
     @EventHandler
     public void teamLeaveEvent(@NotNull IslandKickEvent e) {
@@ -87,7 +80,7 @@ public class SuperiorListener implements Listener {
 
     /**
      * Removes user from farmer if added on kick
-     * @param e
+     * @param e of event
      */
     @EventHandler
     public void teamKickEvent(@NotNull IslandQuitEvent e) {
@@ -97,8 +90,8 @@ public class SuperiorListener implements Listener {
     /**
      * Remove function of kick and leave event
      *
-     * @param islandId
-     * @param member
+     * @param islandId id of island
+     * @param member member of island
      */
     private void kickAndLeaveEvent(String islandId, UUID member) {
         if (!FarmerManager.getFarmers().containsKey(islandId))

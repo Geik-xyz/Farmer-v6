@@ -212,7 +212,7 @@ public class ModuleManager {
      * @param attributes Attributes to deserialize
      * @return Deserialized attributes
      */
-    private @NotNull HashMap<String, Boolean> attributeDeserializer(@NotNull String attributes) {
+    private @NotNull HashMap<String, Boolean> attributeDeserializer(String attributes) {
         HashMap<String, Boolean> map = new HashMap<>();
         if (attributes == null || attributes.isEmpty())
             return map;

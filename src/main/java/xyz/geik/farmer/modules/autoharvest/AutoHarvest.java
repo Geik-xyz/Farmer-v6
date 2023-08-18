@@ -17,21 +17,22 @@ import java.util.List;
 public class AutoHarvest extends FarmerModule {
 
     private boolean requirePiston = false, checkAllDirections = false, withoutFarmer = false, checkStock = true, defaultStatus = false;
+
+    /**
+     * perm of farmer
+     */
     private String customPerm = "farmer.autoharvest";
+
+    /**
+     * Crops of auto harvest
+     */
     private List<String> crops = new ArrayList<>();
 
+    @Getter
     private static AutoHarvest instance;
-    /**
-     * Get instance of the module
-     *
-     * @return
-     */
-    public static AutoHarvest getInstance() {
-        return instance;
-    }
 
     /**
-     * Load module
+     * onLoad method of module
      */
     @Override
     public void onLoad() {
@@ -45,7 +46,7 @@ public class AutoHarvest extends FarmerModule {
     }
 
     /**
-     * Enable module
+     * onEnable method of module
      */
     @Override
     public void onEnable() {
@@ -62,6 +63,9 @@ public class AutoHarvest extends FarmerModule {
         setLang(Settings.lang, Main.getInstance());
     }
 
+    /**
+     * onReload method of module
+     */
     @Override
     public void onReload() {
         if (!this.isEnabled())
@@ -77,6 +81,9 @@ public class AutoHarvest extends FarmerModule {
         defaultStatus = getConfig().getBoolean("settings.defaultStatus");
     }
 
+    /**
+     * onDisable method of module
+     */
     @Override
     public void onDisable() {
 
@@ -85,8 +92,8 @@ public class AutoHarvest extends FarmerModule {
     /**
      * Checks if auto harvest collect this crop.
      *
-     * @param material
-     * @return
+     * @param material of crop
+     * @return is crop can harvestable
      */
     public static boolean checkCrop(XMaterial material) {
         return getInstance().getCrops().stream().anyMatch(crop -> material.equals(XMaterial.valueOf(crop)));

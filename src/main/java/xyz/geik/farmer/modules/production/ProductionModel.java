@@ -19,25 +19,33 @@ import xyz.geik.farmer.model.Farmer;
 @Setter
 public class ProductionModel {
 
-    // Result of generation handle data in minutes
-    // lastInput is the last input of the farmer collection
+    /**
+     * Result of generation handle data in minutes
+     * lastInput is the last input of the farmer collection
+     */
     private int result, lastInput;
 
-    // regionId is the region id of the farmer
+    /**
+     * regionId is the region id of the farmer
+     */
     private String regionId;
 
-    // material is the material of the item
+    /**
+     * material is the material of the item
+     */
     private XMaterial material;
 
-    // isCalculating is the boolean to check if the calculation is done or not
+    /**
+     * isCalculating is the boolean to check if the calculation is done or not
+     */
     private boolean isCalculating;
 
     /**
      * AverageProduction constructor
      *
-     * @param farmer
-     * @param material
-     * @param gui
+     * @param farmer of production
+     * @param material to calculate
+     * @param gui of farmer
      */
     public ProductionModel(@NotNull Farmer farmer, XMaterial material, InventoryGui gui) {
         // It will clear when x time passed
@@ -102,8 +110,8 @@ public class ProductionModel {
     /**
      * Format the number
      *
-     * @param iteration
-     * @return
+     * @param iteration integer
+     * @return String of format
      */
     @Contract(pure = true)
     private static @NotNull String coolFormat(int iteration) {
@@ -113,13 +121,13 @@ public class ProductionModel {
     /**
      * Format the number with iteration
      *
-     * @param n
-     * @param iteration
-     * @return
+     * @param n double
+     * @param iteration integer
+     * @return String of format
      */
     @Contract(pure = true)
     private static @NotNull String coolFormat(double n, int iteration) {
-        double d = ((long) n / 100) / 10.0;
+        double d = ((double) (long) n / 100) / 10.0;
         boolean isRound = (d * 10) %10 == 0;//true if the decimal part is equal to 0 (then it's trimmed anyway)
         //this determines the class, i.e. 'k', 'm' etc
         //this decides whether to trim the decimals

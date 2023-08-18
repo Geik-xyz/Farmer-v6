@@ -20,13 +20,13 @@ public class FarmerItemSellEvent extends Event {
      * Farmer object which contains the FarmerItem
      * @see Farmer
      */
-    private Farmer farmer;
+    private final Farmer farmer;
 
     /**
      * FarmerItem object which is sold
      * @see FarmerItem
      */
-    private FarmerItem farmerItem;
+    private final FarmerItem farmerItem;
 
     /**
      * OfflinePlayer object which is the seller
@@ -49,20 +49,8 @@ public class FarmerItemSellEvent extends Event {
 
     /**
      * Spigot handlers requirements
-     *
-     * @return
+     * @see HandlerList
      */
-    private static final HandlerList HANDLERS = new HandlerList();
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLERS;
-    }
-
-    /**
-     * @return HandlerList
-     */
-    public static HandlerList getHandlerList() {
-        return HANDLERS;
-    }
+    @Getter
+    private static final HandlerList handlers = new HandlerList();
 }

@@ -14,6 +14,7 @@ import xyz.geik.farmer.model.user.FarmerPerm;
  * When someone buys farmer this event triggers to add user to farmer and adds farmer to cache
  */
 public class BuyFarmerEvent implements Listener {
+
     /**
      * Farmer bought event contains;
      * <ul>

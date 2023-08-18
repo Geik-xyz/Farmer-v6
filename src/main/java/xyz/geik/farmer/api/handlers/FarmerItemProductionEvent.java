@@ -17,7 +17,7 @@ public class FarmerItemProductionEvent extends Event {
      * Farmer object of event
      * @see Farmer
      */
-    private Farmer farmer;
+    private final Farmer farmer;
 
     /**
      * FarmerItemProductionEvent constructor
@@ -30,20 +30,8 @@ public class FarmerItemProductionEvent extends Event {
 
     /**
      * Spigot handlers requirements
-     *
-     * @return
+     * @see HandlerList
      */
-    private static final HandlerList HANDLERS = new HandlerList();
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLERS;
-    }
-
-    /**
-     * @return HandlerList
-     */
-    public static HandlerList getHandlerList() {
-        return HANDLERS;
-    }
+    @Getter
+    private static final HandlerList handlers = new HandlerList();
 }

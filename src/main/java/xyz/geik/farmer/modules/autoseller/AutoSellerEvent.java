@@ -8,7 +8,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
 import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
@@ -23,7 +22,7 @@ public class AutoSellerEvent implements Listener {
     /**
      * Automatically sells stocked item when farmer storage is full
      *
-     * @param event
+     * @param event of storage full event
      */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onAutoSellerEvent(@NotNull FarmerStorageFullEvent event) {
