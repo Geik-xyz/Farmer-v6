@@ -91,9 +91,15 @@ public class ItemEvent implements Listener {
 
         // Checks item dropped in region of a player
         // And checks region owner has a farmer
-        String regionID = Main.getIntegration().getRegionID(e.getLocation());
-        if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
+        final String regionID;
+        try {
+            regionID = Main.getIntegration().getRegionID(e.getLocation());
+            if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
+                return;
+        }
+        catch (NullPointerException ex) {
             return;
+        }
 
         // Checks farmer in collection state
         Farmer farmer = FarmerManager.getFarmers().get(regionID);
