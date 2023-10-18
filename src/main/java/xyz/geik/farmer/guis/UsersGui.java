@@ -1,6 +1,7 @@
 package xyz.geik.farmer.guis;
 
 import de.themoep.inventorygui.*;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -38,7 +39,7 @@ public class UsersGui {
         // Gui interface array
         String[] userGui = Main.getLangFile().getStringList("usersGui.interface").toArray(new String[0]);
         // Inventory object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("usersGui.guiName"), userGui);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, Main.getLangFile().getText("usersGui.guiName")), userGui);
         // Filler fills empty slots
         gui.setFiller(GuiHelper.getFiller());
         // Help icon show basic information about gui

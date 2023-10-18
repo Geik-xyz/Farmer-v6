@@ -3,6 +3,7 @@ package xyz.geik.farmer.guis;
 import de.themoep.inventorygui.DynamicGuiElement;
 import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
@@ -31,7 +32,7 @@ public class ManageGui {
         // Gui interface array
         String[] guiSetup = Main.getLangFile().getStringList("manageGui.interface").toArray(new String[0]);
         // Inventory object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("manageGui.guiName"), guiSetup);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, Main.getLangFile().getText("manageGui.guiName")), guiSetup);
         // Filler for empty slots
         gui.setFiller(GuiHelper.getFiller());
         // Change state of Farmer Icon
@@ -75,11 +76,11 @@ public class ManageGui {
                     if (!(FarmerLevel.getAllLevels().size()-1 < nextLevelIndex)) {
                         FarmerLevel nextLevel = FarmerLevel.getAllLevels()
                                 .get(nextLevelIndex);
-                        if (Main.getEcon().getBalance(player) >= nextLevel.getReqMoney()) {
+                        if (Main.getEconomyIntegrations().getBalance(player) >= nextLevel.getReqMoney()) {
                             if (nextLevel.getPerm() != null && !player.hasPermission(nextLevel.getPerm()))
                                 player.sendMessage(Main.getLangFile().getText("noPerm"));
                             else {
-                                Main.getEcon().withdrawPlayer(player, nextLevel.getReqMoney());
+                                Main.getEconomyIntegrations().withdrawPlayer(player, nextLevel.getReqMoney());
                                 farmer.setLevel(nextLevel);
                                 farmer.getInv().setCapacity(nextLevel.getCapacity());
                                 player.sendMessage(Main.getLangFile().getText("levelUpgraded")

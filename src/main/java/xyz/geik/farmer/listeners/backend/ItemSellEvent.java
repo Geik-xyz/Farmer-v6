@@ -1,5 +1,6 @@
 package xyz.geik.farmer.listeners.backend;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -44,9 +45,8 @@ public class ItemSellEvent implements Listener {
         // defined player then it will deposit it
         // to player.
         if (Settings.depositTax)
-            Main.getEcon()
-                    .depositPlayer(Settings.taxUser, tax);
-        Main.getEcon().depositPlayer(event.getOfflinePlayer(), profit);
+            Main.getEconomyIntegrations().depositPlayer(Bukkit.getOfflinePlayer(Settings.taxUser), tax);
+        Main.getEconomyIntegrations().depositPlayer(event.getOfflinePlayer(), profit);
         slotItem.setAmount(0);
         if (event.getOfflinePlayer().isOnline())
             event.getOfflinePlayer().getPlayer().sendMessage(Main.getLangFile().getText("sellComplete")

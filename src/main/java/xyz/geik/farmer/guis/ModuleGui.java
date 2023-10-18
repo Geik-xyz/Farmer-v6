@@ -1,6 +1,7 @@
 package xyz.geik.farmer.guis;
 
 import de.themoep.inventorygui.InventoryGui;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerModuleGuiCreateEvent;
@@ -29,7 +30,7 @@ public class ModuleGui {
         // Gui template as array
         String[] moduleGui = Main.getLangFile().getStringList("moduleGui.interface").toArray(new String[0]);
         // Inventory object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("moduleGui.guiName"), moduleGui);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, Main.getLangFile().getText("moduleGui.guiName")), moduleGui);
         // Filler item for empty slots
         gui.setFiller(GuiHelper.getFiller());
         // Addons placer

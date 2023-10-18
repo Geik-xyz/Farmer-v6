@@ -2,6 +2,7 @@ package xyz.geik.farmer.guis;
 
 import com.cryptomorin.xseries.XMaterial;
 import de.themoep.inventorygui.*;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -41,7 +42,7 @@ public class MainGui {
         // Array of gui interface
         String[] guiSetup = Main.getLangFile().getStringList("Gui.interface").toArray(new String[0]);
         // Gui object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("Gui.guiName"), guiSetup);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, Main.getLangFile().getText("Gui.guiName")), guiSetup);
         // Fills empty spaces on  gui
         gui.setFiller(GuiHelper.getFiller());
         // Manage Icon element

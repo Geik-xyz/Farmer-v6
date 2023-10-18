@@ -2,11 +2,10 @@ package xyz.geik.farmer;
 
 import de.leonhard.storage.Config;
 import lombok.Getter;
+import lombok.Setter;
 import net.md_5.bungee.api.ChatColor;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.api.FarmerAPI;
@@ -18,7 +17,9 @@ import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
 import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
+import xyz.geik.farmer.integrations.EconomyIntegrations;
 import xyz.geik.farmer.integrations.Integrations;
+import xyz.geik.farmer.integrations.placeholderapi.PlaceholderAPI;
 import xyz.geik.farmer.listeners.ListenerRegister;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.FarmerModule;
@@ -51,6 +52,10 @@ public class Main extends JavaPlugin {
      */
     @Getter
     private SQL sql;
+
+    @Getter
+    @Setter
+    private PlaceholderAPI placeholderAPI;
 
     /**
      * Instance of this class
@@ -90,11 +95,10 @@ public class Main extends JavaPlugin {
     private static Integrations integration;
 
     /**
-     * Economy hookup it's initialing down below.
-     * #setupEconomy
+     * Economy integration of plugin integrations#EconomyIntegrations
      */
     @Getter
-    private static Economy econ = null;
+    private static EconomyIntegrations economyIntegrations;
 
     /**
      * Constructor of class
@@ -123,13 +127,13 @@ public class Main extends JavaPlugin {
         FarmerAPI.getModuleManager();
         FarmerAPI.getStorageManager();
         FarmerAPI.getDatabaseManager();
-        setupEconomy();
         Settings.regenSettings();
         new ItemsLoader();
         FarmerLevel.loadLevels();
         getCommand("farmer").setExecutor(new Commands());
         getCommand("farmer").setTabCompleter(new FarmerTabComplete());
         Integrations.registerIntegrations();
+        EconomyIntegrations.registerIntegrations();
         sendEnableMessage();
         setDatabaseManager();
         this.sql.loadAllFarmers();
@@ -146,6 +150,7 @@ public class Main extends JavaPlugin {
      */
     public void onDisable() {
         this.sql.updateAllFarmers();
+        this.placeholderAPI.unregister();
     }
 
     /**
@@ -155,6 +160,15 @@ public class Main extends JavaPlugin {
      */
     public static void setIntegration(Integrations data) {
         integration = data;
+    }
+
+    /**
+     * Economy integration setter
+     *
+     * @param data data of economy integration
+     */
+    public static void setEconomyIntegrations(EconomyIntegrations data) {
+        economyIntegrations = data;
     }
 
     /**
@@ -173,18 +187,6 @@ public class Main extends JavaPlugin {
             }
         }
         return ChatColor.translateAlternateColorCodes('&', text);
-    }
-
-    /**
-     * Setup economy by Vault.
-     */
-    private void setupEconomy() {
-        if (Main.instance.getServer().getPluginManager().getPlugin("Vault") == null)
-            return;
-        RegisteredServiceProvider<Economy> rsp = Main.instance.getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null)
-            return;
-        econ = rsp.getProvider();
     }
 
     /**

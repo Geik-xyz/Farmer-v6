@@ -1,33 +1,39 @@
-package xyz.geik.farmer.integrations.townyadvanced;
+package xyz.geik.farmer.integrations.lands;
 
-import com.palmergames.bukkit.towny.TownyAPI;
+import me.angeschossen.lands.api.LandsIntegration;
 import org.bukkit.Location;
+import xyz.geik.farmer.Main;
 import xyz.geik.farmer.integrations.Integrations;
 
 import java.util.UUID;
 
 /**
- * TownyAdvanced integration class
+ * Lands integration class
  *
  * @author Amowny
- * @since v6-b001
+ * @since v6-b003
  */
-public class TownyAdvanced extends Integrations {
+public class Lands extends Integrations {
 
     /**
      * Integrations#super calls here
      * Constructor for abstract class
      */
-    public TownyAdvanced() {
-        super(new TownyListener());
+    public Lands() {
+        super(new LandsListener());
     }
+
+    /**
+     * Lands API
+     */
+    LandsIntegration api = LandsIntegration.of(Main.getInstance());
 
     /**
      * Getting Owner UUID by Region ID
      */
     @Override
     public UUID getOwnerUUID(String regionID) {
-        return TownyAPI.getInstance().getTown(UUID.fromString(regionID)).getMayor().getUUID();
+        return api.getLandByName(regionID).getOwnerUID();
     }
 
     /**
@@ -35,7 +41,7 @@ public class TownyAdvanced extends Integrations {
      */
     @Override
     public UUID getOwnerUUID(Location location) {
-        return TownyAPI.getInstance().getTown(location).getMayor().getUUID();
+        return api.getArea(location).getLand().getOwnerUID();
     }
 
     /**
@@ -43,8 +49,6 @@ public class TownyAdvanced extends Integrations {
      */
     @Override
     public String getRegionID(Location location) {
-        if (TownyAPI.getInstance().getTown(location) == null)
-            return null;
-        return TownyAPI.getInstance().getTown(location).getUUID().toString();
+        return UUID.fromString(api.getArea(location).getLand().getName()).toString();
     }
 }

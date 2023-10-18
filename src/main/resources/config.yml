@@ -12,6 +12,8 @@ settings:
   defaultMaxFarmerUser: 3
   # language from lang file
   lang: en
+  # economy plugin
+  economy: auto # auto or vault, royaleconomy, playerpoints, gringotts, elementalgems
   # farmer ignore collecting if item dropped by player
   ignorePlayerDrop: false
   # Allowed worlds
@@ -21,8 +23,6 @@ settings:
     - SuperiorWorld
     - bskyblock_world
     - island_normal_world
-  # This need because bentobox api is not working properly
-  bentoboxWorld: ASkyBlock
 
 # Tax rate
 # If you set it 0 then it useless

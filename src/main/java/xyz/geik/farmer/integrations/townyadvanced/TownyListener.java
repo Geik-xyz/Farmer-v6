@@ -58,7 +58,7 @@ public class TownyListener implements Listener {
     /**
      * Transfers farmer when town transfer
      *
-     * @param e transfer island event
+     * @param e transfer town event
      */
     @EventHandler
     public void transferTown(@NotNull TownMayorChangeEvent e) {
