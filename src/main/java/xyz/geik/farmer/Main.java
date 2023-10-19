@@ -92,12 +92,14 @@ public class Main extends JavaPlugin {
      * Main integration of plugin integrations#Integrations
      */
     @Getter
+    @Setter
     private static Integrations integration;
 
     /**
      * Economy integration of plugin integrations#EconomyIntegrations
      */
     @Getter
+    @Setter
     private static EconomyIntegrations economyIntegrations;
 
     /**
@@ -151,24 +153,6 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         this.sql.updateAllFarmers();
         this.placeholderAPI.unregister();
-    }
-
-    /**
-     * Integration setter
-     *
-     * @param data data of integration
-     */
-    public static void setIntegration(Integrations data) {
-        integration = data;
-    }
-
-    /**
-     * Economy integration setter
-     *
-     * @param data data of economy integration
-     */
-    public static void setEconomyIntegrations(EconomyIntegrations data) {
-        economyIntegrations = data;
     }
 
     /**
