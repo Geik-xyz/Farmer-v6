@@ -1,10 +1,10 @@
-package xyz.geik.farmer.integrations.economy;
+package xyz.geik.farmer.helpers.economy;
 
 import me.qKing12.RoyaleEconomy.API.APIHandler;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.integrations.EconomyIntegrations;
+import xyz.geik.farmer.helpers.EconomyManager;
 
 /**
  * RoyaleEconomy economy integration class
@@ -12,7 +12,7 @@ import xyz.geik.farmer.integrations.EconomyIntegrations;
  * @author Amowny
  * @since v6-b003
  */
-public class RoyaleEconomy extends EconomyIntegrations {
+public class RoyaleEconomy extends EconomyManager {
 
     private APIHandler economy = null;
 

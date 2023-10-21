@@ -17,7 +17,8 @@ import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
 import xyz.geik.farmer.helpers.ItemsLoader;
 import xyz.geik.farmer.helpers.Settings;
-import xyz.geik.farmer.integrations.EconomyIntegrations;
+import xyz.geik.farmer.helpers.EconomyManager;
+import xyz.geik.farmer.helpers.economy.*;
 import xyz.geik.farmer.integrations.Integrations;
 import xyz.geik.farmer.integrations.placeholderapi.PlaceholderAPI;
 import xyz.geik.farmer.listeners.ListenerRegister;
@@ -100,7 +101,7 @@ public class Main extends JavaPlugin {
      */
     @Getter
     @Setter
-    private static EconomyIntegrations economyIntegrations;
+    private static Economy economyIntegrations;
 
     /**
      * Constructor of class
@@ -135,7 +136,7 @@ public class Main extends JavaPlugin {
         getCommand("farmer").setExecutor(new Commands());
         getCommand("farmer").setTabCompleter(new FarmerTabComplete());
         Integrations.registerIntegrations();
-        EconomyIntegrations.registerIntegrations();
+        registerIntegrations();
         sendEnableMessage();
         setDatabaseManager();
         this.sql.loadAllFarmers();
@@ -219,5 +220,24 @@ public class Main extends JavaPlugin {
         FarmerAPI.getModuleManager().registerModule(new AutoSeller());
         FarmerAPI.getModuleManager().registerModule(new SpawnerKiller());
         FarmerAPI.getModuleManager().loadModules();
+    }
+
+    /**
+     * Catches plugin that server uses
+     * and loads integration class of it.
+     */
+    public static void registerIntegrations() {
+        if (Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("vault") || Bukkit.getPluginManager().isPluginEnabled("Vault") && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
+            Main.setEconomyIntegrations(new Vault(Main.getInstance()));
+        else if (Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("royaleeconomy") || Bukkit.getPluginManager().isPluginEnabled("RoyaleEconomy") && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
+            Main.setEconomyIntegrations(new RoyaleEconomy(Main.getInstance()));
+        else if (Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("playerpoints") || Bukkit.getPluginManager().isPluginEnabled("PlayerPoints") && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
+            Main.setEconomyIntegrations(new PlayerPoints(Main.getInstance()));
+        else if (Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("gringotts") || Bukkit.getPluginManager().isPluginEnabled("GrinGotts") && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
+            Main.setEconomyIntegrations(new GrinGotts(Main.getInstance()));
+        else if(Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("elementalgems")
+                || Bukkit.getPluginManager().isPluginEnabled("ElementalGems")
+                && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
+            Main.setEconomyIntegrations(new ElementalGems());
     }
 }

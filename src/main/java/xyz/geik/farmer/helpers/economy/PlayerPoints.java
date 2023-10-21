@@ -1,36 +1,35 @@
-package xyz.geik.farmer.integrations.economy;
+package xyz.geik.farmer.helpers.economy;
 
+import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.gestern.gringotts.Gringotts;
-import org.gestern.gringotts.api.Eco;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.integrations.EconomyIntegrations;
+import xyz.geik.farmer.helpers.EconomyManager;
 
 /**
- * GrinGotts economy integration class
+ * PlayerPoints economy integration class
  *
  * @author Amowny
  * @since v6-b003
  */
-public class GrinGotts extends EconomyIntegrations {
+public class PlayerPoints extends EconomyManager {
 
-    private Eco economy = null;
+    private PlayerPointsAPI economy = null;
 
     /**
      * Constructor register event of super class
      * @param plugin
      */
-    public GrinGotts(Main plugin) {
+    public PlayerPoints(Main plugin) {
         super(plugin);
         setupEconomy();
     }
 
     private boolean setupEconomy() {
-        if (!Bukkit.getPluginManager().isPluginEnabled("GrinGotts"))
+        if (!Bukkit.getPluginManager().isPluginEnabled("PlayerPoints"))
             return false;
-        this.economy = Gringotts.instance.getEco();
+        this.economy = org.black_ixx.playerpoints.PlayerPoints.getInstance().getAPI();
         return (this.economy != null);
     }
 
@@ -43,7 +42,7 @@ public class GrinGotts extends EconomyIntegrations {
     @Override
     public double withdrawPlayer(Player player, int price) {
         if (this.economy != null) {
-            this.economy.player(player.getUniqueId()).withdraw(price);
+            this.economy.take(player.getUniqueId(), price);
         }
         return price;
     }
@@ -57,7 +56,7 @@ public class GrinGotts extends EconomyIntegrations {
     @Override
     public double withdrawPlayer(Player player, long price) {
         if (this.economy != null) {
-            this.economy.player(player.getUniqueId()).withdraw(price);
+            this.economy.take(player.getUniqueId(), (int) price);
         }
         return price;
     }
@@ -71,7 +70,7 @@ public class GrinGotts extends EconomyIntegrations {
     @Override
     public double depositPlayer(Player player, int price) {
         if (this.economy != null) {
-            this.economy.player(player.getUniqueId()).deposit(price);
+            this.economy.give(player.getUniqueId(), price);
         }
         return price;
     }
@@ -85,7 +84,7 @@ public class GrinGotts extends EconomyIntegrations {
     @Override
     public double depositPlayer(OfflinePlayer offlinePlayer, int price) {
         if (this.economy != null) {
-            this.economy.player(offlinePlayer.getUniqueId()).deposit(price);
+            this.economy.give(offlinePlayer.getUniqueId(), price);
         }
         return price;
     }
@@ -99,7 +98,7 @@ public class GrinGotts extends EconomyIntegrations {
     @Override
     public double depositPlayer(Player player, double price) {
         if (this.economy != null) {
-            this.economy.player(player.getUniqueId()).deposit(price);
+            this.economy.give(player.getUniqueId(), (int) price);
         }
         return price;
     }
@@ -113,7 +112,7 @@ public class GrinGotts extends EconomyIntegrations {
     @Override
     public double depositPlayer(OfflinePlayer offlinePlayer, double price) {
         if (this.economy != null) {
-            this.economy.player(offlinePlayer.getUniqueId()).deposit(price);
+            this.economy.give(offlinePlayer.getUniqueId(), (int) price);
         }
         return price;
     }
@@ -126,7 +125,7 @@ public class GrinGotts extends EconomyIntegrations {
     @Override
     public double getBalance(Player player) {
         if (this.economy != null) {
-            return this.economy.player(player.getUniqueId()).balance();
+            return this.economy.look(player.getUniqueId());
         }
         return 0;
     }

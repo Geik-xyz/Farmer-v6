@@ -1,11 +1,11 @@
-package xyz.geik.farmer.integrations.economy;
+package xyz.geik.farmer.helpers.economy;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.integrations.EconomyIntegrations;
+import xyz.geik.farmer.helpers.EconomyManager;
 
 /**
  * Vault economy integration class
@@ -13,7 +13,7 @@ import xyz.geik.farmer.integrations.EconomyIntegrations;
  * @author geik
  * @since b000
  */
-public class Vault extends EconomyIntegrations {
+public class Vault extends EconomyManager {
 
     private Economy economy = null;
 
