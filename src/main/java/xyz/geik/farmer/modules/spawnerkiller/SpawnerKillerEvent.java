@@ -1,6 +1,9 @@
 package xyz.geik.farmer.modules.spawnerkiller;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
+import mc.rellox.spawnermeta.SpawnerMeta;
+import mc.rellox.spawnermeta.api.APIInstance;
+import mc.rellox.spawnermeta.api.events.SpawnerPostSpawnEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
@@ -29,7 +32,9 @@ public class SpawnerKillerEvent implements Listener {
     /**
      * Constructor of class
      */
-    public SpawnerKillerEvent() {}
+    public SpawnerKillerEvent() {
+        spawnerMeta();
+    }
 
     /**
      * Cancel spawn event if the entity is a jockey or mounted
@@ -98,6 +103,60 @@ public class SpawnerKillerEvent implements Listener {
         }
         catch (Exception ignored) {}
 
+    }
+
+    public static void spawnerMeta() {
+        if (Bukkit.getPluginManager().getPlugin("SpawnerMeta") == null)
+            return;
+
+        SpawnerMeta sm = (SpawnerMeta) Bukkit.getPluginManager().getPlugin("SpawnerMeta");
+
+        APIInstance api = sm.getAPI();
+
+        api.register(SpawnerPostSpawnEvent.class, e -> {
+            try {
+                if (SpawnerKiller.getInstance().isRequireFarmer()) {
+                    if (!FarmerAPI.getFarmerManager().hasFarmer(e.getSpawner().center()))
+                        return;
+                    Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(e.getSpawner().center()));
+                    if (!farmer.getAttributeStatus("spawnerkiller"))
+                        return;
+                }
+
+                Entity entity = e.entities.get(0);
+
+                if (entity instanceof Damageable) {
+                    EntityType entityType = e.getSpawner().getType().entity();
+                    if (!SpawnerKiller.getInstance().getWhitelist().isEmpty()
+                            && !SpawnerKiller.getInstance().getWhitelist().contains(entityType.toString()))
+                        return;
+                    if (!SpawnerKiller.getInstance().getBlacklist().isEmpty()
+                            && SpawnerKiller.getInstance().getBlacklist().contains(entityType.toString()))
+                        return;
+
+                    if (SpawnerKiller.getInstance().isCookFoods())
+                        entity.setFireTicks(20);
+
+                    if (Bukkit.getPluginManager().getPlugin("WildStacker") != null) {
+                        if (!entityType.equals(EntityType.BLAZE)) {
+                            List<ItemStack> items = WildStackerAPI.getStackedEntity((LivingEntity) e.entities.get(0))
+                                    .getDrops(0);
+                            for (ItemStack item : items)
+                                e.entities.get(0).getWorld().dropItemNaturally(e.getSpawner().center(), item);
+                        }
+                        killCalculator(entity, WildStackerAPI.getStackedEntity((LivingEntity) e.entities.get(0)).getStackAmount());
+                        WildStackerAPI.getStackedEntity((LivingEntity) e.entities.get(0)).remove();
+                        e.getSpawner().setDelay(-1);
+                        return;
+                    }
+                    ((Damageable) entity).damage(1000.0);
+                    if (SpawnerKiller.getInstance().isRemoveMob())
+                        entity.remove();
+                    killCalculator(entity, 1);
+                }
+            }
+            catch (Exception ignored) {}
+        });
     }
 
     /**

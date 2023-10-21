@@ -126,6 +126,13 @@
             <version>2022.6</version>
             <scope>provided</scope>
         </dependency>
+        <!-- SpawnerMeta -->
+        <dependency>
+            <groupId>com.github.OfficialRell</groupId>
+            <artifactId>SpawnerMeta</artifactId>
+            <version>21.8</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- HikariCP -->
         <dependency>
             <groupId>com.zaxxer</groupId>
