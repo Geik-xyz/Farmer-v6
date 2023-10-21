@@ -2,10 +2,8 @@ package xyz.geik.farmer.helpers.economy;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.EconomyManager;
 
 /**
  * Vault economy integration class
@@ -13,16 +11,14 @@ import xyz.geik.farmer.helpers.EconomyManager;
  * @author geik
  * @since b000
  */
-public class Vault extends EconomyManager {
+public class Vault implements xyz.geik.farmer.helpers.economy.Economy {
 
     private Economy economy = null;
 
     /**
      * Constructor register event of super class
-     * @param plugin
      */
-    public Vault(Main plugin) {
-        super(plugin);
+    public Vault() {
         setupEconomy();
     }
 
@@ -44,23 +40,9 @@ public class Vault extends EconomyManager {
      * @return price
      */
     @Override
-    public double withdrawPlayer(Player player, int price) {
+    public double withdrawPlayer(OfflinePlayer player, long price) {
         if (this.economy != null) {
-            return this.economy.withdrawPlayer(player, price).amount;
-        }
-        return price;
-    }
-
-    /**
-     * Withdraw player balance
-     * @param player
-     * @param price
-     * @return price
-     */
-    @Override
-    public double withdrawPlayer(Player player, long price) {
-        if (this.economy != null) {
-            return this.economy.withdrawPlayer(player, price).amount;
+            this.economy.withdrawPlayer(player, price);
         }
         return price;
     }
@@ -72,51 +54,9 @@ public class Vault extends EconomyManager {
      * @return price
      */
     @Override
-    public double depositPlayer(Player player, int price) {
+    public double depositPlayer(OfflinePlayer player, double price) {
         if (this.economy != null) {
-            return this.economy.depositPlayer(player, price).amount;
-        }
-        return price;
-    }
-
-    /**
-     * Deposit player balance
-     * @param offlinePlayer
-     * @param price
-     * @return price
-     */
-    @Override
-    public double depositPlayer(OfflinePlayer offlinePlayer, int price) {
-        if (this.economy != null) {
-            return this.economy.depositPlayer(offlinePlayer, price).amount;
-        }
-        return price;
-    }
-
-    /**
-     * Deposit player balance
-     * @param player
-     * @param price
-     * @return price
-     */
-    @Override
-    public double depositPlayer(Player player, double price) {
-        if (this.economy != null) {
-            return this.economy.depositPlayer(player, price).amount;
-        }
-        return price;
-    }
-
-    /**
-     * Deposit player balance
-     * @param offlinePlayer
-     * @param price
-     * @return price
-     */
-    @Override
-    public double depositPlayer(OfflinePlayer offlinePlayer, double price) {
-        if (this.economy != null) {
-            return this.economy.depositPlayer(offlinePlayer, price).amount;
+            this.economy.depositPlayer(player, price);
         }
         return price;
     }
@@ -126,10 +66,9 @@ public class Vault extends EconomyManager {
      * @param player
      * @return player balance
      */
-    @Override
-    public double getBalance(Player player) {
+    public double getBalance(OfflinePlayer player) {
         if (this.economy != null) {
-            return this.economy.getBalance(player);
+            this.economy.getBalance(player);
         }
         return 0;
     }

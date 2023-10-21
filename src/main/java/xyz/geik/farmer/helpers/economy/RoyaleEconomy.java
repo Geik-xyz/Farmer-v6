@@ -4,7 +4,6 @@ import me.qKing12.RoyaleEconomy.API.APIHandler;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.EconomyManager;
 
 /**
  * RoyaleEconomy economy integration class
@@ -12,21 +11,19 @@ import xyz.geik.farmer.helpers.EconomyManager;
  * @author Amowny
  * @since v6-b003
  */
-public class RoyaleEconomy extends EconomyManager {
+public class RoyaleEconomy implements Economy {
 
     private APIHandler economy = null;
 
     /**
      * Constructor register event of super class
-     * @param plugin
      */
-    public RoyaleEconomy(Main plugin) {
-        super(plugin);
+    public RoyaleEconomy() {
         setupEconomy();
     }
 
     private boolean setupEconomy() {
-        if (plugin.getServer().getPluginManager().getPlugin("RoyaleEconomy") == null) {
+        if (Main.getInstance().getServer().getPluginManager().getPlugin("RoyaleEconomy") == null) {
             return false;
         }
         economy = me.qKing12.RoyaleEconomy.RoyaleEconomy.apiHandler;
@@ -40,23 +37,9 @@ public class RoyaleEconomy extends EconomyManager {
      * @return price
      */
     @Override
-    public double withdrawPlayer(Player player, int price) {
-        if (economy != null) {
-            this.economy.balance.removeBalance(player.getUniqueId().toString(), price);
-        }
-        return price;
-    }
-
-    /**
-     * Withdraw player balance
-     * @param player
-     * @param price
-     * @return price
-     */
-    @Override
-    public double withdrawPlayer(Player player, long price) {
-        if (economy != null) {
-            this.economy.balance.removeBalance(player.getUniqueId().toString(), price);
+    public double withdrawPlayer(OfflinePlayer player, long price) {
+        if (this.economy != null) {
+            this.economy.balance.removeBankBalance(player.getUniqueId() + "", price);
         }
         return price;
     }
@@ -68,51 +51,9 @@ public class RoyaleEconomy extends EconomyManager {
      * @return price
      */
     @Override
-    public double depositPlayer(Player player, int price) {
-        if (economy != null) {
-            this.economy.balance.addBalance(player.getUniqueId().toString(), price);
-        }
-        return price;
-    }
-
-    /**
-     * Deposit player balance
-     * @param offlinePlayer
-     * @param price
-     * @return price
-     */
-    @Override
-    public double depositPlayer(OfflinePlayer offlinePlayer, int price) {
-        if (economy != null) {
-            this.economy.balance.addBalance(offlinePlayer.getUniqueId().toString(), price);
-        }
-        return price;
-    }
-
-    /**
-     * Deposit player balance
-     * @param player
-     * @param price
-     * @return price
-     */
-    @Override
-    public double depositPlayer(Player player, double price) {
-        if (economy != null) {
-            this.economy.balance.addBalance(player.getUniqueId().toString(), price);
-        }
-        return price;
-    }
-
-    /**
-     * Deposit player balance
-     * @param offlinePlayer
-     * @param price
-     * @return price
-     */
-    @Override
-    public double depositPlayer(OfflinePlayer offlinePlayer, double price) {
-        if (economy != null) {
-            this.economy.balance.addBalance(offlinePlayer.getUniqueId().toString(), price);
+    public double depositPlayer(OfflinePlayer player, double price) {
+        if (this.economy != null) {
+            this.economy.balance.addBankBalance(player.getUniqueId() + "", price);
         }
         return price;
     }
@@ -122,10 +63,9 @@ public class RoyaleEconomy extends EconomyManager {
      * @param player
      * @return player balance
      */
-    @Override
-    public double getBalance(Player player) {
-        if (economy != null) {
-            return this.economy.balance.getBalance(player.getUniqueId().toString());
+    public double getBalance(OfflinePlayer player) {
+        if (this.economy != null) {
+            this.economy.balance.getBankBalance(player.getUniqueId() + "");
         }
         return 0;
     }

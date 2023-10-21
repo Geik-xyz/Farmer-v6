@@ -3,9 +3,6 @@ package xyz.geik.farmer.helpers.economy;
 import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.EconomyManager;
 
 /**
  * PlayerPoints economy integration class
@@ -13,16 +10,14 @@ import xyz.geik.farmer.helpers.EconomyManager;
  * @author Amowny
  * @since v6-b003
  */
-public class PlayerPoints extends EconomyManager {
+public class PlayerPoints implements Economy {
 
     private PlayerPointsAPI economy = null;
 
     /**
      * Constructor register event of super class
-     * @param plugin
      */
-    public PlayerPoints(Main plugin) {
-        super(plugin);
+    public PlayerPoints() {
         setupEconomy();
     }
 
@@ -40,21 +35,7 @@ public class PlayerPoints extends EconomyManager {
      * @return price
      */
     @Override
-    public double withdrawPlayer(Player player, int price) {
-        if (this.economy != null) {
-            this.economy.take(player.getUniqueId(), price);
-        }
-        return price;
-    }
-
-    /**
-     * Withdraw player balance
-     * @param player
-     * @param price
-     * @return price
-     */
-    @Override
-    public double withdrawPlayer(Player player, long price) {
+    public double withdrawPlayer(OfflinePlayer player, long price) {
         if (this.economy != null) {
             this.economy.take(player.getUniqueId(), (int) price);
         }
@@ -68,51 +49,9 @@ public class PlayerPoints extends EconomyManager {
      * @return price
      */
     @Override
-    public double depositPlayer(Player player, int price) {
-        if (this.economy != null) {
-            this.economy.give(player.getUniqueId(), price);
-        }
-        return price;
-    }
-
-    /**
-     * Deposit player balance
-     * @param offlinePlayer
-     * @param price
-     * @return price
-     */
-    @Override
-    public double depositPlayer(OfflinePlayer offlinePlayer, int price) {
-        if (this.economy != null) {
-            this.economy.give(offlinePlayer.getUniqueId(), price);
-        }
-        return price;
-    }
-
-    /**
-     * Deposit player balance
-     * @param player
-     * @param price
-     * @return price
-     */
-    @Override
-    public double depositPlayer(Player player, double price) {
+    public double depositPlayer(OfflinePlayer player, double price) {
         if (this.economy != null) {
             this.economy.give(player.getUniqueId(), (int) price);
-        }
-        return price;
-    }
-
-    /**
-     * Deposit player balance
-     * @param offlinePlayer
-     * @param price
-     * @return price
-     */
-    @Override
-    public double depositPlayer(OfflinePlayer offlinePlayer, double price) {
-        if (this.economy != null) {
-            this.economy.give(offlinePlayer.getUniqueId(), (int) price);
         }
         return price;
     }
@@ -122,10 +61,9 @@ public class PlayerPoints extends EconomyManager {
      * @param player
      * @return player balance
      */
-    @Override
-    public double getBalance(Player player) {
+    public double getBalance(OfflinePlayer player) {
         if (this.economy != null) {
-            return this.economy.look(player.getUniqueId());
+            this.economy.look(player.getUniqueId());
         }
         return 0;
     }
