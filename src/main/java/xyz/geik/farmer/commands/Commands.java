@@ -144,14 +144,15 @@ public class Commands implements CommandExecutor {
      */
     private void aboutCommand(@NotNull CommandSender player) {
         player.sendMessage(Main.color("&7&m----------------------------------------"));
-        player.sendMessage(Main.color("#FFA500          FARMER &7- &6v" + Main.getInstance().getDescription().getVersion()));
+        player.sendMessage(Main.color("#FFA500          FARMER &7- &6" + Main.getInstance().getDescription().getVersion()));
         player.sendMessage(Main.color("#3CB371Author: #90EE90Geik"));
         player.sendMessage(Main.color("#FF7F50Contributors: #FFA07A" + Arrays.toString(Main.getInstance().getDescription().getAuthors().toArray())));
         player.sendMessage(Main.color("#7289DADiscord: &7&ohttps://discord.geik.xyz"));
         player.sendMessage(Main.color("#FFD700Website: &7&ohttps://geik.xyz"));
         player.sendMessage(Main.color("&7&m----------------------------------------"));
         player.sendMessage(Main.color("&aAPI: &7" + Main.getIntegration().getClass().getName()));
-        player.sendMessage(Main.color("&aActive Farmer: &7" + FarmerManager.getFarmers().size() ));
+        player.sendMessage(Main.color("&aEconomy API: &7" + Main.getEconomyIntegrations().getClass().getName()));
+        player.sendMessage(Main.color("&aActive Farmer: &7" + FarmerManager.getFarmers().size()));
         player.sendMessage(Main.color("&7&m----------------------------------------"));
     }
 

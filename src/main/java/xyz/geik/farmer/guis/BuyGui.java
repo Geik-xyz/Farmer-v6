@@ -3,6 +3,7 @@ package xyz.geik.farmer.guis;
 import com.cryptomorin.xseries.XSound;
 import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.Settings;
@@ -27,7 +28,7 @@ public class BuyGui {
         // Gui template as array
         String[] buyGui = Main.getLangFile().getStringList("buyGui.interface").toArray(new String[0]);
         // Inventory object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("buyGui.guiName"), buyGui);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, Main.getLangFile().getText("buyGui.guiName")), buyGui);
         // Filler item for empty slots
         gui.setFiller(GuiHelper.getFiller());
         // Buy item placer
@@ -39,9 +40,9 @@ public class BuyGui {
                 // Event written on bottom
                 click -> {
                     // If player has enough money to buy farmer
-                    if (Main.getEcon().getBalance(player) >= Settings.farmerPrice) {
+                    if (Main.getEconomyIntegrations().getBalance(player) >= Settings.farmerPrice) {
                         // Removes farmer money from player
-                        Main.getEcon().withdrawPlayer(player, Settings.farmerPrice);
+                        Main.getEconomyIntegrations().withdrawPlayer(player, Settings.farmerPrice);
                         // Creates new farmer
                         Farmer farmer = new Farmer(Main.getIntegration()
                                 .getRegionID(player.getLocation()), 0);

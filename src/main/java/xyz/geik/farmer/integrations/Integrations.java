@@ -9,6 +9,8 @@ import xyz.geik.farmer.integrations.askyblock.Askyblock;
 import xyz.geik.farmer.integrations.bentobox.Bento;
 import xyz.geik.farmer.integrations.fabledskyblock.FabledSkyblock;
 import xyz.geik.farmer.integrations.grief.GriefPrevent;
+import xyz.geik.farmer.integrations.lands.Lands;
+import xyz.geik.farmer.integrations.placeholderapi.PlaceholderAPI;
 import xyz.geik.farmer.integrations.superior.SuperiorSkyblock;
 import xyz.geik.farmer.integrations.townyadvanced.TownyAdvanced;
 
@@ -73,5 +75,11 @@ public abstract class Integrations {
             Main.setIntegration(new FabledSkyblock());
         else if (Bukkit.getPluginManager().isPluginEnabled("Towny"))
             Main.setIntegration(new TownyAdvanced());
+        else if (Bukkit.getPluginManager().isPluginEnabled("Lands"))
+            Main.setIntegration(new Lands());
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            Main.getInstance().setPlaceholderAPI(new PlaceholderAPI());
+            Main.getInstance().getPlaceholderAPI().register();
+        }
     }
 }
