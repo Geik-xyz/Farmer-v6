@@ -6,12 +6,16 @@ xyz.geik.farmer.commands
 xyz.geik.farmer.database
 xyz.geik.farmer.guis
 xyz.geik.farmer.helpers
+xyz.geik.farmer.helpers.economy
 xyz.geik.farmer.helpers.gui
 xyz.geik.farmer.integrations
 xyz.geik.farmer.integrations.askyblock
 xyz.geik.farmer.integrations.bentobox
 xyz.geik.farmer.integrations.fabledskyblock
 xyz.geik.farmer.integrations.grief
+xyz.geik.farmer.integrations.lands
+xyz.geik.farmer.integrations.placeholderapi
+xyz.geik.farmer.integrations.placeholderapi.expansion
 xyz.geik.farmer.integrations.superior
 xyz.geik.farmer.integrations.townyadvanced
 xyz.geik.farmer.listeners
