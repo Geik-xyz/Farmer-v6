@@ -1,6 +1,7 @@
 package xyz.geik.farmer.modules.spawnerkiller;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.modules.FarmerModule;
@@ -69,7 +70,11 @@ public class SpawnerKiller extends FarmerModule {
         removeMob = getConfig().getBoolean("settings.removeMob");
         cookFoods = getConfig().getBoolean("settings.cookFoods");
         requireFarmer = getConfig().getBoolean("settings.requireFarmer");
-        registerListener(new SpawnerKillerEvent());
+        // SpawnerMeta Listener Register
+        if (Bukkit.getPluginManager().getPlugin("SpawnerMeta") != null)
+            new SpawnerMetaEvent();
+        else
+            registerListener(new SpawnerKillerEvent());
         registerListener(new SpawnerKillerGuiCreateEvent());
         setLang(Settings.lang, Main.getInstance());
         if (getConfig().contains("settings.whitelist"))

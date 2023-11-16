@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
+            <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
         <!-- SimplixStorage -->
@@ -116,8 +116,8 @@
         <!-- NBT Api -->
         <dependency>
             <groupId>de.tr7zw</groupId>
-            <artifactId>item-nbt-api-plugin</artifactId>
-            <version>2.12.0</version>
+            <artifactId>item-nbt-api</artifactId>
+            <version>2.12.1</version>
         </dependency>
         <!-- WildStacker -->
         <dependency>
@@ -277,7 +277,7 @@
                             <shadedPattern>xyz.geik.farmer.shades.jetbrains</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>de.tr7zw.nbtapi</pattern>
+                            <pattern>de.tr7zw.changeme.nbtapi</pattern>
                             <shadedPattern>xyz.geik.farmer.shades.nbtapi</shadedPattern>
                         </relocation>
                         <relocation>

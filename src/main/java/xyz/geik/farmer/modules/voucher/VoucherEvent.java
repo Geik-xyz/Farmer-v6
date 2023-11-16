@@ -1,7 +1,7 @@
 package xyz.geik.farmer.modules.voucher;
 
 import com.cryptomorin.xseries.XSound;
-import de.tr7zw.nbtapi.NBT;
+import de.tr7zw.changeme.nbtapi.NBT;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
