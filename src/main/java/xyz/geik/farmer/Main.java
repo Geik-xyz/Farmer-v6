@@ -226,6 +226,10 @@ public class Main extends JavaPlugin {
      * and loads integration class of it.
      */
     public static void registerIntegrations() {
+        if (!Main.getConfigFile().contains("settings.economy")) {
+            Main.setEconomyIntegrations(new Vault());
+            return;
+        }
         if (Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("vault")
                 || Bukkit.getPluginManager().isPluginEnabled("Vault")
                 && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
