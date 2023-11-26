@@ -68,7 +68,7 @@ public class Vault implements xyz.geik.farmer.helpers.economy.Economy {
      */
     public double getBalance(OfflinePlayer player) {
         if (this.economy != null) {
-            this.economy.getBalance(player);
+            return this.economy.getBalance(player);
         }
         return 0;
     }
