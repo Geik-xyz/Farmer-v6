@@ -65,7 +65,7 @@ public class RoyaleEconomy implements Economy {
      */
     public double getBalance(OfflinePlayer player) {
         if (this.economy != null) {
-            this.economy.balance.getBankBalance(player.getUniqueId() + "");
+            return this.economy.balance.getBankBalance(player.getUniqueId() + "");
         }
         return 0;
     }

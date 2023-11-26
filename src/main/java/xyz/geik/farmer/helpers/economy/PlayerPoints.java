@@ -63,7 +63,7 @@ public class PlayerPoints implements Economy {
      */
     public double getBalance(OfflinePlayer player) {
         if (this.economy != null) {
-            this.economy.look(player.getUniqueId());
+            return this.economy.look(player.getUniqueId());
         }
         return 0;
     }
