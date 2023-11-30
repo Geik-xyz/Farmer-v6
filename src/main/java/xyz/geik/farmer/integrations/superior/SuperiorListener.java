@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
+import xyz.geik.glib.chat.ChatUtils;
 
 import java.util.UUID;
 
@@ -43,9 +43,10 @@ public class SuperiorListener implements Listener {
      */
     @EventHandler
     public void createIslandEvent(IslandCreateEvent e) {
-        if (Settings.autoCreateFarmer) {
+        if (Main.getConfigFile().getSettings().isAutoCreateFarmer()) {
             Farmer farmer = new Farmer(e.getIsland().getUniqueId().toString(), 0);
-            e.getIsland().getOwner().asPlayer().sendMessage(Main.getLangFile().getText("boughtFarmer"));
+            ChatUtils.sendMessage(e.getIsland().getOwner().asPlayer(),
+                    Main.getLangFile().getMessages().getBoughtFarmer());
         }
     }
 

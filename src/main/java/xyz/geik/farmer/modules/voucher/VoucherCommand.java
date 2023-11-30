@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.glib.chat.ChatUtils;
 
 /**
  * Voucher Command
@@ -24,11 +25,11 @@ public class VoucherCommand {
      */
     public static boolean give(@NotNull CommandSender sender, String @NotNull ... args) {
         if (!args[0].equalsIgnoreCase("give")) {
-            sender.sendMessage(Main.getLangFile().getText("wrongCommand"));
+            ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getUnknownCommand());
             return false;
         }
         if (!sender.hasPermission("farmer.admin")) {
-            sender.sendMessage(Main.getLangFile().getText("noPerm"));
+            ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getNoPerm());
             return false;
         }
         if (!FarmerAPI.getModuleManager().getByName("Voucher").isEnabled()) {

@@ -91,7 +91,7 @@ public class User {
         String permissionPrefix = "farmer.user.";
         int defaultValue =  3;
         try {
-            defaultValue = Main.getConfigFile().getInt("settings.defaultMaxFarmerUser");
+            defaultValue = Main.getConfigFile().getSettings().getDefaultMaxFarmerUser();
             if (player == null)
                 return defaultValue;
             else {

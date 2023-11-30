@@ -1,17 +1,15 @@
 package xyz.geik.farmer.modules.spawnerkiller;
 
-import de.themoep.inventorygui.DynamicGuiElement;
-import de.themoep.inventorygui.StaticGuiElement;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerModuleGuiCreateEvent;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.glib.shades.inventorygui.DynamicGuiElement;
+import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 
 import java.util.stream.Collectors;
 

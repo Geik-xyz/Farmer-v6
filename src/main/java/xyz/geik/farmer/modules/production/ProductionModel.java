@@ -1,7 +1,5 @@
 package xyz.geik.farmer.modules.production;
 
-import com.cryptomorin.xseries.XMaterial;
-import de.themoep.inventorygui.InventoryGui;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -9,6 +7,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.glib.shades.inventorygui.InventoryGui;
+import xyz.geik.glib.shades.xseries.XMaterial;
 
 /**
  * Production model object

@@ -1,6 +1,5 @@
 package xyz.geik.farmer.modules;
 
-import de.leonhard.storage.Config;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -9,6 +8,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.shades.storage.Config;
+import xyz.geik.glib.chat.ChatUtils;
 
 /**
  * Module system of Farmer
@@ -85,7 +86,7 @@ public abstract class FarmerModule {
      * @param plugin
      */
     public void setConfig(JavaPlugin plugin) {
-        config = FarmerAPI.getStorageManager()
+        config = Main.getInstance().getSimplixStorageAPI()
                 .initConfig("modules/" + this.getName().toLowerCase() + "/config", plugin);
     }
 
@@ -102,7 +103,7 @@ public abstract class FarmerModule {
      * @param plugin
      */
     public void setLang(String langName, JavaPlugin plugin) {
-        lang = FarmerAPI.getStorageManager()
+        lang = Main.getInstance().getSimplixStorageAPI()
                 .initConfig("modules/" + this.getName().toLowerCase() + "/lang/" + langName, plugin);
     }
 
@@ -115,6 +116,6 @@ public abstract class FarmerModule {
         PluginManager pm = Main.getInstance().getServer().getPluginManager();
         Main.getInstance().getListenerList().put(this, listener);
         pm.registerEvents(listener, Main.getInstance());
-        Bukkit.getConsoleSender().sendMessage(Main.color("&6[FarmerManager] &a" + listener.getClass().getSimpleName() + " was registered"));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&6[FarmerManager] &a" + listener.getClass().getSimpleName() + " was registered"));
     }
 }

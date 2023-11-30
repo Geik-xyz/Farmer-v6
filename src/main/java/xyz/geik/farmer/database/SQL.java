@@ -33,14 +33,9 @@ import java.util.UUID;
 public abstract class SQL {
 
     /**
-     * Instance of main
+     * Constructor of class
      */
-    protected Main plugin = Main.getInstance();
-
-    /**
-     * Library which used for connection and pooling queries
-     */
-    protected HikariCP hikariCP;
+    public SQL() {}
 
     /**
      * Creates table on db
@@ -53,13 +48,13 @@ public abstract class SQL {
     public void updateAllFarmers() {
         Connection connection = null;
         try {
-            connection = this.hikariCP.getHikariDataSource().getConnection();
+            connection = Main.getDatabase().getConnection();
             for (Farmer farmer : FarmerManager.getFarmers().values()) {
                 farmer.saveFarmer();
                 FarmerAPI.getModuleManager().databaseUpdateAttribute(connection, farmer);
             }
-        } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while updating Farmers: " + throwables.getMessage());
+        } catch (SQLException throwable) {
+            Main.getInstance().getLogger().info("Error while updating Farmers: " + throwable.getMessage());
         } finally {
             closeConnections(null, connection, null);
         }
@@ -84,7 +79,7 @@ public abstract class SQL {
         // Query of farmer users
         final String USERS_QUERY = "SELECT * FROM FarmerUsers WHERE farmerId = ?";
         try {
-            connection = this.hikariCP.getHikariDataSource().getConnection();
+            connection = Main.getDatabase().getConnection();
             preparedStatement = connection.prepareStatement(FARMER_QUERY);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -120,7 +115,7 @@ public abstract class SQL {
                 FarmerManager.getFarmers().put(regionID, farmer);
             }
         } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while loading Farmers: " + throwables.getMessage());
+            Main.getInstance().getLogger().info("Error while loading Farmers: " + throwables.getMessage());
         } finally {
             closeConnections(preparedStatement, connection, resultSet);
         }
@@ -137,7 +132,7 @@ public abstract class SQL {
         ResultSet resultSet = null;
         final String SQL_QUERY = "INSERT INTO Farmers (regionID, state, level) VALUES (?, ?, ?)";
         try {
-            connection = this.hikariCP.getHikariDataSource().getConnection();
+            connection = Main.getDatabase().getConnection();
             saveStatement = connection.prepareStatement(SQL_QUERY);
             saveStatement.setString(1, farmer.getRegionID());
             saveStatement.setInt(2, farmer.getState());
@@ -156,7 +151,7 @@ public abstract class SQL {
                 });
             }
         } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while creating Farmer: " + throwables.getMessage());
+            Main.getInstance().getLogger().info("Error while creating Farmer: " + throwables.getMessage());
         } finally {
             closeConnections(saveStatement, connection, resultSet);
             closeConnections(selectStatement, connection, resultSet);
@@ -174,7 +169,7 @@ public abstract class SQL {
         String DELETE_FARMER = "DELETE FROM Farmers WHERE id = ?";
         String DELETE_USERS = "DELETE FROM FarmerUsers WHERE farmerId = ?";
         try {
-            connection = this.hikariCP.getHikariDataSource().getConnection();
+            connection = Main.getDatabase().getConnection();
             removeFarmerStatement = connection.prepareStatement(DELETE_FARMER);
             removeFarmerStatement.setInt(1, farmer.getId());
             removeFarmerStatement.executeUpdate();
@@ -192,7 +187,7 @@ public abstract class SQL {
                 FarmerManager.getFarmers().remove(farmer.getRegionID());
 
         } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while removing Farmer: " + throwables.getMessage());
+            Main.getInstance().getLogger().info("Error while removing Farmer: " + throwables.getMessage());
         } finally {
             closeConnections(removeFarmerStatement, connection, null);
             closeConnections(removeUsersStatement, connection, null);
@@ -208,7 +203,7 @@ public abstract class SQL {
         PreparedStatement preparedStatement = null;
         final String SQL_QUERY = "UPDATE Farmers SET regionID = ?, state = ?, items = ?, level = ? WHERE id = ?";
         try {
-            connection = this.hikariCP.getHikariDataSource().getConnection();
+            connection = Main.getDatabase().getConnection();
             preparedStatement = connection.prepareStatement(SQL_QUERY);
             preparedStatement.setString(1, farmer.getRegionID());
             preparedStatement.setInt(2, farmer.getState());
@@ -217,8 +212,8 @@ public abstract class SQL {
             preparedStatement.setInt(4, FarmerLevel.getAllLevels().indexOf(farmer.getLevel()));
             preparedStatement.setInt(5, farmer.getId());
             preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while save Farmer: " + throwables.getMessage());
+        } catch (SQLException throwable) {
+            Main.getInstance().getLogger().info("Error while save Farmer: " + throwable.getMessage());
         } finally {
             closeConnections(preparedStatement, connection, null);
         }
@@ -245,7 +240,7 @@ public abstract class SQL {
             PreparedStatement preparedStatement = null;
             final String SQL_QUERY = "INSERT INTO FarmerUsers (farmerId, name, uuid, role) VALUES (?, ?, ?, ?)";
             try {
-                connection = this.hikariCP.getHikariDataSource().getConnection();
+                connection = Main.getDatabase().getConnection();
                 preparedStatement = connection.prepareStatement(SQL_QUERY);
                 preparedStatement.setInt(1, farmerId);
                 preparedStatement.setString(2, name);
@@ -253,7 +248,7 @@ public abstract class SQL {
                 preparedStatement.setInt(4, FarmerPerm.getRoleId(perm));
                 preparedStatement.executeUpdate();
             } catch (SQLException throwables) {
-                this.plugin.getLogger().info("Error while adding User: " + throwables.getMessage());
+                Main.getInstance().getLogger().info("Error while adding User: " + throwables.getMessage());
             } finally {
                 closeConnections(preparedStatement, connection, null);
             }
@@ -275,13 +270,13 @@ public abstract class SQL {
             PreparedStatement preparedStatement = null;
             final String QUERY = "DELETE FROM FarmerUsers WHERE uuid = ? AND farmerId = ?";
             try {
-                connection = this.hikariCP.getHikariDataSource().getConnection();
+                connection = Main.getDatabase().getConnection();
                 preparedStatement = connection.prepareStatement(QUERY);
                 preparedStatement.setString(1, user.getUuid().toString());
                 preparedStatement.setInt(2, farmer.getId());
                 preparedStatement.executeUpdate();
             } catch (SQLException throwables) {
-                this.plugin.getLogger().info("Error while remove User: " + throwables.getMessage());
+                Main.getInstance().getLogger().info("Error while remove User: " + throwables.getMessage());
             } finally {
                 closeConnections(preparedStatement, connection, null);
             }
@@ -301,14 +296,14 @@ public abstract class SQL {
             PreparedStatement preparedStatement = null;
             final String QUERY = "UPDATE FarmerUsers SET role = ? WHERE uuid = ? AND farmerId = ?";
             try {
-                connection = this.hikariCP.getHikariDataSource().getConnection();
+                connection = Main.getDatabase().getConnection();
                 preparedStatement = connection.prepareStatement(QUERY);
                 preparedStatement.setInt(1, roleId);
                 preparedStatement.setString(2, uuid.toString());
                 preparedStatement.setInt(3, farmerId);
                 preparedStatement.executeUpdate();
             } catch (SQLException throwables) {
-                this.plugin.getLogger().info("Error while remove User: " + throwables.getMessage());
+                Main.getInstance().getLogger().info("Error while remove User: " + throwables.getMessage());
             } finally {
                 closeConnections(preparedStatement, connection, null);
             }
@@ -349,8 +344,8 @@ public abstract class SQL {
      *  <p>Fixes users and owners if there is any corruption occurred in older versions or blackouts.</p>
      */
     public void fixDatabase() {
-        Main.getInstance().getSql().updateAllFarmers();
-        this.plugin.getLogger().info("Preparing data for fix please wait...");
+        updateAllFarmers();
+        Main.getInstance().getLogger().info("Preparing data for fix please wait...");
         Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
             long ms = System.currentTimeMillis();
             FarmerManager.getFarmers().clear();
@@ -362,7 +357,7 @@ public abstract class SQL {
      * Check users if something exceptional in db
      */
     private void fixUsersInDatabase(long ms) {
-        this.plugin.getLogger().info("Farmer fixing users in progress..");
+        Main.getInstance().getLogger().info("Farmer fixing users in progress..");
         final String QUERY = "DELETE FROM FarmerUsers\n" +
                 "WHERE (farmerId, uuid, role) NOT IN (\n" +
                 "    SELECT farmerId, uuid, MAX(role) AS max_role\n" +
@@ -372,14 +367,14 @@ public abstract class SQL {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = this.hikariCP.getHikariDataSource().getConnection();
+            connection = Main.getDatabase().getConnection();
             statement = connection.prepareStatement(QUERY);
             statement.executeUpdate();
         } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while trying to fix database: " + throwables.getMessage());
+            Main.getInstance().getLogger().info("Error while trying to fix database: " + throwables.getMessage());
         } finally {
             closeConnections(statement, connection, null);
-            this.plugin.getLogger().info("Farmer fixing users completed.");
+            Main.getInstance().getLogger().info("Farmer fixing users completed.");
             // Next step
             fixOwnersInDatabase(ms);
         }
@@ -389,7 +384,7 @@ public abstract class SQL {
      * Checks farmers if there is no owner on farmer in db
      */
     private void fixOwnersInDatabase(long ms) {
-        this.plugin.getLogger().info("Farmer fixing owners in progress..");
+        Main.getInstance().getLogger().info("Farmer fixing owners in progress..");
         final String QUERY = "SELECT * FROM Farmers WHERE id NOT IN (\n" +
                 "  SELECT farmerId FROM FarmerUsers WHERE role = 2\n" +
                 ");";
@@ -397,7 +392,7 @@ public abstract class SQL {
         PreparedStatement statement = null;
         ResultSet resultSet;
         try {
-            connection = this.hikariCP.getHikariDataSource().getConnection();
+            connection = Main.getDatabase().getConnection();
             statement = connection.prepareStatement(QUERY);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -405,16 +400,16 @@ public abstract class SQL {
                 String regionID = resultSet.getString("regionID");
                 OfflinePlayer owner = Bukkit.getOfflinePlayer(Main.getIntegration().getOwnerUUID(regionID));
                 this.addUser(owner.getUniqueId(), owner.getName(), FarmerPerm.OWNER, farmerID);
-                this.plugin.getLogger().info("Fixed owner in database " + owner.getName());
+                Main.getInstance().getLogger().info("Fixed owner in database " + owner.getName());
             }
         } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while trying to fix database: " + throwables.getMessage());
+            Main.getInstance().getLogger().info("Error while trying to fix database: " + throwables.getMessage());
         } finally {
             closeConnections(statement, connection, null);
-            this.plugin.getLogger().info("Farmer fixing owners completed.");
+            Main.getInstance().getLogger().info("Farmer fixing owners completed.");
             Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> {
-                Main.getInstance().getSql().loadAllFarmers();
-                this.plugin.getLogger().info("Fixing database task has completed in " + (System.currentTimeMillis() - ms) + "ms");
+                loadAllFarmers();
+                Main.getInstance().getLogger().info("Fixing database task has completed in " + (System.currentTimeMillis() - ms) + "ms");
             }, 200L);
         }
     }

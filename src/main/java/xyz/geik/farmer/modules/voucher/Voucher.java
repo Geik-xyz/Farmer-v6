@@ -2,7 +2,6 @@ package xyz.geik.farmer.modules.voucher;
 
 import lombok.Getter;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.modules.FarmerModule;
 
 /**
@@ -34,6 +33,20 @@ public class Voucher extends FarmerModule {
             this.setEnabled(false);
     }
 
+    /**
+     * onEnable method of module
+     */
+    @Override
+    public void onEnable() {
+        this.setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
+        registerListener(new VoucherEvent());
+        overrideFarmer = getConfig().get("settings.useWhenFarmerExist", false);
+        giveVoucherWhenRemove = getConfig().get("settings.giveVoucherWhenRemove", false);
+    }
+
+    /**
+     * onReload method of module
+     */
     @Override
     public void onReload() {
         if (!this.isEnabled())

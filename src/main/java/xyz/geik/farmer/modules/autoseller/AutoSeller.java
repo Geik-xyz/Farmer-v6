@@ -2,7 +2,6 @@ package xyz.geik.farmer.modules.autoseller;
 
 import lombok.Getter;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.modules.FarmerModule;
 
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class AutoSeller extends FarmerModule {
     public void onEnable() {
         setHasGui(true);
         getAllowedItems().addAll(getConfig().getStringList("items"));
-        setLang(Settings.lang, Main.getInstance());
+        setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
         customPerm = getConfig().getString("settings.customPerm");
         defaultStatus = getConfig().getBoolean("settings.defaultStatus");
         registerListener(new AutoSellerEvent());

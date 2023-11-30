@@ -27,7 +27,14 @@ public enum FarmerPerm {
      * @return
      */
     public String getName() {
-        return Main.getLangFile().getText("roles." + this.name().toLowerCase());
+        switch (this.name()) {
+            case "MEMBER":
+                return Main.getLangFile().getRoles().getMember();
+            case "OWNER":
+                return Main.getLangFile().getRoles().getOwner();
+            default:
+                return Main.getLangFile().getRoles().getCoop();
+        }
     }
 
     /**

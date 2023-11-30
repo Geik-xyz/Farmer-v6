@@ -1,12 +1,10 @@
 package xyz.geik.farmer.guis;
 
-import com.cryptomorin.xseries.XMaterial;
-import de.themoep.inventorygui.*;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
@@ -17,6 +15,12 @@ import xyz.geik.farmer.helpers.gui.GroupItems;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.FarmerPerm;
+import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.shades.inventorygui.DynamicGuiElement;
+import xyz.geik.glib.shades.inventorygui.GuiElementGroup;
+import xyz.geik.glib.shades.inventorygui.InventoryGui;
+import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
+import xyz.geik.glib.shades.xseries.XMaterial;
 
 /**
  * Main gui of farmer
@@ -34,15 +38,15 @@ public class MainGui {
      */
     public static void showGui(Player player, Farmer farmer) {
         // Array of gui interface
-        String[] guiSetup = Main.getLangFile().getStringList("Gui.interface").toArray(new String[0]);
+        String[] guiSetup = Main.getConfigFile().getGui().getFarmerLayout().toArray(new String[0]);
         // Gui object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("Gui.guiName"), guiSetup);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, Main.getLangFile().getGui().getFarmerGui().getGuiName()), guiSetup);
         // Fills empty spaces on  gui
-        gui.setFiller(GuiHelper.getFiller());
+        gui.setFiller(GuiHelper.getFiller(player));
         // Manage Icon element
         gui.addElement(new StaticGuiElement('m',
                 // Manage item
-                GuiHelper.getManageItemOnMain(farmer),
+                GuiHelper.getManageItemOnMain(farmer, player),
                 1,
                 // Event
                 click -> {
@@ -54,7 +58,7 @@ public class MainGui {
                 })
         );
         // Help item
-        gui.addElement(GuiHelper.createGuiElement("Gui.help", 'h'));
+        gui.addElement(GuiHelper.createGuiElement(GuiHelper.getHelpItemForMain(player), 'h'));
 
         // Item group which farmer collects
         GuiElementGroup group = new GuiElementGroup('g');
@@ -75,7 +79,8 @@ public class MainGui {
                                     !user.getPerm().equals(FarmerPerm.COOP)
                                             && user.getName().equalsIgnoreCase(player.getName())))) {
                                 // XMaterial check for old version
-                                ItemStack cursorItem = click.getEvent().getCurrentItem();
+                                ItemStack cursorItem = click.getCursor();
+                                assert cursorItem != null;
                                 XMaterial material = XMaterial.matchXMaterial(cursorItem);
                                 FarmerItem slotItem = farmer.getInv().getStockedItem(material);
                                 // Sells all stock of an item
@@ -90,7 +95,7 @@ public class MainGui {
                                 else {
                                     // If inventory full returns
                                     if (invFull(player)) {
-                                        player.sendMessage(Main.getLangFile().getText("inventoryFull"));
+                                        ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getInventoryFull());
                                         return true;
                                     }
                                     long count;
@@ -139,8 +144,8 @@ public class MainGui {
         }
         // Adding everything to gui and opening
         gui.addElement(group);
-        gui.addElement(GuiHelper.createNextPage());
-        gui.addElement(GuiHelper.createPreviousPage());
+        gui.addElement(GuiHelper.createNextPage(player));
+        gui.addElement(GuiHelper.createPreviousPage(player));
         FarmerMainGuiOpenEvent guiOpenEvent = new FarmerMainGuiOpenEvent(player, farmer, gui);
         Bukkit.getPluginManager().callEvent(guiOpenEvent);
         if (!guiOpenEvent.isCancelled())

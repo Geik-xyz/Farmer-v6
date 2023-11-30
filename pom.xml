@@ -6,7 +6,7 @@
 
     <groupId>xyz.geik.farmer</groupId>
     <artifactId>Farmer</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>v6-b100</version>
 
     <properties>
         <shaded.package>org.cas.osd.platform.ciam.shaded</shaded.package>
@@ -31,38 +31,11 @@
             <version>2.3.30</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Vault -->
-        <dependency>
-            <groupId>com.github.MilkBowl</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>9520d8847e</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.26</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- SimplixStorage -->
-        <dependency>
-            <groupId>com.github.poyrazinan</groupId>
-            <artifactId>SimplixStorage</artifactId>
-            <version>-ae92994823-1</version>
-        </dependency>
-        <!-- InventoryAPI -->
-        <dependency>
-            <groupId>de.themoep</groupId>
-            <artifactId>inventorygui</artifactId>
-            <!--The following version may not be the latest. Check it before using.-->
-            <version>1.5-SNAPSHOT</version>
-        </dependency>
-        <!-- Mojang Dep -->
-        <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>authlib</artifactId>
-            <version>1.5.21</version>
             <scope>provided</scope>
         </dependency>
         <!-- SuperiorAPI -->
@@ -100,17 +73,12 @@
             <version>0.99.5.0</version>
             <scope>provided</scope>
         </dependency>
-        <!-- xSeries -->
+        <!-- LandsAPI -->
         <dependency>
-            <groupId>com.github.cryptomorin</groupId>
-            <artifactId>XSeries</artifactId>
-            <version>9.4.0</version>
-        </dependency>
-        <!-- NBT Api -->
-        <dependency>
-            <groupId>de.tr7zw</groupId>
-            <artifactId>item-nbt-api-plugin</artifactId>
-            <version>2.11.3</version>
+            <groupId>com.github.angeschossen</groupId>
+            <artifactId>LandsAPI</artifactId>
+            <version>6.37.0</version>
+            <scope>provided</scope>
         </dependency>
         <!-- WildStacker -->
         <dependency>
@@ -119,11 +87,23 @@
             <version>2022.6</version>
             <scope>provided</scope>
         </dependency>
-        <!-- HikariCP -->
+        <!-- SpawnerMeta -->
         <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>5.0.1</version>
+            <groupId>com.github.OfficialRell</groupId>
+            <artifactId>SpawnerMeta</artifactId>
+            <version>21.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Geik-xyz</groupId>
+            <artifactId>GLib</artifactId>
+            <version>25e05f71a8</version>
+        </dependency>
+        <!-- apache commons -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.13.0</version>
         </dependency>
     </dependencies>
 
@@ -143,11 +123,6 @@
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <!-- InventoryAPI -->
-        <repository>
-            <id>minebench-repo</id>
-            <url>https://repo.minebench.de/</url>
         </repository>
         <!-- MojangAPI Repo -->
         <repository>
@@ -187,40 +162,12 @@
                     <minimizeJar>true</minimizeJar>
                     <relocations>
                         <relocation>
-                            <pattern>com.cryptomorin.xseries</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.xseries</shadedPattern>
-                            <excludes>
-                                <exclude>com/cryptomorin/xseries/XBiome*</exclude>
-                                <exclude>com/cryptomorin/xseries/XEnchantment*</exclude>
-                                <exclude>com/cryptomorin/xseries/XEntity*</exclude>
-                                <exclude>com/cryptomorin/xseries/XPotion*</exclude>
-                                <exclude>com/cryptomorin/xseries/particles/*</exclude>
-                                <exclude>com/cryptomorin/xseries/XTag*</exclude>
-                                <exclude>com/cryptomorin/xseries/NMSExtras*</exclude>
-                                <exclude>com/cryptomorin/xseries/NoteBlockMusic*</exclude>
-                                <exclude>com/cryptomorin/xseries/SkullCacheListener*</exclude>
-                                <exclude>com/cryptomorin/xseries/XItemStack*</exclude>
-                            </excludes>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.leonhard.storage</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.storage</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.themoep.inventorygui</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.inventorygui</shadedPattern>
+                            <pattern>xyz.geik.glib</pattern>
+                            <shadedPattern>xyz.geik.farmer.shades.glib</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
                             <shadedPattern>xyz.geik.farmer.shades.jetbrains</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.tr7zw.nbtapi</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.nbtapi</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.zaxxer.hikari</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.hikari</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

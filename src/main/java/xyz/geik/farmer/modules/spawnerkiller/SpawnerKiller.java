@@ -2,7 +2,6 @@ package xyz.geik.farmer.modules.spawnerkiller;
 
 import lombok.Getter;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.modules.FarmerModule;
 
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class SpawnerKiller extends FarmerModule {
         requireFarmer = getConfig().getBoolean("settings.requireFarmer");
         registerListener(new SpawnerKillerEvent());
         registerListener(new SpawnerKillerGuiCreateEvent());
-        setLang(Settings.lang, Main.getInstance());
+        setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
         if (getConfig().contains("settings.whitelist"))
             getConfig().getTextList("settings.whitelist").forEach(whitelist::add);
         if (getConfig().contains("settings.blacklist"))

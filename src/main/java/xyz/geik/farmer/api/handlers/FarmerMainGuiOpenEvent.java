@@ -1,11 +1,11 @@
 package xyz.geik.farmer.api.handlers;
 
-import de.themoep.inventorygui.InventoryGui;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.glib.shades.inventorygui.InventoryGui;
 
 /**
  * FarmerMainGuiOpenEvent fired when a player open the main gui
@@ -30,7 +30,7 @@ public class FarmerMainGuiOpenEvent extends Event {
     /**
      * InventoryGui object of event
      * @see InventoryGui
-     * @see de.themoep.inventorygui.InventoryGui#show(org.bukkit.entity.HumanEntity)
+     * @see InventoryGui#show(org.bukkit.entity.HumanEntity)
      */
     private InventoryGui gui;
 
@@ -46,7 +46,7 @@ public class FarmerMainGuiOpenEvent extends Event {
      * @param farmer Farmer object of player
      * @param gui InventoryGui object of farmer
      * @see InventoryGui
-     * @see de.themoep.inventorygui.InventoryGui#show(org.bukkit.entity.HumanEntity)
+     * @see InventoryGui#show(org.bukkit.entity.HumanEntity)
      * @see Player
      * @see Farmer
      */

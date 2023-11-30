@@ -1,37 +1,44 @@
 package xyz.geik.farmer;
 
-import de.leonhard.storage.Config;
 import lombok.Getter;
-import net.md_5.bungee.api.ChatColor;
-import net.milkbowl.vault.economy.Economy;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.commands.Commands;
 import xyz.geik.farmer.commands.FarmerTabComplete;
+import xyz.geik.farmer.configuration.ConfigFile;
+import xyz.geik.farmer.configuration.LangFile;
 import xyz.geik.farmer.database.MySQL;
 import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
-import xyz.geik.farmer.helpers.ItemsLoader;
-import xyz.geik.farmer.helpers.Settings;
+import xyz.geik.farmer.helpers.CacheLoader;
 import xyz.geik.farmer.integrations.Integrations;
+import xyz.geik.farmer.integrations.placeholderapi.PlaceholderAPI;
 import xyz.geik.farmer.listeners.ListenerRegister;
-import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
 import xyz.geik.farmer.modules.autoseller.AutoSeller;
 import xyz.geik.farmer.modules.production.Production;
 import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
 import xyz.geik.farmer.modules.voucher.Voucher;
+import xyz.geik.farmer.shades.storage.Config;
+import xyz.geik.glib.GLib;
+import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.database.Database;
+import xyz.geik.glib.database.DatabaseType;
+import xyz.geik.glib.economy.Economy;
+import xyz.geik.glib.economy.EconomyAPI;
+import xyz.geik.glib.shades.okaeri.configs.ConfigManager;
+import xyz.geik.glib.shades.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
+import xyz.geik.glib.simplixstorage.SimplixStorageAPI;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Main class of farmer
@@ -46,32 +53,51 @@ public class Main extends JavaPlugin {
      */
     public Map<FarmerModule, Listener> listenerList = new HashMap<>();
 
-    /**
-     * SQL Manager
-     */
-    private SQL sql;
+    @Getter @Setter
+    private SimplixStorageAPI simplixStorageAPI;
+
+    @Getter @Setter
+    private static Database database;
+    @Getter @Setter
+    private static SQL sql;
+
+    @Getter
+    @Setter
+    private PlaceholderAPI placeholderAPI;
+
+    @Getter @Setter
+    private static Economy economy;
 
     /**
      * Instance of this class
      */
+    @Getter
     private static Main instance;
 
     /**
      * Config files which using SimplixStorage API for it.
      * Also, you can find usage code of API on helpers#StorageAPI
      */
-    private static Config configFile, itemsFile, langFile, databaseFile;
+    @Getter
+    private static Config itemsFile, levelFile;
+
+    /**
+     * Lang file of plugin
+     */
+    @Getter
+    private static LangFile langFile;
+
+    /**
+     * Config file of plugin
+     */
+    @Getter
+    private static ConfigFile configFile;
 
     /**
      * Main integration of plugin integrations#Integrations
      */
+    @Getter
     private static Integrations integration;
-
-    /**
-     * Economy hookup it's initialing down below.
-     * #setupEconomy
-     */
-    private static Economy econ = null;
 
 
     /**
@@ -79,10 +105,8 @@ public class Main extends JavaPlugin {
      */
     public void onLoad() {
         instance = this;
-        configFile = FarmerAPI.getStorageManager().initConfig("config");
-        itemsFile = FarmerAPI.getStorageManager().initConfig("items");
-        langFile = FarmerAPI.getStorageManager().initLangFile(getConfigFile().getString("settings.lang"));
-        databaseFile = FarmerAPI.getStorageManager().initConfig("storage/database");
+        simplixStorageAPI = new SimplixStorageAPI(this);
+        setupFiles();
     }
 
     /**
@@ -90,21 +114,19 @@ public class Main extends JavaPlugin {
      * This is sort of the main(String... args) method.
      */
     public void onEnable() {
+        new GLib(this, getLangFile().getMessages().getPrefix());
+        setupDatabase();
+        registerEconomy();
         // API Installer
         FarmerAPI.getFarmerManager();
         FarmerAPI.getModuleManager();
-        FarmerAPI.getStorageManager();
-        FarmerAPI.getDatabaseManager();
-        setupEconomy();
-        Settings.regenSettings();
-        new ItemsLoader();
-        FarmerLevel.loadLevels();
+        CacheLoader.loadAllItems();
+        CacheLoader.loadAllLevels();
         getCommand("farmer").setExecutor(new Commands());
         getCommand("farmer").setTabCompleter(new FarmerTabComplete());
         Integrations.registerIntegrations();
         sendEnableMessage();
-        setDatabaseManager();
-        this.sql.loadAllFarmers();
+        getSql().loadAllFarmers();
         new ListenerRegister();
         loadMetrics();
         registerModules();
@@ -117,106 +139,77 @@ public class Main extends JavaPlugin {
      * can't handle async tasks while shutting down
      */
     public void onDisable() {
-        this.sql.updateAllFarmers();
+        getSql().updateAllFarmers();
     }
 
     /**
-     * Gets config file
-     * @return Config file
+     * Setups config, lang and modules file file
      */
-    public static Config getConfigFile() { return configFile; }
+    public void setupFiles() {
+        try {
+            this.configFile = ConfigManager.create(ConfigFile.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer());
+                it.withBindFile(new File(getDataFolder(), "config.yml"));
+                it.saveDefaults();
+                it.load(true);
+            });
 
-    /**
-     * Gets items file
-     * @return Config file
-     */
-    public static Config getItemsFile() { return itemsFile; }
-
-    /**
-     * Gets lang file
-     * @return Config file
-     */
-    public static Config getLangFile() { return langFile; }
-
-    /**
-     * Gets database file
-     * @return Config file
-     */
-    public static Config getDatabaseFile() { return databaseFile; }
-
-    /**
-     * Gets instance
-     * @return Main class of main
-     */
-    public static Main getInstance() { return instance; }
-
-    /**
-     * Gets SQL Manager
-     * @return SQL Manager
-     */
-    public SQL getSql() {
-        return this.sql;
-    }
-
-    /**
-     * Gets Integration plugin instance
-     * @return Integrations plugin of integration
-     */
-    public static Integrations getIntegration() { return integration; }
-
-    /**
-     * Gets items file
-     * @return Economy gets economy plugin
-     */
-    public static Economy getEcon() { return econ; }
-
-    /**
-     * Integration setter
-     *
-     * @param data data of integration
-     */
-    public static void setIntegration(Integrations data) {
-        integration = data;
-    }
-
-    /**
-     * Basic color translate method which changes minecraft color code to known one
-     * @param text String of message
-     * @return String of replaced text
-     */
-    public static @NotNull String color(String text) {
-        final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
-        if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18") || Bukkit.getVersion().contains("1.19") || Bukkit.getVersion().contains("1.20")) {
-            Matcher matcher = pattern.matcher(text);
-            while (matcher.find()) {
-                String color = text.substring(matcher.start(), matcher.end());
-                text = text.replace(color, ChatColor.of(color) + "");
-                matcher = pattern.matcher(text);
-            }
+            String langName = configFile.getSettings().getLang();
+            //Class langClass = Class.forName("xyz.geik.timer.configuration.lang." + langName);
+            //Class<Language> languageClass = langClass;
+            this.langFile = ConfigManager.create(LangFile.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer());
+                it.withBindFile(new File(getDataFolder() + "/lang", langName + ".yml"));
+                it.saveDefaults();
+                it.load(true);
+            });
+            itemsFile = getSimplixStorageAPI().initConfig("items");
+            levelFile = getSimplixStorageAPI().initConfig("levels");
+        } catch (Exception exception) {
+            getPluginLoader().disablePlugin(this);
+            throw new RuntimeException("Error loading configuration file");
         }
-        return ChatColor.translateAlternateColorCodes('&', text);
     }
 
     /**
-     * Setup economy by Vault.
+     * Setups database
      */
-    private void setupEconomy() {
-        if (Main.instance.getServer().getPluginManager().getPlugin("Vault") == null)
-            return;
-        RegisteredServiceProvider<Economy> rsp = Main.instance.getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null)
-            return;
-        econ = rsp.getProvider();
+    private void setupDatabase() {
+        DatabaseType type = DatabaseType.getDatabaseType(getConfigFile().getDatabase().getDatabaseType());
+        if (type.equals(DatabaseType.SQLite))
+            new SQLite();
+        else
+            new MySQL();
     }
 
     /**
-     * Sending enable message to console.
+     * Registers economy
+     */
+    private void registerEconomy() {
+        Main.economy = new EconomyAPI(this, getConfigFile().getSettings().getEconomy()).getEconomy();
+    }
+
+    /**
+     * Register modules to this plugin
+     */
+    private void registerModules() {
+        FarmerAPI.getModuleManager().registerModule(new Voucher());
+        FarmerAPI.getModuleManager().registerModule(new Production());
+        FarmerAPI.getModuleManager().registerModule(new AutoHarvest());
+        FarmerAPI.getModuleManager().registerModule(new AutoSeller());
+        FarmerAPI.getModuleManager().registerModule(new SpawnerKiller());
+        FarmerAPI.getModuleManager().loadModules();
+    }
+
+    /**
+     * Sends enable message to console.
      */
     private static void sendEnableMessage() {
-        Bukkit.getConsoleSender().sendMessage(Main.color("&6&l		FARMER 		&b"));
-        Bukkit.getConsoleSender().sendMessage(Main.color("&aDeveloped by &2Geik"));
-        Bukkit.getConsoleSender().sendMessage(Main.color("&aDiscord: &2https://discord.geik.xyz"));
-        Bukkit.getConsoleSender().sendMessage(Main.color("&aWeb: &2https://geik.xyz"));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&6&l		FARMER 		&b"));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aDeveloped by &2Geik"));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aContributors &2" + Arrays.toString(Main.getInstance().getDescription().getAuthors().toArray())));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aDiscord: &2https://discord.geik.xyz"));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aWeb: &2https://geik.xyz"));
     }
 
     /**
@@ -232,28 +225,7 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * Registering Database Manager
+     * Constructor of class
      */
-    private void setDatabaseManager() {
-        String sqlType = getDatabaseFile().getString("database.type");
-        sqlType = sqlType.toLowerCase();
-
-        if (sqlType.equals("sqlite")) {
-            this.sql = new SQLite();
-        } else if (sqlType.equals("mysql")) {
-            this.sql = new MySQL();
-        }
-    }
-
-    /**
-     * Register modules to this plugin
-     */
-    private void registerModules() {
-        FarmerAPI.getModuleManager().registerModule(new Voucher());
-        FarmerAPI.getModuleManager().registerModule(new Production());
-        FarmerAPI.getModuleManager().registerModule(new AutoHarvest());
-        FarmerAPI.getModuleManager().registerModule(new AutoSeller());
-        FarmerAPI.getModuleManager().registerModule(new SpawnerKiller());
-        FarmerAPI.getModuleManager().loadModules();
-    }
+    public Main() {}
 }

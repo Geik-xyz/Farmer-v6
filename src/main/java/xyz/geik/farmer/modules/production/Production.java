@@ -3,8 +3,6 @@ package xyz.geik.farmer.modules.production;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.api.FarmerAPI;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.modules.FarmerModule;
 
@@ -50,7 +48,7 @@ public class Production extends FarmerModule {
     @Override
     public void onEnable() {
         registerListener(new ProductionCalculateEvent());
-        setLang(Settings.lang, Main.getInstance());
+        setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
         numberFormat[0] = getLang().getText("numberFormat.thousand");
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");

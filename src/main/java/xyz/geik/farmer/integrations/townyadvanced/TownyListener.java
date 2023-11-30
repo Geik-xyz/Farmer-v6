@@ -13,9 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
+import xyz.geik.glib.chat.ChatUtils;
 
 import java.util.UUID;
 
@@ -27,9 +27,10 @@ public class TownyListener implements Listener {
 
     @EventHandler
     public void createTownEvent(@NotNull NewTownEvent e) {
-        if (Settings.autoCreateFarmer) {
+        if (Main.getConfigFile().getSettings().isAutoCreateFarmer()) {
             Farmer farmer = new Farmer(e.getTown().getUUID().toString(),0);
-            e.getTown().getMayor().getPlayer().sendMessage(Main.getLangFile().getText("boughtFarmer"));
+            ChatUtils.sendMessage(e.getTown().getMayor().getPlayer(),
+                    Main.getLangFile().getMessages().getBoughtFarmer());
         }
     }
 

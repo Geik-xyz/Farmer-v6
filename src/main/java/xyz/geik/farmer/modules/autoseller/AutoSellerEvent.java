@@ -1,6 +1,5 @@
 package xyz.geik.farmer.modules.autoseller;
 
-import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
@@ -14,6 +13,7 @@ import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
 import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
+import xyz.geik.glib.shades.xseries.XMaterial;
 
 /**
  * Auto Seller listener class

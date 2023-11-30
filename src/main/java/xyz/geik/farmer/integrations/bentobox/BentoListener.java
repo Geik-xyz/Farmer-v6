@@ -14,9 +14,9 @@ import world.bentobox.bentobox.api.events.team.TeamSetownerEvent;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
+import xyz.geik.glib.chat.ChatUtils;
 
 import java.util.UUID;
 
@@ -123,9 +123,10 @@ public class BentoListener implements Listener {
      * @param owner
      */
     private void autoCreate(String regionId, UUID owner) {
-        if (Settings.autoCreateFarmer) {
+        if (Main.getConfigFile().getSettings().isAutoCreateFarmer()) {
             new Farmer(regionId, 0);
-            Bukkit.getPlayer(owner).sendMessage(Main.getLangFile().getText("boughtFarmer"));
+            ChatUtils.sendMessage(Bukkit.getPlayer(owner),
+                    Main.getLangFile().getMessages().getBoughtFarmer());
         }
     }
 }

@@ -1,8 +1,5 @@
 package xyz.geik.farmer.modules.voucher;
 
-import com.cryptomorin.xseries.SkullUtils;
-import com.cryptomorin.xseries.XMaterial;
-import de.tr7zw.nbtapi.NBT;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -10,6 +7,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
+import xyz.geik.farmer.shades.nbtapi.NBT;
+import xyz.geik.glib.shades.xseries.SkullUtils;
+import xyz.geik.glib.shades.xseries.XMaterial;
 
 import java.util.stream.Collectors;
 

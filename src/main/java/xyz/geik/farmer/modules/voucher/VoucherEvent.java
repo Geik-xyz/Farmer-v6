@@ -1,7 +1,5 @@
 package xyz.geik.farmer.modules.voucher;
 
-import com.cryptomorin.xseries.XSound;
-import de.tr7zw.nbtapi.NBT;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -11,13 +9,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerRemoveEvent;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.guis.MainGui;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.shades.nbtapi.NBT;
+import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.shades.xseries.XSound;
 
 /**
  * Voucher Event Listener class
@@ -42,12 +41,12 @@ public class VoucherEvent implements Listener {
         if (!voucherBase.equals(event.getItem()))
             return;
         event.setCancelled(true);
-        if (!Settings.isWorldAllowed(player.getWorld().getName())) {
-            player.sendMessage(Voucher.getInstance().getInstance().getLang().getText("wrongWorld"));
+        if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(player.getWorld().getName())) {
+            player.sendMessage(Voucher.getInstance().getLang().getText("wrongWorld"));
             return;
         }
         if (!Main.getIntegration().getOwnerUUID(player.getLocation()).equals(player.getUniqueId())) {
-            player.sendMessage(Main.getLangFile().getText("notOwner"));
+            ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNotOwner());
             return;
         }
         if (FarmerManager.getFarmers().containsKey(Main.getIntegration().getRegionID(player.getLocation()))) {
@@ -74,7 +73,7 @@ public class VoucherEvent implements Listener {
         // Opens farmer gui to buyer
         MainGui.showGui(player, farmer);
         // Sends message to player
-        player.sendMessage(Main.getLangFile().getText("boughtFarmer"));
+        ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getBoughtFarmer());
         XSound.ENTITY_PLAYER_LEVELUP.play(player);
         descentVoucher(player, event.getItem());
     }

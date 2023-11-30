@@ -1,8 +1,6 @@
 package xyz.geik.farmer.listeners.backend;
 
-import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -13,9 +11,9 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerInv;
+import xyz.geik.glib.shades.xseries.XMaterial;
 
 /**
  * Main event of farmer which collect items to storage
@@ -65,11 +63,11 @@ public class ItemEvent implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void itemSpawnEvent(@NotNull ItemSpawnEvent e) {
         // Checks world suitable for farmer
-        if (!Settings.isWorldAllowed(e.getLocation().getWorld().getName()))
+        if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(e.getLocation().getWorld().getName()))
             return;
         // Checks if player dropped or naturally dropped
         // if settings contain Cancel player drop then it cancel collecting it.
-        if (Settings.ignorePlayerDrop && e.getEntity().getPickupDelay() >= 39)
+        if (Main.getConfigFile().getSettings().isIgnorePlayerDrop() && e.getEntity().getPickupDelay() >= 39)
             return;
 
         // Cancel if item has meta because there can be unique items

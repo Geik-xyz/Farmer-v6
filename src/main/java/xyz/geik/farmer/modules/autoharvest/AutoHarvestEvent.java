@@ -1,7 +1,5 @@
 package xyz.geik.farmer.modules.autoharvest;
 
-import com.cryptomorin.xseries.XMaterial;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,12 +13,11 @@ import org.bukkit.material.CocoaPlant;
 import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
+import xyz.geik.glib.shades.xseries.XMaterial;
 
 /**
  * Auto Harvest Listener class
@@ -40,7 +37,7 @@ public class AutoHarvestEvent implements Listener {
         Block block = event.getNewState().getBlock();
         XMaterial material = parseMaterial(XMaterial.matchXMaterial(event.getNewState().getType()));
         // Checks world suitable for farmer
-        if (!Settings.isWorldAllowed(block.getWorld().getName()))
+        if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(block.getWorld().getName()))
             return;
 
         // Checks auto harvest, harvests this block.

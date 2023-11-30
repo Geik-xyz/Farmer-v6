@@ -1,11 +1,9 @@
 package xyz.geik.farmer.modules.autoharvest;
 
-import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
-import org.bukkit.block.BlockState;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.modules.FarmerModule;
+import xyz.geik.glib.shades.xseries.XMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +57,7 @@ public class AutoHarvest extends FarmerModule {
         defaultStatus = getConfig().getBoolean("settings.defaultStatus");
         registerListener(new AutoHarvestEvent());
         registerListener(new AutoHarvestGuiCreateEvent());
-        setLang(Settings.lang, Main.getInstance());
+        setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
     }
 
     @Override

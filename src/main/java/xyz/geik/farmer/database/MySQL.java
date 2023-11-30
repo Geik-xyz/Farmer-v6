@@ -2,6 +2,7 @@ package xyz.geik.farmer.database;
 
 import lombok.Getter;
 import xyz.geik.farmer.Main;
+import xyz.geik.glib.database.DatabaseAPI;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,13 +19,13 @@ public class MySQL extends SQL {
      * Main constructor of MySQL init configurations
      */
     public MySQL() {
-        String hostname = Main.getDatabaseFile().getString("database.host");
-        int port = Main.getDatabaseFile().getInt("database.port");
-        String username = Main.getDatabaseFile().getString("database.username");
-        String password = Main.getDatabaseFile().getString("database.password");
-        String database = Main.getDatabaseFile().getString("database.database");
-        this.hikariCP = new HikariCP(hostname, port, username, password, database);
-        this.hikariCP.setProperties(this);
+        String host = Main.getConfigFile().getDatabase().getHost();
+        String port = Main.getConfigFile().getDatabase().getPort();
+        String dbName = Main.getConfigFile().getDatabase().getTableName();
+        String username = Main.getConfigFile().getDatabase().getUserName();
+        String password = Main.getConfigFile().getDatabase().getPassword();
+        Main.setSql(this);
+        Main.setDatabase(new DatabaseAPI(Main.getInstance(), host, port, dbName, username, password).getDatabase());
         createTable();
     }
 
@@ -32,20 +33,10 @@ public class MySQL extends SQL {
      * Crates table of MySQL
      */
     public void createTable() {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = this.hikariCP.getHikariDataSource().getConnection();
-            preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS Farmers (id INT AUTO_INCREMENT, regionID varchar(36) NOT NULL UNIQUE, `state` smallint(1) DEFAULT 1, `items` text DEFAULT NULL, `attributes` text DEFAULT NULL, `level` int DEFAULT 0, PRIMARY KEY (id))");
-            preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS FarmerUsers (`farmerId` int NOT NULL, `name` varchar(30) DEFAULT 'User', `uuid` char(36) DEFAULT '0', `role` smallint(1) DEFAULT 0)");
-            preparedStatement.executeUpdate();
-            this.plugin.getLogger().info("MySQL tables created successfully!");
-        } catch (SQLException throwables) {
-            this.plugin.getLogger().info("Error while creating table: " + throwables.getMessage());
-        } finally {
-            closeConnections(preparedStatement, connection, null);
-        }
+        String farmersTable = "CREATE TABLE IF NOT EXISTS Farmers (id INT AUTO_INCREMENT, regionID varchar(36) NOT NULL UNIQUE, `state` smallint(1) DEFAULT 1, `items` text DEFAULT NULL, `attributes` text DEFAULT NULL, `level` int DEFAULT 0, PRIMARY KEY (id))";
+        String usersTable = "CREATE TABLE IF NOT EXISTS FarmerUsers (`farmerId` int NOT NULL, `name` varchar(30) DEFAULT 'User', `uuid` char(36) DEFAULT '0', `role` smallint(1) DEFAULT 0)";
+        Main.getDatabase().createTables(farmersTable);
+        Main.getDatabase().createTables(usersTable);
     }
 
     /**

@@ -1,14 +1,17 @@
 package xyz.geik.farmer.guis;
 
-import de.themoep.inventorygui.DynamicGuiElement;
-import de.themoep.inventorygui.InventoryGui;
-import de.themoep.inventorygui.StaticGuiElement;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.chat.Placeholder;
+import xyz.geik.glib.shades.inventorygui.DynamicGuiElement;
+import xyz.geik.glib.shades.inventorygui.InventoryGui;
+import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 
 /**
  * Manage gui can be openable
@@ -24,16 +27,16 @@ public class ManageGui {
      */
     public static void showGui(Player player, Farmer farmer) {
         // Gui interface array
-        String[] guiSetup = Main.getLangFile().getStringList("manageGui.interface").toArray(new String[0]);
+        String[] guiSetup = Main.getConfigFile().getGui().getManageLayout().toArray(new String[0]);
         // Inventory object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("manageGui.guiName"), guiSetup);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, ChatUtils.color(Main.getLangFile().getGui().getManageGui().getGuiName())), guiSetup);
         // Filler for empty slots
-        gui.setFiller(GuiHelper.getFiller());
+        gui.setFiller(GuiHelper.getFiller(player));
         // Change state of Farmer Icon
         gui.addElement(new DynamicGuiElement('t', (viewer) -> {
             return new StaticGuiElement('t',
                 // Placing item depending on state of farmer (Collecting or not)
-                GuiHelper.getStatusItem(farmer.getState()),
+                GuiHelper.getStatusItem(farmer.getState(), player),
                 1,
                 // Event of status change
                 click -> {
@@ -42,16 +45,16 @@ public class ManageGui {
                     else
                       farmer.setState(0);
                     gui.draw();
-                    player.sendMessage(Main.getLangFile().getText("toggleFarmer")
-                          .replace("{status}", (farmer.getState() == 0) ?
-                                  Main.getLangFile().getText("toggleOFF") :
-                                  Main.getLangFile().getText("toggleON")));
+                    ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getToggleFarmer(),
+                            new Placeholder("{status}", (farmer.getState() == 0) ?
+                                    ChatUtils.color(Main.getLangFile().getVarious().getToggleOff()) :
+                                    ChatUtils.color(Main.getLangFile().getVarious().getToggleOn())));
                     return true;
                 });
         }));
         // Users gui opener
         gui.addElement(new StaticGuiElement('u',
-                GuiHelper.getItem("manageGui.users"),
+                GuiHelper.getUserCategory(player),
                 1,
                 click -> {
                     UsersGui.showGui(player, farmer);
@@ -62,7 +65,7 @@ public class ManageGui {
         gui.addElement(new DynamicGuiElement('l', (viewer) -> {
             return new StaticGuiElement('l',
                 // Level item
-                GuiHelper.getLevelItem(farmer),
+                GuiHelper.getLevelItem(farmer, player),
                 1,
                 // Event of level item click
                 click -> {
@@ -70,21 +73,21 @@ public class ManageGui {
                     if (!(FarmerLevel.getAllLevels().size()-1 < nextLevelIndex)) {
                         FarmerLevel nextLevel = FarmerLevel.getAllLevels()
                                 .get(nextLevelIndex);
-                        if (Main.getEcon().getBalance(player) >= nextLevel.getReqMoney()) {
+                        if (Main.getEconomy().getBalance(player) >= nextLevel.getReqMoney()) {
                             if (nextLevel.getPerm() != null && !player.hasPermission(nextLevel.getPerm()))
-                                player.sendMessage(Main.getLangFile().getText("noPerm"));
+                                ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoPerm());
                             else {
-                                Main.getEcon().withdrawPlayer(player, nextLevel.getReqMoney());
+                                Main.getEconomy().withdrawPlayer(player, nextLevel.getReqMoney());
                                 farmer.setLevel(nextLevel);
                                 farmer.getInv().setCapacity(nextLevel.getCapacity());
-                                player.sendMessage(Main.getLangFile().getText("levelUpgraded")
-                                        .replace("{level}", String.valueOf(nextLevelIndex+1))
-                                        .replace("{capacity}", String.valueOf(nextLevel.getCapacity())));
+                                ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getLevelUpgraded(),
+                                        new Placeholder("{level}", String.valueOf(nextLevelIndex+1)),
+                                        new Placeholder("{capacity}", nextLevel.getCapacity()+""));
                             }
                         }
                         else
-                            player.sendMessage(Main.getLangFile().getText("notEnoughMoney")
-                                    .replace("{req_money}", String.valueOf(nextLevel.getReqMoney())));
+                            ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNotEnoughMoney(),
+                                    new Placeholder("{req_money}", nextLevel.getReqMoney()+""));
                         gui.draw();
                     }
                     return true;
@@ -94,7 +97,7 @@ public class ManageGui {
         // Module icon
         if (FarmerAPI.getModuleManager().isModulesUseGui())
             gui.addElement(new StaticGuiElement('m',
-                    GuiHelper.getItem("manageGui.modules"),
+                    GuiHelper.getModuleGuiItem(player),
                     1,
                     click -> {
                         ModuleGui.showGui(player, farmer);

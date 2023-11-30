@@ -1,6 +1,6 @@
 package xyz.geik.farmer.guis;
 
-import de.themoep.inventorygui.*;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -12,6 +12,12 @@ import xyz.geik.farmer.listeners.backend.ChatEvent;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
+import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.chat.Placeholder;
+import xyz.geik.glib.shades.inventorygui.DynamicGuiElement;
+import xyz.geik.glib.shades.inventorygui.GuiElementGroup;
+import xyz.geik.glib.shades.inventorygui.InventoryGui;
+import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 
 import java.util.*;
 
@@ -31,42 +37,42 @@ public class UsersGui {
      */
     public static void showGui(Player player, @NotNull Farmer farmer) {
         // Gui interface array
-        String[] userGui = Main.getLangFile().getStringList("usersGui.interface").toArray(new String[0]);
+        String[] userGui = Main.getConfigFile().getGui().getUsersLayout().toArray(new String[0]);
         // Inventory object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, Main.getLangFile().getText("usersGui.guiName"), userGui);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, ChatUtils.color(Main.getLangFile().getGui().getUsersGui().getGuiName())), userGui);
         // Filler fills empty slots
-        gui.setFiller(GuiHelper.getFiller());
+        gui.setFiller(GuiHelper.getFiller(player));
         // Help icon show basic information about gui
-        gui.addElement(GuiHelper.createGuiElement("usersGui.help", 'h'));
+        gui.addElement(GuiHelper.createGuiElement(GuiHelper.getHelpItemForUsers(player), 'h'));
         // Both next and previous page items
         // Shown if there is another page
         // Otherwise they fill by gui filler
         // Next page item
-        gui.addElement(GuiHelper.createNextPage());
+        gui.addElement(GuiHelper.createNextPage(player));
         // Previous page item
-        gui.addElement(GuiHelper.createPreviousPage());
+        gui.addElement(GuiHelper.createPreviousPage(player));
         // Add user icon
         gui.addElement(new StaticGuiElement('a',
                 // Adduser item
-                GuiHelper.getItem("usersGui.addUser"),
+                GuiHelper.getAddUserItem(player),
                 1,
                 // Click event of item
                 click -> {
                     // Checks if owner can add more user to farmer
                     if (User.getUserAmount(player) <= farmer.getUsers().size()) {
-                        player.sendMessage(Main.getLangFile().getText("reachedMaxUser"));
+                        ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getReachedMaxUser());
                         return true;
                     }
                     // Adding player to a list for catching with ChatEvent
                     if (!ChatEvent.getPlayers().containsKey(player.getName()))
                         ChatEvent.getPlayers().put(player.getName(), farmer.getRegionID());
-                    player.sendMessage(Main.getLangFile().getText("waitingInput").replace("{cancel}",
-                            Main.getLangFile().getText("inputCancelWord")));
+                    ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getWaitingInput(),
+                            new Placeholder("{cancel}", Main.getLangFile().getVarious().getInputCancelWord()));
                     // Removes player from cache of ChatEvent catcher after 6 seconds
                     Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                         if (ChatEvent.getPlayers().containsKey(player.getName())) {
                             ChatEvent.getPlayers().remove(player.getName());
-                            player.sendMessage(Main.getLangFile().getText("inputCancel"));
+                            ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getInputCancel());
                         }
                     }, 120L);
                     gui.close();
@@ -76,12 +82,8 @@ public class UsersGui {
         // User list group items
         List<User> users = new ArrayList<>(farmer.getUsers());
         // Sorts users by permissions from largest to smallest
-        Collections.sort(users, new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                return FarmerPerm.getRoleId(o2.getPerm()) - FarmerPerm.getRoleId(o1.getPerm());
-            }
-        });
+        Collections.sort(users, (o1, o2)
+                -> FarmerPerm.getRoleId(o2.getPerm()) - FarmerPerm.getRoleId(o1.getPerm()));
         // Group of users
         GuiElementGroup group = new GuiElementGroup('u');
         // foreach every user

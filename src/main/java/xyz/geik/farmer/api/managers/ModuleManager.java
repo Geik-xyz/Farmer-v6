@@ -12,6 +12,7 @@ import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.exceptions.ModuleExistException;
 import xyz.geik.farmer.modules.exceptions.ReloadModuleException;
+import xyz.geik.glib.chat.ChatUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -94,7 +95,7 @@ public class ModuleManager {
         } catch (Exception e) {
             throw new ReloadModuleException(e.getMessage());
         }
-        Bukkit.getConsoleSender().sendMessage(Main.color("&2[FarmerModules] &a" + farmerModule.getName() +
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&2[FarmerModules] &a" + farmerModule.getName() +
                 " was reloaded it is: " + farmerModule.isEnabled()));
     }
 
@@ -143,9 +144,9 @@ public class ModuleManager {
      */
     private void loadModule(@NotNull FarmerModule farmerModule) {
         if (!farmerModule.isEnabled())
-            Bukkit.getConsoleSender().sendMessage(Main.color("&4[FarmerModules] &c" + farmerModule.getName() + " disabled"));
+            Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&4[FarmerModules] &c" + farmerModule.getName() + " disabled"));
         else {
-            Bukkit.getConsoleSender().sendMessage(Main.color("&2[FarmerModules] &a" + farmerModule.getName() + " enabled"));
+            Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&2[FarmerModules] &a" + farmerModule.getName() + " enabled"));
             farmerModule.onEnable();
             if (farmerModule.isHasGui() && !isModulesUseGui)
                 isModulesUseGui = true;
