@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 /**
  * Placeholder executor class
  *
- * @author Amowny
+ * @author amownyy
  * @since v6-b003
  */
 public abstract class PlaceholderExecutor {

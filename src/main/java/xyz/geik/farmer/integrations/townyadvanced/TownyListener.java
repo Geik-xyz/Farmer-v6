@@ -22,7 +22,7 @@ import java.util.UUID;
 /**
  * TownyAdvanced listener class
  *
- * @author Amowny
+ * @author amownyy
  * @since v6-b001
  */
 public class TownyListener implements Listener {

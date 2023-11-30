@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * TownyAdvanced integration class
  *
- * @author Amowny
+ * @author amownyy
  * @since v6-b001
  */
 public class TownyAdvanced extends Integrations {

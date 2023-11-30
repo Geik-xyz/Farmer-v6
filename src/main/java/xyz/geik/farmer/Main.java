@@ -7,8 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.commands.Commands;
-import xyz.geik.farmer.commands.FarmerTabComplete;
 import xyz.geik.farmer.configuration.ConfigFile;
 import xyz.geik.farmer.configuration.LangFile;
 import xyz.geik.farmer.database.MySQL;
@@ -58,11 +56,11 @@ public class Main extends JavaPlugin {
 
     @Getter @Setter
     private static Database database;
+
     @Getter @Setter
     private static SQL sql;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private PlaceholderAPI placeholderAPI;
 
     @Getter @Setter

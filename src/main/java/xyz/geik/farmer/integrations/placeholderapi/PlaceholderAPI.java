@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * PlaceholderAPI integration class
  *
- * @author Amowny
+ * @author amownyy
  * @since v6-b003
  */
 public class PlaceholderAPI extends PlaceholderExpansion {
