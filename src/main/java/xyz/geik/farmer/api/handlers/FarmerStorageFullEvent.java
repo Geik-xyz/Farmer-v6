@@ -5,6 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.Farmer;
 
 /**
@@ -19,27 +20,34 @@ public class FarmerStorageFullEvent extends Event {
      * Farmer object which storage is full
      * @see Farmer
      */
-    private Farmer farmer;
+    private final Farmer farmer;
 
     /**
      * Item which farmer can't add to storage
      * @see ItemStack
      */
-    private ItemStack item;
+    private final ItemStack item;
 
     /**
      * Left amount of item which farmer can't add to storage
      */
     private int leftAmount = 0;
 
-    // Drop item and cancel event booleans
-    private boolean isCancelled = false, dropItem = true;
+    /**
+     * Cancel situation of event
+     */
+    private boolean isCancelled = false;
+
+    /**
+     * Drop item situation for drops it or cancel it
+     */
+    private boolean dropItem = true;
 
     /**
      * Inherited class
      * @see ItemSpawnEvent
      */
-    private ItemSpawnEvent itemSpawnEvent;
+    private final ItemSpawnEvent itemSpawnEvent;
 
     /**
      * FarmerStorageFullEvent constructor with farmer, item, leftAmount and itemSpawnEvent parameters
@@ -59,6 +67,8 @@ public class FarmerStorageFullEvent extends Event {
     }
 
     /**
+     * Cancel status of event
+     *
      * @param arg0 boolean of cancelled or not default: false
      */
     public void setCancelled(boolean arg0) {
@@ -76,18 +86,23 @@ public class FarmerStorageFullEvent extends Event {
 
     /**
      * Spigot handlers requirements
-     *
-     * @return
+     * @see HandlerList
      */
     private static final HandlerList HANDLERS = new HandlerList();
 
+    /**
+     * Spigot handlers requirement
+     * @return handler list
+     */
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
     }
 
     /**
-     * @return HandlerList
+     * Spigot handlers requirement
+     *      * @return handler list
+     * @return HandlerList list
      */
     public static HandlerList getHandlerList() {
         return HANDLERS;

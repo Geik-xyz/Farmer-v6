@@ -23,8 +23,8 @@ public class ListenerRegister {
     }
 
     /**
-     * Shortcut of pluginmanager
-     * @param object
+     * Shortcut of plugin manager
+     * @param object of listener
      */
     private void register(Listener object) {
         Bukkit.getPluginManager().registerEvents(object, Main.getInstance());

@@ -10,17 +10,21 @@ import xyz.geik.farmer.modules.FarmerModule;
 @Getter
 public class ModuleExistException extends Exception {
 
-    // Name of addon
-    private String addonName;
+    /**
+     * Name of addon
+     */
+    private final String addonName;
 
-    // Is addon enabled
-    private boolean isEnabled;
+    /**
+     * Is addon enabled
+     */
+    private final boolean isEnabled;
 
     /**
      * Module already loaded exception
      *
-     * @param message
-     * @param module
+     * @param message of exception
+     * @param module of farmer
      */
     public ModuleExistException(String message, @NotNull FarmerModule module) {
         super(message);

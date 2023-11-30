@@ -1,5 +1,6 @@
 package xyz.geik.farmer.api.managers;
 
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -20,16 +21,16 @@ import java.util.UUID;
 public class FarmerManager {
 
     /**
-     * Loaded farmer cache.
+     * Constructor of class
      */
-    private static HashMap<String, Farmer> farmers = new HashMap<>();
+    public FarmerManager() {}
 
     /**
-     * Gets farmer cache which contains all loaded farmers.
-     * @return farmers as HashMap of String and Farmer (regionId, farmer)
+     * Loaded farmer cache.
      * @see Farmer
      */
-    public static HashMap<String, Farmer> getFarmers() { return farmers; }
+    @Getter
+    public static HashMap<String, Farmer> farmers = new HashMap<>();
 
     /**
      * <b>DANGER</b> - Use with caution.
@@ -103,7 +104,7 @@ public class FarmerManager {
      * @return true if farmer exists, false if not
      */
     public boolean hasFarmer(Location location) {
-        return getFarmers().keySet().contains(Main.getIntegration().getRegionID(location));
+        return getFarmers().containsKey(Main.getIntegration().getRegionID(location));
     }
 
     /**

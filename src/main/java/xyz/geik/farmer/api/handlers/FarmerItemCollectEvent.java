@@ -5,6 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.Farmer;
 
 /**
@@ -19,18 +20,18 @@ public class FarmerItemCollectEvent extends Event {
      * Farmer object which collects the item
      * @see Farmer
      */
-    private Farmer farmer;
+    private final Farmer farmer;
 
     /**
      * Item which is collected
      * @see ItemStack
      */
-    private ItemStack item;
+    private final ItemStack item;
 
     /**
      * Amount of item which is collected
      */
-    private int collectAmount;
+    private final int collectAmount;
 
     /**
      * Cancel state of event
@@ -40,7 +41,7 @@ public class FarmerItemCollectEvent extends Event {
     /**
      * Inherited class
      */
-    private ItemSpawnEvent itemSpawnEvent;
+    private final ItemSpawnEvent itemSpawnEvent;
 
     /**
      * FarmerItemCollectEvent constructor which takes farmer, item, collectAmount and event as parameters
@@ -76,13 +77,19 @@ public class FarmerItemCollectEvent extends Event {
      */
     private static final HandlerList HANDLERS = new HandlerList();
 
+    /**
+     * Spigot handlers requirement
+     * @return handler list
+     */
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
     }
 
     /**
-     * @return HandlerList
+     * Spigot handlers requirement
+     *      * @return handler list
+     * @return HandlerList list
      */
     public static HandlerList getHandlerList() {
         return HANDLERS;

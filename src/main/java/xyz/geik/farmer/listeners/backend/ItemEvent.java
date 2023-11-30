@@ -21,6 +21,13 @@ import xyz.geik.glib.shades.xseries.XMaterial;
 public class ItemEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public ItemEvent() {}
+
+    /**
+     * Main event of item collection of farmer
+     *
      * @param event event of collect event
      */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -82,9 +89,15 @@ public class ItemEvent implements Listener {
 
         // Checks item dropped in region of a player
         // And checks region owner has a farmer
-        String regionID = Main.getIntegration().getRegionID(e.getLocation());
-        if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
+        final String regionID;
+        try {
+            regionID = Main.getIntegration().getRegionID(e.getLocation());
+            if (regionID == null || !FarmerManager.getFarmers().containsKey(regionID))
+                return;
+        }
+        catch (NullPointerException ex) {
             return;
+        }
 
         // Checks farmer in collection state
         Farmer farmer = FarmerManager.getFarmers().get(regionID);

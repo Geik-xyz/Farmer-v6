@@ -26,20 +26,30 @@ public class FarmerLevel {
     @Getter
     private static List<FarmerLevel> allLevels = new ArrayList<>();
 
-    // Config name of level
+    /**
+     * Config name of level
+     */
     private String dataName;
 
-    // Capacity is item farmer can take
-    // Required Money is required money for this level.
+    /**
+     * Capacity is item farmer can take
+     * Required Money is required money for this level.
+     */
     private long capacity, reqMoney;
 
-    // Tax rate of this level
+    /**
+     * Tax rate of this level
+     */
     private double tax;
 
-    // Required permission of this level
+    /**
+     * Required permission of this level
+     */
     private String perm;
 
     /**
+     * Main constructor of farmer level
+     *
      * @param dataName data name of level
      * @param capacity capacity of level
      * @param reqMoney required money of level
@@ -57,8 +67,8 @@ public class FarmerLevel {
     /**
      * Gets single level from farmerLevels by config name
      *
-     * @param name
-     * @return
+     * @param name of level
+     * @return FarmerLevel object of level
      */
     public static @NotNull FarmerLevel getLevel(String name) {
         return getAllLevels().stream().filter(level -> (level.getDataName().equals(name))).findFirst().get();

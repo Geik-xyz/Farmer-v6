@@ -15,6 +15,7 @@ import java.sql.SQLException;
  * @since b000
  * @author Amowny
  */
+@Getter
 public class SQLite extends SQL {
 
     /**
@@ -43,13 +44,5 @@ public class SQLite extends SQL {
      */
     public DatabaseType getDatabaseType() {
         return DatabaseType.SQLITE;
-    }
-
-    /**
-     * Gets file of SQLite
-     * @return File of .db file
-     */
-    public File getSqlFile() {
-        return this.sqlFile;
     }
 }

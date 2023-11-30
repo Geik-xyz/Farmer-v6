@@ -1,6 +1,5 @@
 package xyz.geik.farmer.integrations.placeholderapi;
 
-
 import org.bukkit.entity.Player;
 
 /**

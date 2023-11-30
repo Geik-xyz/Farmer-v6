@@ -140,7 +140,7 @@ public class Metrics {
     }
 
     /**
-     *
+     * metrics base
      */
     public static class MetricsBase {
 
@@ -235,7 +235,9 @@ public class Metrics {
         }
 
         /**
-         * @param chart
+         * adds custom chart
+         *
+         * @param chart custom chart
          */
         public void addCustomChart(CustomChart chart) {
             this.customCharts.add(chart);
@@ -370,7 +372,7 @@ public class Metrics {
     }
 
     /**
-     *
+     * advanced bar chart
      */
     public static class AdvancedBarChart extends CustomChart {
 
@@ -413,7 +415,7 @@ public class Metrics {
     }
 
     /**
-     *
+     * simple bar chart
      */
     public static class SimpleBarChart extends CustomChart {
 
@@ -446,7 +448,7 @@ public class Metrics {
     }
 
     /**
-     *
+     * multiline chart
      */
     public static class MultiLineChart extends CustomChart {
 
@@ -489,7 +491,7 @@ public class Metrics {
     }
 
     /**
-     *
+     * advanced pie
      */
     public static class AdvancedPie extends CustomChart {
 
@@ -532,12 +534,16 @@ public class Metrics {
     }
 
     /**
-     *
+     * Custom chart
      */
     public abstract static class CustomChart {
 
         private final String chartId;
 
+        /**
+         * custom chart
+         * @param chartId id of chart
+         */
         protected CustomChart(String chartId) {
             if (chartId == null) {
                 throw new IllegalArgumentException("chartId must not be null");
@@ -546,9 +552,11 @@ public class Metrics {
         }
 
         /**
-         * @param errorLogger
-         * @param logErrors
-         * @return
+         * request json object
+         *
+         * @param errorLogger error log
+         * @param logErrors log error
+         * @return json object
          */
         public JsonObjectBuilder.JsonObject getRequestJsonObject(
                 BiConsumer<String, Throwable> errorLogger, boolean logErrors) {
@@ -570,11 +578,17 @@ public class Metrics {
             return builder.build();
         }
 
+        /**
+         * get chart data
+         *
+         * @return json object
+         * @throws Exception when something wrong
+         */
         protected abstract JsonObjectBuilder.JsonObject getChartData() throws Exception;
     }
 
     /**
-     *
+     * Single line chart
      */
     public static class SingleLineChart extends CustomChart {
 
@@ -603,7 +617,7 @@ public class Metrics {
     }
 
     /**
-     *
+     * simple pie
      */
     public static class SimplePie extends CustomChart {
 
@@ -632,7 +646,7 @@ public class Metrics {
     }
 
     /**
-     *
+     * Drill down pie chart
      */
     public static class DrilldownPie extends CustomChart {
 
@@ -691,7 +705,7 @@ public class Metrics {
         private boolean hasAtLeastOneField = false;
 
         /**
-         *
+         * json object builder
          */
         public JsonObjectBuilder() {
             builder.append("{");

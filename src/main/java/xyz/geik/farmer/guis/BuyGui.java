@@ -17,8 +17,13 @@ import xyz.geik.glib.shades.xseries.XSound;
 public class BuyGui {
 
     /**
+     * Constructor of class
+     */
+    public BuyGui() {}
+
+    /**
      * Opens gui to player
-     * @param player
+     * @param player to show gui
      */
     public static void showGui(Player player) {
         // Gui template as array

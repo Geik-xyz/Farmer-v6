@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.glib.shades.inventorygui.InventoryGui;
 
@@ -19,19 +20,19 @@ public class FarmerModuleGuiCreateEvent extends Event {
      * Player who opened the gui
      * @see Player
      */
-    private Player player;
+    private final Player player;
 
     /**
      * Gui that has created
      * @see InventoryGui
      */
-    private InventoryGui gui;
+    private final InventoryGui gui;
 
     /**
      * Farmer that has opened the gui as reference
      * @see Farmer
      */
-    private Farmer farmer;
+    private final Farmer farmer;
 
     /**
      * Cancel status of event (true = cancelled)
@@ -65,18 +66,23 @@ public class FarmerModuleGuiCreateEvent extends Event {
 
     /**
      * Spigot handlers requirements
-     *
-     * @return
+     * @see HandlerList
      */
     private static final HandlerList HANDLERS = new HandlerList();
 
+    /**
+     * Spigot handlers requirement
+     * @return handler list
+     */
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
     }
 
     /**
-     * @return HandlerList
+     * Spigot handlers requirement
+     *      * @return handler list
+     * @return HandlerList list
      */
     public static HandlerList getHandlerList() {
         return HANDLERS;

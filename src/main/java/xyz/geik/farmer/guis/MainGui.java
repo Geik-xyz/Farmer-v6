@@ -31,10 +31,15 @@ import xyz.geik.glib.shades.xseries.XMaterial;
 public class MainGui {
 
     /**
+     * Constructor of class
+     */
+    public MainGui() {}
+
+    /**
      * Gui main command
      *
-     * @param player
-     * @param farmer
+     * @param player to show gui
+     * @param farmer of region
      */
     public static void showGui(Player player, Farmer farmer) {
         // Array of gui interface
@@ -119,6 +124,7 @@ public class MainGui {
                                     ItemStack returnItem = material.parseItem();
                                     // Give item separately for != 64 amount of item
                                     // Because bukkit library forces item to max stack amount 64
+                                    assert returnItem != null;
                                     if (returnItem.getMaxStackSize() != 64) {
                                         returnItem.setAmount(returnItem.getMaxStackSize());
                                         long additional = count % returnItem.getMaxStackSize();
@@ -153,20 +159,20 @@ public class MainGui {
     }
 
     /**
-     * Chkecs if player has slot in inventory
+     * Checks if player has slot in inventory
      *
-     * @param p
-     * @return
+     * @param player to be checked
+     * @return boolean status of inventory can take item
      */
-    private static boolean invFull(@NotNull Player p) {
-        return p.getInventory().firstEmpty() == -1;
+    private static boolean invFull(@NotNull Player player) {
+        return player.getInventory().firstEmpty() == -1;
     }
 
     /**
      * Gets all the empty slots
      *
-     * @param player
-     * @return
+     * @param player to be checked
+     * @return int of empty slots
      */
     private static int getEmptySlots(@NotNull Player player) {
         int count = 0;

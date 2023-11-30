@@ -1,6 +1,5 @@
 package xyz.geik.farmer.integrations.placeholderapi.expansion;
 
-
 import org.bukkit.entity.Player;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.integrations.placeholderapi.PlaceholderExecutor;

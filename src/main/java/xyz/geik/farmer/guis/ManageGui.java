@@ -20,10 +20,15 @@ import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 public class ManageGui {
 
     /**
+     * Constructor of class
+     */
+    public ManageGui() {}
+
+    /**
      * Shows gui to player also contains event of it
      *
-     * @param player
-     * @param farmer
+     * @param player to show gui
+     * @param farmer of region
      */
     public static void showGui(Player player, Farmer farmer) {
         // Gui interface array

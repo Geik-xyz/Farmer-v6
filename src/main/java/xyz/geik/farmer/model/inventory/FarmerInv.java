@@ -74,8 +74,8 @@ public class FarmerInv {
     /**
      * Gets item from farmer inv.
      *
-     * @param material
-     * @return
+     * @param material of stock item
+     * @return FarmerItem
      */
     public FarmerItem getStockedItem(XMaterial material) {
         return items.stream().filter(item -> (item.getMaterial().isSimilar(material.parseItem()))).findFirst().get();
@@ -84,8 +84,8 @@ public class FarmerInv {
     /**
      * Gets item from default items.
      *
-     * @param material
-     * @return
+     * @param material of default item
+     * @return FarmerItem
      */
     public static @NotNull FarmerItem getDefaultItem(XMaterial material) {
         return defaultItems.stream().filter(item -> (item.getMaterial().isSimilar(material.parseItem()))).findFirst().get();
@@ -94,8 +94,8 @@ public class FarmerInv {
     /**
      * Checks if item is in default items.
      *
-     * @param itemStack
-     * @return
+     * @param itemStack to check
+     * @return check status
      */
     public static boolean checkMaterial(ItemStack itemStack) {
         return defaultItems.stream().anyMatch(item -> (item.getMaterial().isSimilar(itemStack)));
@@ -129,8 +129,8 @@ public class FarmerInv {
      * Forces adding item amount to stock.
      * Doesn't respect capacity.
      *
-     * @param material
-     * @param amount
+     * @param material to sum
+     * @param amount to sum
      */
     public void forceSumItem(XMaterial material, long amount) {
         getStockedItem(material).sumAmount(amount);
@@ -160,8 +160,8 @@ public class FarmerInv {
     /**
      * Update item amount in stock. Doesn't respect capacity.
      *
-     * @param material
-     * @param amount
+     * @param material to set amount
+     * @param amount to set amount
      */
     public void setItemAmount(XMaterial material, long amount) {
         getStockedItem(material).setAmount(amount);

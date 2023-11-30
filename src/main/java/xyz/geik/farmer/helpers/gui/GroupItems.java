@@ -22,6 +22,11 @@ import java.util.stream.Collectors;
 public class GroupItems {
 
     /**
+     * Constructor of class
+     */
+    public GroupItems() {}
+
+    /**
      * Farmer stock item which can be anything in items.yml
      * It also calculates stock and percent for display stock.
      * Stock can be seen by color of lore or bar in lore
@@ -34,6 +39,7 @@ public class GroupItems {
         long capacity = farmer.getLevel().getCapacity();
         double tax = farmer.getLevel().getTax();
         ItemStack result = farmerItem.getMaterial().parseItem();
+        assert result != null;
         ItemMeta meta = result.getItemMeta();
         // Stock amount of farmer
         long stock = farmerItem.getAmount();
@@ -77,8 +83,8 @@ public class GroupItems {
      * User item which display in UserGui
      * It always player head.
      *
-     * @param user
-     * @return
+     * @param user of farmer
+     * @return ItemStack of user head
      */
     public static @NotNull ItemStack getUserItem(@NotNull User user) {
         // Player head collector
@@ -99,30 +105,30 @@ public class GroupItems {
      * Progress bar uses in GroupItems#getGroupItem()
      * Which located here and percent bar shown in lore of group item
      *
-     * @param percent
-     * @param stock
-     * @param capacity
-     * @param color
-     * @return
+     * @param percent of progress
+     * @param stock of farmer
+     * @param capacity of farmer
+     * @param color of bar
+     * @return String of finalized bar
      */
     private static @NotNull String getFilledProgressBar(int percent, long stock, long capacity, String color) {
         final String barFull = Main.getLangFile().getVarious().getPercentBar();
         final String barSymbol = String.valueOf(barFull.charAt(0));
-        String builder = "&7";
+        StringBuilder builder = new StringBuilder("&7");
         if (stock == capacity)
-            builder = "&c" + barFull;
+            builder = new StringBuilder("&c" + barFull);
         else if (stock == 0)
-            builder += barFull;
+            builder.append(barFull);
         else {
             int filled = percent/(100/barFull.length());
             int empty = barFull.length()-filled;
-            builder += color;
+            builder.append(color);
             for (int i = 1; i <= filled ; i++)
-                builder += barSymbol;
+                builder.append(barSymbol);
 
-            builder += "&7";
+            builder.append("&7");
             for (int i = 1; i <= empty ; i++)
-                builder += barSymbol;
+                builder.append(barSymbol);
         }
         return ChatUtils.color(builder.toString());
     }
@@ -131,8 +137,8 @@ public class GroupItems {
      * FillColor uses in GroupItems#getGroupItem()
      * Which located here and fill color calculates color of stock
      *
-     * @param percent
-     * @return
+     * @param percent of storage
+     * @return String color
      */
     private static @NotNull String selectFillColor(int percent) {
         String result;

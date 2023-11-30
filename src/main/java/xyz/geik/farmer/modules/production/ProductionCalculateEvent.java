@@ -20,12 +20,17 @@ import java.util.List;
 public class ProductionCalculateEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public ProductionCalculateEvent() {}
+
+    /**
      * Listens FarmerGuiOpenEvent for recalculate cache
      *
-     * @param event
+     * @param event of gui open event
      */
     @EventHandler
-    public void onProductionCalculateEvent(FarmerMainGuiOpenEvent event) {
+    public void onProductionCalculateEvent(@NotNull FarmerMainGuiOpenEvent event) {
         // If production is not calculated average production
         // cache will be created and calculated
         if (!event.getFarmer().getInv().isProductionCalculated()
@@ -46,7 +51,7 @@ public class ProductionCalculateEvent implements Listener {
      * if all generation items wait for calculation
      * then it will remove cache
      *
-     * @param event
+     * @param event of collection
      */
     @EventHandler
     public void productionLoadEvent(@NotNull FarmerItemCollectEvent event) {
@@ -66,7 +71,7 @@ public class ProductionCalculateEvent implements Listener {
 
     /**
      * Removes cache after 15 minutes
-     * @param event
+     * @param event production event
      */
     @EventHandler
     public void productionFlushEvent(@NotNull FarmerItemProductionEvent event) {

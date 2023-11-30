@@ -20,9 +20,14 @@ import java.util.stream.Collectors;
 public class SpawnerKillerGuiCreateEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public SpawnerKillerGuiCreateEvent() {}
+
+    /**
      * Creates the GUI element for the farmer GUI for the module
      *
-     * @param e
+     * @param e of farmer module gui create event
      */
     @EventHandler
     public void onGuiCreateEvent(@NotNull FarmerModuleGuiCreateEvent e) {
@@ -52,11 +57,10 @@ public class SpawnerKillerGuiCreateEvent implements Listener {
     /**
      * Gets item of gui
      *
-     * @param farmer
-     * @return
+     * @param farmer of gui
+     * @return ItemStack of gui item
      */
-    @Contract(" -> new")
-    private @NotNull ItemStack getGuiItem(Farmer farmer) {
+    private @NotNull ItemStack getGuiItem(@NotNull Farmer farmer) {
         ItemStack item = GuiHelper.getItem("moduleGui.icon", SpawnerKiller.getInstance().getLang());
         ItemMeta meta = item.getItemMeta();
         String status = farmer.getAttributeStatus("spawnerkiller") ?

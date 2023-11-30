@@ -1,6 +1,5 @@
 package xyz.geik.farmer.integrations.lands;
 
-
 import me.angeschossen.lands.api.LandsIntegration;
 import org.bukkit.Location;
 import xyz.geik.farmer.Main;

@@ -3,7 +3,6 @@ name: Farmer JavaDoc
 on:
   push:
     branches:
-      - v6
       - main
 
 jobs:
@@ -15,7 +14,6 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           javadoc-branch: javadoc
-          java-version: 1.8
-          target-folder: javadoc # url will be https://<username>.github.io/<repo>/javadoc, This can be left as nothing to generate javadocs in the root folder.
+          java-version: 20
           project: maven # or gradle
           # subdirectories: moduleA moduleB #for subdirectories support, needs to be run with custom command

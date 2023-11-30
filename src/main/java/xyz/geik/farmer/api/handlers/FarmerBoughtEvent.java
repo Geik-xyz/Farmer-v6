@@ -3,6 +3,7 @@ package xyz.geik.farmer.api.handlers;
 import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.Farmer;
 
 /**
@@ -17,7 +18,7 @@ public class FarmerBoughtEvent extends Event {
      * Bought farmer object
      * @see Farmer
      */
-    private Farmer farmer;
+    private final Farmer farmer;
 
     /**
      * FarmerBoughtEvent constructor
@@ -31,18 +32,23 @@ public class FarmerBoughtEvent extends Event {
 
     /**
      * Spigot handlers requirements
-     *
-     * @return
+     * @see HandlerList
      */
     private static final HandlerList HANDLERS = new HandlerList();
 
+    /**
+     * Spigot handlers requirement
+     * @return handler list
+     */
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
     }
 
     /**
-     * @return HandlerList
+     * Spigot handlers requirement
+     *      * @return handler list
+     * @return HandlerList list
      */
     public static HandlerList getHandlerList() {
         return HANDLERS;

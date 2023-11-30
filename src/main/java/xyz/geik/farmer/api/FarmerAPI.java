@@ -11,6 +11,11 @@ import xyz.geik.farmer.api.managers.ModuleManager;
 public class FarmerAPI {
 
     /**
+     * Constructor of class
+     */
+    public FarmerAPI() {}
+
+    /**
      * Returns instance of Main class
      * @return Main instance
      * @see xyz.geik.farmer.Main

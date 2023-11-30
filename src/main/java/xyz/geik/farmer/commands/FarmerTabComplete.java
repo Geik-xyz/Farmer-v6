@@ -24,29 +24,35 @@ import java.util.List;
 public class FarmerTabComplete implements TabCompleter {
 
     /**
+     * Constructor of class
+     */
+    public FarmerTabComplete() {}
+
+    /**
      * tab complete for args there is no additional effect
      */
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (sender.hasPermission("farmer.admin") || sender.getName().equals("Geyik")) {
+            List<String> onlinePlayers = getOnlinePlayers();
             if (args.length == 1) {
                 return Arrays.asList("about", "info", "reload", "give", "open", "remove", "fix");
             }
             if (args.length > 1 && Voucher.getInstance().isEnabled() && args[0].equalsIgnoreCase("give")) {
                 if (args.length == 2) {
-                    return online_players();
+                    return getOnlinePlayers();
                 }
                 else if (args.length == 3) {
                     for (int i = 1; i <= FarmerLevel.getAllLevels().size(); i++) {
-                        return Arrays.asList(String.valueOf(i));
+                        return Collections.singletonList(String.valueOf(i));
                     }
                 }
             }
             if (args.length == 2 && args[0].equalsIgnoreCase("open")) {
-                return online_players();
+                return getOnlinePlayers();
             } else if (args.length == 2 && args[0].equalsIgnoreCase("remove")) {
-                return online_players();
+                return getOnlinePlayers();
             }
         } else {
             if (args.length == 1) {
@@ -56,7 +62,12 @@ public class FarmerTabComplete implements TabCompleter {
         return null;
     }
 
-    private static List<String> online_players(){
+    /**
+     * Gets online players
+     *
+     * @return List of online players
+     */
+    private static @NotNull List<String> getOnlinePlayers(){
         List<String> online = new ArrayList<>();
         Bukkit.getOnlinePlayers().forEach((player -> online.add(player.getDisplayName())));
         return online;

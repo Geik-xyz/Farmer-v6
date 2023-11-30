@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 
@@ -20,13 +21,13 @@ public class FarmerItemSellEvent extends Event {
      * Farmer object which contains the FarmerItem
      * @see Farmer
      */
-    private Farmer farmer;
+    private final Farmer farmer;
 
     /**
      * FarmerItem object which is sold
      * @see FarmerItem
      */
-    private FarmerItem farmerItem;
+    private final FarmerItem farmerItem;
 
     /**
      * OfflinePlayer object which is the seller
@@ -49,18 +50,23 @@ public class FarmerItemSellEvent extends Event {
 
     /**
      * Spigot handlers requirements
-     *
-     * @return
+     * @see HandlerList
      */
     private static final HandlerList HANDLERS = new HandlerList();
 
+    /**
+     * Spigot handlers requirement
+     * @return handler list
+     */
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
     }
 
     /**
-     * @return HandlerList
+     * Spigot handlers requirement
+     *      * @return handler list
+     * @return HandlerList list
      */
     public static HandlerList getHandlerList() {
         return HANDLERS;

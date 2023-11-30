@@ -24,7 +24,7 @@ public enum FarmerPerm {
     /**
      * Gets name of role
      *
-     * @return
+     * @return name of role
      */
     public String getName() {
         switch (this.name()) {
@@ -40,8 +40,8 @@ public enum FarmerPerm {
     /**
      * Gets role of farmer by int id
      *
-     * @param id
-     * @return
+     * @param id of role
+     * @return FarmerPerm object
      */
     public static FarmerPerm getRole(int id) {
         switch (id) {
@@ -56,8 +56,8 @@ public enum FarmerPerm {
 
     /**
      * Gets int id of role
-     * @param perm
-     * @return
+     * @param perm of farmer
+     * @return int of FarmerPerm object
      */
     @Contract(pure = true)
     public static int getRoleId(@NotNull FarmerPerm perm) {

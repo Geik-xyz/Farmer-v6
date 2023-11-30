@@ -68,6 +68,10 @@ public class Main extends JavaPlugin {
     @Getter @Setter
     private static Economy economy;
 
+    @Getter
+    @Setter
+    private PlaceholderAPI placeholderAPI;
+
     /**
      * Instance of this class
      */
@@ -125,6 +129,7 @@ public class Main extends JavaPlugin {
         getCommand("farmer").setExecutor(new Commands());
         getCommand("farmer").setTabCompleter(new FarmerTabComplete());
         Integrations.registerIntegrations();
+        registerIntegrations();
         sendEnableMessage();
         getSql().loadAllFarmers();
         new ListenerRegister();

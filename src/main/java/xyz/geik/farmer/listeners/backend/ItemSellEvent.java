@@ -1,5 +1,6 @@
 package xyz.geik.farmer.listeners.backend;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -12,16 +13,22 @@ import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.chat.Placeholder;
 
 /**
+ * ItemSellEvent listener class
+ *
  * @author poyraz
  * @since 1.0.0
  */
 public class ItemSellEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public ItemSellEvent() {}
+
+    /**
      * Sell item event
      *
-     * @param event
-     * @return
+     * @param event of event
      */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void sellItemEvent(@NotNull FarmerItemSellEvent event) {
@@ -50,11 +57,11 @@ public class ItemSellEvent implements Listener {
 
     /**
      * Rounds double for display good.
-     * It shown as #.## but if this isn't exist
-     * It shown as #.######## something like that.
+     * This method makes doubles round like #.##
+     * instead of #.######.
      *
-     * @param value
-     * @return
+     * @param value of double
+     * @return rounded string double
      */
     private static @NotNull String roundDouble(double value) {
         long factor = (long) Math.pow(10, 2);

@@ -1,6 +1,7 @@
 package xyz.geik.farmer.modules.spawnerkiller;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.modules.FarmerModule;
 
@@ -14,23 +15,38 @@ import java.util.List;
 @Getter
 public class SpawnerKiller extends FarmerModule {
 
+    /**
+     * Constructor of class
+     */
+    public SpawnerKiller() {}
+
+    /**
+     * Whitelist of spawners
+     */
     private List<String> whitelist = new ArrayList<>();
+
+    /**
+     * Blacklist of spawners
+     */
     private List<String> blacklist = new ArrayList<>();
 
     private boolean requireFarmer = false, cookFoods = false, removeMob = true, defaultStatus = false;
 
+    /**
+     * Perm of spawner killer
+     */
     private String customPerm = "farmer.spawnerkiller";
 
+    /**
+     * -- GETTER --
+     *  Get instance of the module
+     */
+    @Getter
     private static SpawnerKiller instance;
 
     /**
-     * Get instance of the module
-     * @return
+     * onLoad method of module
      */
-    public static SpawnerKiller getInstance() {
-        return instance;
-    }
-
     @Override
     public void onLoad() {
         this.setName("SpawnerKiller");
@@ -42,6 +58,9 @@ public class SpawnerKiller extends FarmerModule {
             this.setEnabled(false);
     }
 
+    /**
+     * onEnable method of module
+     */
     @Override
     public void onEnable() {
         setHasGui(true);
@@ -50,7 +69,11 @@ public class SpawnerKiller extends FarmerModule {
         removeMob = getConfig().getBoolean("settings.removeMob");
         cookFoods = getConfig().getBoolean("settings.cookFoods");
         requireFarmer = getConfig().getBoolean("settings.requireFarmer");
-        registerListener(new SpawnerKillerEvent());
+        // SpawnerMeta Listener Register
+        if (Bukkit.getPluginManager().getPlugin("SpawnerMeta") != null)
+            new SpawnerMetaEvent();
+        else
+            registerListener(new SpawnerKillerEvent());
         registerListener(new SpawnerKillerGuiCreateEvent());
         setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
         if (getConfig().contains("settings.whitelist"))
@@ -59,6 +82,9 @@ public class SpawnerKiller extends FarmerModule {
             getConfig().getTextList("settings.blacklist").forEach(blacklist::add);
     }
 
+    /**
+     * onReload method of module
+     */
     @Override
     public void onReload() {
         if (!this.isEnabled())
@@ -78,6 +104,9 @@ public class SpawnerKiller extends FarmerModule {
             getConfig().getTextList("settings.blacklist").forEach(blacklist::add);
     }
 
+    /**
+     * onDisable method of module
+     */
     @Override
     public void onDisable() {
 

@@ -32,6 +32,11 @@ import java.util.List;
 public class ModuleManager {
 
     /**
+     * Constructor of class
+     */
+    public ModuleManager() {}
+
+    /**
      * List of modules
      * @see FarmerModule
      */
@@ -213,7 +218,7 @@ public class ModuleManager {
      * @param attributes Attributes to deserialize
      * @return Deserialized attributes
      */
-    private @NotNull HashMap<String, Boolean> attributeDeserializer(@NotNull String attributes) {
+    private @NotNull HashMap<String, Boolean> attributeDeserializer(String attributes) {
         HashMap<String, Boolean> map = new HashMap<>();
         if (attributes == null || attributes.isEmpty())
             return map;
@@ -225,7 +230,7 @@ public class ModuleManager {
 
     /**
      * Checks if any module uses GUI and makes action
-     * @see FarmerModule#isHasGui()
+     * @see FarmerModule
      */
     public static void calculateModulesUseGui() {
         FarmerAPI.getModuleManager().setModulesUseGui(FarmerAPI.getModuleManager().getModuleList().stream().anyMatch(FarmerModule::isHasGui));

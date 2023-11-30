@@ -26,14 +26,21 @@ import xyz.geik.glib.shades.xseries.XSound;
 public class VoucherEvent implements Listener {
 
     /**
+     * Constructor of class
+     */
+    public VoucherEvent() {}
+
+    /**
      * Uses voucher to farmer and opens farmer gui
      *
-     * @param event
+     * @param event of player interact event
      */
     @EventHandler
     public void onVoucherUseEvent(@NotNull PlayerInteractEvent event) {
-        if (event.getItem() == null) return;
-        if (event.getItem().getItemMeta() == null) return;
+        if (event.getItem() == null)
+            return;
+        if (event.getItem().getItemMeta() == null)
+            return;
         Player player = event.getPlayer();
         int voucherLevel = NBT.get(event.getItem(), voucher -> (voucher.getInteger("farmerLevel")));
         ItemStack voucherBase = VoucherItem.getVoucherItem(voucherLevel);
@@ -81,7 +88,7 @@ public class VoucherEvent implements Listener {
     /**
      * Gives voucher when farmer is removed to owner
      *
-     * @param event
+     * @param event of farmer remove event
      */
     @EventHandler
     public void onFarmerRemoveEvent(FarmerRemoveEvent event) {
@@ -100,8 +107,8 @@ public class VoucherEvent implements Listener {
     /**
      * Descent voucher amount in inventory
      *
-     * @param player
-     * @param voucher
+     * @param player to remove item
+     * @param voucher item of voucher
      */
     private void descentVoucher(Player player, @NotNull ItemStack voucher) {
         if (voucher.getAmount() == 1)

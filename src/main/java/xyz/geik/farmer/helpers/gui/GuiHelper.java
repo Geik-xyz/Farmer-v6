@@ -32,6 +32,11 @@ import java.util.stream.Collectors;
 public class GuiHelper {
 
     /**
+     * Constructor of class
+     */
+    public GuiHelper() {}
+
+    /**
      * Filler item of guis.
      * Filler item basically fills empty slots of gui
      *
@@ -353,6 +358,7 @@ public class GuiHelper {
         if (file.contains(path + ".skull")) {
             result = XMaterial.matchXMaterial("PLAYER_HEAD").get().parseItem();
             try {
+                assert result != null;
                 SkullMeta meta = (SkullMeta) result.getItemMeta();
                 assert meta != null;
                 // GameProfile, Filed etc. used mojang lib for catch player skull

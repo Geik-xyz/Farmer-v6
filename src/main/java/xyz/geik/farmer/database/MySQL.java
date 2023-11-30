@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
+ * MySQL class for database connection
+ *
  * @since b000
  * @author Amowny
  */

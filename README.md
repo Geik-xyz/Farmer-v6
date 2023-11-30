@@ -1,18 +1,12 @@
-### [Javadoc](https://poyrazinan.github.io/Farmer-v6/)  [![](https://jitpack.io/v/poyrazinan/Farmer-v6.svg)](https://jitpack.io/#poyrazinan/Farmer-v6) [![Java CI with Maven](https://github.com/poyrazinan/Farmer-v6/actions/workflows/maven.yml/badge.svg)](https://github.com/poyrazinan/Farmer-v6/actions/workflows/maven.yml)
-
 # Farmer
  Collects products of a region or island and store them in inventory of himself.
 
 ## How it's work?
-This plugin creates a virtual assistant who collects items for you in your region or island.
-This assistant known as farmer and can be buy-able by ingame money. Owner can add users to it and give them permission to sell stuffs in it. Also owner can close collecting feature and can level up farmer in management gui.
-In farmer gui you can see stock availability which shown by colors and percentages of stock.
+This plugin creates a virtual assistant that collects items on your behalf within your designated region or island. This assistant, known as the 'Farmer,' can be purchased using in-game currency. Owners have the ability to add users to the assistant and grant them permission to sell items through it. Additionally, the owner can deactivate the collection feature and level up the Farmer via the management GUI. Within the Farmer's GUI, stock availability is displayed using colors and percentage indicators.
 
-As administrator, you can control the farmers as if you are the owner.
-You can configure items, levels etc. by config.
+As an administrator, you can control the Farmers just as if you were the owner. You can configure items, levels, and more through the configuration settings.
 
-In the same time this plugins force-update lang file and don't require reload command execute for update self. (config still needs reload because it has dangerous settings)
-You can design your menus in lang file.
+Simultaneously, this plugin enforces automatic updates to the language file, eliminating the need for a reload command to update itself. (Please note that configuration changes still require a reload due to potentially sensitive settings.) You can design your menus using the language file.
 
 ## Configuration and Lang File
 <details>
@@ -353,6 +347,9 @@ This is a module of Farmer which calculates average of items which farmer collec
 ![Screenshot_10.png](images%2FScreenshot_10.png)
 
 ## API
+[![Farmer JavaDoc](https://github.com/poyrazinan/Farmer-v6/actions/workflows/publish-javadoc-maven.yml/badge.svg)](https://github.com/poyrazinan/Farmer-v6/actions/workflows/publish-javadoc-maven.yml) [![](https://jitpack.io/v/poyrazinan/Farmer-v6.svg)](https://jitpack.io/#poyrazinan/Farmer-v6) [![Java CI with Maven](https://github.com/poyrazinan/Farmer-v6/actions/workflows/maven.yml/badge.svg)](https://github.com/poyrazinan/Farmer-v6/actions/workflows/maven.yml)
+
+### [Javadoc](https://poyrazinan.github.io/Farmer-v6/)
 
 ### Maven:
 
@@ -391,7 +388,7 @@ dependencies {
 
 FarmerAPI has good javadoc.
 
-You can check it out the farmer javadoc [Java-Doc](https://poyrazinan.github.io/Farmer-v6/)
+You can check it out the farmer javadoc [Java-Doc](https://poyrazinan.github.io/Farmer-v6/javadoc)
 
 ```java
 public class Main extends JavaPlugin {
@@ -422,15 +419,19 @@ public class Main extends JavaPlugin {
 ## Used Libraries
 
 * [spigot-api (1.19-R0.3-SNAPSHOT)](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
+* [HikariCP](https://github.com/brettwooldridge/HikariCP)
 * [lombok (LATEST)](https://github.com/projectlombok/lombok)
 * [BStats](https://bstats.org)
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)
 * [SimplixStorage](https://www.spigotmc.org/resources/simplixstorage-awesome-library-to-store-data-in-a-better-way.67286/)
 * [InventoryGUI](https://github.com/Phoenix616/InventoryGui)
 * [XSeries](https://github.com/CryptoMorin/XSeries)
+* [NBTApi](https://www.spigotmc.org/resources/nbt-api.7939/)
 * [AuthLib](https://mvnrepository.com/artifact/com.mojang/authlib/1.5.25)
 * [NBT-API](https://github.com/tr7zw/Item-NBT-API)
 * [WildStacker](https://github.com/BG-Software-LLC/WildStacker)
+* [FabledSkyblock](https://github.com/craftaro/FabledSkyBlock)
+* [TownyAdvanced](https://www.spigotmc.org/resources/towny-advanced.72694/)
 
 ### Integration Libraries (Optional)
 * [SuperiorSkyblock2](https://github.com/BG-Software-LLC/SuperiorSkyblock2)
@@ -438,3 +439,18 @@ public class Main extends JavaPlugin {
 * [BentoBox](https://www.spigotmc.org/resources/bentobox-bskyblock-acidisland-skygrid-caveblock-aoneblock-boxed.73261/)
 * [ASkyBlock](https://www.spigotmc.org/resources/askyblock.1220/)
 * [FabledSkyblock](https://github.com/craftaro/FabledSkyBlock)
+
+## Contributing
+
+We welcome contributions from the community! If you would like to contribute, please follow these guidelines:
+
+1. Fork the repository and clone it to your local machine.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes, and ensure that your code is well-tested.
+4. Create a pull request with a detailed description of your changes.
+
+By contributing to this project, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
