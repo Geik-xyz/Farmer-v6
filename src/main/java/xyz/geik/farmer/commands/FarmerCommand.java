@@ -1,8 +1,7 @@
 package xyz.geik.farmer.commands;
 
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -15,77 +14,36 @@ import xyz.geik.farmer.helpers.CacheLoader;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.FarmerModule;
-import xyz.geik.farmer.modules.voucher.VoucherCommand;
 import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.chat.Placeholder;
+import xyz.geik.glib.shades.triumphteam.cmd.bukkit.annotation.Permission;
+import xyz.geik.glib.shades.triumphteam.cmd.core.BaseCommand;
+import xyz.geik.glib.shades.triumphteam.cmd.core.annotation.Command;
+import xyz.geik.glib.shades.triumphteam.cmd.core.annotation.Default;
+import xyz.geik.glib.shades.triumphteam.cmd.core.annotation.SubCommand;
 import xyz.geik.glib.shades.xseries.messages.Titles;
 
 import java.util.Arrays;
 import java.util.UUID;
 
 /**
- * Main command class which implements CommandExecutor
- * Interface class and register command on Main#onEnable()
+ * Farmer command class
+ * for farmer commands
+ *
+ * @author geik, amownyy
+ * @since v6-b100
  */
-public class Commands implements CommandExecutor {
+@RequiredArgsConstructor
+@Command(value = "farmer", alias = {"farm", "çiftçi", "fm", "ciftci"})
+public class FarmerCommand extends BaseCommand {
 
     /**
-     * Constructor of class
-     */
-    public Commands() {}
-
-    /**
-     * Main section of commands executing
-     *
-     * @param sender the command executor
-     * @param command Command which was executed
-     * @param label Alias of the command which was used
-     * @param args Passed command arguments
-     * @return boolean of command status
-     */
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        // Checking if sender instanceof player
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            if (args.length == 0) {
-                farmerBaseCommand(player);
-            } else if (args.length == 1) {
-                oneArgCommands(player, args[0]);
-            } else if (args.length == 2) {
-                twoArgCommands(player, args);
-            } else if (args.length == 3) {
-                VoucherCommand.give(sender, args);
-            }
-        } else {
-            if (args.length == 1) {
-                if (args[0].equalsIgnoreCase("reload"))
-                    reloadCommand(sender);
-                else if (args[0].equals("fix")) {
-                    int player_count = Bukkit.getOnlinePlayers().size();
-                    if (player_count == 0)
-                        Main.getInstance().getSql().fixDatabase();
-                    else
-                        Main.getInstance().getLogger().info("You can run this command only when no player online!");
-                } else if (args[0].equalsIgnoreCase("about")) {
-                    aboutCommand(sender);
-                }
-            }
-            else if (args.length == 3)
-                VoucherCommand.give(sender, args);
-        }
-        return false;
-    }
-
-
-    /**
-     * Base command for coop, member, owner
-     * It basically opens farmer buy gui unless don't have it.
-     * Open farmer inventory gui if they have farmer.
+     * Default command of farmer
      *
      * @param player the command executor
      */
-    private void farmerBaseCommand(@NotNull Player player) {
+    @Default
+    public void defaultCommand(@NotNull Player player) {
         if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(player.getWorld().getName())) {
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getWrongWorld());
             return;
@@ -110,7 +68,7 @@ public class Commands implements CommandExecutor {
         } else {
             // Perm && user check
             if (FarmerManager.getFarmers().get(regionID).getUsers().stream()
-                            .anyMatch(usr -> (usr.getUuid().equals(player.getUniqueId()))))
+                    .anyMatch(usr -> (usr.getUuid().equals(player.getUniqueId()))))
                 MainGui.showGui(player, FarmerManager.getFarmers().get(regionID));
             else
                 ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoPerm());
@@ -118,11 +76,12 @@ public class Commands implements CommandExecutor {
     }
 
     /**
-     * Removes farmer from command sender.
+     * Remove command of farmer
      *
-     * @param player the command executor
+     * @param player
      */
-    private void selfRemoveCommand(@NotNull Player player) {
+    @SubCommand("remove")
+    public void removeCommand(@NotNull Player player) {
         String regionID = getRegionID(player);
         if (regionID == null)
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoRegion());
@@ -139,11 +98,13 @@ public class Commands implements CommandExecutor {
     }
 
     /**
-     * Sends the player information about the Farmer plugin
+     * About command of farmer
      *
-     * @param player the command executor
+     * @param player
      */
-    private void aboutCommand(@NotNull CommandSender player) {
+    @Permission("farmer.admin")
+    @SubCommand("about")
+    public void aboutCommand(@NotNull CommandSender player) {
         player.sendMessage(ChatUtils.color("&7&m----------------------------------------"));
         player.sendMessage(ChatUtils.color("#FFA500          FARMER &7- &6" + Main.getInstance().getDescription().getVersion()));
         player.sendMessage(ChatUtils.color("#3CB371Author: #90EE90Geik"));
@@ -158,13 +119,13 @@ public class Commands implements CommandExecutor {
     }
 
     /**
-     * Prints info about farmer which located on player location.
-     * It can be usable who has farmer.admin permission, Geyik username and owner
-     * I have permission to use it for debugs and support.
+     * Info command of farmer
      *
-     * @param player the command executor
+     * @param player
      */
-    private void infoCommand(@NotNull Player player) {
+    @Permission("farmer.admin")
+    @SubCommand("info")
+    public void infoCommand(@NotNull Player player) {
         String regionID = getRegionID(player);
         if (regionID == null)
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoRegion());
@@ -194,11 +155,13 @@ public class Commands implements CommandExecutor {
     }
 
     /**
-     * Reload command method which reloads everything it can
+     * Reload command of farmer
      *
-     * @param sender the command sender
+     * @param sender
      */
-    private void reloadCommand(@NotNull CommandSender sender) {
+    @Permission("farmer.admin")
+    @SubCommand("reload")
+    public void reloadCommand(@NotNull CommandSender sender) {
         if (!sender.hasPermission("farmer.admin")) {
             ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getNoPerm());
             return;
@@ -226,49 +189,14 @@ public class Commands implements CommandExecutor {
     }
 
     /**
-     * One arg commands which about, info, reload and remove commands
-     * Manage usable by administrator or owner of farmer
-     * Remove, reload, about and info are administrator commands
+     * Open command of farmer
      *
-     * @param player the command executor
-     * @param arg of others
+     * @param player
+     * @param arg
      */
-    public void oneArgCommands(@NotNull Player player, String arg) {
-        // Checking perm if sender is player and if they don't have perm just returns task
-        if ((!player.hasPermission("farmer.admin") && !player.getName().equalsIgnoreCase("Geyik")) && !arg.equalsIgnoreCase("remove")) {
-            ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoPerm());
-            return;
-        }
-        // Check world is suitable for farmer
-        if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(player.getWorld().getName())
-                && !arg.equalsIgnoreCase("reload")) {
-            ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getWrongWorld());
-            return;
-        }
-        // About command caller
-        if (arg.equalsIgnoreCase("about")) {
-            aboutCommand(player);
-        // Info command caller
-        } else if (arg.equalsIgnoreCase("info")) {
-            infoCommand(player);
-        // Reload command caller
-        } else if (arg.equalsIgnoreCase("reload")) {
-            reloadCommand(player);
-            // Remove command caller
-        } else if (arg.equalsIgnoreCase("remove")) {
-            selfRemoveCommand(player);
-        }
-    }
-
-    /**
-     * Two arg commands which open and remove commands
-     * Manage usable by administrator
-     * Remove and open are administrator commands
-     *
-     * @param player the command executor
-     * @param arg of others
-     */
-    public void twoArgCommands(@NotNull Player player, String @NotNull ... arg) {
+    @Permission("farmer.admin")
+    @SubCommand("open")
+    public void openCommand(@NotNull Player player, String @NotNull ... arg) {
         if ((!player.hasPermission("farmer.admin"))) {
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoPerm());
             return;
@@ -315,5 +243,4 @@ public class Commands implements CommandExecutor {
         }
         return regionID;
     }
-
 }

@@ -9,7 +9,7 @@ import xyz.geik.glib.chat.ChatUtils;
 /**
  * FarmerStatus expansion class
  *
- * @author Amowny
+ * @author amownyy
  * @since v6-b003
  */
 public class FarmerStatus extends PlaceholderExecutor {

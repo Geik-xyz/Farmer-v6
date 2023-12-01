@@ -7,7 +7,7 @@ import xyz.geik.farmer.integrations.placeholderapi.PlaceholderExecutor;
 /**
  * FarmerCount expansion class
  *
- * @author Amowny
+ * @author amownyy
  * @since v6-b003
  */
 public class FarmerCount extends PlaceholderExecutor {
