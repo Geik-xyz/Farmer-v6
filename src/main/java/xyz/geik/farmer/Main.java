@@ -3,10 +3,12 @@ package xyz.geik.farmer;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
+import xyz.geik.farmer.commands.FarmerCommand;
 import xyz.geik.farmer.configuration.ConfigFile;
 import xyz.geik.farmer.configuration.LangFile;
 import xyz.geik.farmer.database.MySQL;
@@ -31,6 +33,9 @@ import xyz.geik.glib.economy.Economy;
 import xyz.geik.glib.economy.EconomyAPI;
 import xyz.geik.glib.shades.okaeri.configs.ConfigManager;
 import xyz.geik.glib.shades.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
+import xyz.geik.glib.shades.triumphteam.cmd.bukkit.BukkitCommandManager;
+import xyz.geik.glib.shades.triumphteam.cmd.bukkit.message.BukkitMessageKey;
+import xyz.geik.glib.shades.triumphteam.cmd.core.message.MessageKey;
 import xyz.geik.glib.simplixstorage.SimplixStorageAPI;
 
 import java.io.File;
@@ -98,6 +103,12 @@ public class Main extends JavaPlugin {
     @Setter
     private static Integrations integration;
 
+    /**
+     * CommandManager
+     */
+    @Getter
+    private static BukkitCommandManager<CommandSender> commandManager;
+
 
     /**
      * Loading files before enable
@@ -121,8 +132,7 @@ public class Main extends JavaPlugin {
         FarmerAPI.getModuleManager();
         CacheLoader.loadAllItems();
         CacheLoader.loadAllLevels();
-        getCommand("farmer").setExecutor(new Commands());
-        getCommand("farmer").setTabCompleter(new FarmerTabComplete());
+        setupCommands();
         Integrations.registerIntegrations();
         sendEnableMessage();
         getSql().loadAllFarmers();
@@ -221,6 +231,24 @@ public class Main extends JavaPlugin {
             String[] data = getIntegration().getClass().getName().split(".");
             return data[data.length-1];
         }));
+    }
+
+    /**
+     * Setups commands
+     */
+    private void setupCommands() {
+        commandManager = BukkitCommandManager.create(this);
+        commandManager.registerCommand(new FarmerCommand());
+        commandManager.registerMessage(MessageKey.INVALID_ARGUMENT, (sender, invalidArgumentContext) ->
+                ChatUtils.sendMessage(sender, getLangFile().getMessages().getInvalidArgument()));
+        commandManager.registerMessage(MessageKey.UNKNOWN_COMMAND, (sender, invalidArgumentContext) ->
+                ChatUtils.sendMessage(sender, getLangFile().getMessages().getUnknownCommand()));
+        commandManager.registerMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, (sender, invalidArgumentContext) ->
+                ChatUtils.sendMessage(sender, getLangFile().getMessages().getNotEnoughArguments()));
+        commandManager.registerMessage(MessageKey.TOO_MANY_ARGUMENTS, (sender, invalidArgumentContext) ->
+                ChatUtils.sendMessage(sender, getLangFile().getMessages().getTooManyArguments()));
+        commandManager.registerMessage(BukkitMessageKey.NO_PERMISSION, (sender, invalidArgumentContext) ->
+                ChatUtils.sendMessage(sender, getLangFile().getMessages().getNoPerm()));
     }
 
     /**
