@@ -116,6 +116,6 @@ public abstract class FarmerModule {
         PluginManager pm = Main.getInstance().getServer().getPluginManager();
         Main.getInstance().getListenerList().put(this, listener);
         pm.registerEvents(listener, Main.getInstance());
-        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&6[FarmerManager] &a" + listener.getClass().getSimpleName() + " was registered"));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&6[FarmerManager] &a" + listener.getClass().getSimpleName() + " registered"));
     }
 }
