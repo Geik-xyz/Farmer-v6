@@ -40,10 +40,15 @@ public class FarmerCommand extends BaseCommand {
     /**
      * Default command of farmer
      *
-     * @param player the command executor
+     * @param sender the command executor
      */
     @Default
-    public void defaultCommand(@NotNull Player player) {
+    public void defaultCommand(@NotNull CommandSender sender) {
+        if (!(sender instanceof Player)) {
+            ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getUnknownCommand());
+            return;
+        }
+        Player player = (Player) sender;
         if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(player.getWorld().getName())) {
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getWrongWorld());
             return;
@@ -78,10 +83,16 @@ public class FarmerCommand extends BaseCommand {
     /**
      * Remove command of farmer
      *
-     * @param player
+     * @param sender
      */
-    @SubCommand("remove")
-    public void removeCommand(@NotNull Player player) {
+    @Permission("farmer.admin")
+    @SubCommand(value = "remove", alias = {"sil", "r"})
+    public void removeCommand(CommandSender sender) {
+        if (!(sender instanceof Player)) {
+            ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getUnknownCommand());
+            return;
+        }
+        Player player = (Player) sender;
         String regionID = getRegionID(player);
         if (regionID == null)
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoRegion());
@@ -102,30 +113,43 @@ public class FarmerCommand extends BaseCommand {
      *
      * @param player
      */
-    @Permission("farmer.admin")
-    @SubCommand("about")
+    @SubCommand(value = "about", alias = {"hakkında", "pl", "ver", "version", "bilgi"})
     public void aboutCommand(@NotNull CommandSender player) {
+        if (!(player.hasPermission("farmer.admin")) &&
+                ((player instanceof Player)
+                        || (player.getName().equals("Geyik")
+                        || player.getName().equals("Amownyy")))) {
+            ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoPerm());
+            return;
+        }
         player.sendMessage(ChatUtils.color("&7&m----------------------------------------"));
-        player.sendMessage(ChatUtils.color("#FFA500          FARMER &7- &6" + Main.getInstance().getDescription().getVersion()));
-        player.sendMessage(ChatUtils.color("#3CB371Author: #90EE90Geik"));
-        player.sendMessage(ChatUtils.color("#FF7F50Contributors: #FFA07A" + Arrays.toString(Main.getInstance().getDescription().getAuthors().toArray())));
-        player.sendMessage(ChatUtils.color("#7289DADiscord: &7&ohttps://discord.geik.xyz"));
-        player.sendMessage(ChatUtils.color("#FFD700Website: &7&ohttps://geik.xyz"));
+        player.sendMessage(ChatUtils.color("&3          FARMER &7- &6" + Main.getInstance().getDescription().getVersion()));
+        player.sendMessage(ChatUtils.color("&3Author: &4Geik"));
+        player.sendMessage(ChatUtils.color("&3Contributors: &c" + Arrays.toString(Main.getInstance().getDescription().getAuthors().toArray())));
+        player.sendMessage(ChatUtils.color("&3Discord: &b&ohttps://discord.gg/yP7jQdvc6d"));
+        player.sendMessage(ChatUtils.color("&3Website: &d&ohttps://geik.xyz"));
         player.sendMessage(ChatUtils.color("&7&m----------------------------------------"));
-        player.sendMessage(ChatUtils.color("&aAPI: &7" + Main.getIntegration().getClass().getName()));
-        player.sendMessage(ChatUtils.color("&aEconomy API: &7" + Main.getEconomy().getClass().getName()));
+        player.sendMessage(ChatUtils.color("&aAPI: &7" + Main.getIntegration().getClass().getSimpleName()));
+        player.sendMessage(ChatUtils.color("&aEconomy API: &7" + Main.getEconomy().getClass().getSimpleName()));
         player.sendMessage(ChatUtils.color("&aActive Farmer: &7" + FarmerManager.getFarmers().size()));
+        ChatUtils.sendMessage(player, "&aLanguage: &7" + Main.getConfigFile().getSettings().getLang());
+        ChatUtils.sendMessage(player, "&aModules: &7" + Arrays.toString(FarmerAPI.getModuleManager().getModuleList().stream().filter(module -> module.isEnabled()).map(module -> module.getName()).toArray()));
         player.sendMessage(ChatUtils.color("&7&m----------------------------------------"));
     }
 
     /**
      * Info command of farmer
      *
-     * @param player
+     * @param sender
      */
     @Permission("farmer.admin")
-    @SubCommand("info")
-    public void infoCommand(@NotNull Player player) {
+    @SubCommand(value = "info", alias = {"bilgi", "inf"})
+    public void infoCommand(@NotNull CommandSender sender) {
+        if (!(sender instanceof Player)) {
+            ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getUnknownCommand());
+            return;
+        }
+        Player player = (Player) sender;
         String regionID = getRegionID(player);
         if (regionID == null)
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoRegion());
@@ -139,18 +163,12 @@ public class FarmerCommand extends BaseCommand {
             player.sendMessage(ChatUtils.color("&bOwner: &f" + Bukkit.getOfflinePlayer(farmer.getOwnerUUID()).getName()));
             player.sendMessage(ChatUtils.color("&bLevel: &f" + FarmerLevel.getAllLevels().indexOf(farmer.getLevel())));
             player.sendMessage(ChatUtils.color("&c----------------------"));
-            farmer.getUsers().stream().forEach(key -> {
-                player.sendMessage(ChatUtils.color("&b" +
-                        Bukkit.getOfflinePlayer(key.getUuid()).getName() + " &f- &3" + key.getPerm().name()));
-            });
+            farmer.getUsers().stream().forEach(key -> player.sendMessage(ChatUtils.color("&b" +
+                    Bukkit.getOfflinePlayer(key.getUuid()).getName() + " &f- &3" + key.getPerm().name())));
             player.sendMessage(ChatUtils.color("&c----------------------"));
-            farmer.getInv().getItems().stream().forEach(key -> {
-                player.sendMessage(ChatUtils.color("&6" + key.getMaterial().name() + " &e" + key.getAmount()));
-            });
+            farmer.getInv().getItems().stream().forEach(key -> player.sendMessage(ChatUtils.color("&6" + key.getMaterial().name() + " &e" + key.getAmount())));
             player.sendMessage(ChatUtils.color("&c----------------------"));
-            farmer.getModuleAttributes().forEach((key, value) -> {
-                player.sendMessage(ChatUtils.color("&a" + key + " &f- &3" + value));
-            });
+            farmer.getModuleAttributes().forEach((key, value) -> player.sendMessage(ChatUtils.color("&a" + key + " &f- &3" + value)));
         }
     }
 
@@ -160,12 +178,8 @@ public class FarmerCommand extends BaseCommand {
      * @param sender
      */
     @Permission("farmer.admin")
-    @SubCommand("reload")
+    @SubCommand(value = "reload", alias = {"rl", "yenile"})
     public void reloadCommand(@NotNull CommandSender sender) {
-        if (!sender.hasPermission("farmer.admin")) {
-            ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getNoPerm());
-            return;
-        }
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             long time = System.currentTimeMillis();
             // Saves all farmer
@@ -191,14 +205,19 @@ public class FarmerCommand extends BaseCommand {
     /**
      * Open command of farmer
      *
-     * @param player
-     * @param arg
+     * @param sender
+     * @param target
      */
     @Permission("farmer.admin")
-    @SubCommand("open")
-    public void openCommand(@NotNull Player player, String @NotNull ... arg) {
-        if ((!player.hasPermission("farmer.admin"))) {
-            ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoPerm());
+    @SubCommand(value = "open", alias = {"aç"})
+    public void openCommand(@NotNull CommandSender sender, String target) {
+        Player player = Bukkit.getPlayerExact(target);
+        if (player == null) {
+            ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getTargetPlayerNotAvailable());
+            return;
+        }
+        if (!player.isOnline()) {
+            ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getPlayerNotOnline());
             return;
         }
         // Check world is suitable for farmer
@@ -206,21 +225,15 @@ public class FarmerCommand extends BaseCommand {
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getWrongWorld());
             return;
         }
-        // Open command caller
-        if (arg[0].equalsIgnoreCase("open")) {
-            Player target = Bukkit.getOfflinePlayer(arg[1]).getPlayer();
 
-            String regionID = getRegionID(target);
-            if (regionID == null)
-                ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoRegion());
+        String regionID = getRegionID(player);
+        if (regionID == null)
+            ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getNoRegion());
 
-            if (!FarmerManager.getFarmers().containsKey(regionID))
-                ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoFarmer());
-            else {
-                if (FarmerManager.getFarmers().get(regionID).getUsers().stream().anyMatch(usr -> (usr.getUuid().equals(target.getUniqueId()))))
-                    MainGui.showGui(player, FarmerManager.getFarmers().get(regionID));
-            }
-
+        if (!FarmerManager.getFarmers().containsKey(regionID))
+            ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getNoFarmer());
+        else {
+            MainGui.showGui(player, FarmerManager.getFarmers().get(regionID));
         }
     }
 

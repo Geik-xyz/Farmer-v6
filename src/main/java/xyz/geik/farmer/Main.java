@@ -16,7 +16,6 @@ import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
 import xyz.geik.farmer.helpers.CacheLoader;
 import xyz.geik.farmer.integrations.Integrations;
-import xyz.geik.farmer.integrations.placeholderapi.PlaceholderAPI;
 import xyz.geik.farmer.listeners.ListenerRegister;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
@@ -64,9 +63,6 @@ public class Main extends JavaPlugin {
 
     @Getter @Setter
     private static SQL sql;
-
-    @Getter @Setter
-    private PlaceholderAPI placeholderAPI;
 
     @Getter @Setter
     private static Economy economy;

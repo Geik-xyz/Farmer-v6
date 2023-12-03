@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+import org.geysermc.geyser.api.GeyserApi;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerMainGuiOpenEvent;
@@ -88,6 +89,9 @@ public class MainGui {
                                 assert cursorItem != null;
                                 XMaterial material = XMaterial.matchXMaterial(cursorItem);
                                 FarmerItem slotItem = farmer.getInv().getStockedItem(material);
+                                // If player is bedrock player go to geyser gui
+                                if (GeyserApi.api().isBedrockPlayer(player.getUniqueId()))
+                                    GeyserGui.showGui(player, cursorItem, material, farmer, slotItem);
                                 // Sells all stock of an item
                                 if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
                                     if (slotItem.getPrice() < 0)

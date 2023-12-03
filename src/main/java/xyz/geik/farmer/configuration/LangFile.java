@@ -555,6 +555,90 @@ public class LangFile extends OkaeriConfig {
             }
         }
 
+        private GeyserGui geyserGui = new GeyserGui();
+        /**
+         * Geyser gui settings
+         * (Only for geyser player)
+         *
+         * @author amownyy
+         * @since 2.0
+         */
+        @Getter
+        @Setter
+        public static class GeyserGui extends OkaeriConfig {
+
+            private String guiName = "&8Farmer Geyser Gui";
+
+            private Items items = new Items();
+
+            /**
+             * Items of buy gui settings
+             *
+             * @author amownyy
+             * @since 2.0
+             */
+            @Getter
+            @Setter
+            public static class Items extends OkaeriConfig {
+
+                private LeftClick leftClick = new LeftClick();
+                /**
+                 * GeyserLeftClick item settings
+                 * (Only for geyser player)
+                 *
+                 * @author amownyy
+                 * @since 2.0
+                 */
+                @Getter
+                @Setter
+                public static class LeftClick extends OkaeriConfig {
+                    private String name = "&eLeft Click";
+                    private List<String> lore = Arrays.asList(
+                            "",
+                            "&aGet the selected item as a",
+                            "&astack in your farmer inventory."
+                    );
+                }
+
+                private RightClick rightClick = new RightClick();
+                /**
+                 * GeyserRightClick item settings
+                 * (Only for geyser player)
+                 *
+                 * @author amownyy
+                 * @since 2.0
+                 */
+                @Getter
+                @Setter
+                public static class RightClick extends OkaeriConfig {
+                    private String name = "&eRight Click";
+                    private List<String> lore = Arrays.asList(
+                            "",
+                            "&aGet the selected item as a",
+                            "&amax amount in your farmer inventory."
+                    );
+                }
+
+                private ShiftRightClick shiftRightClick = new ShiftRightClick();
+                /**
+                 * GeyserShiftRightClick item settings
+                 * (Only for geyser player)
+                 *
+                 * @author amownyy
+                 * @since 2.0
+                 */
+                @Getter
+                @Setter
+                public static class ShiftRightClick extends OkaeriConfig {
+                    private String name = "&eShift+Right Click";
+                    private List<String> lore = Arrays.asList(
+                            "",
+                            "&aSell all items in your farmer inventory."
+                    );
+                }
+            }
+        }
+
         private ModuleGui moduleGui = new ModuleGui();
         /**
          * ModuleGui gui settings
