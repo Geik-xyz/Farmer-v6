@@ -160,9 +160,9 @@ public class Main extends JavaPlugin {
             });
 
             String langName = configFile.getSettings().getLang();
-            //Class langClass = Class.forName("xyz.geik.timer.configuration.lang." + langName);
-            //Class<Language> languageClass = langClass;
-            this.langFile = ConfigManager.create(LangFile.class, (it) -> {
+            Class langClass = Class.forName("xyz.geik.farmer.configuration.lang." + langName);
+            Class<LangFile> languageClass = langClass;
+            this.langFile = ConfigManager.create(languageClass, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer());
                 it.withBindFile(new File(getDataFolder() + "/lang", langName + ".yml"));
                 it.saveDefaults();
