@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.github.Geik-xyz</groupId>
             <artifactId>GLib</artifactId>
-            <version>25e05f71a8</version>
+            <version>b53a351f33</version>
         </dependency>
         <!-- apache commons -->
         <dependency>
@@ -111,37 +111,6 @@
             <artifactId>placeholderapi</artifactId>
             <version>2.11.4</version>
             <scope>provided</scope>
-        </dependency>
-        <!-- PlayerPoints -->
-        <dependency>
-            <groupId>org.black_ixx</groupId>
-            <artifactId>playerpoints</artifactId>
-            <version>3.2.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- ElementalGems -->
-        <dependency>
-            <groupId>me.elementalgaming</groupId>
-            <artifactId>GemAPI</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/GemAPI.jar</systemPath>
-        </dependency>
-        <!-- RoyaleEconomy -->
-        <dependency>
-            <groupId>me.qKing12</groupId>
-            <artifactId>RoyaleEconomyAPI</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/RoyaleEconomyAPI.jar</systemPath>
-        </dependency>
-        <!-- Gringotts -->
-        <dependency>
-            <groupId>org.gestern</groupId>
-            <artifactId>GringottsAPI</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/GringottsAPI.jar</systemPath>
         </dependency>
     </dependencies>
 

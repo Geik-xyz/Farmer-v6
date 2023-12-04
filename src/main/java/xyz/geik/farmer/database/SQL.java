@@ -152,6 +152,7 @@ public abstract class SQL {
             }
         } catch (SQLException throwables) {
             Main.getInstance().getLogger().info("Error while creating Farmer: " + throwables.getMessage());
+            throwables.printStackTrace();
         } finally {
             closeConnections(saveStatement, connection, resultSet);
             closeConnections(selectStatement, connection, resultSet);

@@ -26,7 +26,6 @@ public class MySQL extends SQL {
         String dbName = Main.getConfigFile().getDatabase().getTableName();
         String username = Main.getConfigFile().getDatabase().getUserName();
         String password = Main.getConfigFile().getDatabase().getPassword();
-        Main.setSql(this);
         Main.setDatabase(new DatabaseAPI(Main.getInstance(), host, port, dbName, username, password).getDatabase());
         createTable();
     }

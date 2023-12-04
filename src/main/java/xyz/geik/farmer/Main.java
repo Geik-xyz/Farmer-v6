@@ -62,8 +62,8 @@ public class Main extends JavaPlugin {
     @Getter @Setter
     private static Database database;
 
-    @Getter @Setter
-    private static SQL sql;
+    @Getter
+    private static SQL sql = null;
 
     @Getter @Setter
     private PlaceholderAPI placeholderAPI;
@@ -117,6 +117,7 @@ public class Main extends JavaPlugin {
         instance = this;
         simplixStorageAPI = new SimplixStorageAPI(this);
         setupFiles();
+        setupDatabase();
     }
 
     /**
@@ -124,16 +125,15 @@ public class Main extends JavaPlugin {
      * This is sort of the main(String... args) method.
      */
     public void onEnable() {
-        new GLib(this, getLangFile().getMessages().getPrefix());
-        setupDatabase();
-        registerEconomy();
-        // API Installer
         FarmerAPI.getFarmerManager();
         FarmerAPI.getModuleManager();
+        Integrations.registerIntegrations();
+        new GLib(this, getLangFile().getMessages().getPrefix());
+        // API Installer
         CacheLoader.loadAllItems();
         CacheLoader.loadAllLevels();
+        registerEconomy();
         setupCommands();
-        Integrations.registerIntegrations();
         sendEnableMessage();
         getSql().loadAllFarmers();
         new ListenerRegister();
@@ -186,9 +186,9 @@ public class Main extends JavaPlugin {
     private void setupDatabase() {
         DatabaseType type = DatabaseType.getDatabaseType(getConfigFile().getDatabase().getDatabaseType());
         if (type.equals(DatabaseType.SQLite))
-            new SQLite();
+            this.sql = new SQLite();
         else
-            new MySQL();
+            this.sql = new MySQL();
     }
 
     /**
