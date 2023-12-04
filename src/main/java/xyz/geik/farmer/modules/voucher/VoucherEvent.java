@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.voucher.handlers;
+package xyz.geik.farmer.modules.voucher;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -14,8 +14,6 @@ import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.guis.MainGui;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
-import xyz.geik.farmer.modules.voucher.Voucher;
-import xyz.geik.farmer.modules.voucher.helpers.VoucherItem;
 import xyz.geik.farmer.shades.nbtapi.NBT;
 import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.shades.xseries.XSound;

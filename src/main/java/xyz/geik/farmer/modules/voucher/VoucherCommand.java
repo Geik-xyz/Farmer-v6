@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.voucher.commands;
+package xyz.geik.farmer.modules.voucher;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -7,8 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.model.FarmerLevel;
-import xyz.geik.farmer.modules.voucher.Voucher;
-import xyz.geik.farmer.modules.voucher.helpers.VoucherItem;
 import xyz.geik.glib.chat.ChatUtils;
 
 /**

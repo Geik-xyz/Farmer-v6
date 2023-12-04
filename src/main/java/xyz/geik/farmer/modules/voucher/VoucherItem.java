@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.voucher.helpers;
+package xyz.geik.farmer.modules.voucher;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
-import xyz.geik.farmer.modules.voucher.Voucher;
 import xyz.geik.farmer.shades.nbtapi.NBT;
 import xyz.geik.glib.shades.xseries.SkullUtils;
 import xyz.geik.glib.shades.xseries.XMaterial;
