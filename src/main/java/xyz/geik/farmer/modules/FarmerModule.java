@@ -10,6 +10,7 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.shades.storage.Config;
 import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.module.GModule;
 
 /**
  * Module system of Farmer
@@ -20,75 +21,9 @@ import xyz.geik.glib.chat.ChatUtils;
  */
 @Getter
 @Setter
-public abstract class FarmerModule {
+public abstract class FarmerModule extends GModule {
 
-    /**
-     * Name of module
-     */
-    private String name = "FarmerModule";
-
-    /**
-     * Situation of module
-     */
-    private boolean isEnabled = true, hasGui = false;
-
-    /**
-     * Module description
-     */
-    private String description = "FarmerModule description";
-
-    /**
-     * Module prefix used in console messages
-     */
-    private String modulePrefix = "FarmerModule";
-
-    /**
-     * Config of module
-     */
-    private Config config;
-
-    /**
-     * Lang of module
-     */
     private Config lang;
-
-    /**
-     * FarmerModule constructor
-     *
-     */
-    public FarmerModule() {}
-
-    /**
-     * When load the module this method will be called
-     */
-    public abstract void onLoad();
-
-    /**
-     * When enable the module this method will be called
-     */
-    public abstract void onEnable();
-
-    /**
-     * When disable the module this method will be called
-     */
-    public abstract void onDisable();
-
-    /**
-     * When reload the module this method will be called
-     */
-    public abstract void onReload();
-
-    /**
-     * Set default config of plugin
-     * You may use it in your onLoad
-     * or onEnable method of your module
-     *
-     * @param plugin for instance
-     */
-    public void setConfig(JavaPlugin plugin) {
-        config = Main.getInstance().getSimplixStorageAPI()
-                .initConfig("modules/" + this.getName().toLowerCase() + "/config", plugin);
-    }
 
     /**
      * Set default config of plugin
@@ -105,17 +40,5 @@ public abstract class FarmerModule {
     public void setLang(String langName, JavaPlugin plugin) {
         lang = Main.getInstance().getSimplixStorageAPI()
                 .initConfig("modules/" + this.getName().toLowerCase() + "/lang/" + langName, plugin);
-    }
-
-    /**
-     * Register listener to this plugin
-     *
-     * @param listener to register
-     */
-    public void registerListener(Listener listener) {
-        PluginManager pm = Main.getInstance().getServer().getPluginManager();
-        Main.getInstance().getListenerList().put(this, listener);
-        pm.registerEvents(listener, Main.getInstance());
-        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&6[FarmerManager] &a" + listener.getClass().getSimpleName() + " registered"));
     }
 }
