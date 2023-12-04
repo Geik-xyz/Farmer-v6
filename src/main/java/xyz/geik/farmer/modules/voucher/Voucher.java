@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.modules.FarmerModule;
+import xyz.geik.farmer.modules.voucher.commands.VoucherCommand;
 import xyz.geik.farmer.modules.voucher.handlers.VoucherEvent;
 import xyz.geik.farmer.shades.storage.Config;
 
@@ -27,31 +28,14 @@ public class Voucher extends FarmerModule {
     private Config langFile;
 
     /**
-     * onLoad method of module
-     */
-    public void onLoad() {
-        instance = this;
-    }
-
-    /**
      * onEnable method of module
      */
     public void onEnable() {
+        instance = this;
         this.setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
         voucherEvent = new VoucherEvent();
         Bukkit.getPluginManager().registerEvents(voucherEvent, Main.getInstance());
-        overrideFarmer = getConfig().get("settings.useWhenFarmerExist", false);
-        giveVoucherWhenRemove = getConfig().get("settings.giveVoucherWhenRemove", false);
-    }
-
-    /**
-     * onReload method of module
-     */
-    public void onReload() {
-        if (!this.isEnabled())
-            return;
-        overrideFarmer = getConfig().get("settings.useWhenFarmerExist", false);
-        giveVoucherWhenRemove = getConfig().get("settings.giveVoucherWhenRemove", false);
+        Main.getCommandManager().registerCommand(new VoucherCommand());
     }
 
     /**
@@ -60,5 +44,6 @@ public class Voucher extends FarmerModule {
     @Override
     public void onDisable() {
         HandlerList.unregisterAll(voucherEvent);
+        Main.getCommandManager().unregisterCommand(new VoucherCommand());
     }
 }

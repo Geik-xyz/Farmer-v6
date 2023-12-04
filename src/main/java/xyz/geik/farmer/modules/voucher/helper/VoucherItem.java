@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.voucher.helpers;
+package xyz.geik.farmer.modules.voucher.helper;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
