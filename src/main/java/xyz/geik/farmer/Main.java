@@ -124,7 +124,6 @@ public class Main extends JavaPlugin {
      */
     public void onEnable() {
         FarmerAPI.getFarmerManager();
-        FarmerAPI.getModuleManager();
         Integrations.registerIntegrations();
         new GLib(this, getLangFile().getMessages().getPrefix());
         // API Installer

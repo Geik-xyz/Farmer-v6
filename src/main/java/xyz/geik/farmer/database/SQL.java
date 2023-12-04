@@ -14,6 +14,7 @@ import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
+import xyz.geik.farmer.modules.FarmerModule;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,7 +52,7 @@ public abstract class SQL {
             connection = Main.getDatabase().getConnection();
             for (Farmer farmer : FarmerManager.getFarmers().values()) {
                 farmer.saveFarmer();
-                FarmerAPI.getModuleManager().databaseUpdateAttribute(connection, farmer);
+                FarmerModule.databaseUpdateAttribute(connection, farmer);
             }
         } catch (SQLException throwable) {
             Main.getInstance().getLogger().info("Error while updating Farmers: " + throwable.getMessage());
@@ -111,7 +112,7 @@ public abstract class SQL {
                     users.add(new User(farmerID, name, UUID.fromString(uuid), role));
                 }
                 Farmer farmer = new Farmer(farmerID, regionID, users, inv, level, state);
-                FarmerAPI.getModuleManager().databaseGetAttributes(connection, farmer);
+                FarmerModule.databaseGetAttributes(connection, farmer);
                 FarmerManager.getFarmers().put(regionID, farmer);
             }
         } catch (SQLException throwables) {

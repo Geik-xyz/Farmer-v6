@@ -16,6 +16,7 @@ import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.chat.Placeholder;
+import xyz.geik.glib.module.ModuleManager;
 import xyz.geik.glib.shades.triumphteam.cmd.bukkit.annotation.Permission;
 import xyz.geik.glib.shades.triumphteam.cmd.core.BaseCommand;
 import xyz.geik.glib.shades.triumphteam.cmd.core.annotation.Command;
@@ -134,7 +135,7 @@ public class FarmerCommand extends BaseCommand {
         player.sendMessage(ChatUtils.color("&aEconomy API: &7" + Main.getEconomy().getClass().getSimpleName()));
         player.sendMessage(ChatUtils.color("&aActive Farmer: &7" + FarmerManager.getFarmers().size()));
         ChatUtils.sendMessage(player, "&aLanguage: &7" + Main.getConfigFile().getSettings().getLang());
-        ChatUtils.sendMessage(player, "&aModules: &7" + Arrays.toString(FarmerAPI.getModuleManager().getModuleList().stream().filter(module -> module.isEnabled()).map(module -> module.getName()).toArray()));
+        ChatUtils.sendMessage(player, "&aModules: &7" + Arrays.toString(ModuleManager.getModules().values().stream().map(module -> module.getName()).collect(Collectors.toList()).toArray()));
         player.sendMessage(ChatUtils.color("&7&m----------------------------------------"));
     }
 
@@ -196,7 +197,7 @@ public class FarmerCommand extends BaseCommand {
             CacheLoader.loadAllLevels();
             // Reloading farmers again.
             Main.getInstance().getSql().loadAllFarmers();
-            FarmerAPI.getModuleManager().getModuleList().forEach(FarmerModule::onReload);
+            Main.getInstance().getModuleManager().reloadModules();
             // Sends message to sender who send this command and also calculating millisecond difference.
             ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getReloadSuccess(),
                     new Placeholder("%ms%", System.currentTimeMillis() - time + "ms"));
