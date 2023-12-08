@@ -8,7 +8,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.FarmerLevel;
-import xyz.geik.farmer.modules.production.ProductionModel;
+import xyz.geik.farmer.modules.production.model.ProductionModel;
 import xyz.geik.glib.shades.xseries.XMaterial;
 
 import java.util.ArrayList;

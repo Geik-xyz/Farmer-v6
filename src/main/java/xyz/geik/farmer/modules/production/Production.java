@@ -1,10 +1,14 @@
 package xyz.geik.farmer.modules.production;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.modules.FarmerModule;
+import xyz.geik.farmer.modules.production.handlers.ProductionCalculateEvent;
+import xyz.geik.farmer.shades.storage.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,56 +24,36 @@ public class Production extends FarmerModule {
      */
     public Production() {}
 
-    /**
-     * -- GETTER --
-     *  Get instance of module
-     */
     @Getter
     private static Production instance;
 
-    /**
-     * number formats which is k,m,b,t for 1k instead of 1000
-     */
+    private Config langFile;
+
+    private static ProductionCalculateEvent productionCalculateEvent;
+
     private String[] numberFormat = new String[]{"k", "m", "b", "t"};
 
-    /**
-     * calculate interval time
-     */
     private long reCalculate = 15L;
 
-    /**
-     * items to calculate
-     */
     private List<String> productionItems = new ArrayList<>();
-
-    /**
-     * onLoad method of module
-     */
-    @Override
-    public void onLoad() {
-        setName("Production");
-        setEnabled(true);
-        setDescription("Average Production Calculating module");
-        setModulePrefix("Production Calculating");
-        instance = this;
-        setConfig(Main.getInstance());
-        getProductionItems().addAll(getConfig().getStringList("items"));
-        if (!getConfig().getBoolean("settings.feature"))
-            setEnabled(false);
-    }
 
     /**
      * onEnable method of module
      */
     @Override
     public void onEnable() {
-        registerListener(new ProductionCalculateEvent());
+        instance = this;
+        if (!Main.getModulesFile().getProduction().isStatus())
+            this.setEnabled(false);
+        getProductionItems().addAll(Main.getModulesFile().getProduction().getItems());
+        productionCalculateEvent = new ProductionCalculateEvent();
+        Bukkit.getPluginManager().registerEvents(productionCalculateEvent, Main.getInstance());
         setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
         numberFormat[0] = getLang().getText("numberFormat.thousand");
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");
         numberFormat[3] = getLang().getText("numberFormat.trillion");
-        reCalculate = getConfig().get("settings.reCalculate", 15L);
+        reCalculate = Main.getModulesFile().getProduction().getReCalculate();
     }
 
     /**
@@ -83,14 +67,16 @@ public class Production extends FarmerModule {
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");
         numberFormat[3] = getLang().getText("numberFormat.trillion");
-        reCalculate = getConfig().get("settings.reCalculate", 15L);
+        reCalculate = Main.getModulesFile().getProduction().getReCalculate();
     }
 
     /**
      * onDisable method of module
      */
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+        HandlerList.unregisterAll(productionCalculateEvent);
+    }
 
     /**
      * is item suitable to calculate
@@ -99,7 +85,7 @@ public class Production extends FarmerModule {
      * @return boolean
      */
     public static boolean isCalculateItem(@NotNull FarmerItem item) {
-        return Production.getInstance().getProductionItems().contains(item.getName())
-                || getInstance().getProductionItems().isEmpty();
+        return instance.getProductionItems().contains(item.getName())
+                || instance.getProductionItems().isEmpty();
     }
 }

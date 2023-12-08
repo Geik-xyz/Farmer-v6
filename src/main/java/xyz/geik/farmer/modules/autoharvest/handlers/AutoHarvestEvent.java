@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.autoharvest;
+package xyz.geik.farmer.modules.autoharvest.handlers;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,6 +17,7 @@ import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
+import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
 import xyz.geik.glib.shades.xseries.XMaterial;
 
 /**

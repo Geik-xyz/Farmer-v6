@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.autoseller;
+package xyz.geik.farmer.modules.autoseller.handlers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -12,6 +12,7 @@ import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
 import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
+import xyz.geik.farmer.modules.autoseller.AutoSeller;
 import xyz.geik.glib.shades.xseries.XMaterial;
 
 /**

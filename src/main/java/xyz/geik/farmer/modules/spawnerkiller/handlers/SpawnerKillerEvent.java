@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.spawnerkiller.old;
+package xyz.geik.farmer.modules.spawnerkiller.handlers;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import org.bukkit.Bukkit;
@@ -15,6 +15,7 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
 
 import java.util.List;
 import java.util.Random;

@@ -10,6 +10,7 @@ import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.voucher.Voucher;
 import xyz.geik.farmer.modules.voucher.helper.VoucherItem;
 import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.module.ModuleManager;
 import xyz.geik.glib.shades.triumphteam.cmd.core.BaseCommand;
 
 /**
@@ -45,7 +46,7 @@ public class VoucherCommand extends BaseCommand {
             ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getNoPerm());
             return false;
         }
-        if (!FarmerAPI.getModuleManager().getByName("Voucher").isEnabled()) {
+        if (!ModuleManager.getModule("Voucher").isEnabled()) {
             sender.sendMessage(Voucher.getInstance().getLang().getText("voucherDisabled"));
             return false;
         }
