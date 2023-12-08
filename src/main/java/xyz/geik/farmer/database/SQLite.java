@@ -22,7 +22,6 @@ public class SQLite extends SQL {
      * Main constructor of SQLite
      */
     public SQLite() {
-        Main.setSql(this);
         Main.setDatabase(new DatabaseAPI(Main.getInstance()).getDatabase());
         // Crates tables
         createTable();

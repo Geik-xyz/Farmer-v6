@@ -11,6 +11,7 @@ import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.commands.FarmerCommand;
 import xyz.geik.farmer.configuration.ConfigFile;
 import xyz.geik.farmer.configuration.LangFile;
+import xyz.geik.farmer.configuration.ModulesFile;
 import xyz.geik.farmer.database.MySQL;
 import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
@@ -18,10 +19,6 @@ import xyz.geik.farmer.helpers.CacheLoader;
 import xyz.geik.farmer.integrations.Integrations;
 import xyz.geik.farmer.listeners.ListenerRegister;
 import xyz.geik.farmer.modules.FarmerModule;
-import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
-import xyz.geik.farmer.modules.autoseller.AutoSeller;
-import xyz.geik.farmer.modules.production.Production;
-import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
 import xyz.geik.farmer.modules.voucher.Voucher;
 import xyz.geik.farmer.shades.storage.Config;
 import xyz.geik.glib.GLib;
@@ -30,6 +27,7 @@ import xyz.geik.glib.database.Database;
 import xyz.geik.glib.database.DatabaseType;
 import xyz.geik.glib.economy.Economy;
 import xyz.geik.glib.economy.EconomyAPI;
+import xyz.geik.glib.module.ModuleManager;
 import xyz.geik.glib.shades.okaeri.configs.ConfigManager;
 import xyz.geik.glib.shades.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
 import xyz.geik.glib.shades.triumphteam.cmd.bukkit.BukkitCommandManager;
@@ -58,11 +56,14 @@ public class Main extends JavaPlugin {
     @Getter @Setter
     private SimplixStorageAPI simplixStorageAPI;
 
+    @Getter
+    private ModuleManager moduleManager;
+
     @Getter @Setter
     private static Database database;
 
-    @Getter @Setter
-    private static SQL sql;
+    @Getter
+    private static SQL sql = null;
 
     @Getter @Setter
     private static Economy economy;
@@ -80,17 +81,14 @@ public class Main extends JavaPlugin {
     @Getter
     private static Config itemsFile, levelFile;
 
-    /**
-     * Lang file of plugin
-     */
     @Getter
     private static LangFile langFile;
 
-    /**
-     * Config file of plugin
-     */
     @Getter
     private static ConfigFile configFile;
+
+    @Getter
+    private static ModulesFile modulesFile;
 
     /**
      * Main integration of plugin integrations#Integrations
@@ -113,6 +111,7 @@ public class Main extends JavaPlugin {
         instance = this;
         simplixStorageAPI = new SimplixStorageAPI(this);
         setupFiles();
+        setupDatabase();
     }
 
     /**
@@ -120,16 +119,14 @@ public class Main extends JavaPlugin {
      * This is sort of the main(String... args) method.
      */
     public void onEnable() {
-        new GLib(this, getLangFile().getMessages().getPrefix());
-        setupDatabase();
-        registerEconomy();
-        // API Installer
         FarmerAPI.getFarmerManager();
-        FarmerAPI.getModuleManager();
+        Integrations.registerIntegrations();
+        new GLib(this, getLangFile().getMessages().getPrefix());
+        // API Installer
         CacheLoader.loadAllItems();
         CacheLoader.loadAllLevels();
+        registerEconomy();
         setupCommands();
-        Integrations.registerIntegrations();
         sendEnableMessage();
         getSql().loadAllFarmers();
         new ListenerRegister();
@@ -152,13 +149,18 @@ public class Main extends JavaPlugin {
      */
     public void setupFiles() {
         try {
-            this.configFile = ConfigManager.create(ConfigFile.class, (it) -> {
+            configFile = ConfigManager.create(ConfigFile.class, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer());
                 it.withBindFile(new File(getDataFolder(), "config.yml"));
                 it.saveDefaults();
                 it.load(true);
             });
-
+            modulesFile = ConfigManager.create(ModulesFile.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer());
+                it.withBindFile(new File(getDataFolder(), "modules.yml"));
+                it.saveDefaults();
+                it.load(true);
+            });
             String langName = configFile.getSettings().getLang();
             Class langClass = Class.forName("xyz.geik.farmer.configuration.lang." + langName);
             Class<LangFile> languageClass = langClass;
@@ -182,9 +184,9 @@ public class Main extends JavaPlugin {
     private void setupDatabase() {
         DatabaseType type = DatabaseType.getDatabaseType(getConfigFile().getDatabase().getDatabaseType());
         if (type.equals(DatabaseType.SQLite))
-            new SQLite();
+            this.sql = new SQLite();
         else
-            new MySQL();
+            this.sql = new MySQL();
     }
 
     /**
@@ -198,12 +200,10 @@ public class Main extends JavaPlugin {
      * Register modules to this plugin
      */
     private void registerModules() {
-        FarmerAPI.getModuleManager().registerModule(new Voucher());
-        FarmerAPI.getModuleManager().registerModule(new Production());
-        FarmerAPI.getModuleManager().registerModule(new AutoHarvest());
-        FarmerAPI.getModuleManager().registerModule(new AutoSeller());
-        FarmerAPI.getModuleManager().registerModule(new SpawnerKiller());
-        FarmerAPI.getModuleManager().loadModules();
+        this.moduleManager = new ModuleManager();
+        getModuleManager().registerModule(new Voucher());
+        // TODO ADD ALL MODULES HERE
+        getModuleManager().enableModules();
     }
 
     /**

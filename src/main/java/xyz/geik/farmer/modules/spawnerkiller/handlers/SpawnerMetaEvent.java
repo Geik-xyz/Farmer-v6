@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.spawnerkiller;
+package xyz.geik.farmer.modules.spawnerkiller.old;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import mc.rellox.spawnermeta.SpawnerMeta;

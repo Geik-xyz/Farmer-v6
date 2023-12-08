@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.github.Geik-xyz</groupId>
             <artifactId>GLib</artifactId>
-            <version>25e05f71a8</version>
+            <version>f2ac339684</version>
         </dependency>
         <!-- apache commons -->
         <dependency>
@@ -109,14 +109,7 @@
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>2.11.5</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Geyser -->
-        <dependency>
-            <groupId>org.geysermc.geyser</groupId>
-            <artifactId>api</artifactId>
-            <version>2.2.0-SNAPSHOT</version>
+            <version>2.11.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -167,10 +160,10 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
-        <!-- Geyser -->
+        <!-- PlayerPoints -->
         <repository>
-            <id>opencollab-snapshot</id>
-            <url>https://repo.opencollab.dev/main/</url>
+            <id>rosewood-repo</id>
+            <url>https://repo.rosewooddev.io/repository/public/</url>
         </repository>
     </repositories>
 
@@ -208,6 +201,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
+                <configuration>
+                    <source>9</source>
+                    <target>9</target>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.voucher;
+package xyz.geik.farmer.modules.voucher.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -7,14 +7,22 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.modules.voucher.Voucher;
+import xyz.geik.farmer.modules.voucher.helper.VoucherItem;
 import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.shades.triumphteam.cmd.core.BaseCommand;
 
 /**
  * Voucher Command
  *
  * @author Geyik
  */
-public class VoucherCommand {
+public class VoucherCommand extends BaseCommand {
+
+    /**
+     * TODO Recode command with #BaseCommand
+     * @see BaseCommand
+     */
 
     /**
      * Constructor of class

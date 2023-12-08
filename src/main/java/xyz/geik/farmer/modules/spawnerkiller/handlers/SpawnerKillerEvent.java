@@ -1,9 +1,6 @@
-package xyz.geik.farmer.modules.spawnerkiller;
+package xyz.geik.farmer.modules.spawnerkiller.old;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
-import mc.rellox.spawnermeta.SpawnerMeta;
-import mc.rellox.spawnermeta.api.APIInstance;
-import mc.rellox.spawnermeta.api.events.SpawnerPostSpawnEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.*;

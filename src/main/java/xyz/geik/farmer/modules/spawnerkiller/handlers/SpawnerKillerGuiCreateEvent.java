@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.spawnerkiller;
+package xyz.geik.farmer.modules.spawnerkiller.old;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

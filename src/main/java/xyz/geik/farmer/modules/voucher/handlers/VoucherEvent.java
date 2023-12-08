@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.voucher;
+package xyz.geik.farmer.modules.voucher.handlers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -14,6 +14,8 @@ import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.guis.MainGui;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.modules.voucher.Voucher;
+import xyz.geik.farmer.modules.voucher.helper.VoucherItem;
 import xyz.geik.farmer.shades.nbtapi.NBT;
 import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.shades.xseries.XSound;
@@ -57,7 +59,7 @@ public class VoucherEvent implements Listener {
             return;
         }
         if (FarmerManager.getFarmers().containsKey(Main.getIntegration().getRegionID(player.getLocation()))) {
-            if (Voucher.getInstance().isOverrideFarmer()) {
+            if (Main.getModulesFile().getVoucher().isUseWhenFarmerExist()) {
                 Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(player.getLocation()));
                 if ((voucherLevel-1) > FarmerLevel.getAllLevels().indexOf(farmer.getLevel())) {
                     farmer.setLevel(FarmerLevel.getAllLevels().get(voucherLevel-1));
@@ -92,7 +94,7 @@ public class VoucherEvent implements Listener {
      */
     @EventHandler
     public void onFarmerRemoveEvent(FarmerRemoveEvent event) {
-        if (Voucher.getInstance().isGiveVoucherWhenRemove()) {
+        if (Main.getModulesFile().getVoucher().isGiveVoucherWhenRemove()) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(event.getFarmer().getOwnerUUID());
             if (offlinePlayer.isOnline()) {
                 Player player = offlinePlayer.getPlayer();

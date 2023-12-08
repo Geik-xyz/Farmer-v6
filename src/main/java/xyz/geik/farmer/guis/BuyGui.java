@@ -33,7 +33,6 @@ public class BuyGui {
         // Filler item for empty slots
         gui.setFiller(GuiHelper.getFiller(player));
         // Buy item placer
-
         gui.addElement(new StaticGuiElement('b',
                 // Item here
                 GuiHelper.getBuyItem(player),
@@ -57,7 +56,7 @@ public class BuyGui {
                     // If player don't have enough money to buy send message
                     else
                         ChatUtils.sendMessage(player, ChatUtils.replacePlaceholders(
-                                Main.getLangFile().getMessages().getBoughtFarmer(),
+                                Main.getLangFile().getMessages().getNotEnoughMoney(),
                                 new Placeholder("{req_money}", farmerPrice+"")));
                     // After all close gui.
                     gui.close();

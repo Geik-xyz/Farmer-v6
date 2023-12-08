@@ -6,10 +6,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.shades.storage.Config;
 import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.module.GModule;
+import xyz.geik.glib.module.ModuleManager;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 
 /**
  * Module system of Farmer
@@ -20,75 +31,12 @@ import xyz.geik.glib.chat.ChatUtils;
  */
 @Getter
 @Setter
-public abstract class FarmerModule {
+public abstract class FarmerModule extends GModule {
 
-    /**
-     * Name of module
-     */
-    private String name = "FarmerModule";
-
-    /**
-     * Situation of module
-     */
-    private boolean isEnabled = true, hasGui = false;
-
-    /**
-     * Module description
-     */
-    private String description = "FarmerModule description";
-
-    /**
-     * Module prefix used in console messages
-     */
-    private String modulePrefix = "FarmerModule";
-
-    /**
-     * Config of module
-     */
-    private Config config;
-
-    /**
-     * Lang of module
-     */
     private Config lang;
-
-    /**
-     * FarmerModule constructor
-     *
-     */
-    public FarmerModule() {}
-
-    /**
-     * When load the module this method will be called
-     */
-    public abstract void onLoad();
-
-    /**
-     * When enable the module this method will be called
-     */
-    public abstract void onEnable();
-
-    /**
-     * When disable the module this method will be called
-     */
-    public abstract void onDisable();
-
-    /**
-     * When reload the module this method will be called
-     */
-    public abstract void onReload();
-
-    /**
-     * Set default config of plugin
-     * You may use it in your onLoad
-     * or onEnable method of your module
-     *
-     * @param plugin for instance
-     */
-    public void setConfig(JavaPlugin plugin) {
-        config = Main.getInstance().getSimplixStorageAPI()
-                .initConfig("modules/" + this.getName().toLowerCase() + "/config", plugin);
-    }
+    private boolean isHasGui = false;
+    @Getter@Setter
+    private static boolean isModulesUseGui = false;
 
     /**
      * Set default config of plugin
@@ -108,14 +56,82 @@ public abstract class FarmerModule {
     }
 
     /**
-     * Register listener to this plugin
+     * Save attributes to database
      *
-     * @param listener to register
+     * @param con Connection to database
+     * @param farmer Farmer to save
+     * @throws SQLException if SQL error occurs
      */
-    public void registerListener(Listener listener) {
-        PluginManager pm = Main.getInstance().getServer().getPluginManager();
-        Main.getInstance().getListenerList().put(this, listener);
-        pm.registerEvents(listener, Main.getInstance());
-        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&6[FarmerManager] &a" + listener.getClass().getSimpleName() + " registered"));
+    public static void databaseUpdateAttribute(@NotNull Connection con, @NotNull Farmer farmer) throws SQLException {
+        final String SQL_QUERY = "UPDATE Farmers SET attributes = ? WHERE id = ?";
+        try (PreparedStatement statement = con.prepareStatement(SQL_QUERY)) {
+            statement.setString(1, attributeSerializer(farmer.getModuleAttributes()));
+            statement.setInt(2, farmer.getId());
+            statement.executeUpdate();
+        }
+    }
+
+    /**
+     * Get attributes from database
+     *
+     * @param con Connection to database
+     * @param farmer Farmer to get attributes
+     * @throws SQLException if SQL error occurs
+     */
+    public static void databaseGetAttributes(Connection con, @NotNull Farmer farmer) throws SQLException {
+        final String SQL_QUERY = "SELECT attributes FROM Farmers WHERE id = ?";
+        try (PreparedStatement statement = con.prepareStatement(SQL_QUERY)) {
+            statement.setInt(1, farmer.getId());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next())
+                farmer.setModuleAttributes(attributeDeserializer(resultSet.getString("attributes")));
+            else farmer.setModuleAttributes(new HashMap<>());
+        }
+    }
+
+    /**
+     * Serialize attribute data to save in database
+     *
+     * @param attributes Attributes to serialize
+     * @return Serialized attributes
+     */
+    private static @Nullable String attributeSerializer(@NotNull HashMap<String, Boolean> attributes) {
+        if (attributes.isEmpty())
+            return null;
+        StringBuilder builder = new StringBuilder();
+        for (String key : attributes.keySet())
+            builder.append(key).append(":").append(attributes.get(key)).append(";");
+
+        if (builder.toString().isEmpty())
+            return null;
+        else
+            return builder.toString();
+    }
+
+    /**
+     * Deserialize attribute data from database
+     *
+     * @param attributes Attributes to deserialize
+     * @return Deserialized attributes
+     */
+    private static @NotNull HashMap<String, Boolean> attributeDeserializer(String attributes) {
+        HashMap<String, Boolean> map = new HashMap<>();
+        if (attributes == null || attributes.isEmpty())
+            return map;
+        for (String attribute : attributes.split(";"))
+            if (!attribute.isEmpty())
+                map.put(attribute.split(":")[0], Boolean.parseBoolean(attribute.split(":")[1]));
+        return map;
+    }
+
+    /**
+     * Checks if any module uses GUI and makes action
+     * @see FarmerModule
+     */
+    public static void calculateModulesUseGui() {
+        setModulesUseGui(ModuleManager.getModules().values().stream().anyMatch(module -> {
+            FarmerModule module1 = (FarmerModule) module;
+            return module1.isHasGui();
+        }));
     }
 }
