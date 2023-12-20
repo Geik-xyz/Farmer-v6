@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import xyz.geik.glib.shades.okaeri.configs.OkaeriConfig;
 import xyz.geik.glib.shades.okaeri.configs.annotation.Comment;
-import xyz.geik.glib.shades.okaeri.configs.annotation.NameModifier;
 import xyz.geik.glib.shades.okaeri.configs.annotation.NameStrategy;
 import xyz.geik.glib.shades.okaeri.configs.annotation.Names;
 
@@ -18,11 +17,11 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
+@Names(strategy = NameStrategy.IDENTITY)
 public class ModulesFile extends OkaeriConfig {
 
     @Comment("Voucher Module")
-    private Voucher voucher = new Voucher();
+    private Voucher Voucher = new Voucher();
 
     /**
      * Module configuration
@@ -51,7 +50,7 @@ public class ModulesFile extends OkaeriConfig {
     }
 
     @Comment("Auto Harvest Module")
-    private AutoHarvest autoHarvest = new AutoHarvest();
+    private AutoHarvest AutoHarvest = new AutoHarvest();
 
     /**
      * Module configuration
@@ -102,7 +101,7 @@ public class ModulesFile extends OkaeriConfig {
     }
 
     @Comment("Geyser Module")
-    private Geyser geyser = new Geyser();
+    private Geyser Geyser = new Geyser();
 
     /**
      * Module configuration
@@ -119,7 +118,7 @@ public class ModulesFile extends OkaeriConfig {
     }
 
     @Comment("Spawner Killer Module")
-    private SpawnerKiller spawnerKiller = new SpawnerKiller();
+    private SpawnerKiller SpawnerKiller = new SpawnerKiller();
 
     /**
      * Module configuration
@@ -168,7 +167,7 @@ public class ModulesFile extends OkaeriConfig {
     }
 
     @Comment("Production Module")
-    private Production production = new Production();
+    private Production Production = new Production();
 
     /**
      * Module configuration
@@ -195,7 +194,7 @@ public class ModulesFile extends OkaeriConfig {
     }
 
     @Comment("Auto Seller Module")
-    private AutoSeller autoSeller = new AutoSeller();
+    private AutoSeller AutoSeller = new AutoSeller();
 
     /**
      * Module configuration

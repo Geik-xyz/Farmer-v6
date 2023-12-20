@@ -26,6 +26,7 @@ import xyz.geik.glib.shades.xseries.messages.Titles;
 
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Farmer command class

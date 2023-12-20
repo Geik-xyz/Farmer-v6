@@ -32,8 +32,6 @@ public class Voucher extends FarmerModule {
      */
     public void onEnable() {
         instance = this;
-        if (!Main.getModulesFile().getVoucher().isStatus())
-            this.setEnabled(false);
         this.setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
         voucherEvent = new VoucherEvent();
         Bukkit.getPluginManager().registerEvents(voucherEvent, Main.getInstance());

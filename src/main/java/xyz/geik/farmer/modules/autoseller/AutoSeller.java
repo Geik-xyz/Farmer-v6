@@ -39,8 +39,6 @@ public class AutoSeller extends FarmerModule {
     @Override
     public void onEnable() {
         instance = this;
-        if (!Main.getModulesFile().getVoucher().isStatus())
-            this.setEnabled(false);
         this.setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
         this.setHasGui(true);
         autoSellerEvent = new AutoSellerEvent();

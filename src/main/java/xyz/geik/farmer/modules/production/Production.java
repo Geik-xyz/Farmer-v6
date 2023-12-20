@@ -43,8 +43,7 @@ public class Production extends FarmerModule {
     @Override
     public void onEnable() {
         instance = this;
-        if (!Main.getModulesFile().getProduction().isStatus())
-            this.setEnabled(false);
+        this.setEnabled(true);
         getProductionItems().addAll(Main.getModulesFile().getProduction().getItems());
         productionCalculateEvent = new ProductionCalculateEvent();
         Bukkit.getPluginManager().registerEvents(productionCalculateEvent, Main.getInstance());

@@ -43,8 +43,6 @@ public class SpawnerKiller extends FarmerModule {
      */
     public void onEnable() {
         instance = this;
-        if (!Main.getModulesFile().getSpawnerKiller().isStatus())
-            this.setEnabled(false);
         this.setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
         this.setHasGui(true);
         spawnerKillerEvent = new SpawnerKillerEvent();

@@ -1,6 +1,6 @@
 package xyz.geik.farmer.integrations.fabledskyblock;
 
-import com.songoda.skyblock.api.SkyBlockAPI;
+import com.craftaro.skyblock.api.SkyBlockAPI;
 import org.bukkit.Location;
 import xyz.geik.farmer.integrations.Integrations;
 

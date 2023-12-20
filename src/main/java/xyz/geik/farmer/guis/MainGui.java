@@ -16,6 +16,7 @@ import xyz.geik.farmer.helpers.gui.GroupItems;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.FarmerPerm;
+import xyz.geik.farmer.modules.geyser.gui.GeyserGui;
 import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.shades.inventorygui.DynamicGuiElement;
 import xyz.geik.glib.shades.inventorygui.GuiElementGroup;
@@ -85,13 +86,14 @@ public class MainGui {
                                     !user.getPerm().equals(FarmerPerm.COOP)
                                             && user.getName().equalsIgnoreCase(player.getName())))) {
                                 // XMaterial check for old version
-                                ItemStack cursorItem = click.getCursor();
+                                ItemStack cursorItem = click.getRawEvent().getView().getItem(click.getSlot());
                                 assert cursorItem != null;
                                 XMaterial material = XMaterial.matchXMaterial(cursorItem);
                                 FarmerItem slotItem = farmer.getInv().getStockedItem(material);
                                 // If player is bedrock player go to geyser gui
-                                if (GeyserApi.api().isBedrockPlayer(player.getUniqueId()))
-                                    GeyserGui.showGui(player, cursorItem, material, farmer, slotItem);
+                                if (Main.getModulesFile().getGeyser().isStatus())
+                                    if (GeyserApi.api().isBedrockPlayer(player.getUniqueId()))
+                                        GeyserGui.showGui(player, cursorItem, material, farmer, slotItem);
                                 // Sells all stock of an item
                                 if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
                                     if (slotItem.getPrice() < 0)

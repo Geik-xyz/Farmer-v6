@@ -78,7 +78,7 @@ public class FarmerInv {
      * @return FarmerItem
      */
     public FarmerItem getStockedItem(XMaterial material) {
-        return items.stream().filter(item -> (item.getMaterial().isSimilar(material.parseItem()))).findFirst().get();
+        return items.stream().filter(item -> item.getMaterial() == material).findFirst().get();
     }
 
     /**
