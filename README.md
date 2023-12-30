@@ -443,9 +443,8 @@ public class Main extends JavaPlugin {
 We welcome contributions from the community! If you would like to contribute, please follow these guidelines:
 
 1. Fork the repository and clone it to your local machine.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes, and ensure that your code is well-tested.
-4. Create a pull request with a detailed description of your changes.
+2. Make your changes, and ensure that your code is well-tested.
+3. Create a pull request with a detailed description of your changes.
 
 By contributing to this project, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
 
