@@ -76,7 +76,7 @@ Gui:
       - ' &8▪ &7Capacity: &6{capacity}'
       - ' &8▪ &7Tax Rate: &6{tax}'
       - ''
-      - '&aClick for management panel!'
+      - '&aClick to open management panel!'
   help:
     # If you don't want skull you can remove "skull" and create "material: (YOUR_MATERIAL_HERE)"
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjE2Y2M1NzU1Y2RkMjYwZjdiNGI1YzFhMWYxZjNiZDMxODUxZmMxZDk4Yjc0NDM3YjJmYjRiZDZlYjhkMiJ9fX0="
@@ -142,7 +142,7 @@ manageGui:
       - ' &8▪ &7New Capacity: &e{next_capacity}'
       - ' &8▪ &7Required Money: &6{req_money}'
       - ''
-      - '&aClick for upgrade level!'
+      - '&aClick to upgrade level!'
   # Placeholders:
   # {level} Shows level of farmer.
   # {capacity} Shows farmer capacity.
@@ -163,7 +163,7 @@ manageGui:
       - ''
       - ' &8▪ &7Status: &6{status}'
       - ''
-      - '&aClick for change!'
+      - '&aClick to change!'
   users:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjg1NDA2MGFhNTc3NmI3MzY2OGM4OTg2NTkwOWQxMmQwNjIyNDgzZTYwMGI2NDZmOTBjMTg2YzY1Yjc1ZmY0NSJ9fX0="
     name: "&eUser Management"
@@ -171,7 +171,7 @@ manageGui:
       - '&7You can add/remove/modify'
       - '&7users in here.'
       - ''
-      - '&aClick for open.'
+      - '&aClick to open.'
   modules:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTZlZmM4NmRiOTIyMTdjNWEzODk2NzJiMjgyNDI3NWU3YTIwNmQ3ZWMwZjJjN2U0Y2E0ODNjNmUxN2M5ZjZkNSJ9fX0="
     name: "&eModules"
@@ -179,7 +179,7 @@ manageGui:
       - '&7You can modify farmer'
       - '&7modules in here.'
       - ''
-      - '&aClick for open.'
+      - '&aClick to open.'
 
 # Buy Gui (Farmer)
 buyGui:
@@ -197,7 +197,7 @@ buyGui:
       - ''
       - ' &8▪ &7Price: &6{price}'
       - ''
-      - '&aClick for buy!'
+      - '&aClick to buy!'
 
 # User gui for farmer
 usersGui:
@@ -217,14 +217,14 @@ usersGui:
       - ''
       - ' &8▪ &7Role: &6{role}'
       - ''
-      - '&aLeft or Right click for promote/demote'
-      - '&4Shift+Right click for delete'
+      - '&aLeft or Right click to promote/demote'
+      - '&4Shift+Right click to delete'
   help:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjE2Y2M1NzU1Y2RkMjYwZjdiNGI1YzFhMWYxZjNiZDMxODUxZmMxZDk4Yjc0NDM3YjJmYjRiZDZlYjhkMiJ9fX0="
     name: "&eInformation"
     lore:
-      - '&7You can promote/demote/remove'
-      - '&7and add user here.'
+      - '&7You can promote, demote, remove'
+      - '&7or add user here.'
       - ''
       - '&7Perm Graph:'
       - ' &8▪ &eCoop can only look farmer.'
@@ -235,7 +235,7 @@ usersGui:
     name: "&eAdd user"
     lore:
       - ''
-      - '&aClick for add user.'
+      - '&aClick to add user.'
 
 moduleGui:
   interface:

@@ -5,7 +5,7 @@ noPerm: "&6Landwirt &8▸ &cDu hast keine Berechtigung!"
 noRegion: "&6Landwirt &8▸ &cEs gibt keine Region, um einen Landwirt zu binden."
 removedFarmer: "&6Landwirt &8▸ &aLandwirt erfolgreich entfernt."
 noFarmer: "&6Landwirt &8▸ &cEs gibt keinen Landwirt, der hier gebunden ist."
-mustBeOwner: "&6Landwirt &8▸ &cSie müssen Regionseigentümer sein, um dies zu tun."
+mustBeOwner: "&6Landwirt &8▸ &cDu musst Regionseigentümer sein, um dies zu tun."
 inventoryFull: "&6Landwirt &8▸ &cInventar voll!"
 # placeholders: {money} players money {req_money} required money.
 notEnoughMoney: "&6Landwirt &8▸ &cNicht genug Geld! Benötigt: &4{req_money}"
@@ -62,34 +62,34 @@ Gui:
     - " ggggggg "
     - " ggggggg "
     - "p   h   n"
-  guiName: "&6Landwirt"
+  guiName: "&6Landwirt-Speicher"
   manage:
     # If you don't want skull you can remove "skull" and create "material: (YOUR_MATERIAL_HERE)"
     skull: "ewogICJ0aW1lc3RhbXAiIDogMTYyMDM5NzA2MjE1MSwKICAicHJvZmlsZUlkIiA6ICI0ZGI2MWRkOTM0Mzk0M2M0YjhhOTZiNDQwMWM3MDM1MCIsCiAgInByb2ZpbGVOYW1lIiA6ICJiZWVyYmVsbHltYW4iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MyZTgxOTkwNmViMTc5NDM5YjhkZDU1NTExMzJlNTRlYjQ3MTczZTBmNDU4ODYxYWQyYThjOTM3OTE4Mzg5MSIKICAgIH0KICB9Cn0="
-    name: "&eVerwalten"
+    name: "&eVerwaltungspanel"
     lore:
       - '&7Nur der Eigentümer der Region kann'
-      - '&7Öffnen Sie dieses Feld.'
+      - '&7dieses Feld öffnen.'
       - ''
       - '&6Landwirt Statistiken:'
       - ' &8▪ &7Ebene: &6{level}'
       - ' &8▪ &7Kapazität: &6{capacity}'
       - ' &8▪ &7Steuersatz: &6{tax}'
       - ''
-      - '&aKlick für das Verwalten-Panel!'
+      - '&aZum Öffnen des Verwaltungs-Panel anklicken!'
   help:
     # If you don't want skull you can remove "skull" and create "material: (YOUR_MATERIAL_HERE)"
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjE2Y2M1NzU1Y2RkMjYwZjdiNGI1YzFhMWYxZjNiZDMxODUxZmMxZDk4Yjc0NDM3YjJmYjRiZDZlYjhkMiJ9fX0="
     name: "&eHilfe"
     lore:
       - '&7Hier ist eine Liste von Dingen'
-      - '&7die Sie tun können:'
+      - '&7die du tun kannst:'
       - ' &8▪ &6Artikel verkaufen'
       - ' &8▪ &6Gegenstände ins Inventar aufnehmen'
       - ' &8▪ &6Verwalten-Panel (nur Leader)'
       - ''
-      - '&cWenn Sie sich in einer Kooperation befinden,'
-      - 'können Sie nur dieses Menü sehen.'
+      - '&cWenn du dich in einer Kooperation befindest,'
+      - 'kannst du nur dieses Menü sehen.'
   # Placeholders:
   # {stock} Shows how many item farmer have.
   # {maxstock} Shows maximum stock of farmer.
@@ -112,8 +112,8 @@ Gui:
       - "&7Maximal Abheben &8[&eRechts Klicken&8]"
       - "&7Alles Verkaufen &8[&eUmschalt+Rechtsklick&8]"
       - ""
-      - "&4GEFAHR: &cVerkaufen Sie alle Funktionen"
-      - "nimmt &4%{tax} &csteuer!"
+      - "&4GEFAHR: &cDas Verkaufen aller Funktionen"
+      - "nimmt &4%{tax} &cSteuer!"
 
 # Management Gui
 manageGui:
@@ -124,7 +124,7 @@ manageGui:
     - "    m    "
     - " t  l  u "
     - "         "
-  guiName: "&8Verwalten Panel"
+  guiName: "&8Verwaltungs-Panel"
   # Placeholders:
   # {level} Shows level of farmer.
   # {max_level} Shows maximum level farmer can be.
@@ -141,7 +141,7 @@ manageGui:
       - ' &8▪ &7Neue Kapazität: &e{next_capacity}'
       - ' &8▪ &7Erforderliches Geld: &6{req_money}'
       - ''
-      - '&aKlicken Sie für die Upgrade-Stufe!'
+      - '&aZum Aufwerten klicken!'
   # Placeholders:
   # {level} Shows level of farmer.
   # {capacity} Shows farmer capacity.
@@ -150,7 +150,7 @@ manageGui:
     name: '&6{level}. &eEbene Landwirt'
     lore:
       - '&7Der Landwirt ist in der Höchststufe.'
-      - '&7Sie können nicht mehr viel aufrüsten.'
+      - '&7Du kannst nicht mehr viel aufrüsten.'
       - ''
       - ' &8▪ &7Kapazität: &6{capacity}'
   closeFarmer:
@@ -162,23 +162,23 @@ manageGui:
       - ''
       - ' &8▪ &7Status: &6{status}'
       - ''
-      - '&aKlicken Sie für Änderungen!'
+      - '&aZum Ändern klicken!'
   users:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjg1NDA2MGFhNTc3NmI3MzY2OGM4OTg2NTkwOWQxMmQwNjIyNDgzZTYwMGI2NDZmOTBjMTg2YzY1Yjc1ZmY0NSJ9fX0="
     name: "&eBenutzerverwaltung"
     lore:
-      - '&7Hier können Sie Benutzer'
+      - '&7Hier kannst du Benutzer'
       - 'hinzufügen/entfernen/ändern'
       - ''
-      - '&aKlicken für öffnen.'
+      - '&aZum Öffnen klicken.'
   modules:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTZlZmM4NmRiOTIyMTdjNWEzODk2NzJiMjgyNDI3NWU3YTIwNmQ3ZWMwZjJjN2U0Y2E0ODNjNmUxN2M5ZjZkNSJ9fX0="
     name: "&eModulverwaltung"
     lore:
-      - '&7Hier können Sie die'
+      - '&7Hier kannst du die'
       - '&7Modulverwaltung öffnen.'
       - ''
-      - '&aKlicken für öffnen.'
+      - '&aZum Öffnen klicken.'
 
 # Buy Gui (Farmer)
 buyGui:
@@ -191,12 +191,12 @@ buyGui:
     skull: "ewogICJ0aW1lc3RhbXAiIDogMTYyMDM5NzA2MjE1MSwKICAicHJvZmlsZUlkIiA6ICI0ZGI2MWRkOTM0Mzk0M2M0YjhhOTZiNDQwMWM3MDM1MCIsCiAgInByb2ZpbGVOYW1lIiA6ICJiZWVyYmVsbHltYW4iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2MyZTgxOTkwNmViMTc5NDM5YjhkZDU1NTExMzJlNTRlYjQ3MTczZTBmNDU4ODYxYWQyYThjOTM3OTE4Mzg5MSIKICAgIH0KICB9Cn0="
     name: "&eLandwirt kaufen"
     lore:
-      - '&7Sie können Bauern kaufen bei'
-      - '&7Anklicken dieses Artikels.'
+      - '&7Du kannst Bauern durch'
+      - '&7anklicken dieses Artikels kaufen.'
       - ''
       - ' &8▪ &7Preis: &6{price}'
       - ''
-      - '&aKlicken für kaufen!'
+      - '&aZum Kaufen klicken!'
 
 # User gui for farmer
 usersGui:
@@ -222,8 +222,8 @@ usersGui:
     skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjE2Y2M1NzU1Y2RkMjYwZjdiNGI1YzFhMWYxZjNiZDMxODUxZmMxZDk4Yjc0NDM3YjJmYjRiZDZlYjhkMiJ9fX0="
     name: "&eInformation"
     lore:
-      - '&7Hier können Sie Benutzer'
-      - 'befördern/entlassen/entfernen und hinzufügen.'
+      - '&7Hier kannst du Benutzer'
+      - 'befördern, entlassen, entfernen oder hinzufügen.'
       - ''
       - '&7Zulässiges Diagramm:'
       - ' &8▪ &eCoop kann nur Bauer gucken.'
