@@ -85,7 +85,7 @@ public class FarmerCommand extends BaseCommand {
     /**
      * Remove command of farmer
      *
-     * @param sender
+     * @param sender command sender
      */
     @Permission("farmer.admin")
     @SubCommand(value = "remove", alias = {"sil", "r"})
@@ -113,7 +113,7 @@ public class FarmerCommand extends BaseCommand {
     /**
      * About command of farmer
      *
-     * @param player
+     * @param player command sender
      */
     @SubCommand(value = "about", alias = {"hakkında", "pl", "ver", "version", "bilgi"})
     public void aboutCommand(@NotNull CommandSender player) {
@@ -142,7 +142,7 @@ public class FarmerCommand extends BaseCommand {
     /**
      * Info command of farmer
      *
-     * @param sender
+     * @param sender command sender
      */
     @Permission("farmer.admin")
     @SubCommand(value = "info", alias = {"bilgi", "inf"})
@@ -177,7 +177,7 @@ public class FarmerCommand extends BaseCommand {
     /**
      * Reload command of farmer
      *
-     * @param sender
+     * @param sender command sender
      */
     @Permission("farmer.admin")
     @SubCommand(value = "reload", alias = {"rl", "yenile"})
@@ -185,18 +185,18 @@ public class FarmerCommand extends BaseCommand {
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             long time = System.currentTimeMillis();
             // Saves all farmer
-            Main.getInstance().getSql().updateAllFarmers();
+            Main.getSql().updateAllFarmers();
             // Clears cached farmers
             FarmerManager.getFarmers().clear();
             // Regenerates settings
-            Main.getInstance().getConfigFile().load(true);
-            Main.getInstance().getLangFile().load(true);
+            Main.getConfigFile().load(true);
+            Main.getLangFile().load(true);
             // Reloading items it also clears old list
             // Reloading levels it also clears old list
             CacheLoader.loadAllItems();
             CacheLoader.loadAllLevels();
             // Reloading farmers again.
-            Main.getInstance().getSql().loadAllFarmers();
+            Main.getSql().loadAllFarmers();
             Main.getInstance().getModuleManager().reloadModules();
             // Sends message to sender who send this command and also calculating millisecond difference.
             ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getReloadSuccess(),
@@ -207,8 +207,8 @@ public class FarmerCommand extends BaseCommand {
     /**
      * Open command of farmer
      *
-     * @param sender
-     * @param target
+     * @param sender command sender
+     * @param target target player
      */
     @Permission("farmer.admin")
     @SubCommand(value = "open", alias = {"aç"})
