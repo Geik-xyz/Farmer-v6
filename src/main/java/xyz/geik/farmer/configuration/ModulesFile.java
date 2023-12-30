@@ -8,6 +8,7 @@ import xyz.geik.glib.shades.okaeri.configs.annotation.Comment;
 import xyz.geik.glib.shades.okaeri.configs.annotation.NameStrategy;
 import xyz.geik.glib.shades.okaeri.configs.annotation.Names;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -97,7 +98,7 @@ public class ModulesFile extends OkaeriConfig {
                 "if you want to harvest all crops, you must write all items here (*if you remove this setting, it can cause errors*)",
                 "also you must write the crop names same as items.yml items.",
                 "Available harvests: WHEAT, CARROT, POTATO, PUMPKIN, MELON, BEETROOT, NETHER_WART, SUGAR_CANE, COCOA_BEANS"})
-        private List<String> items = List.of("WHEAT", "CARROT", "POTATO", "PUMPKIN");
+        private List<String> items = Arrays.asList("WHEAT", "CARROT", "POTATO", "PUMPKIN");
     }
 
     @Comment("Geyser Module")
@@ -159,11 +160,11 @@ public class ModulesFile extends OkaeriConfig {
 
         @Comment({"You can add remove blacklist section",
                 "if you want to remove mobs from blacklist"})
-        private List<String> whitelist = List.of("VILLAGER");
+        private List<String> whitelist = Arrays.asList("VILLAGER");
 
         @Comment({"You can add remove blacklist section",
                 "if you want to remove mobs from blacklist"})
-        private List<String> blacklist = List.of("VILLAGER");
+        private List<String> blacklist = Arrays.asList("VILLAGER");
     }
 
     @Comment("Production Module")
@@ -190,7 +191,7 @@ public class ModulesFile extends OkaeriConfig {
                 "write the items you want to calculate",
                 "write the items in the items.yml file with same name",
                 "you can also remove this section, and it will calculate all items in the items.yml file"})
-        private List<String> items = List.of("CACTUS");
+        private List<String> items = Arrays.asList("CACTUS");
     }
 
     @Comment("Auto Seller Module")
@@ -225,7 +226,7 @@ public class ModulesFile extends OkaeriConfig {
                 "you can add as many items as you want",
                 "the items must be same as the ones in the items.yml of the Farmer",
                 "you can also remove this section for enable it to all items"})
-        private List<String> items = List.of("PUMPKIN", "MELON", "WHEAT", "CACTUS");
+        private List<String> items = Arrays.asList("PUMPKIN", "MELON", "WHEAT", "CACTUS");
     }
 
     /**
