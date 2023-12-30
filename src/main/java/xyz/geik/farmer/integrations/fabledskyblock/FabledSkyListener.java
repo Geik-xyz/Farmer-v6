@@ -1,8 +1,8 @@
 package xyz.geik.farmer.integrations.fabledskyblock;
 
-import com.songoda.skyblock.api.event.island.*;
-import com.songoda.skyblock.api.event.player.PlayerIslandJoinEvent;
-import com.songoda.skyblock.api.event.player.PlayerIslandLeaveEvent;
+import com.craftaro.skyblock.api.event.island.*;
+import com.craftaro.skyblock.api.event.player.PlayerIslandJoinEvent;
+import com.craftaro.skyblock.api.event.player.PlayerIslandLeaveEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

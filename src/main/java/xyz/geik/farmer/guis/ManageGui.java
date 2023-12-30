@@ -7,6 +7,7 @@ import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.chat.Placeholder;
 import xyz.geik.glib.shades.inventorygui.DynamicGuiElement;
@@ -100,7 +101,7 @@ public class ManageGui {
             })
         );
         // Module icon
-        if (FarmerAPI.getModuleManager().isModulesUseGui())
+        if (FarmerModule.isModulesUseGui())
             gui.addElement(new StaticGuiElement('m',
                     GuiHelper.getModuleGuiItem(player),
                     1,

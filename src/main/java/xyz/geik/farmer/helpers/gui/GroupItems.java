@@ -8,7 +8,7 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.User;
-import xyz.geik.farmer.modules.production.ProductionModel;
+import xyz.geik.farmer.modules.production.model.ProductionModel;
 import xyz.geik.glib.chat.ChatUtils;
 
 import java.util.List;

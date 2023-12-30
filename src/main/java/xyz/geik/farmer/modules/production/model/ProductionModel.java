@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.production;
+package xyz.geik.farmer.modules.production.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.farmer.modules.production.Production;
 import xyz.geik.glib.shades.inventorygui.InventoryGui;
 import xyz.geik.glib.shades.xseries.XMaterial;
 

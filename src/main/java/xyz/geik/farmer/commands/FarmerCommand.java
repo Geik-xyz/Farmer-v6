@@ -51,7 +51,7 @@ public class FarmerCommand extends BaseCommand {
             return;
         }
         Player player = (Player) sender;
-         if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(player.getWorld().getName())) {
+        if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(player.getWorld().getName())) {
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getWrongWorld());
             return;
         }

@@ -150,6 +150,17 @@ public class ConfigFile extends OkaeriConfig {
         );
 
         @Comment({"Layout for gui placement",
+                "l -> Left click icon",
+                "r -> Right click icon",
+                "s -> Shift Right click icon"
+        })
+        private List<String> geyserLayout = Arrays.asList(
+                "         ",
+                " l  r  s ",
+                "         "
+        );
+
+        @Comment({"Layout for gui placement",
                 "s -> AutoSell",
                 "k -> SpwanerKiller",
                 "h -> AutoHarvest"
@@ -159,6 +170,7 @@ public class ConfigFile extends OkaeriConfig {
                 " s  k  h ",
                 "         "
         );
+
 
         private GlobalItems globalItems = new GlobalItems();
         /**
@@ -354,6 +366,52 @@ public class ConfigFile extends OkaeriConfig {
             @Setter
             public static class Help extends OkaeriConfig {
                 private String material = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjE2Y2M1NzU1Y2RkMjYwZjdiNGI1YzFhMWYxZjNiZDMxODUxZmMxZDk4Yjc0NDM3YjJmYjRiZDZlYjhkMiJ9fX0=";
+                private int modelData = 0;
+                boolean hasGlow = false;
+            }
+        }
+
+
+        private GeyserGuiItems geyserGuiItems = new GeyserGuiItems();
+        /**
+         * GeyserGuiItems settings
+         */
+        @Getter
+        @Setter
+        public static class GeyserGuiItems extends OkaeriConfig {
+
+            private LeftClick leftClick = new LeftClick();
+            /**
+             * LeftClick item settings
+             */
+            @Getter
+            @Setter
+            public static class LeftClick extends OkaeriConfig {
+                private String material = "DIAMOND";
+                private int modelData = 0;
+                boolean hasGlow = false;
+            }
+
+            private RightClick rightClick = new RightClick();
+            /**
+             * RightClick item settings
+             */
+            @Getter
+            @Setter
+            public static class RightClick extends OkaeriConfig {
+                private String material = "DIAMOND";
+                private int modelData = 0;
+                boolean hasGlow = false;
+            }
+
+            private ShiftRightClick shiftRightClick = new ShiftRightClick();
+            /**
+             * ShiftRightClick item settings
+             */
+            @Getter
+            @Setter
+            public static class ShiftRightClick extends OkaeriConfig {
+                private String material = "DIAMOND";
                 private int modelData = 0;
                 boolean hasGlow = false;
             }

@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.spawnerkiller;
+package xyz.geik.farmer.modules.spawnerkiller.handlers;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.api.handlers.FarmerModuleGuiCreateEvent;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
 import xyz.geik.glib.shades.inventorygui.DynamicGuiElement;
 import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 

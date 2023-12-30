@@ -4,6 +4,7 @@ package xyz.geik.farmer.configuration.lang;
 import lombok.Getter;
 import lombok.Setter;
 import xyz.geik.farmer.configuration.LangFile;
+import xyz.geik.glib.shades.okaeri.configs.OkaeriConfig;
 import xyz.geik.glib.shades.okaeri.configs.annotation.Comment;
 import xyz.geik.glib.shades.okaeri.configs.annotation.NameModifier;
 import xyz.geik.glib.shades.okaeri.configs.annotation.NameStrategy;
@@ -551,6 +552,88 @@ public class tr extends LangFile {
                     private List<String> lore = Arrays.asList(
                             "",
                             "&aÜye eklemek için tıkla."
+                    );
+                }
+            }
+        }
+
+        private GeyserGui geyserGui = new GeyserGui();
+        /**
+         * GeyserGui gui settings
+         *
+         * @author amownyy
+         * @since 2.0
+         */
+        @Getter
+        @Setter
+        public static class GeyserGui extends LangFile.Gui.GeyserGui {
+
+            private String guiName = "&8Çiftçi Geyser Gui";
+
+            private Items items = new Items();
+
+            /**
+             * Items of buy gui settings
+             *
+             * @author amownyy
+             * @since 2.0
+             */
+            @Getter
+            @Setter
+            public static class Items extends LangFile.Gui.GeyserGui.Items {
+                private LeftClick geyserLeftClick = new LeftClick();
+                /**
+                 * GeyserLeftClick item settings
+                 * (Only for geyser player)
+                 *
+                 * @author amownyy
+                 * @since 2.0
+                 */
+                @Getter
+                @Setter
+                public static class LeftClick extends LangFile.Gui.GeyserGui.Items.LeftClick {
+                    private String name = "&eLeft Click";
+                    private List<String> lore = Arrays.asList(
+                            "",
+                            "&aSeçilen öğeyi çiftçi envanterinizden",
+                            "&abir yığın olarak al."
+                    );
+                }
+
+                private RightClick rightClick = new RightClick();
+                /**
+                 * GeyserRightClick item settings
+                 * (Only for geyser player)
+                 *
+                 * @author amownyy
+                 * @since 2.0
+                 */
+                @Getter
+                @Setter
+                public static class RightClick extends LangFile.Gui.GeyserGui.Items.RightClick {
+                    private String name = "&eRight Click";
+                    private List<String> lore = Arrays.asList(
+                            "",
+                            "&aSeçilen öğeyi çiftçi envanterinizden",
+                            "&ahepsini al."
+                    );
+                }
+
+                private ShiftRightClick shiftRightClick = new ShiftRightClick();
+                /**
+                 * GeyserShiftRightClick item settings
+                 * (Only for geyser player)
+                 *
+                 * @author amownyy
+                 * @since 2.0
+                 */
+                @Getter
+                @Setter
+                public static class ShiftRightClick extends LangFile.Gui.GeyserGui.Items.ShiftRightClick {
+                    private String name = "&eShift+Right Click";
+                    private List<String> lore = Arrays.asList(
+                            "",
+                            "&aÇiftçi envanterinizdeki tüm öğeleri satın."
                     );
                 }
             }

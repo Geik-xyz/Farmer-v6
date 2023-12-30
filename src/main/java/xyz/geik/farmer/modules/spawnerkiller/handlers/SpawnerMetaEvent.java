@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.spawnerkiller;
+package xyz.geik.farmer.modules.spawnerkiller.handlers;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import mc.rellox.spawnermeta.SpawnerMeta;
@@ -14,10 +14,13 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
 
 import java.util.List;
 
 /**
+ * SpawnerMeta Killer Listener
+ * @author amownyy
  * @since b003
  */
 public class SpawnerMetaEvent {
@@ -26,7 +29,7 @@ public class SpawnerMetaEvent {
      * SpawnerMeta spawner event
      * @author amownyy
      */
-    SpawnerMetaEvent() {
+    public SpawnerMetaEvent() {
         if (Bukkit.getPluginManager().getPlugin("SpawnerMeta") == null)
             return;
 

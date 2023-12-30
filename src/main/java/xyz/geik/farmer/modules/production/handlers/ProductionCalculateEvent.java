@@ -1,4 +1,4 @@
-package xyz.geik.farmer.modules.production;
+package xyz.geik.farmer.modules.production.handlers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -8,6 +8,8 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerMainGuiOpenEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemProductionEvent;
+import xyz.geik.farmer.modules.production.Production;
+import xyz.geik.farmer.modules.production.model.ProductionModel;
 
 import java.util.ArrayList;
 import java.util.List;

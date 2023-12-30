@@ -2,16 +2,17 @@ package xyz.geik.farmer.modules.spawnerkiller;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.modules.FarmerModule;
+import xyz.geik.farmer.modules.spawnerkiller.handlers.SpawnerKillerEvent;
+import xyz.geik.farmer.modules.spawnerkiller.handlers.SpawnerKillerGuiCreateEvent;
+import xyz.geik.farmer.modules.spawnerkiller.handlers.SpawnerMetaEvent;
+import xyz.geik.farmer.shades.storage.Config;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * SpawnerKiller module main class
- * @author Geik
- */
 @Getter
 public class SpawnerKiller extends FarmerModule {
 
@@ -20,88 +21,46 @@ public class SpawnerKiller extends FarmerModule {
      */
     public SpawnerKiller() {}
 
-    /**
-     * Whitelist of spawners
-     */
+    @Getter
+    private static SpawnerKiller instance;
+
+    private static SpawnerKillerEvent spawnerKillerEvent;
+
+    private static SpawnerKillerGuiCreateEvent spawnerKillerGuiCreateEvent;
+
     private List<String> whitelist = new ArrayList<>();
 
-    /**
-     * Blacklist of spawners
-     */
     private List<String> blacklist = new ArrayList<>();
 
     private boolean requireFarmer = false, cookFoods = false, removeMob = true, defaultStatus = false;
 
-    /**
-     * Perm of spawner killer
-     */
     private String customPerm = "farmer.spawnerkiller";
 
-    /**
-     * -- GETTER --
-     *  Get instance of the module
-     */
-    @Getter
-    private static SpawnerKiller instance;
-
-    /**
-     * onLoad method of module
-     */
-    @Override
-    public void onLoad() {
-        this.setName("SpawnerKiller");
-        this.setDescription("Automatically kills spawner mobs");
-        this.setModulePrefix("SpawnerKiller");
-        this.setConfig(Main.getInstance());
-        instance = this;
-        if (!getConfig().getBoolean("settings.feature"))
-            this.setEnabled(false);
-    }
+    private Config langFile;
 
     /**
      * onEnable method of module
      */
-    @Override
     public void onEnable() {
-        setHasGui(true);
-        defaultStatus = getConfig().getBoolean("settings.defaultStatus");
-        customPerm = getConfig().getString("settings.customPerm");
-        removeMob = getConfig().getBoolean("settings.removeMob");
-        cookFoods = getConfig().getBoolean("settings.cookFoods");
-        requireFarmer = getConfig().getBoolean("settings.requireFarmer");
-        // SpawnerMeta Listener Register
+        instance = this;
+        this.setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
+        this.setHasGui(true);
+        spawnerKillerEvent = new SpawnerKillerEvent();
+        spawnerKillerGuiCreateEvent = new SpawnerKillerGuiCreateEvent();
         if (Bukkit.getPluginManager().getPlugin("SpawnerMeta") != null)
             new SpawnerMetaEvent();
         else
-            registerListener(new SpawnerKillerEvent());
-        registerListener(new SpawnerKillerGuiCreateEvent());
-        setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
-        if (getConfig().contains("settings.whitelist"))
-            getConfig().getTextList("settings.whitelist").forEach(whitelist::add);
-        if (getConfig().contains("settings.blacklist"))
-            getConfig().getTextList("settings.blacklist").forEach(blacklist::add);
-    }
-
-    /**
-     * onReload method of module
-     */
-    @Override
-    public void onReload() {
-        if (!this.isEnabled())
-            return;
-        defaultStatus = getConfig().getBoolean("settings.defaultStatus");
-        customPerm = getConfig().getString("settings.customPerm");
-        removeMob = getConfig().getBoolean("settings.removeMob");
-        cookFoods = getConfig().getBoolean("settings.cookFoods");
-        requireFarmer = getConfig().getBoolean("settings.requireFarmer");
-        if (!whitelist.isEmpty())
-            whitelist.clear();
-        if (!blacklist.isEmpty())
-            blacklist.clear();
-        if (getConfig().contains("settings.whitelist"))
-            getConfig().getTextList("settings.whitelist").forEach(whitelist::add);
-        if (getConfig().contains("settings.blacklist"))
-            getConfig().getTextList("settings.blacklist").forEach(blacklist::add);
+            Bukkit.getPluginManager().registerEvents(spawnerKillerEvent, Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(spawnerKillerGuiCreateEvent, Main.getInstance());
+        defaultStatus = Main.getModulesFile().getSpawnerKiller().isDefaultStatus();
+        customPerm = Main.getModulesFile().getSpawnerKiller().getCustomPerm();
+        removeMob = Main.getModulesFile().getSpawnerKiller().isRemoveMob();
+        cookFoods = Main.getModulesFile().getSpawnerKiller().isCookFoods();
+        requireFarmer = Main.getModulesFile().getSpawnerKiller().isRequireFarmer();
+        if (Main.getModulesFile().getSpawnerKiller().getMode().equals("whitelist"))
+            getLang().getTextList("settings.whitelist").forEach(whitelist::add);
+        if (Main.getModulesFile().getSpawnerKiller().getMode().equals("blacklist"))
+            getLang().getTextList("settings.blacklist").forEach(blacklist::add);
     }
 
     /**
@@ -109,6 +68,7 @@ public class SpawnerKiller extends FarmerModule {
      */
     @Override
     public void onDisable() {
-
+        HandlerList.unregisterAll(spawnerKillerEvent);
+        HandlerList.unregisterAll(spawnerKillerGuiCreateEvent);
     }
 }
