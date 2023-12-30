@@ -1,5 +1,5 @@
 # Farmer
- Collects products of a region or island and store them in inventory of himself.
+Collects products of a region or island and store them in inventory of himself.
 
 ## How it's work?
 This plugin creates a virtual assistant that collects items on your behalf within your designated region or island. This assistant, known as the 'Farmer,' can be purchased using in-game currency. Owners have the ability to add users to the assistant and grant them permission to sell items through it. Additionally, the owner can deactivate the collection feature and level up the Farmer via the management GUI. Within the Farmer's GUI, stock availability is displayed using colors and percentage indicators.
@@ -11,7 +11,6 @@ Simultaneously, this plugin enforces automatic updates to the language file, eli
 ## Configuration and Lang File
 <details>
   <summary>config.yml</summary>
-
     # Main settings of farmer
     settings:
     # if you want to give farmer with economy leave it true
@@ -65,7 +64,6 @@ Simultaneously, this plugin enforces automatic updates to the language file, eli
 
 <details>
     <summary>lang.yml</summary>
-
     # placeholders: {money} money which deposited to player {tax} tax amount.
     sellComplete: "&6Farmer &8▸ &aItems sold. &6Profit: &e{money}&f, &6Tax: &e{tax}"
     wrongWorld: "&6Farmer &8▸ &cYou cannot do this in this world."
