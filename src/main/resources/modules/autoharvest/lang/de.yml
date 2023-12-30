@@ -1,0 +1,15 @@
+enabled: "&aAktiviert"
+disabled: "&cDeaktiviert"
+
+moduleGui:
+  icon:
+    guiInterface: 'h'
+    skull: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTk1ZWFhOTJkMmViOTY5NDI4NGI0ZTk4Y2FkZWNmZDdhODIzMjU2YmFkNWEzOTQ1OThmNjMyNGNmZTdmNzM3YiJ9fX0="
+    name: "&eAuto Ernter"
+    lore:
+      - '&7Mit diesem Modul brechen Landwirte automatisch'
+      - '&7Gegenstände und pflanzen diese neu an.'
+      - ''
+      - '&7Status: &6{status}'
+      - ''
+      - '&aZum Ändern klicken.'
