@@ -416,27 +416,27 @@ public class Main extends JavaPlugin {
 
 ## Used Libraries
 
-* [spigot-api (1.19-R0.3-SNAPSHOT)](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
-* [HikariCP](https://github.com/brettwooldridge/HikariCP)
-* [lombok (LATEST)](https://github.com/projectlombok/lombok)
-* [BStats](https://bstats.org)
-* [Vault](https://www.spigotmc.org/resources/vault.34315/)
-* [SimplixStorage](https://www.spigotmc.org/resources/simplixstorage-awesome-library-to-store-data-in-a-better-way.67286/)
-* [InventoryGUI](https://github.com/Phoenix616/InventoryGui)
-* [XSeries](https://github.com/CryptoMorin/XSeries)
-* [NBTApi](https://www.spigotmc.org/resources/nbt-api.7939/)
 * [AuthLib](https://mvnrepository.com/artifact/com.mojang/authlib/1.5.25)
-* [NBT-API](https://github.com/tr7zw/Item-NBT-API)
-* [WildStacker](https://github.com/BG-Software-LLC/WildStacker)
+* [BStats](https://bstats.org)
 * [FabledSkyblock](https://github.com/craftaro/FabledSkyBlock)
+* [HikariCP](https://github.com/brettwooldridge/HikariCP)
+* [InventoryGUI](https://github.com/Phoenix616/InventoryGui)
+* [lombok (LATEST)](https://github.com/projectlombok/lombok)
+* [NBTApi](https://www.spigotmc.org/resources/nbt-api.7939/)
+* [NBT-API](https://github.com/tr7zw/Item-NBT-API)
+* [SimplixStorage](https://www.spigotmc.org/resources/simplixstorage-awesome-library-to-store-data-in-a-better-way.67286/)
+* [spigot-api (1.19-R0.3-SNAPSHOT)](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
 * [TownyAdvanced](https://www.spigotmc.org/resources/towny-advanced.72694/)
+* [Vault](https://www.spigotmc.org/resources/vault.34315/)
+* [WildStacker](https://github.com/BG-Software-LLC/WildStacker)
+* [XSeries](https://github.com/CryptoMorin/XSeries)
 
 ### Integration Libraries (Optional)
-* [SuperiorSkyblock2](https://github.com/BG-Software-LLC/SuperiorSkyblock2)
-* [GriefPrevention](https://www.spigotmc.org/resources/griefprevention.1884/)
-* [BentoBox](https://www.spigotmc.org/resources/bentobox-bskyblock-acidisland-skygrid-caveblock-aoneblock-boxed.73261/)
 * [ASkyBlock](https://www.spigotmc.org/resources/askyblock.1220/)
+* [BentoBox](https://www.spigotmc.org/resources/bentobox-bskyblock-acidisland-skygrid-caveblock-aoneblock-boxed.73261/)
 * [FabledSkyblock](https://github.com/craftaro/FabledSkyBlock)
+* [GriefPrevention](https://www.spigotmc.org/resources/griefprevention.1884/)
+* [SuperiorSkyblock2](https://github.com/BG-Software-LLC/SuperiorSkyblock2)
 
 ## Contributing
 
