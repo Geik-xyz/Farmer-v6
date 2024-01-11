@@ -416,20 +416,15 @@ public class Main extends JavaPlugin {
 
 ## Used Libraries
 
-* [AuthLib](https://mvnrepository.com/artifact/com.mojang/authlib/1.5.25)
 * [BStats](https://bstats.org)
-* [FabledSkyblock](https://github.com/craftaro/FabledSkyBlock)
-* [HikariCP](https://github.com/brettwooldridge/HikariCP)
-* [InventoryGUI](https://github.com/Phoenix616/InventoryGui)
 * [lombok (LATEST)](https://github.com/projectlombok/lombok)
-* [NBTApi](https://www.spigotmc.org/resources/nbt-api.7939/)
-* [NBT-API](https://github.com/tr7zw/Item-NBT-API)
-* [SimplixStorage](https://www.spigotmc.org/resources/simplixstorage-awesome-library-to-store-data-in-a-better-way.67286/)
-* [spigot-api (1.19-R0.3-SNAPSHOT)](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
-* [TownyAdvanced](https://www.spigotmc.org/resources/towny-advanced.72694/)
-* [Vault](https://www.spigotmc.org/resources/vault.34315/)
+* [spigot-api (1.20-R0.3-SNAPSHOT)](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot/browse)
+* [GLib](https://mvnrepository.com/artifact/com.mojang/authlib/1.5.25)
 * [WildStacker](https://github.com/BG-Software-LLC/WildStacker)
-* [XSeries](https://github.com/CryptoMorin/XSeries)
+* [SpawnerMeta](https://www.spigotmc.org/resources/spawnermeta-fully-customizable-upgradable-modifiable-spawners-1-14-1-20.74188/)
+* [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)
+* [commons-lang3](https://mvnrepository.com/artifact/org.apache.commons/commons-lang3)
+* [Geyser](https://geysermc.org)
 
 ### Integration Libraries (Optional)
 * [ASkyBlock](https://www.spigotmc.org/resources/askyblock.1220/)
@@ -437,6 +432,7 @@ public class Main extends JavaPlugin {
 * [FabledSkyblock](https://github.com/craftaro/FabledSkyBlock)
 * [GriefPrevention](https://www.spigotmc.org/resources/griefprevention.1884/)
 * [SuperiorSkyblock2](https://github.com/BG-Software-LLC/SuperiorSkyblock2)
+* [TownyAdvanced](https://www.spigotmc.org/resources/towny-advanced.72694/)
 
 ## Contributing
 
