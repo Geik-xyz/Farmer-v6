@@ -16,8 +16,10 @@ import xyz.geik.farmer.helpers.gui.GroupItems;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.FarmerPerm;
+import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.geyser.gui.GeyserGui;
 import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.module.ModuleManager;
 import xyz.geik.glib.shades.inventorygui.DynamicGuiElement;
 import xyz.geik.glib.shades.inventorygui.GuiElementGroup;
 import xyz.geik.glib.shades.inventorygui.InventoryGui;
@@ -72,87 +74,87 @@ public class MainGui {
         // Foreach item list
         for (FarmerItem item : farmer.getInv().getItems()) {
             // Element of grup there can x amount of i
-            group.addElement(new DynamicGuiElement('i', (viewer) -> {
-                return new StaticGuiElement('i',
-                        GroupItems.getGroupItem(farmer, item),
-                        1,
-                        click -> {
-                            // If player has admin perm or member of farmer
-                            // Because member can take item or sell from farmer
-                            // Otherwise if user has coop role then they can only
-                            // Look inventory of farmer
-                            if (player.hasPermission("farmer.admin") ||
-                                    farmer.getUsers().stream().anyMatch(user -> (
-                                    !user.getPerm().equals(FarmerPerm.COOP)
-                                            && user.getName().equalsIgnoreCase(player.getName())))) {
-                                // XMaterial check for old version
-                                ItemStack cursorItem = click.getRawEvent().getView().getItem(click.getSlot());
-                                assert cursorItem != null;
-                                XMaterial material = XMaterial.matchXMaterial(cursorItem);
-                                FarmerItem slotItem = farmer.getInv().getStockedItem(material);
-                                // If player is bedrock player go to geyser gui
-                                if (Main.getModulesFile().getGeyser().isStatus())
-                                    if (GeyserApi.api().isBedrockPlayer(player.getUniqueId()))
-                                        GeyserGui.showGui(player, cursorItem, material, farmer, slotItem);
-                                // Sells all stock of an item
-                                if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
-                                    if (slotItem.getPrice() < 0)
-                                        return true;
-                                    // Calls FarmerItemSellEvent
-                                    FarmerItemSellEvent itemSellEvent = new FarmerItemSellEvent(farmer, slotItem, player);
-                                    Bukkit.getPluginManager().callEvent(itemSellEvent);
+            group.addElement(new DynamicGuiElement('i', (viewer) -> new StaticGuiElement('i',
+                    GroupItems.getGroupItem(farmer, item),
+                    1,
+                    click -> {
+                        // If player has admin perm or member of farmer
+                        // Because member can take item or sell from farmer
+                        // Otherwise if user has coop role then they can only
+                        // Look inventory of farmer
+                        if (player.hasPermission("farmer.admin") ||
+                                farmer.getUsers().stream().anyMatch(user -> (
+                                !user.getPerm().equals(FarmerPerm.COOP)
+                                        && user.getName().equalsIgnoreCase(player.getName())))) {
+                            // XMaterial check for old version
+                            ItemStack cursorItem = click.getRawEvent().getView().getItem(click.getSlot());
+                            assert cursorItem != null;
+                            XMaterial material = XMaterial.matchXMaterial(cursorItem);
+                            FarmerItem slotItem = farmer.getInv().getStockedItem(material);
+                            // If player is bedrock player go to geyser gui
+                            if (ModuleManager.getModule("Geyser").isEnabled()) {
+                                Bukkit.broadcastMessage("test Geyser");
+                                GeyserGui.showGui(player, cursorItem, material, farmer, slotItem);
+                                return false;
+                            }
+                            // Sells all stock of an item
+                            if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
+                                if (slotItem.getPrice() < 0)
+                                    return true;
+                                // Calls FarmerItemSellEvent
+                                FarmerItemSellEvent itemSellEvent = new FarmerItemSellEvent(farmer, slotItem, player);
+                                Bukkit.getPluginManager().callEvent(itemSellEvent);
+                            }
+                            // Withdraw item
+                            else {
+                                // If inventory full returns
+                                if (invFull(player)) {
+                                    ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getInventoryFull());
+                                    return true;
                                 }
-                                // Withdraw item
-                                else {
-                                    // If inventory full returns
-                                    if (invFull(player)) {
-                                        ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getInventoryFull());
-                                        return true;
-                                    }
-                                    long count;
-                                    // Left click can only have one stack of item
-                                    // But if there is less than one stack
-                                    // Then overriding this amount to count.
-                                    if (click.getType().equals(ClickType.LEFT))
-                                        count = (slotItem.getAmount() >= cursorItem.getMaxStackSize()) ? cursorItem.getMaxStackSize() : slotItem.getAmount();
+                                long count;
+                                // Left click can only have one stack of item
+                                // But if there is less than one stack
+                                // Then overriding this amount to count.
+                                if (click.getType().equals(ClickType.LEFT))
+                                    count = (slotItem.getAmount() >= cursorItem.getMaxStackSize()) ? cursorItem.getMaxStackSize() : slotItem.getAmount();
 
-                                    // Withdraws max player can take from stocked amount
-                                    else if (click.getType().equals(ClickType.RIGHT)) {
-                                        int playerEmpty = getEmptySlots(player) * cursorItem.getMaxStackSize();
-                                        count = (slotItem.getAmount() >= playerEmpty)
-                                                ? playerEmpty
-                                                : slotItem.getAmount();
-                                    }
-                                    else return true;
+                                // Withdraws max player can take from stocked amount
+                                else if (click.getType().equals(ClickType.RIGHT)) {
+                                    int playerEmpty = getEmptySlots(player) * cursorItem.getMaxStackSize();
+                                    count = (slotItem.getAmount() >= playerEmpty)
+                                            ? playerEmpty
+                                            : slotItem.getAmount();
+                                }
+                                else return true;
 
-                                    if (count == 0)
-                                        return true;
-                                    ItemStack returnItem = material.parseItem();
-                                    // Give item separately for != 64 amount of item
-                                    // Because bukkit library forces item to max stack amount 64
-                                    assert returnItem != null;
-                                    if (returnItem.getMaxStackSize() != 64) {
-                                        returnItem.setAmount(returnItem.getMaxStackSize());
-                                        long additional = count % returnItem.getMaxStackSize();
-                                        for (int i = 1; i <= count/returnItem.getMaxStackSize() ; i++)
-                                            player.getInventory().addItem(returnItem);
-                                        if (additional != 0) {
-                                            returnItem.setAmount((int) additional);
-                                            player.getInventory().addItem(returnItem);
-                                        }
-                                    }
-                                    // if max stack amount equals 64 does another method
-                                    else {
-                                        returnItem.setAmount((int) count);
+                                if (count == 0)
+                                    return true;
+                                ItemStack returnItem = material.parseItem();
+                                // Give item separately for != 64 amount of item
+                                // Because bukkit library forces item to max stack amount 64
+                                assert returnItem != null;
+                                if (returnItem.getMaxStackSize() != 64) {
+                                    returnItem.setAmount(returnItem.getMaxStackSize());
+                                    long additional = count % returnItem.getMaxStackSize();
+                                    for (int i = 1; i <= count/returnItem.getMaxStackSize() ; i++)
+                                        player.getInventory().addItem(returnItem);
+                                    if (additional != 0) {
+                                        returnItem.setAmount((int) additional);
                                         player.getInventory().addItem(returnItem);
                                     }
-                                    slotItem.negateAmount(count);
                                 }
-                                gui.draw();
+                                // if max stack amount equals 64 does another method
+                                else {
+                                    returnItem.setAmount((int) count);
+                                    player.getInventory().addItem(returnItem);
+                                }
+                                slotItem.negateAmount(count);
                             }
-                            return true;
-                        });
-            }));
+                            gui.draw();
+                        }
+                        return true;
+                    })));
         }
         // Adding everything to gui and opening
         gui.addElement(group);

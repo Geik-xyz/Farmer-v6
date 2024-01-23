@@ -58,8 +58,8 @@ public class en extends LangFile {
         private String featureDisabled = "{prefix} &cThis feature disallowed.";
         private String reloadSuccess = "{prefix} &aConfig reloaded successfully. It took %ms%";
         private String boughtFarmer = "{prefix} &aFarmer bought successfully.";
-        private String inCooldown = "{prefix} &cYou should wait {time}s for do it again.";
-        private String waitingInput = "{prefix} &aType input to chat in 6sec and type &c{cancel} &afor cancel.";
+        private String inCooldown = "{prefix} &cYou should wait {time}s to do it again.";
+        private String waitingInput = "{prefix} &aType input to chat in 6sec and type &c{cancel} &ato cancel.";
         private String notOwner = "{prefix} &cYou must be the owner of the region to use this command.";
         private String inputCancel = "{prefix} &cNo longer waiting for input.";
         private String userAdded = "{prefix} &aAdded successfully.";
@@ -213,7 +213,7 @@ public class en extends LangFile {
                             " &8▪ &7Capacity: &6{capacity}",
                             " &8▪ &7Tax Rate: &6{tax}",
                             "",
-                            "&aClick for management panel!"
+                            "&aClick to management panel!"
                     );
                 }
 
@@ -333,7 +333,7 @@ public class en extends LangFile {
                             " &8▪ &7New Capacity: &e{next_capacity}",
                             " &8▪ &7Required Money: &6{req_money}",
                             "",
-                            "&aClick for upgrade level!"
+                            "&aClick to upgrade level!"
                     );
                 }
 
@@ -378,7 +378,7 @@ public class en extends LangFile {
                             "",
                             " &8▪ &7Status: &6{status}",
                             "",
-                            "&aClick for change!"
+                            "&aClick to change!"
                     );
                 }
 
@@ -397,7 +397,7 @@ public class en extends LangFile {
                             "&7You can add/remove/modify",
                             "&7users in here.",
                             "",
-                            "&aClick for open."
+                            "&aClick to open."
                     );
                 }
 
@@ -416,7 +416,7 @@ public class en extends LangFile {
                             "&7You can modify farmer",
                             "&7modules in here.",
                             "",
-                            "&aClick for open."
+                            "&aClick to open."
                     );
                 }
             }
@@ -464,7 +464,7 @@ public class en extends LangFile {
                             "",
                             " &8▪ &7Price: &6{price}",
                             "",
-                            "&aClick for buy!"
+                            "&aClick to buy!"
                     );
                 }
             }
@@ -510,8 +510,8 @@ public class en extends LangFile {
                             "",
                             " &8▪ &7Role: &6{role}",
                             "",
-                            "&aLeft or Right click for promote/demote",
-                            "&4Shift+Right click for delete"
+                            "&aLeft or Right click to promote/demote",
+                            "&4Shift+Right click to delete"
                     );
                 }
 
@@ -528,7 +528,7 @@ public class en extends LangFile {
                     private String name = "&eInformation";
                     private List<String> lore = Arrays.asList(
                             "&7You can promote/demote/remove",
-                            "&7and add user here.",
+                            "&7or add user here.",
                             "",
                             "&7Perm Info:",
                             " &8▪ &eCoop can only look farmer.",
@@ -550,7 +550,7 @@ public class en extends LangFile {
                     private String name = "&eAdd user";
                     private List<String> lore = Arrays.asList(
                             "",
-                            "&aClick for add user."
+                            "&aClick to add user."
                     );
                 }
             }
