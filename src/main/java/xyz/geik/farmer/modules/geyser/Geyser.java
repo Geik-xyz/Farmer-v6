@@ -28,7 +28,6 @@ public class Geyser extends FarmerModule {
         instance = this;
         if (!Main.getModulesFile().getGeyser().isStatus())
             this.setEnabled(false);
-        this.setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
     }
 
     /**
