@@ -15,6 +15,7 @@ import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.shades.inventorygui.GuiElement;
 import xyz.geik.glib.shades.inventorygui.GuiPageElement;
 import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
+import xyz.geik.glib.shades.skullcreator.SkullCreator;
 import xyz.geik.glib.shades.xseries.SkullUtils;
 import xyz.geik.glib.shades.xseries.XMaterial;
 import xyz.geik.glib.utils.ItemUtil;
@@ -404,14 +405,8 @@ public class GuiHelper {
         ItemStack result;
         // If item is skull instead of material based item
         if (file.contains(path + ".skull")) {
-            result = XMaterial.matchXMaterial("PLAYER_HEAD").get().parseItem();
             try {
-                assert result != null;
-                SkullMeta meta = (SkullMeta) result.getItemMeta();
-                assert meta != null;
-                // GameProfile, Filed etc. used mojang lib for catch player skull
-                SkullUtils.applySkin(meta, file.getString(path + ".skull"));
-                result.setItemMeta(meta);
+                result = SkullCreator.itemFromBase64(file.getString(path + ".skull"));
             } catch (Exception e) {
                 result = new ItemStack(Material.STONE, 1);
             }
