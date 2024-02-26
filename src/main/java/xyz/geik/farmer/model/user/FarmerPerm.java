@@ -27,7 +27,14 @@ public enum FarmerPerm {
      * @return name of role
      */
     public String getName() {
-        return Main.getLangFile().getText("roles." + this.name().toLowerCase());
+        switch (this.name()) {
+            case "MEMBER":
+                return Main.getLangFile().getRoles().getMember();
+            case "OWNER":
+                return Main.getLangFile().getRoles().getOwner();
+            default:
+                return Main.getLangFile().getRoles().getCoop();
+        }
     }
 
     /**
@@ -41,6 +48,22 @@ public enum FarmerPerm {
             case 1:
                 return FarmerPerm.MEMBER;
             case 2:
+                return FarmerPerm.OWNER;
+            default:
+                return FarmerPerm.COOP;
+        }
+    }
+
+    /**
+     * Gets role by string
+     * @param name of role
+     * @return FarmerPerm object
+     */
+    public static FarmerPerm getRoleByName(String name) {
+        switch (name) {
+            case "MEMBER":
+                return FarmerPerm.MEMBER;
+            case "OWNER":
                 return FarmerPerm.OWNER;
             default:
                 return FarmerPerm.COOP;

@@ -12,4 +12,4 @@ moduleGui:
       - ''
       - '&7Status: &6{status}'
       - ''
-      - '&aClick for change.'
+      - '&aClick to change.'

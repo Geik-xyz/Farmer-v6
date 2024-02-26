@@ -1,17 +1,17 @@
 package xyz.geik.farmer.helpers.gui;
 
-import com.cryptomorin.xseries.SkullUtils;
-import com.cryptomorin.xseries.XMaterial;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.User;
-import xyz.geik.farmer.modules.production.ProductionModel;
+import xyz.geik.farmer.modules.production.model.ProductionModel;
+import xyz.geik.glib.chat.ChatUtils;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -55,7 +55,8 @@ public class GroupItems {
                 .filter(g -> g.getMaterial().equals(farmerItem.getMaterial()))
                 .findFirst().orElse(null);
         // Lore map
-        meta.setLore(Main.getLangFile().getTextList("Gui.groupItem.lore").stream().map(key -> {
+        meta.setLore(ChatUtils.color(Main.getLangFile().getGui().getFarmerGui().getItems().getGroupItems().getLore().stream()
+                .map(key -> {
             // If key contains {prod_ it will be replaced with average production data
             // If there is no data then makes it null
             if (key.contains("{prod_"))
@@ -73,7 +74,7 @@ public class GroupItems {
                     .replace("{tax}", tax +"");
         // Filters null values
         }).filter(Objects::nonNull)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList())));
         result.setItemMeta(meta);
         return result;
     }
@@ -87,12 +88,15 @@ public class GroupItems {
      */
     public static @NotNull ItemStack getUserItem(@NotNull User user) {
         // Player head collector
-        ItemStack item = XMaterial.PLAYER_HEAD.parseItem();
-        assert item != null;
-        SkullMeta meta = SkullUtils.applySkin(item.getItemMeta(), user.getUuid());
-        meta.setDisplayName(Main.color("&b" + user.getName()));
-        meta.setLore(Main.getLangFile().getTextList("usersGui.user.lore").stream()
-                .map(key -> key.replace("{role}", user.getPerm().getName())).collect(Collectors.toList()));
+        ItemStack item;
+        String name = Main.getLangFile().getGui().getUsersGui().getItems().getUser().getName();
+        List<String> lore = Main.getLangFile().getGui().getUsersGui().getItems().getUser().getLore();
+        String material = user.getName();
+        item = GuiHelper.getItem(name, lore, 0, material, false, Bukkit.getOfflinePlayer(user.getUuid()));
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatUtils.color("&b" + user.getName()));
+        meta.setLore(meta.getLore().stream()
+                .map(key -> key.replace("{role}", ChatUtils.color(user.getPerm().getName()))).collect(Collectors.toList()));
         item.setItemMeta(meta);
         return item;
     }
@@ -108,7 +112,7 @@ public class GroupItems {
      * @return String of finalized bar
      */
     private static @NotNull String getFilledProgressBar(int percent, long stock, long capacity, String color) {
-        final String barFull = Main.getLangFile().getString("percentBar");
+        final String barFull = Main.getLangFile().getVarious().getPercentBar();
         final String barSymbol = String.valueOf(barFull.charAt(0));
         StringBuilder builder = new StringBuilder("&7");
         if (stock == capacity)
@@ -126,7 +130,7 @@ public class GroupItems {
             for (int i = 1; i <= empty ; i++)
                 builder.append(barSymbol);
         }
-        return Main.color(builder.toString());
+        return ChatUtils.color(builder.toString());
     }
 
     /**
@@ -147,6 +151,6 @@ public class GroupItems {
         else if (percent >= 60 && percent <= 79)
             result = "&6";
         else result ="&c";
-        return Main.color(result);
+        return ChatUtils.color(result);
     }
 }

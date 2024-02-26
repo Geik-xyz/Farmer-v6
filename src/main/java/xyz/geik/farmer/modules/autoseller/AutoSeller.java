@@ -1,9 +1,12 @@
 package xyz.geik.farmer.modules.autoseller;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.modules.FarmerModule;
+import xyz.geik.farmer.modules.autoseller.handlers.AutoSellerEvent;
+import xyz.geik.farmer.modules.autoseller.handlers.AutoSellerGuiCreateEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,60 +18,36 @@ import java.util.List;
 @Getter
 public class AutoSeller extends FarmerModule {
 
-    /**
-     * Constructor of class
-     */
     public AutoSeller() {}
 
-    /**
-     * -- GETTER --
-     *  Get instance of the module
-     *
-     */
     @Getter
     private static AutoSeller instance;
 
-    /**
-     * Allowed items for auto sell
-     */
+    private static AutoSellerEvent autoSellerEvent;
+
+    private static AutoSellerGuiCreateEvent autoSellerGuiCreateEvent;
+
     private List<String> allowedItems = new ArrayList<>();
 
-    /**
-     * Perm for auto sell
-     */
     private String customPerm = "farmer.autoseller";
 
-    /**
-     * Default status of auto sell
-     */
     private boolean defaultStatus = false;
-
-    /**
-     * onLoad method of module
-     */
-    @Override
-    public void onLoad() {
-        setName("AutoSeller");
-        setDescription("Automatically sells items when capacity full");
-        setModulePrefix("AutoSeller");
-        setConfig(Main.getInstance());
-        instance = this;
-        if (!getConfig().getBoolean("settings.feature"))
-            setEnabled(false);
-    }
 
     /**
      * onEnable method of module
      */
     @Override
     public void onEnable() {
-        setHasGui(true);
-        getAllowedItems().addAll(getConfig().getStringList("items"));
-        setLang(Settings.lang, Main.getInstance());
-        customPerm = getConfig().getString("settings.customPerm");
-        defaultStatus = getConfig().getBoolean("settings.defaultStatus");
-        registerListener(new AutoSellerEvent());
-        registerListener(new AutoSellerGuiCreateEvent());
+        instance = this;
+        this.setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
+        this.setHasGui(true);
+        autoSellerEvent = new AutoSellerEvent();
+        autoSellerGuiCreateEvent = new AutoSellerGuiCreateEvent();
+        Bukkit.getPluginManager().registerEvents(autoSellerEvent, Main.getInstance());
+        Bukkit.getPluginManager().registerEvents(autoSellerGuiCreateEvent, Main.getInstance());
+        getAllowedItems().addAll(Main.getModulesFile().getAutoSeller().getItems());
+        customPerm = Main.getModulesFile().getAutoSeller().getCustomPerm();
+        defaultStatus = Main.getModulesFile().getAutoSeller().isDefaultStatus();
     }
 
     /**
@@ -80,9 +59,9 @@ public class AutoSeller extends FarmerModule {
             return;
         if (!getAllowedItems().isEmpty())
             getAllowedItems().clear();
-        getAllowedItems().addAll(getConfig().getStringList("items"));
-        customPerm = getConfig().getString("settings.customPerm");
-        defaultStatus = getConfig().getBoolean("settings.defaultStatus");
+        getAllowedItems().addAll(Main.getModulesFile().getAutoSeller().getItems());
+        customPerm = Main.getModulesFile().getAutoSeller().getCustomPerm();
+        defaultStatus = Main.getModulesFile().getAutoSeller().isDefaultStatus();
     }
 
     /**
@@ -90,6 +69,7 @@ public class AutoSeller extends FarmerModule {
      */
     @Override
     public void onDisable() {
-
+        HandlerList.unregisterAll(autoSellerEvent);
+        HandlerList.unregisterAll(autoSellerGuiCreateEvent);
     }
 }

@@ -1,9 +1,9 @@
 package xyz.geik.farmer.model.inventory;
 
-import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import xyz.geik.glib.shades.xseries.XMaterial;
 
 import java.util.*;
 import java.util.stream.Collectors;

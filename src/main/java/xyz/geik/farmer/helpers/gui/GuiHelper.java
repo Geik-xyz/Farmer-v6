@@ -1,21 +1,27 @@
 package xyz.geik.farmer.helpers.gui;
 
-import com.cryptomorin.xseries.SkullUtils;
-import com.cryptomorin.xseries.XMaterial;
-import de.leonhard.storage.Config;
-import de.themoep.inventorygui.GuiElement;
-import de.themoep.inventorygui.GuiPageElement;
-import de.themoep.inventorygui.StaticGuiElement;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
+import xyz.geik.farmer.shades.storage.Config;
+import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.shades.inventorygui.GuiElement;
+import xyz.geik.glib.shades.inventorygui.GuiPageElement;
+import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
+import xyz.geik.glib.shades.skullcreator.SkullCreator;
+import xyz.geik.glib.shades.xseries.SkullUtils;
+import xyz.geik.glib.shades.xseries.XMaterial;
+import xyz.geik.glib.utils.ItemUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -35,13 +41,19 @@ public class GuiHelper {
      * Filler item of guis.
      * Filler item basically fills empty slots of gui
      *
+     * @param player for placeholder
      * @return ItemStack of filler
      */
-    public static ItemStack getFiller() {
+    public static ItemStack getFiller(OfflinePlayer player) {
         ItemStack item;
-        // If enabled
-        if (Main.getLangFile().getBoolean("guiFiller.use"))
-            item = XMaterial.matchXMaterial(Main.getLangFile().getString("guiFiller.material")).get().parseItem();
+        if (Main.getConfigFile().getGui().getGlobalItems().getFillerItem().isUseFiller()) {
+            String name = "";
+            List<String> lore = new ArrayList<>();
+            int modelData = Main.getConfigFile().getGui().getGlobalItems().getFillerItem().getModelData();
+            String material = Main.getConfigFile().getGui().getGlobalItems().getFillerItem().getMaterial();
+            boolean hasGlow = Main.getConfigFile().getGui().getGlobalItems().getFillerItem().isHasGlow();
+            item = getItem(name, lore, modelData, material, hasGlow, player);
+        }
         else
             item = new ItemStack(Material.AIR);
         return item;
@@ -51,90 +63,75 @@ public class GuiHelper {
      * If item has skull it gets item as head with
      * custom head data. Otherwise, check for material and
      * get item with a material.
-     * @param path path of item (e. Items.storage)
+     * @param name item name
+     * @param lore lore of item
+     * @param modelData modeldata of item
+     * @param material material of item string
+     * @param hasGlow is item has glow
+     * @param player placeholder player
      * @return ItemStack of destination item
      */
-    public static @NotNull ItemStack getItem(String path) {
-        return getItem(path, Main.getLangFile());
-    }
-
-    /**
-     * If item has skull it gets item as head with
-     * custom head data. Otherwise, check for material and
-     * get item with a material.
-     * @param path path of item (e. Items.storage)
-     * @param file file of item (e. items.yml)
-     * @return ItemStack of destination item
-     */
-    public static @NotNull ItemStack getItem(String path, @NotNull Config file) {
-        ItemStack result;
-        // If item is skull instead of material based item
-        if (file.contains(path + ".skull")) {
-            result = XMaterial.matchXMaterial("PLAYER_HEAD").get().parseItem();
-            try {
-                assert result != null;
-                SkullMeta meta = (SkullMeta) result.getItemMeta();
-                assert meta != null;
-                // GameProfile, Filed etc. used mojang lib for catch player skull
-                SkullUtils.applySkin(meta, file.getString(path + ".skull"));
-                result.setItemMeta(meta);
-            } catch (Exception e) {
-                result = new ItemStack(Material.STONE, 1);
-            }
-        }
-        // If item is material based something
-        else
-            result = XMaterial.matchXMaterial(file.getString(path + ".material")).get().parseItem();
-
-        ItemMeta meta = result.getItemMeta();
-        if (file.contains(path + ".lore"))
-            meta.setLore(file.getTextList(path + ".lore"));
-        meta.setDisplayName(file.getText(path + ".name"));
-        result.setItemMeta(meta);
-        return result;
+    public static @NotNull ItemStack getItem(String name, List<String> lore, int modelData, String material, boolean hasGlow, OfflinePlayer player) {
+        return ItemUtil.getItem(name, lore, modelData, material, hasGlow, player);
     }
 
     /**
      * GuiElement creator simple way
      * for templates
      *
-     * @param path of element (file location)
+     * @param item item of element
      * @param key to be in gui
      * @return GuiElement is finalized element
      */
     @Contract("_, _ -> new")
-    public static @NotNull GuiElement createGuiElement(String path, char key) {
+    public static @NotNull GuiElement createGuiElement(ItemStack item, char key) {
         return new StaticGuiElement(key,
-                GuiHelper.getItem(path),
+                item,
                 1,
-                click -> {return true;});
+                click -> true);
     }
 
     /**
      * Previous page item creator
      *
+     * @param player for placeholder
      * @return GuiElement of previous menu icon
      */
     @Contract(" -> new")
-    public static @NotNull GuiElement createPreviousPage() {
+    public static @NotNull GuiElement createPreviousPage(OfflinePlayer player) {
+        ItemStack previousPageItem;
+        String name = Main.getLangFile().getGui().getPreviousPage().getName();
+        List<String> lore = new ArrayList<>();
+        int modelData = Main.getConfigFile().getGui().getGlobalItems().getPreviousPage().getModelData();
+        String material = Main.getConfigFile().getGui().getGlobalItems().getPreviousPage().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getGlobalItems().getPreviousPage().isHasGlow();
+        previousPageItem = getItem(name, lore, modelData, material, hasGlow, player);
         return new GuiPageElement('p',
-                new ItemStack(Material.ARROW),
+                previousPageItem,
                 GuiPageElement.PageAction.PREVIOUS,
-                Main.getLangFile().getString("previousPage.name")
+                name
         );
     }
 
     /**
      * Next page item creator
      *
+     * @param player for placeholder
      * @return GuiElement of next menu icon
      */
     @Contract(" -> new")
-    public static @NotNull GuiElement createNextPage() {
+    public static @NotNull GuiElement createNextPage(OfflinePlayer player) {
+        ItemStack nextPageItem;
+        String name = Main.getLangFile().getGui().getNextPage().getName();
+        List<String> lore = new ArrayList<>();
+        int modelData = Main.getConfigFile().getGui().getGlobalItems().getNextPage().getModelData();
+        String material = Main.getConfigFile().getGui().getGlobalItems().getNextPage().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getGlobalItems().getNextPage().isHasGlow();
+        nextPageItem = getItem(name, lore, modelData, material, hasGlow, player);
         return new GuiPageElement('n',
-                new ItemStack(Material.ARROW),
+                nextPageItem,
                 GuiPageElement.PageAction.NEXT,
-                Main.getLangFile().getString("nextPage.name")
+                name
         );
     }
 
@@ -143,16 +140,21 @@ public class GuiHelper {
      * farmer main gui.
      *
      * @param farmer of region
+     * @param player for placeholders
      * @return ItemStack manage icon
      */
-    public static @NotNull ItemStack getManageItemOnMain(Farmer farmer) {
-        ItemStack manage = GuiHelper.getItem("Gui.manage");
+    public static @NotNull ItemStack getManageItemOnMain(Farmer farmer, OfflinePlayer player) {
+        ItemStack manage;
+        String name = Main.getLangFile().getGui().getFarmerGui().getItems().getManage().getName();
+        List<String> lore = Main.getLangFile().getGui().getFarmerGui().getItems().getManage().getLore();
+        int modelData = Main.getConfigFile().getGui().getFarmerGuiItems().getManage().getModelData();
+        String material = Main.getConfigFile().getGui().getFarmerGuiItems().getManage().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getFarmerGuiItems().getManage().isHasGlow();
+        manage = getItem(name, lore, modelData, material, hasGlow, player);
         ItemMeta manageMeta = manage.getItemMeta();
-        manageMeta.setLore(manageMeta.getLore().stream().map(key -> {
-            return key.replace("{level}", String.valueOf(FarmerLevel.getAllLevels().indexOf(farmer.getLevel()) +1))
-                    .replace("{capacity}", String.valueOf(farmer.getLevel().getCapacity()))
-                    .replace("{tax}", String.valueOf(farmer.getLevel().getTax()));
-        }).collect(Collectors.toList()));
+        manageMeta.setLore(manageMeta.getLore().stream().map(key -> key.replace("{level}", String.valueOf(FarmerLevel.getAllLevels().indexOf(farmer.getLevel()) +1))
+                .replace("{capacity}", String.valueOf(farmer.getLevel().getCapacity()))
+                .replace("{tax}", String.valueOf(farmer.getLevel().getTax()))).collect(Collectors.toList()));
         manage.setItemMeta(manageMeta);
         return manage;
     }
@@ -162,16 +164,21 @@ public class GuiHelper {
      * Changing status to toggleON or toggleOFF value.
      *
      * @param status of farmer collection
+     * @param player for placeholders
      * @return ItemStack of status icon
      */
-    public static @NotNull ItemStack getStatusItem(int status) {
-        ItemStack statusItem = GuiHelper.getItem("manageGui.closeFarmer");
+    public static @NotNull ItemStack getStatusItem(int status, OfflinePlayer player) {
+        ItemStack statusItem;
+        String name = Main.getLangFile().getGui().getManageGui().getItems().getCloseFarmer().getName();
+        List<String> lore = Main.getLangFile().getGui().getManageGui().getItems().getCloseFarmer().getLore();
+        int modelData = Main.getConfigFile().getGui().getManageGuiItems().getCloseFarmer().getModelData();
+        String material = Main.getConfigFile().getGui().getManageGuiItems().getCloseFarmer().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getManageGuiItems().getCloseFarmer().isHasGlow();
+        statusItem = getItem(name, lore, modelData, material, hasGlow, player);
         ItemMeta meta = statusItem.getItemMeta();
-        meta.setLore(meta.getLore().stream().map(key -> {
-            return key.replace("{status}",
-                    (status == 1) ? Main.getLangFile().getText("toggleON")
-                            : Main.getLangFile().getText("toggleOFF"));
-        }).collect(Collectors.toList()));
+        meta.setLore(meta.getLore().stream().map(key -> key.replace("{status}",
+                (status == 1) ? ChatUtils.color(Main.getLangFile().getVarious().getToggleOn())
+                        : ChatUtils.color(Main.getLangFile().getVarious().getToggleOff()))).collect(Collectors.toList()));
         statusItem.setItemMeta(meta);
         return statusItem;
     }
@@ -182,9 +189,10 @@ public class GuiHelper {
      * or can be upgradeable and also replacing placeholder keys
      *
      * @param farmer of region
+     * @param player for placeholders
      * @return ItemStack of level icon
      */
-    public static @NotNull ItemStack getLevelItem(@NotNull Farmer farmer){
+    public static @NotNull ItemStack getLevelItem(@NotNull Farmer farmer, OfflinePlayer player){
         int level = FarmerLevel.getAllLevels().indexOf(farmer.getLevel())+1;
         long capacity = farmer.getLevel().getCapacity();
         boolean isMax = FarmerLevel.getAllLevels().indexOf(farmer.getLevel()) == FarmerLevel.getAllLevels().size()-1;
@@ -192,22 +200,30 @@ public class GuiHelper {
         FarmerLevel nextLevel;
         // In max level
         if (isMax) {
-            result = getItem("manageGui.inMaxLevel");
+            String name = Main.getLangFile().getGui().getManageGui().getItems().getMaxLevel().getName();
+            List<String> lore = Main.getLangFile().getGui().getManageGui().getItems().getMaxLevel().getLore();
+            int modelData = Main.getConfigFile().getGui().getManageGuiItems().getMaxLevel().getModelData();
+            String material = Main.getConfigFile().getGui().getManageGuiItems().getMaxLevel().getMaterial();
+            boolean hasGlow = Main.getConfigFile().getGui().getManageGuiItems().getMaxLevel().isHasGlow();
+            result = getItem(name, lore, modelData, material, hasGlow, player);
             nextLevel = FarmerLevel.getAllLevels().get(level-1);
         }
         // Can upgradeable
         else {
-            result = getItem("manageGui.upgradeNext");
+            String name = Main.getLangFile().getGui().getManageGui().getItems().getUpgradeNext().getName();
+            List<String> lore = Main.getLangFile().getGui().getManageGui().getItems().getUpgradeNext().getLore();
+            int modelData = Main.getConfigFile().getGui().getManageGuiItems().getUpgradeNext().getModelData();
+            String material = Main.getConfigFile().getGui().getManageGuiItems().getUpgradeNext().getMaterial();
+            boolean hasGlow = Main.getConfigFile().getGui().getManageGuiItems().getUpgradeNext().isHasGlow();
+            result = getItem(name, lore, modelData, material, hasGlow, player);
             nextLevel = FarmerLevel.getAllLevels().get(level);
         }
 
         ItemMeta meta = result.getItemMeta();
         // Max level meta lore update
         if (isMax) {
-            meta.setLore(meta.getLore().stream().map(key -> {
-                return key.replace("{level}", String.valueOf(level))
-                        .replace("{capacity}", String.valueOf(capacity));
-            }).collect(Collectors.toList()));
+            meta.setLore(meta.getLore().stream().map(key -> key.replace("{level}", String.valueOf(level))
+                    .replace("{capacity}", String.valueOf(capacity))).collect(Collectors.toList()));
         }
         // Upgradeable lore update
         else {
@@ -226,14 +242,183 @@ public class GuiHelper {
     /**
      * Buy item in BuyGui
      *
+     * @param player player for placeholder
      * @return ItemStack of buy farmer icon
      */
-    public static @NotNull ItemStack getBuyItem() {
-        ItemStack result = getItem("buyGui.item");
+    public static @NotNull ItemStack getBuyItem(OfflinePlayer player) {
+        ItemStack result;
+        String name = Main.getLangFile().getGui().getBuyGui().getItems().getBuyItem().getName();
+        List<String> lore = Main.getLangFile().getGui().getBuyGui().getItems().getBuyItem().getLore();
+        int modelData = Main.getConfigFile().getGui().getBuyGuiItems().getBuyItem().getModelData();
+        String material = Main.getConfigFile().getGui().getBuyGuiItems().getBuyItem().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getBuyGuiItems().getBuyItem().isHasGlow();
+        result = getItem(name, lore, modelData, material, hasGlow, player);
         ItemMeta meta = result.getItemMeta();
-        meta.setLore(meta.getLore().stream().map(key -> {
-            return key.replace("{price}", String.valueOf(Settings.farmerPrice));
-        }).collect(Collectors.toList()));
+        meta.setLore(meta.getLore().stream().map(key -> key.replace("{price}", String.valueOf(Main.getConfigFile().getSettings().getFarmerPrice()))).collect(Collectors.toList()));
+        result.setItemMeta(meta);
+        return result;
+    }
+
+    /**
+     * Help item for main gui
+     *
+     * @param player player for placeholder
+     * @return ItemStack of help icon
+     */
+    public static @NotNull ItemStack getHelpItemForMain(OfflinePlayer player) {
+        ItemStack result;
+        String name = Main.getLangFile().getGui().getFarmerGui().getItems().getHelp().getName();
+        List<String> lore = Main.getLangFile().getGui().getFarmerGui().getItems().getHelp().getLore();
+        int modelData = Main.getConfigFile().getGui().getFarmerGuiItems().getHelp().getModelData();
+        String material = Main.getConfigFile().getGui().getFarmerGuiItems().getHelp().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getFarmerGuiItems().getHelp().isHasGlow();
+        result = getItem(name, lore, modelData, material, hasGlow, player);
+        return result;
+    }
+
+    /**
+     * Help item for users gui
+     *
+     * @param player player for placeholder
+     * @return ItemStack of help icon
+     */
+    public static @NotNull ItemStack getHelpItemForUsers(OfflinePlayer player) {
+        ItemStack result;
+        String name = Main.getLangFile().getGui().getUsersGui().getItems().getHelp().getName();
+        List<String> lore = Main.getLangFile().getGui().getUsersGui().getItems().getHelp().getLore();
+        int modelData = Main.getConfigFile().getGui().getUsersGuiItems().getHelp().getModelData();
+        String material = Main.getConfigFile().getGui().getUsersGuiItems().getHelp().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getUsersGuiItems().getHelp().isHasGlow();
+        result = getItem(name, lore, modelData, material, hasGlow, player);
+        return result;
+    }
+
+    /**
+     * User category item in manage menu
+     *
+     * @param player player for placeholder
+     * @return ItemStack of usercategory icon
+     */
+    public static @NotNull ItemStack getUserCategory(OfflinePlayer player) {
+        ItemStack result;
+        String name = Main.getLangFile().getGui().getManageGui().getItems().getUsers().getName();
+        List<String> lore = Main.getLangFile().getGui().getManageGui().getItems().getUsers().getLore();
+        int modelData = Main.getConfigFile().getGui().getManageGuiItems().getUsers().getModelData();
+        String material = Main.getConfigFile().getGui().getManageGuiItems().getUsers().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getManageGuiItems().getUsers().isHasGlow();
+        result = getItem(name, lore, modelData, material, hasGlow, player);
+        return result;
+    }
+
+    /**
+     * moduleGuiItem in manage menu
+     *
+     * @param player player for placeholder
+     * @return ItemStack of moduleGui icon
+     */
+    public static @NotNull ItemStack getModuleGuiItem(OfflinePlayer player) {
+        ItemStack result;
+        String name = Main.getLangFile().getGui().getManageGui().getItems().getModules().getName();
+        List<String> lore = Main.getLangFile().getGui().getManageGui().getItems().getModules().getLore();
+        int modelData = Main.getConfigFile().getGui().getManageGuiItems().getModules().getModelData();
+        String material = Main.getConfigFile().getGui().getManageGuiItems().getModules().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getManageGuiItems().getModules().isHasGlow();
+        result = getItem(name, lore, modelData, material, hasGlow, player);
+        return result;
+    }
+
+    /**
+     * addUserItem in manage menu
+     *
+     * @param player player for placeholder
+     * @return ItemStack of adduser icon
+     */
+    public static @NotNull ItemStack getAddUserItem(OfflinePlayer player) {
+        ItemStack result;
+        String name = Main.getLangFile().getGui().getUsersGui().getItems().getAddUser().getName();
+        List<String> lore = Main.getLangFile().getGui().getUsersGui().getItems().getAddUser().getLore();
+        int modelData = Main.getConfigFile().getGui().getUsersGuiItems().getAddUser().getModelData();
+        String material = Main.getConfigFile().getGui().getUsersGuiItems().getAddUser().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getUsersGuiItems().getAddUser().isHasGlow();
+        result = getItem(name, lore, modelData, material, hasGlow, player);
+        return result;
+    }
+
+    /**
+     * leftClickItem in geyser menu
+     *
+     * @return ItemStack of leftClick icon
+     */
+    public static @NotNull ItemStack getGeyserGuiLeftItem() {
+        ItemStack result;
+        String name = Main.getLangFile().getGui().getGeyserGui().getItems().getLeftClick().getName();
+        List<String> lore = Main.getLangFile().getGui().getGeyserGui().getItems().getLeftClick().getLore();
+        int modelData = Main.getConfigFile().getGui().getGeyserGuiItems().getLeftClick().getModelData();
+        String material = Main.getConfigFile().getGui().getGeyserGuiItems().getLeftClick().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getGeyserGuiItems().getLeftClick().isHasGlow();
+        result = getItem(name, lore, modelData, material, hasGlow, null);
+        return result;
+    }
+
+    /**
+     * RightClickItem in geyser menu
+     *
+     * @return ItemStack of rightClick icon
+     */
+    public static @NotNull ItemStack getGeyserGuiRightItem() {
+        ItemStack result;
+        String name = Main.getLangFile().getGui().getGeyserGui().getItems().getRightClick().getName();
+        List<String> lore = Main.getLangFile().getGui().getGeyserGui().getItems().getRightClick().getLore();
+        int modelData = Main.getConfigFile().getGui().getGeyserGuiItems().getRightClick().getModelData();
+        String material = Main.getConfigFile().getGui().getGeyserGuiItems().getRightClick().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getGeyserGuiItems().getRightClick().isHasGlow();
+        result = getItem(name, lore, modelData, material, hasGlow, null);
+        return result;
+    }
+
+    /**
+     * shiftRightClickItem in geyser menu
+     *
+     * @return ItemStack of shiftRightClick icon
+     */
+    public static @NotNull ItemStack getGeyserGuiShiftRightItem() {
+        ItemStack result;
+        String name = Main.getLangFile().getGui().getGeyserGui().getItems().getShiftRightClick().getName();
+        List<String> lore = Main.getLangFile().getGui().getGeyserGui().getItems().getShiftRightClick().getLore();
+        int modelData = Main.getConfigFile().getGui().getGeyserGuiItems().getShiftRightClick().getModelData();
+        String material = Main.getConfigFile().getGui().getGeyserGuiItems().getShiftRightClick().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getGeyserGuiItems().getShiftRightClick().isHasGlow();
+        result = getItem(name, lore, modelData, material, hasGlow, null);
+        return result;
+    }
+
+    /**
+     * TODO OLD REMOVE
+     * If item has skull it gets item as head with
+     * custom head data. Otherwise, check for material and
+     * get item with a material.
+     * @param path path of item (e. Items.storage)
+     * @param file file of item (e. items.yml)
+     * @return ItemStack of destination item
+     */
+    public static @NotNull ItemStack getItem(String path, @NotNull Config file) {
+        ItemStack result;
+        // If item is skull instead of material based item
+        if (file.contains(path + ".skull")) {
+            try {
+                result = SkullCreator.itemFromBase64(file.getString(path + ".skull"));
+            } catch (Exception e) {
+                result = new ItemStack(Material.STONE, 1);
+            }
+        }
+        // If item is material based something
+        else
+            result = XMaterial.matchXMaterial(file.getString(path + ".material")).get().parseItem();
+
+        ItemMeta meta = result.getItemMeta();
+        if (file.contains(path + ".lore"))
+            meta.setLore(file.getTextList(path + ".lore"));
+        meta.setDisplayName(file.getText(path + ".name"));
         result.setItemMeta(meta);
         return result;
     }

@@ -1,38 +1,49 @@
 package xyz.geik.farmer;
 
-import de.leonhard.storage.Config;
 import lombok.Getter;
 import lombok.Setter;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.commands.Commands;
-import xyz.geik.farmer.commands.FarmerTabComplete;
+import xyz.geik.farmer.commands.FarmerCommand;
+import xyz.geik.farmer.configuration.ConfigFile;
+import xyz.geik.farmer.configuration.LangFile;
+import xyz.geik.farmer.configuration.ModulesFile;
 import xyz.geik.farmer.database.MySQL;
 import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
-import xyz.geik.farmer.helpers.ItemsLoader;
-import xyz.geik.farmer.helpers.Settings;
-import xyz.geik.farmer.helpers.economy.*;
+import xyz.geik.farmer.helpers.CacheLoader;
 import xyz.geik.farmer.integrations.Integrations;
-import xyz.geik.farmer.integrations.placeholderapi.PlaceholderAPI;
 import xyz.geik.farmer.listeners.ListenerRegister;
-import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
 import xyz.geik.farmer.modules.autoseller.AutoSeller;
+import xyz.geik.farmer.modules.geyser.Geyser;
 import xyz.geik.farmer.modules.production.Production;
 import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
 import xyz.geik.farmer.modules.voucher.Voucher;
+import xyz.geik.farmer.shades.storage.Config;
+import xyz.geik.glib.GLib;
+import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.database.Database;
+import xyz.geik.glib.database.DatabaseType;
+import xyz.geik.glib.economy.Economy;
+import xyz.geik.glib.economy.EconomyAPI;
+import xyz.geik.glib.module.ModuleManager;
+import xyz.geik.glib.shades.okaeri.configs.ConfigManager;
+import xyz.geik.glib.shades.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
+import xyz.geik.glib.shades.triumphteam.cmd.bukkit.BukkitCommandManager;
+import xyz.geik.glib.shades.triumphteam.cmd.bukkit.message.BukkitMessageKey;
+import xyz.geik.glib.shades.triumphteam.cmd.core.message.MessageKey;
+import xyz.geik.glib.simplixstorage.SimplixStorageAPI;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Main class of farmer
@@ -47,15 +58,20 @@ public class Main extends JavaPlugin {
      */
     public Map<FarmerModule, Listener> listenerList = new HashMap<>();
 
-    /**
-     * SQL Manager
-     */
-    @Getter
-    private SQL sql;
+    @Getter @Setter
+    private SimplixStorageAPI simplixStorageAPI;
 
     @Getter
-    @Setter
-    private PlaceholderAPI placeholderAPI;
+    private ModuleManager moduleManager;
+
+    @Getter @Setter
+    private static Database database;
+
+    @Getter
+    private static SQL sql = null;
+
+    @Getter @Setter
+    private static Economy economy;
 
     /**
      * Instance of this class
@@ -68,25 +84,16 @@ public class Main extends JavaPlugin {
      * Also, you can find usage code of API on helpers#StorageAPI
      */
     @Getter
-    private static Config itemsFile;
+    private static Config itemsFile, levelFile;
 
-    /**
-     * Lang file of plugin
-     */
     @Getter
-    private static Config langFile;
+    private static LangFile langFile;
 
-    /**
-     * Database file of plugin
-     */
     @Getter
-    private static Config databaseFile;
+    private static ConfigFile configFile;
 
-    /**
-     * Config file of plugin
-     */
     @Getter
-    private static Config configFile;
+    private static ModulesFile modulesFile;
 
     /**
      * Main integration of plugin integrations#Integrations
@@ -96,16 +103,10 @@ public class Main extends JavaPlugin {
     private static Integrations integration;
 
     /**
-     * Economy integration of plugin integrations#EconomyIntegrations
+     * CommandManager
      */
     @Getter
-    @Setter
-    private static Economy economyIntegrations;
-
-    /**
-     * Constructor of class
-     */
-    public Main() {}
+    private static BukkitCommandManager<CommandSender> commandManager;
 
 
     /**
@@ -113,10 +114,9 @@ public class Main extends JavaPlugin {
      */
     public void onLoad() {
         instance = this;
-        configFile = FarmerAPI.getStorageManager().initConfig("config");
-        itemsFile = FarmerAPI.getStorageManager().initConfig("items");
-        langFile = FarmerAPI.getStorageManager().initLangFile(getConfigFile().getString("settings.lang"));
-        databaseFile = FarmerAPI.getStorageManager().initConfig("storage/database");
+        simplixStorageAPI = new SimplixStorageAPI(this);
+        setupFiles();
+        setupDatabase();
     }
 
     /**
@@ -124,21 +124,16 @@ public class Main extends JavaPlugin {
      * This is sort of the main(String... args) method.
      */
     public void onEnable() {
-        // API Installer
         FarmerAPI.getFarmerManager();
-        FarmerAPI.getModuleManager();
-        FarmerAPI.getStorageManager();
-        FarmerAPI.getDatabaseManager();
-        Settings.regenSettings();
-        new ItemsLoader();
-        FarmerLevel.loadLevels();
-        getCommand("farmer").setExecutor(new Commands());
-        getCommand("farmer").setTabCompleter(new FarmerTabComplete());
         Integrations.registerIntegrations();
-        registerIntegrations();
+        new GLib(this, getLangFile().getMessages().getPrefix());
+        // API Installer
+        CacheLoader.loadAllItems();
+        CacheLoader.loadAllLevels();
+        registerEconomy();
+        setupCommands();
         sendEnableMessage();
-        setDatabaseManager();
-        this.sql.loadAllFarmers();
+        getSql().loadAllFarmers();
         new ListenerRegister();
         loadMetrics();
         registerModules();
@@ -151,36 +146,85 @@ public class Main extends JavaPlugin {
      * can't handle async tasks while shutting down
      */
     public void onDisable() {
-        this.sql.updateAllFarmers();
-        this.placeholderAPI.unregister();
+        getSql().updateAllFarmers();
     }
 
     /**
-     * Basic color translate method which changes minecraft color code to known one
-     * @param text String of message
-     * @return String of replaced text
+     * Setups config, lang and modules file file
      */
-    public static @NotNull String color(String text) {
-        final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
-        if (Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18") || Bukkit.getVersion().contains("1.19") || Bukkit.getVersion().contains("1.20")) {
-            Matcher matcher = pattern.matcher(text);
-            while (matcher.find()) {
-                String color = text.substring(matcher.start(), matcher.end());
-                text = text.replace(color, ChatColor.of(color) + "");
-                matcher = pattern.matcher(text);
-            }
+    public void setupFiles() {
+        try {
+            configFile = ConfigManager.create(ConfigFile.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer());
+                it.withBindFile(new File(getDataFolder(), "config.yml"));
+                it.saveDefaults();
+                it.load(true);
+            });
+            modulesFile = ConfigManager.create(ModulesFile.class, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer());
+                it.withBindFile(new File(getDataFolder(), "modules.yml"));
+                it.saveDefaults();
+                it.load(true);
+            });
+            String langName = configFile.getSettings().getLang();
+            Class langClass = Class.forName("xyz.geik.farmer.configuration.lang." + langName);
+            Class<LangFile> languageClass = langClass;
+            this.langFile = ConfigManager.create(languageClass, (it) -> {
+                it.withConfigurer(new YamlBukkitConfigurer());
+                it.withBindFile(new File(getDataFolder() + "/lang", langName + ".yml"));
+                it.saveDefaults();
+                it.load(true);
+            });
+            itemsFile = getSimplixStorageAPI().initConfig("items");
+            levelFile = getSimplixStorageAPI().initConfig("levels");
+        } catch (Exception exception) {
+            getPluginLoader().disablePlugin(this);
+            throw new RuntimeException("Error loading configuration file");
         }
-        return ChatColor.translateAlternateColorCodes('&', text);
+    }
+
+    /**
+     * Setups database
+     */
+    private void setupDatabase() {
+        DatabaseType type = DatabaseType.getDatabaseType(getConfigFile().getDatabase().getDatabaseType());
+        if (type.equals(DatabaseType.SQLite))
+            this.sql = new SQLite();
+        else
+            this.sql = new MySQL();
+    }
+
+    /**
+     * Registers economy
+     */
+    private void registerEconomy() {
+        Main.economy = new EconomyAPI(this, getConfigFile().getSettings().getEconomy()).getEconomy();
+    }
+
+    /**
+     * Register modules to this plugin
+     */
+    private void registerModules() {
+        this.moduleManager = new ModuleManager();
+        getModuleManager().registerModule(new Voucher());
+        getModuleManager().registerModule(new SpawnerKiller());
+        getModuleManager().registerModule(new Geyser());
+        getModuleManager().registerModule(new Production());
+        getModuleManager().registerModule(new AutoSeller());
+        getModuleManager().registerModule(new AutoHarvest());
+        getModuleManager().enableModules();
+        FarmerModule.calculateModulesUseGui();
     }
 
     /**
      * Sends enable message to console.
      */
     private static void sendEnableMessage() {
-        Bukkit.getConsoleSender().sendMessage(Main.color("&6&l		FARMER 		&b"));
-        Bukkit.getConsoleSender().sendMessage(Main.color("&aDeveloped by &2Geik"));
-        Bukkit.getConsoleSender().sendMessage(Main.color("&aDiscord: &2https://discord.geik.xyz"));
-        Bukkit.getConsoleSender().sendMessage(Main.color("&aWeb: &2https://geik.xyz"));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&6&l		FARMER 		&b"));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aDeveloped by &2Geik"));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aContributors &2" + Arrays.toString(Main.getInstance().getDescription().getAuthors().toArray())));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aDiscord: &2https://discord.geik.xyz"));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aWeb: &2https://geik.xyz"));
     }
 
     /**
@@ -196,59 +240,25 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * Registering Database Manager
+     * Setups commands
      */
-    private void setDatabaseManager() {
-        String sqlType = getDatabaseFile().getString("database.type");
-        sqlType = sqlType.toLowerCase();
-
-        if (sqlType.equals("sqlite")) {
-            this.sql = new SQLite();
-        } else if (sqlType.equals("mysql")) {
-            this.sql = new MySQL();
-        }
+    private void setupCommands() {
+        commandManager = BukkitCommandManager.create(this);
+        commandManager.registerCommand(new FarmerCommand());
+        commandManager.registerMessage(MessageKey.INVALID_ARGUMENT, (sender, invalidArgumentContext) ->
+                ChatUtils.sendMessage(sender, getLangFile().getMessages().getInvalidArgument()));
+        commandManager.registerMessage(MessageKey.UNKNOWN_COMMAND, (sender, invalidArgumentContext) ->
+                ChatUtils.sendMessage(sender, getLangFile().getMessages().getUnknownCommand()));
+        commandManager.registerMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, (sender, invalidArgumentContext) ->
+                ChatUtils.sendMessage(sender, getLangFile().getMessages().getNotEnoughArguments()));
+        commandManager.registerMessage(MessageKey.TOO_MANY_ARGUMENTS, (sender, invalidArgumentContext) ->
+                ChatUtils.sendMessage(sender, getLangFile().getMessages().getTooManyArguments()));
+        commandManager.registerMessage(BukkitMessageKey.NO_PERMISSION, (sender, invalidArgumentContext) ->
+                ChatUtils.sendMessage(sender, getLangFile().getMessages().getNoPerm()));
     }
 
     /**
-     * Register modules to this plugin
+     * Constructor of class
      */
-    private void registerModules() {
-        FarmerAPI.getModuleManager().registerModule(new Voucher());
-        FarmerAPI.getModuleManager().registerModule(new Production());
-        FarmerAPI.getModuleManager().registerModule(new AutoHarvest());
-        FarmerAPI.getModuleManager().registerModule(new AutoSeller());
-        FarmerAPI.getModuleManager().registerModule(new SpawnerKiller());
-        FarmerAPI.getModuleManager().loadModules();
-    }
-
-    /**
-     * Catches plugin that server uses
-     * and loads integration class of it.
-     */
-    public static void registerIntegrations() {
-        if (!Main.getConfigFile().contains("settings.economy")) {
-            Main.setEconomyIntegrations(new Vault());
-            return;
-        }
-        if (Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("vault")
-                || Bukkit.getPluginManager().isPluginEnabled("Vault")
-                && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
-            Main.setEconomyIntegrations(new Vault());
-        else if (Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("royaleeconomy")
-                || Bukkit.getPluginManager().isPluginEnabled("RoyaleEconomy")
-                && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
-            Main.setEconomyIntegrations(new RoyaleEconomy());
-        else if (Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("playerpoints")
-                || Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")
-                && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
-            Main.setEconomyIntegrations(new PlayerPoints());
-        else if (Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("gringotts")
-                || Bukkit.getPluginManager().isPluginEnabled("GrinGotts")
-                && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
-            Main.setEconomyIntegrations(new GrinGotts());
-        else if(Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("elementalgems")
-                || Bukkit.getPluginManager().isPluginEnabled("ElementalGems")
-                && Main.getConfigFile().getString("settings.economy").equalsIgnoreCase("auto"))
-            Main.setEconomyIntegrations(new ElementalGems());
-    }
+    public Main() {}
 }

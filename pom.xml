@@ -6,7 +6,7 @@
 
     <groupId>xyz.geik.farmer</groupId>
     <artifactId>Farmer</artifactId>
-    <version>v6-b005</version>
+    <version>v6-b101</version>
 
     <properties>
         <shaded.package>org.cas.osd.platform.ciam.shaded</shaded.package>
@@ -26,16 +26,9 @@
         </dependency>
         <!-- FabledSkyblock -->
         <dependency>
-            <groupId>com.songoda</groupId>
-            <artifactId>skyblock</artifactId>
-            <version>2.3.30</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Vault -->
-        <dependency>
-            <groupId>com.github.milkbowl</groupId>
-            <artifactId>Vault</artifactId>
-            <version>1.7.3</version>
+            <groupId>com.craftaro</groupId>
+            <artifactId>FabledSkyBlock</artifactId>
+            <version>3.0.0-b6-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- Lombok -->
@@ -43,26 +36,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- SimplixStorage -->
-        <dependency>
-            <groupId>com.github.poyrazinan</groupId>
-            <artifactId>SimplixStorage</artifactId>
-            <version>-ae92994823-1</version>
-        </dependency>
-        <!-- InventoryAPI -->
-        <dependency>
-            <groupId>de.themoep</groupId>
-            <artifactId>inventorygui</artifactId>
-            <!--The following version may not be the latest. Check it before using.-->
-            <version>1.5-SNAPSHOT</version>
-        </dependency>
-        <!-- Mojang Dep -->
-        <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>authlib</artifactId>
-            <version>3.11.50</version>
             <scope>provided</scope>
         </dependency>
         <!-- SuperiorAPI -->
@@ -107,18 +80,6 @@
             <version>6.37.0</version>
             <scope>provided</scope>
         </dependency>
-        <!-- xSeries -->
-        <dependency>
-            <groupId>com.github.cryptomorin</groupId>
-            <artifactId>XSeries</artifactId>
-            <version>9.4.0</version>
-        </dependency>
-        <!-- NBT Api -->
-        <dependency>
-            <groupId>de.tr7zw</groupId>
-            <artifactId>item-nbt-api</artifactId>
-            <version>2.12.1</version>
-        </dependency>
         <!-- WildStacker -->
         <dependency>
             <groupId>com.bgsoftware</groupId>
@@ -133,11 +94,16 @@
             <version>21.8</version>
             <scope>provided</scope>
         </dependency>
-        <!-- HikariCP -->
         <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>5.0.1</version>
+            <groupId>com.github.Geik-xyz</groupId>
+            <artifactId>GLib</artifactId>
+            <version>cd0ced12e5</version>
+        </dependency>
+        <!-- apache commons -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.13.0</version>
         </dependency>
         <!-- PlaceholderAPI -->
         <dependency>
@@ -146,45 +112,14 @@
             <version>2.11.4</version>
             <scope>provided</scope>
         </dependency>
-        <!-- PlayerPoints -->
-        <dependency>
-            <groupId>org.black_ixx</groupId>
-            <artifactId>playerpoints</artifactId>
-            <version>3.2.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- ElementalGems -->
-        <dependency>
-            <groupId>me.elementalgaming</groupId>
-            <artifactId>GemAPI</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/GemAPI.jar</systemPath>
-        </dependency>
-        <!-- RoyaleEconomy -->
-        <dependency>
-            <groupId>me.qKing12</groupId>
-            <artifactId>RoyaleEconomyAPI</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/RoyaleEconomyAPI.jar</systemPath>
-        </dependency>
-        <!-- Gringotts -->
-        <dependency>
-            <groupId>org.gestern</groupId>
-            <artifactId>GringottsAPI</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/GringottsAPI.jar</systemPath>
-        </dependency>
     </dependencies>
 
     <!-- Repos -->
     <repositories>
         <!-- FabledSkyblock -->
         <repository>
-            <id>com.songoda</id>
-            <url>https://repo.songoda.com/repository/public/</url>
+            <id>craftaro-minecraft-plugins</id>
+            <url>https://repo.craftaro.com/repository/minecraft-plugins/</url>
         </repository>
         <!-- Jitpack Repo -->
         <repository>
@@ -195,11 +130,6 @@
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <!-- InventoryAPI -->
-        <repository>
-            <id>minebench-repo</id>
-            <url>https://repo.minebench.de/</url>
         </repository>
         <!-- MojangAPI Repo -->
         <repository>
@@ -249,40 +179,12 @@
                     <minimizeJar>true</minimizeJar>
                     <relocations>
                         <relocation>
-                            <pattern>com.cryptomorin.xseries</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.xseries</shadedPattern>
-                            <excludes>
-                                <exclude>com/cryptomorin/xseries/XBiome*</exclude>
-                                <exclude>com/cryptomorin/xseries/XEnchantment*</exclude>
-                                <exclude>com/cryptomorin/xseries/XEntity*</exclude>
-                                <exclude>com/cryptomorin/xseries/XPotion*</exclude>
-                                <exclude>com/cryptomorin/xseries/particles/*</exclude>
-                                <exclude>com/cryptomorin/xseries/XTag*</exclude>
-                                <exclude>com/cryptomorin/xseries/NMSExtras*</exclude>
-                                <exclude>com/cryptomorin/xseries/NoteBlockMusic*</exclude>
-                                <exclude>com/cryptomorin/xseries/SkullCacheListener*</exclude>
-                                <exclude>com/cryptomorin/xseries/XItemStack*</exclude>
-                            </excludes>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.leonhard.storage</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.storage</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.themoep.inventorygui</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.inventorygui</shadedPattern>
+                            <pattern>xyz.geik.glib</pattern>
+                            <shadedPattern>xyz.geik.farmer.shades.glib</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
                             <shadedPattern>xyz.geik.farmer.shades.jetbrains</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.nbtapi</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.zaxxer.hikari</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.hikari</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -299,6 +201,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

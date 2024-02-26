@@ -7,16 +7,16 @@ import org.bukkit.event.Listener;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
+import xyz.geik.glib.chat.ChatUtils;
 
 import java.util.UUID;
 
 /**
  * Lands listener class
  *
- * @author Amowny
+ * @author amownyy
  * @since v6-b003
  */
 public class LandsListener implements Listener {
@@ -43,9 +43,9 @@ public class LandsListener implements Listener {
      */
     @EventHandler
     public void createLandEvent(LandCreateEvent event) {
-        if (Settings.autoCreateFarmer) {
+        if (Main.getConfigFile().getSettings().isAutoCreateFarmer()) {
             Farmer farmer = new Farmer(UUID.fromString(event.getLand().getName()).toString(), 0);
-            event.getLand().getOnlinePlayers().forEach(player -> player.sendMessage(Main.getLangFile().getText("boughtFarmer")));
+            event.getLand().getOnlinePlayers().forEach(player -> ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getBoughtFarmer()));
         }
     }
 

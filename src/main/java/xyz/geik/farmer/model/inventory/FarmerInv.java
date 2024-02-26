@@ -1,7 +1,6 @@
 package xyz.geik.farmer.model.inventory;
 
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
-import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -9,7 +8,8 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.FarmerLevel;
-import xyz.geik.farmer.modules.production.ProductionModel;
+import xyz.geik.farmer.modules.production.model.ProductionModel;
+import xyz.geik.glib.shades.xseries.XMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +78,7 @@ public class FarmerInv {
      * @return FarmerItem
      */
     public FarmerItem getStockedItem(XMaterial material) {
-        return items.stream().filter(item -> (item.getMaterial().isSimilar(material.parseItem()))).findFirst().get();
+        return items.stream().filter(item -> item.getMaterial() == material).findFirst().get();
     }
 
     /**

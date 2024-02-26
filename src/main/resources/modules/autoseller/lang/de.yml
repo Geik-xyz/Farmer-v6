@@ -1,4 +1,4 @@
-enabled: "&aErmöglicht"
+enabled: "&aAktualisiert"
 disabled: "&cDeaktiviert"
 
 moduleGui:
@@ -12,4 +12,4 @@ moduleGui:
       - ''
       - '&7Status: &6{status}'
       - ''
-      - '&aKlicken Sie für Änderungen!'
+      - '&aZum Ändern klicken!'

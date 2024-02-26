@@ -1,11 +1,8 @@
 package xyz.geik.farmer.model;
 
-import de.leonhard.storage.Config;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +23,8 @@ public class FarmerLevel {
     /**
      * Level array which has all levels in it lower to higher
      */
-    private static List<FarmerLevel> farmerLevels = new ArrayList<>();
-
-    /**
-     * Getter of farmerLevels
-     * @return List of levels
-     */
-    public static List<FarmerLevel> getAllLevels() {
-        return farmerLevels;
-    }
+    @Getter
+    private static List<FarmerLevel> allLevels = new ArrayList<>();
 
     /**
      * Config name of level
@@ -72,28 +62,6 @@ public class FarmerLevel {
         this.reqMoney = reqMoney;
         this.tax = tax;
         this.perm = perm;
-    }
-
-    /**
-     * installs level of farmer dependencies
-     * and stats then convert it to FarmerLevel object
-     */
-    public static void loadLevels() {
-        if (!farmerLevels.isEmpty())
-            farmerLevels.clear();
-
-        Config config = Main.getConfigFile();
-        config.singleLayerKeySet("levels").forEach(key -> {
-            long capacity = config.getLong("levels." + key + ".capacity");
-            long reqMoney = (config.contains("levels." + key + ".reqMoney")) ?
-                    config.getLong("levels." + key + ".reqMoney") : 0;
-            double tax = (config.contains("levels." + key + ".tax")) ?
-                    config.getDouble("levels." + key + ".tax") : Settings.defaultTax;
-            String perm = (config.contains("levels." + key + ".reqPerm")) ?
-                    config.getString("levels." + key + ".reqPerm") : null;
-            FarmerLevel level = new FarmerLevel(key, capacity, reqMoney, tax, perm);
-            farmerLevels.add(level);
-        });
     }
 
     /**

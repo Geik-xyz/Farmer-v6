@@ -11,6 +11,8 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.guis.UsersGui;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.chat.Placeholder;
 
 import java.util.HashMap;
 
@@ -42,9 +44,9 @@ public class ChatEvent implements Listener {
             String msg = e.getMessage();
             e.setCancelled(true);
             // if player enter cancel word then it cancel await state.
-            if (msg.equalsIgnoreCase(Main.getLangFile().getText("inputCancelWord"))) {
+            if (msg.equalsIgnoreCase(Main.getLangFile().getVarious().getInputCancelWord())) {
                 getPlayers().remove(e.getPlayer().getName());
-                e.getPlayer().sendMessage(Main.getLangFile().getText("inputCancel"));
+                ChatUtils.sendMessage(e.getPlayer(), Main.getLangFile().getMessages().getInputCancel());
                 return;
             }
             Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(e.getPlayer().getLocation()));
@@ -52,20 +54,18 @@ public class ChatEvent implements Listener {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(msg);
                 if (farmer.getUsers().stream().noneMatch(user -> user.getUuid().equals(target.getUniqueId()))) {
                     farmer.addUser(target.getUniqueId(), msg);
-                    e.getPlayer().sendMessage(Main.getLangFile().getText("userAdded")
-                            .replace("{player}", msg));
+                    ChatUtils.sendMessage(e.getPlayer(), Main.getLangFile().getMessages().getUserAdded(),
+                            new Placeholder("{player}", msg));
                 }
                 else
-                    e.getPlayer().sendMessage(Main.getLangFile().getText("userAlreadyExist")
-                            .replace("{player}", msg));
+                    ChatUtils.sendMessage(e.getPlayer(), Main.getLangFile().getMessages().getUserAlreadyExist(),
+                            new Placeholder("{player}", msg));
             }
             catch (NullPointerException e1) {
-                e.getPlayer().sendMessage(Main.getLangFile().getText("userCouldntFound"));
+                ChatUtils.sendMessage(e.getPlayer(), Main.getLangFile().getMessages().getUserCouldntFound());
             }
             // Sync opens gui because this event is async
-            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-                UsersGui.showGui(e.getPlayer(), farmer);
-            });
+            Bukkit.getScheduler().runTask(Main.getInstance(), () -> UsersGui.showGui(e.getPlayer(), farmer));
             getPlayers().remove(e.getPlayer().getName());
         }
     }

@@ -7,9 +7,10 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
-import xyz.geik.farmer.helpers.Settings;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
+import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.chat.Placeholder;
 
 /**
  * ItemSellEvent listener class
@@ -44,14 +45,14 @@ public class ItemSellEvent implements Listener {
         // If configuration has deposit tax to
         // defined player then it will deposit it
         // to player.
-        if (Settings.depositTax)
-            Main.getEconomyIntegrations().depositPlayer(Bukkit.getOfflinePlayer(Settings.taxUser), tax);
-        Main.getEconomyIntegrations().depositPlayer(event.getOfflinePlayer(), profit);
+        if (Main.getConfigFile().getTax().isDeposit())
+            Main.getEconomy().depositPlayer(Bukkit.getOfflinePlayer(Main.getConfigFile().getTax().getDepositUser()), tax);
+        Main.getEconomy().depositPlayer(event.getOfflinePlayer(), profit);
         slotItem.setAmount(0);
         if (event.getOfflinePlayer().isOnline())
-            event.getOfflinePlayer().getPlayer().sendMessage(Main.getLangFile().getText("sellComplete")
-                .replace("{money}", roundDouble(profit))
-                .replace("{tax}", roundDouble(tax)));
+            ChatUtils.sendMessage(event.getOfflinePlayer().getPlayer(), Main.getLangFile().getMessages().getSellComplate(),
+                    new Placeholder("{money}", roundDouble(profit)),
+                    new Placeholder("{tax}", roundDouble(tax)));
     }
 
     /**
