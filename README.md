@@ -8,7 +8,15 @@ As an administrator, you can control the Farmers just as if you were the owner. 
 
 Simultaneously, this plugin enforces automatic updates to the language file, eliminating the need for a reload command to update itself. (Please note that configuration changes still require a reload due to potentially sensitive settings.) You can design your menus using the language file.
 
+## Supported Languages
+* **English** (Full)
+* **Turkish** (Full)
+* **German** (Only Modules)
+
+> You can write your language keyword in config. (Format: en, tr, de)
+
 ## Configuration and Lang File
+#### (Maybe OUTDATED version of config and lang file)
 <details>
   <summary>config.yml</summary>
     # Main settings of farmer
@@ -314,6 +322,7 @@ Simultaneously, this plugin enforces automatic updates to the language file, eli
 ## Commands
 + **/farmer** - Open buy or farmer gui depends on do you have it or not
 + **/farmer manage** - Management gui (Perm: farmer.admin or owner of farmer)
++ **/farmer about** - Prints all info about farmer (Perm: farmer.admin)
 + **/farmer info** - Info of farmer which stand on (Perm: farmer.admin)
 + **/farmer reload** - Reloads plugin (Perm: farmer.admin)
 
@@ -361,7 +370,7 @@ Add this to your pom.xml if you use in maven.
 ```
 ```xml
 <dependency>
-    <groupId>com.github.poyrazinan</groupId>
+    <groupId>com.github.Geik-xyz</groupId>
     <artifactId>Farmer-v6</artifactId>
     <version>{RELEASE-VERSION}</version>
 </dependency>
@@ -378,7 +387,7 @@ repositories {
 ```
 ```groovy
 dependencies {
-    implementation 'com.github.poyrazinan:Farmer-v6:{RELEASE-VERSION}'
+    implementation 'com.github.Geik-xyz:Farmer-v6:{RELEASE-VERSION}'
 }
 ```
 
@@ -386,20 +395,15 @@ dependencies {
 
 FarmerAPI has good javadoc.
 
-You can check it out the farmer javadoc [Java-Doc](https://poyrazinan.github.io/Farmer-v6/javadoc)
+You can check it out the farmer javadoc [Java-Doc](https://geik-xyz.github.io/Farmer-v6/)
 
 ```java
 public class Main extends JavaPlugin {
     // Returns Main class of plugin
+    // You can get most thing on main!
     Main farmerMain = FarmerAPI.getInstance();
     // Gets farmer manager
     FarmerManager farmerManager = FarmerAPI.getFarmerManager();
-    // Gets storage manager
-    StorageManager storageManager = FarmerAPI.getStorageManager();
-    // Gets module manager
-    ModuleManager moduleManager = FarmerAPI.getModuleManager();
-    // Gets database manager
-    DatabaseManager databaseManager = FarmerAPI.getDatabaseManager();
 }
 ```
 
@@ -424,7 +428,6 @@ public class Main extends JavaPlugin {
 * [SpawnerMeta](https://www.spigotmc.org/resources/spawnermeta-fully-customizable-upgradable-modifiable-spawners-1-14-1-20.74188/)
 * [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)
 * [commons-lang3](https://mvnrepository.com/artifact/org.apache.commons/commons-lang3)
-* [Geyser](https://geysermc.org)
 
 ### Integration Libraries (Optional)
 * [ASkyBlock](https://www.spigotmc.org/resources/askyblock.1220/)
