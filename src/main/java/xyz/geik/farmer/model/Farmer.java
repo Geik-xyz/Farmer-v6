@@ -179,13 +179,16 @@ public class Farmer implements Cloneable {
 
 
     /**
-     * Adds user to farmer with COOP role
+     * Adds user to farmer with DEFAULT ROLE
      *
      * @param uuid of player
      * @param name of player
      */
     public void addUser(UUID uuid, String name) {
-        addUser(uuid, name, FarmerPerm.COOP);
+        String defaultRole = Main.getConfigFile().getSettings().getDefaultJoinRole();
+        if (defaultRole == "OWNER")
+            defaultRole = "COOP";
+        addUser(uuid, name, FarmerPerm.getRoleByName(defaultRole));
     }
 
     /**

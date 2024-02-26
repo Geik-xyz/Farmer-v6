@@ -44,7 +44,13 @@ public class VoucherEvent implements Listener {
         if (event.getItem().getItemMeta() == null)
             return;
         Player player = event.getPlayer();
-        int voucherLevel = NBT.get(event.getItem(), voucher -> (voucher.getInteger("farmerLevel")));
+        int voucherLevel;
+        try {
+            voucherLevel = NBT.get(event.getItem(), voucher -> (voucher.getInteger("farmerLevel")));
+        }
+        catch (Exception e) {
+            return;
+        }
         ItemStack voucherBase = VoucherItem.getVoucherItem(voucherLevel);
         voucherBase.setAmount(event.getItem().getAmount());
         if (!voucherBase.equals(event.getItem()))

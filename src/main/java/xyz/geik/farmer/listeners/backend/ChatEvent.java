@@ -65,9 +65,7 @@ public class ChatEvent implements Listener {
                 ChatUtils.sendMessage(e.getPlayer(), Main.getLangFile().getMessages().getUserCouldntFound());
             }
             // Sync opens gui because this event is async
-            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-                UsersGui.showGui(e.getPlayer(), farmer);
-            });
+            Bukkit.getScheduler().runTask(Main.getInstance(), () -> UsersGui.showGui(e.getPlayer(), farmer));
             getPlayers().remove(e.getPlayer().getName());
         }
     }

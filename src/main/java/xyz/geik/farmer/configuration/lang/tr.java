@@ -123,7 +123,7 @@ public class tr extends LangFile {
     public static class Roles extends LangFile.Roles {
         private String owner = "&cLider";
         private String member = "&aÜye";
-        private String coop = "&eYardımcı";
+        private String coop = "&eİşçi";
     }
 
     private Gui gui = new Gui();

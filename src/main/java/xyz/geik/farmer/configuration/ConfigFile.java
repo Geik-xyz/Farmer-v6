@@ -59,6 +59,9 @@ public class ConfigFile extends OkaeriConfig {
 
         @Comment("Allowed worlds")
         private List<String> allowedWorlds = Arrays.asList("ASkyBlock", "Island", "SuperiorWorld", "bskyblock_world", "island_normal_world");
+
+        @Comment("Default role which will be assigned to joined player (Options: COOP - MEMBER)")
+        private String defaultJoinRole = "COOP";
     }
 
     /**

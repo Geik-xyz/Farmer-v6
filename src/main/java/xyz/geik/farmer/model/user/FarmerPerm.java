@@ -55,6 +55,22 @@ public enum FarmerPerm {
     }
 
     /**
+     * Gets role by string
+     * @param name of role
+     * @return FarmerPerm object
+     */
+    public static FarmerPerm getRoleByName(String name) {
+        switch (name) {
+            case "MEMBER":
+                return FarmerPerm.MEMBER;
+            case "OWNER":
+                return FarmerPerm.OWNER;
+            default:
+                return FarmerPerm.COOP;
+        }
+    }
+
+    /**
      * Gets int id of role
      * @param perm of farmer
      * @return int of FarmerPerm object
