@@ -3,6 +3,7 @@ package xyz.geik.farmer.integrations;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.integrations.askyblock.Askyblock;
 import xyz.geik.farmer.integrations.bentobox.Bento;
@@ -61,19 +62,24 @@ public abstract class Integrations {
      * and loads integration class of it.
      */
     public static void registerIntegrations() {
-        if (Bukkit.getPluginManager().isPluginEnabled("SuperiorSkyblock2"))
-            Main.setIntegration(new SuperiorSkyblock());
-        else if (Bukkit.getPluginManager().isPluginEnabled("GriefPrevention"))
-            Main.setIntegration(new GriefPrevent());
-        else if (Bukkit.getPluginManager().isPluginEnabled("BentoBox"))
-            Main.setIntegration(new Bento());
-        else if (Bukkit.getPluginManager().isPluginEnabled("ASkyBlock"))
-            Main.setIntegration(new Askyblock());
-        else if(Bukkit.getPluginManager().isPluginEnabled("FabledSkyBlock"))
-            Main.setIntegration(new FabledSkyblock());
-        else if (Bukkit.getPluginManager().isPluginEnabled("Towny"))
-            Main.setIntegration(new TownyAdvanced());
-        else if (Bukkit.getPluginManager().isPluginEnabled("Lands"))
-            Main.setIntegration(new Lands());
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (Bukkit.getPluginManager().isPluginEnabled("SuperiorSkyblock2"))
+                    Main.setIntegration(new SuperiorSkyblock());
+                else if (Bukkit.getPluginManager().isPluginEnabled("GriefPrevention"))
+                    Main.setIntegration(new GriefPrevent());
+                else if (Bukkit.getPluginManager().isPluginEnabled("BentoBox"))
+                    Main.setIntegration(new Bento());
+                else if (Bukkit.getPluginManager().isPluginEnabled("ASkyBlock"))
+                    Main.setIntegration(new Askyblock());
+                else if(Bukkit.getPluginManager().isPluginEnabled("FabledSkyBlock"))
+                    Main.setIntegration(new FabledSkyblock());
+                else if (Bukkit.getPluginManager().isPluginEnabled("Towny"))
+                    Main.setIntegration(new TownyAdvanced());
+                else if (Bukkit.getPluginManager().isPluginEnabled("Lands"))
+                    Main.setIntegration(new Lands());
+            }
+        }.runTaskLater(Main.getInstance(), 1);
     }
 }
