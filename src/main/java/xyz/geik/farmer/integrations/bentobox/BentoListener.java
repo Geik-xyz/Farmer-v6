@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import world.bentobox.bentobox.api.events.island.IslandCreatedEvent;
 import world.bentobox.bentobox.api.events.island.IslandDeleteEvent;
-import world.bentobox.bentobox.api.events.island.IslandDeletedEvent;
 import world.bentobox.bentobox.api.events.island.IslandResettedEvent;
 import world.bentobox.bentobox.api.events.team.TeamJoinEvent;
 import world.bentobox.bentobox.api.events.team.TeamKickEvent;
