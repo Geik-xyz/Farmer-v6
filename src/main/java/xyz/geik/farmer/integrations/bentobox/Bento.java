@@ -2,8 +2,10 @@ package xyz.geik.farmer.integrations.bentobox;
 
 import org.bukkit.Location;
 import world.bentobox.bentobox.BentoBox;
+import world.bentobox.bentobox.database.objects.Island;
 import xyz.geik.farmer.integrations.Integrations;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -28,7 +30,8 @@ public class Bento extends Integrations {
      */
     @Override
     public UUID getOwnerUUID(String regionID) {
-        return BentoBox.getInstance().getIslands().getIslandById(regionID).get().getOwner();
+        Optional<Island> island = BentoBox.getInstance().getIslands().getIslandById(regionID);
+        return island.map(Island::getOwner).orElse(null);
     }
 
     /**
@@ -39,7 +42,8 @@ public class Bento extends Integrations {
      */
     @Override
     public UUID getOwnerUUID(Location location) {
-        return BentoBox.getInstance().getIslands().getIslandAt(location).get().getOwner();
+        Optional<Island> island = BentoBox.getInstance().getIslands().getIslandAt(location);
+        return island.map(Island::getOwner).orElse(null);
     }
 
     /**
@@ -50,6 +54,7 @@ public class Bento extends Integrations {
      */
     @Override
     public String getRegionID(Location location) {
-        return BentoBox.getInstance().getIslands().getIslandAt(location).get().getUniqueId();
+        Optional<Island> island = BentoBox.getInstance().getIslands().getIslandAt(location);
+        return island.map(Island::getUniqueId).orElse(null);
     }
 }

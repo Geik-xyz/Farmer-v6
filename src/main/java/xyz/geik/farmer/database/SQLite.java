@@ -31,7 +31,7 @@ public class SQLite extends SQL {
      * Create tables if there is no any
      */
     public void createTable() {
-        String farmersTable = "CREATE TABLE IF NOT EXISTS Farmers (id INTEGER PRIMARY KEY AUTOINCREMENT, regionID varchar(36) NOT NULL UNIQUE, `state` smallint(1) DEFAULT 1, `items` text DEFAULT NULL, `attributes` text DEFAULT NULL, `level` int DEFAULT 0)";
+        String farmersTable = "CREATE TABLE IF NOT EXISTS Farmers (id INTEGER PRIMARY KEY AUTOINCREMENT, regionID varchar(64) NOT NULL UNIQUE, `state` smallint(1) DEFAULT 1, `items` text DEFAULT NULL, `attributes` text DEFAULT NULL, `level` int DEFAULT 0)";
         String usersTable = "CREATE TABLE IF NOT EXISTS FarmerUsers (farmerId int NOT NULL, `name` varchar(30) DEFAULT User, uuid char(36) DEFAULT 0, `role` smallint(1) DEFAULT 0)";
         Main.getDatabase().createTables(farmersTable);
         Main.getDatabase().createTables(usersTable);
