@@ -1,7 +1,10 @@
 package xyz.geik.farmer.integrations.lands;
 
 import me.angeschossen.lands.api.LandsIntegration;
+import me.angeschossen.lands.api.applicationframework.util.ULID;
+import me.angeschossen.lands.api.land.Land;
 import org.bukkit.Location;
+import org.bukkit.World;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.integrations.Integrations;
 
@@ -21,19 +24,21 @@ public class Lands extends Integrations {
      */
     public Lands() {
         super(new LandsListener());
+        api = LandsIntegration.of(Main.getInstance());
     }
 
     /**
      * Lands API
      */
-    LandsIntegration api = LandsIntegration.of(Main.getInstance());
+    LandsIntegration api;
 
     /**
      * Getting Owner UUID by Region ID
      */
     @Override
     public UUID getOwnerUUID(String regionID) {
-        return api.getLandByName(regionID).getOwnerUID();
+        ULID ulid = ULID.fromString(regionID);
+        return api.getLandByULID(ulid).getOwnerUID();
     }
 
     /**
@@ -49,6 +54,11 @@ public class Lands extends Integrations {
      */
     @Override
     public String getRegionID(Location location) {
-        return UUID.fromString(api.getArea(location).getLand().getName()).toString();
+        World world = location.getWorld();
+        int chunkX = location.getChunk().getX();
+        int chunkZ = location.getChunk().getZ();
+
+        Land land = api.getLandByChunk(world, chunkX, chunkZ);
+        return land == null ? null : land.getULID().toString();
     }
 }
