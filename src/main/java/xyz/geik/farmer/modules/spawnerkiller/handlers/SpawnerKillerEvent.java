@@ -114,7 +114,7 @@ public class SpawnerKillerEvent implements Listener {
         EntityType entityType = entity.getType();
 
         if (entityType == EntityType.OCELOT || entityType == EntityType.CHICKEN || entityType == EntityType.COW
-                || entityType == EntityType.HORSE || entityType == EntityType.MUSHROOM_COW || entityType == EntityType.PIG
+                || entityType == EntityType.HORSE || entityType == EntityType.MOOSHROOM || entityType == EntityType.PIG
                 || entityType == EntityType.RABBIT || entityType == EntityType.SHEEP || entityType == EntityType.SQUID
                 || entityType == EntityType.WOLF || entityType == EntityType.BAT || entityType.toString().contains("DONKEY")
                 || entityType.toString().contains("MULE") || entityType.toString().contains("LLAMA")
@@ -138,7 +138,7 @@ public class SpawnerKillerEvent implements Listener {
                     entity.getWorld().dropItemNaturally(entity.getLocation(), new ItemStack(Material.BLAZE_ROD, 1));
         }
 
-        else if (entityType == EntityType.IRON_GOLEM || entityType == EntityType.SNOWMAN || entityType.equals(EntityType.VILLAGER)
+        else if (entityType == EntityType.IRON_GOLEM || entityType == EntityType.SNOW_GOLEM || entityType.equals(EntityType.VILLAGER)
                 || entityType.toString().contains("WANDERINGTRADER"))
             return;
 
