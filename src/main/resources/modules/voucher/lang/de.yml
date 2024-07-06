@@ -7,6 +7,7 @@ voucherReceived: "&6Landwirt &8▸ &aDu hast einen %level% Stufe Landwirt Gutsch
 voucherGiven: "&6Landwirt &8▸ &aDu hast einen %level% Stufe Landwirt Gutschein an %player% gegeben."
 changedLevel: "&6Landwirt &8▸ &aDu hast deine Landwirt Stufe auf %level% geändert."
 levelHigher: "&6Landwirt &8▸ &cDeine Landwirt Stufe ist höher als der Gutschein."
+wrongWorld: "&6Landwirt &8▸ &cDas kann man in dieser Welt nicht gebrauchen."
 
 voucher:
   material: VILLAGER_SPAWN_EGG

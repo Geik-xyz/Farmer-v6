@@ -7,6 +7,7 @@ voucherReceived: "&6Çiftçi &8▸ &a%level% seviye çiftçi bileti aldın."
 voucherGiven: "&6Çiftçi &8▸ &a%level% seviye çiftçi bileti %player% oyuncusuna verildi."
 changedLevel: "&6Çiftçi &8▸ &aÇiftçi seviyen %level% olarak değiştirildi."
 levelHigher: "&6Çiftçi &8▸ &cÇiftçi seviyen biletten daha yüksek."
+wrongWorld: "&6Çiftçi &8▸ &cBu dünyada çiftçi kullanamazsın!"
 
 voucher:
   material: VILLAGER_SPAWN_EGG

@@ -93,7 +93,7 @@ public class VoucherItem {
             meta.setLore(Voucher.getInstance().getLang().getTextList(path + ".lore"));
         meta.setDisplayName(Voucher.getInstance().getLang().getText(path + ".name"));
         if (Voucher.getInstance().getLang().getBoolean(path + ".glow")) {
-            meta.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
+            meta.addEnchant(Enchantment.getByName("DAMAGE_ALL"), 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         result.setItemMeta(meta);
