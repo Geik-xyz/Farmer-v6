@@ -9,8 +9,9 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.modules.voucher.Voucher;
 import xyz.geik.farmer.shades.nbtapi.NBT;
-import xyz.geik.glib.shades.xseries.SkullUtils;
 import xyz.geik.glib.shades.xseries.XMaterial;
+import xyz.geik.glib.shades.xseries.profiles.builder.XSkull;
+import xyz.geik.glib.shades.xseries.profiles.objects.Profileable;
 
 import java.util.stream.Collectors;
 
@@ -72,7 +73,12 @@ public class VoucherItem {
                 SkullMeta meta = (SkullMeta) result.getItemMeta();
                 assert meta != null;
                 // GameProfile, Filed etc. used mojang lib for catch player skull
-                SkullUtils.applySkin(meta, Voucher.getInstance().getLang().getString(path + ".skull"));
+                Profileable requestedProfile = Profileable
+                        .detect(Voucher.getInstance().getLang().getString(path + ".skull"));
+                Profileable defaultProfile = Profileable.detect("Steve");
+                meta = (SkullMeta) XSkull.of(meta)
+                        .profile(requestedProfile)
+                        .fallback(defaultProfile).applyAsync();
                 result.setItemMeta(meta);
             } catch (Exception e) {
                 result = new ItemStack(Material.STONE, 1);
