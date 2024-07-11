@@ -16,7 +16,6 @@ import xyz.geik.glib.shades.inventorygui.GuiElement;
 import xyz.geik.glib.shades.inventorygui.GuiPageElement;
 import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 import xyz.geik.glib.shades.skullcreator.SkullCreator;
-import xyz.geik.glib.shades.xseries.SkullUtils;
 import xyz.geik.glib.shades.xseries.XMaterial;
 import xyz.geik.glib.utils.ItemUtil;
 

@@ -85,7 +85,11 @@ public class MainGui {
                                 !user.getPerm().equals(FarmerPerm.COOP)
                                         && user.getName().equalsIgnoreCase(player.getName())))) {
                             // XMaterial check for old version
-                            ItemStack cursorItem = click.getRawEvent().getView().getItem(click.getSlot());
+                            ItemStack cursorItem;
+                            try {
+                                cursorItem = click.getRawEvent().getView().getItem(click.getSlot());
+                            }
+                            catch (Exception ignored) {cursorItem = null;}
                             assert cursorItem != null;
                             XMaterial material = XMaterial.matchXMaterial(cursorItem);
                             FarmerItem slotItem = farmer.getInv().getStockedItem(material);
