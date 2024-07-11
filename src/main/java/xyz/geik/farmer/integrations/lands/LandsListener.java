@@ -68,7 +68,7 @@ public class LandsListener implements Listener {
     @EventHandler
     public void landJoinEvent(LandTrustPlayerEvent event) {
         Land land = event.getLand();
-        String landID = land.toString();
+        String landID = land.getULID().toString();
         if (!FarmerManager.getFarmers().containsKey(landID))
             return;
         UUID member = event.getTargetUUID();
