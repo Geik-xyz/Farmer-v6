@@ -126,6 +126,27 @@ public class FarmerInv {
     }
 
     /**
+     * Adding item amount to stock.
+     * Respects capacity and if it above capacity
+     * return additional amount.
+     * @param material xmaterial of item
+     * @param amount amount of the item
+     * @return long left amount of item
+     */
+    public long sumItemAmount(XMaterial material, int amount) {
+        FarmerItem item = getStockedItem(material);
+        long canTake = capacity - item.getAmount();
+        if (canTake < amount) {
+            setItemAmount(material, capacity);
+            return amount - canTake;
+        }
+        else {
+            item.sumAmount(amount);
+            return 0L;
+        }
+    }
+
+    /**
      * Forces adding item amount to stock.
      * Doesn't respect capacity.
      *
