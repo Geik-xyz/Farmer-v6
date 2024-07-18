@@ -114,6 +114,19 @@ public class FarmerInv {
         long amount = collectedItem.getItemStack().getAmount();
         if (Bukkit.getPluginManager().isPluginEnabled("WildStacker"))
             amount = WildStackerAPI.getItemAmount(collectedItem);
+        return sumItemAmount(material, amount);
+    }
+
+    /**
+     * Adding item amount to stock.
+     * Respects capacity and if it above capacity
+     * return additional amount.
+     * @param material xmaterial of item
+     * @param amount amount of the item
+     * @return long left amount of item
+     */
+    public long sumItemAmount(XMaterial material, long amount) {
+        FarmerItem item = getStockedItem(material);
         long canTake = capacity - item.getAmount();
         if (canTake < amount) {
             setItemAmount(material, capacity);
