@@ -87,7 +87,7 @@ public class MainGui {
                             // XMaterial check for old version
                             ItemStack cursorItem;
                             try {
-                                cursorItem = click.getRawEvent().getView().getItem(click.getSlot());
+                                cursorItem = click.getRawEvent().getInventory().getItem(click.getSlot());
                             }
                             catch (Exception ignored) {cursorItem = null;}
                             assert cursorItem != null;

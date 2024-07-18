@@ -1,6 +1,7 @@
 package xyz.geik.farmer.integrations.lands;
 
 import me.angeschossen.lands.api.events.*;
+import me.angeschossen.lands.api.land.Land;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,7 +33,7 @@ public class LandsListener implements Listener {
      */
     @EventHandler
     public void removeLandEvent(LandDeleteEvent event) {
-        FarmerAPI.getFarmerManager().removeFarmer(UUID.fromString(event.getLand().getName()).toString());
+        FarmerAPI.getFarmerManager().removeFarmer(event.getLand().getULID().toString());
     }
 
     /**
@@ -44,7 +45,7 @@ public class LandsListener implements Listener {
     @EventHandler
     public void createLandEvent(LandCreateEvent event) {
         if (Main.getConfigFile().getSettings().isAutoCreateFarmer()) {
-            Farmer farmer = new Farmer(UUID.fromString(event.getLand().getName()).toString(), 0);
+            Farmer farmer = new Farmer(event.getLand().getULID().toString(), 0);
             event.getLand().getOnlinePlayers().forEach(player -> ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getBoughtFarmer()));
         }
     }
@@ -57,7 +58,7 @@ public class LandsListener implements Listener {
     @EventHandler
     public void transferLandEvent(LandOwnerChangeEvent event) {
         FarmerAPI.getFarmerManager()
-                .changeOwner(event.getPlayerUID(), event.getTargetUUID(), event.getLand().getName());
+                .changeOwner(event.getPlayerUUID(), event.getTargetUUID(), event.getLand().getULID().toString());
     }
 
     /**
@@ -66,7 +67,8 @@ public class LandsListener implements Listener {
      */
     @EventHandler
     public void landJoinEvent(LandTrustPlayerEvent event) {
-        String landID = UUID.fromString(event.getLand().getName()).toString();
+        Land land = event.getLand();
+        String landID = land.getULID().toString();
         if (!FarmerManager.getFarmers().containsKey(landID))
             return;
         UUID member = event.getTargetUUID();
@@ -81,7 +83,7 @@ public class LandsListener implements Listener {
      * @param event of event
      */
     public void landLeaveEvent(PlayerLeaveLandEvent event) {
-        kickAndLeaveEvent(UUID.fromString(event.getLand().getName()).toString(), event.getPlayerUID());
+        kickAndLeaveEvent(event.getLand().getULID().toString(), event.getPlayerUID());
     }
 
     /**
@@ -90,7 +92,7 @@ public class LandsListener implements Listener {
      */
     @EventHandler
     public void landKickEvent(LandUntrustPlayerEvent event) {
-        kickAndLeaveEvent(UUID.fromString(event.getLand().getName()).toString(), event.getTargetUUID());
+        kickAndLeaveEvent(event.getLand().getULID().toString(), event.getTargetUUID());
     }
 
     /**
