@@ -1,7 +1,7 @@
 name: Farmer
 author: Geik, Amowny, WaterArchery, hyperion, rudde, mehmet-27
 main: xyz.geik.farmer.Main
-version: v6-b104
+version: v6-b105
 api-version: 1.13
 depend: [PlaceholderAPI]
 softdepend: [Vault, RoyaleEconomy, PlayerPoints, GrinGotts, ElementalGems, ASkyBlock, BentoBox, SuperiorSkyblock2, GriefPrevention, FabledSkyBlock, Lands]
