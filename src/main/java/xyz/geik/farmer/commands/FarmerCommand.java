@@ -74,8 +74,9 @@ public class FarmerCommand extends BaseCommand {
                 ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getMustBeOwner());
         } else {
             // Perm && user check
-            if (FarmerManager.getFarmers().get(regionID).getUsers().stream()
-                    .anyMatch(usr -> (usr.getUuid().equals(player.getUniqueId()))))
+            if (player.hasPermission("farmer.admin") ||
+                    FarmerManager.getFarmers().get(regionID).getUsers().stream()
+                            .anyMatch(usr -> (usr.getUuid().equals(player.getUniqueId()))))
                 MainGui.showGui(player, FarmerManager.getFarmers().get(regionID));
             else
                 ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoPerm());
