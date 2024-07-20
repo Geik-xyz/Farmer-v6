@@ -14,6 +14,7 @@ import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.managers.FarmerManager;
+import xyz.geik.farmer.helpers.WorldHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
@@ -43,7 +44,7 @@ public class AutoHarvestEvent implements Listener {
         Block block = event.getNewState().getBlock();
         XMaterial material = parseMaterial(XMaterial.matchXMaterial(event.getNewState().getType()));
         // Checks world suitable for farmer
-        if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(block.getWorld().getName()))
+        if (!WorldHelper.isFarmerAllowed(block.getWorld().getName()))
             return;
 
         // Checks auto harvest, harvests this block.

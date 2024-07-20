@@ -12,6 +12,7 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerRemoveEvent;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.guis.MainGui;
+import xyz.geik.farmer.helpers.WorldHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.voucher.Voucher;
@@ -56,7 +57,7 @@ public class VoucherEvent implements Listener {
         if (!voucherBase.equals(event.getItem()))
             return;
         event.setCancelled(true);
-        if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(player.getWorld().getName())) {
+        if (!WorldHelper.isFarmerAllowed(player.getWorld().getName())) {
             player.sendMessage(Voucher.getInstance().getLang().getText("wrongWorld"));
             return;
         }

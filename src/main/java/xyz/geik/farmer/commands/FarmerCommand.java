@@ -11,6 +11,7 @@ import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.guis.BuyGui;
 import xyz.geik.farmer.guis.MainGui;
 import xyz.geik.farmer.helpers.CacheLoader;
+import xyz.geik.farmer.helpers.WorldHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.modules.FarmerModule;
@@ -51,7 +52,7 @@ public class FarmerCommand extends BaseCommand {
             return;
         }
         Player player = (Player) sender;
-        if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(player.getWorld().getName())) {
+        if (!WorldHelper.isFarmerAllowed(player.getWorld().getName())) {
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getWrongWorld());
             return;
         }
@@ -225,7 +226,7 @@ public class FarmerCommand extends BaseCommand {
             return;
         }
         // Check world is suitable for farmer
-        if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(player.getWorld().getName())) {
+        if (!WorldHelper.isFarmerAllowed(player.getWorld().getName())) {
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getWrongWorld());
             return;
         }

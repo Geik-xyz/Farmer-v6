@@ -57,8 +57,8 @@ public class ConfigFile extends OkaeriConfig {
         @Comment("farmer ignore collecting if item dropped by player")
         private boolean ignorePlayerDrop = false;
 
-        @Comment("Allowed worlds")
-        private List<String> allowedWorlds = Arrays.asList("ASkyBlock", "Island", "SuperiorWorld", "bskyblock_world", "island_normal_world");
+        @Comment("Allowed worlds. You can also use worlds like 'island_*' to allow all worlds that contains 'island_' prefix.")
+        private List<String> allowedWorlds = Arrays.asList("ASkyBlock", "Island", "SuperiorWorld", "bskyblock_world", "island_normal_world", "island_*");
 
         @Comment("Default role which will be assigned to joined player (Options: COOP - MEMBER)")
         private String defaultJoinRole = "COOP";
