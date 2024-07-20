@@ -6,7 +6,7 @@
 
     <groupId>xyz.geik.farmer</groupId>
     <artifactId>Farmer</artifactId>
-    <version>v6-b105</version>
+    <version>v6-b106</version>
 
     <properties>
         <shaded.package>org.cas.osd.platform.ciam.shaded</shaded.package>

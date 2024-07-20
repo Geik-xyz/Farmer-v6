@@ -139,7 +139,7 @@ public class SpawnerKillerEvent implements Listener {
                     entity.getWorld().dropItemNaturally(entity.getLocation(), new ItemStack(Material.BLAZE_ROD, 1));
         }
 
-        else if (entityType == EntityType.IRON_GOLEM || entityType == EntityType.SNOW_GOLEM || entityType.equals(EntityType.VILLAGER)
+        else if (entityType == EntityType.IRON_GOLEM || entityType.toString().contains("SNOW") || entityType.toString().contains("SNOW_GOLEM") || entityType.equals(EntityType.VILLAGER)
                 || entityType.toString().contains("WANDERINGTRADER"))
             return;
 
