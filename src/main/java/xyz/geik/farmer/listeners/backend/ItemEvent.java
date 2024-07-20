@@ -11,6 +11,7 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerItemCollectEvent;
 import xyz.geik.farmer.api.handlers.FarmerStorageFullEvent;
 import xyz.geik.farmer.api.managers.FarmerManager;
+import xyz.geik.farmer.helpers.WorldHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.glib.shades.xseries.XMaterial;
@@ -70,7 +71,7 @@ public class ItemEvent implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void itemSpawnEvent(@NotNull ItemSpawnEvent e) {
         // Checks world suitable for farmer
-        if (!Main.getConfigFile().getSettings().getAllowedWorlds().contains(e.getLocation().getWorld().getName()))
+        if (!WorldHelper.isFarmerAllowed(e.getLocation().getWorld().getName()))
             return;
         // Checks if player dropped or naturally dropped
         // if settings contain Cancel player drop then it cancel collecting it.
