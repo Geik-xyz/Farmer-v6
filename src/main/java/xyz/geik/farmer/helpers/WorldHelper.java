@@ -20,16 +20,16 @@ public class WorldHelper {
 
         for (String world : allowedWorlds) {
             // Check if the current world uses a wildcard.
-            if (world.contains("*")) {
-                // Remove the wildcard for partial matching.
-                world = world.replace("*", "");
-                // Check if the worldName contains the current world (after removing the wildcard).
-                if (worldName.contains(world)) return true;
+            if (world.equals(worldName)) {
+                return true;
             }
-            else {
-                // Check if the worldName matches the current world exactly
-                if (world.equals(worldName)) {
-                    return true;
+            // Performance improvement
+            else if (Main.getConfigFile().getSettings().isAllowedWorldsStarCharFeature()) {
+                if (world.contains("*")) {
+                    // Remove the wildcard for partial matching.
+                    world = world.replace("*", "");
+                    // Check if the worldName contains the current world (after removing the wildcard).
+                    if (worldName.contains(world)) return true;
                 }
             }
         }

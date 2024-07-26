@@ -60,6 +60,9 @@ public class ConfigFile extends OkaeriConfig {
         @Comment("Allowed worlds. You can also use worlds like 'island_*' to allow all worlds that contains 'island_' prefix.")
         private List<String> allowedWorlds = Arrays.asList("ASkyBlock", "Island", "SuperiorWorld", "bskyblock_world", "island_normal_world", "island_*");
 
+        @Comment("Unlocks * character for world name seeker feature")
+        private boolean AllowedWorldsStarCharFeature = false;
+
         @Comment("Default role which will be assigned to joined player (Options: COOP - MEMBER)")
         private String defaultJoinRole = "COOP";
     }
