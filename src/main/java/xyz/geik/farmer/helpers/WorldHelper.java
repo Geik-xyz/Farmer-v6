@@ -8,6 +8,18 @@ import java.util.List;
 
 public class WorldHelper {
 
+    // Allowed world array loaded static for one time management
+    public static List<String> allowedWorlds = new ArrayList<>();
+    /**
+     * Loads all the allowed worlds to cache
+     *
+     * @author poyraz.inan
+     * @since b107
+     */
+    public static void loadAllowedWorlds() {
+        allowedWorlds = new ArrayList<>(Main.getConfigFile().getSettings().getAllowedWorlds());
+    }
+
     /**
      * Checks if Farmer is allowed in a specified world.
      *
@@ -16,7 +28,6 @@ public class WorldHelper {
      */
     public static boolean isFarmerAllowed(String worldName) {
         // Retrieve the list of allowed worlds from the configuration.
-        List<String> allowedWorlds = new ArrayList<>(Main.getConfigFile().getSettings().getAllowedWorlds());
 
         for (String world : allowedWorlds) {
             // Check if the current world uses a wildcard.

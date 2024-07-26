@@ -201,6 +201,7 @@ public class FarmerCommand extends BaseCommand {
             Main.getSql().loadAllFarmers();
             Main.getInstance().getModuleManager().reloadModules();
             FarmerModule.calculateModulesUseGui();
+            WorldHelper.loadAllowedWorlds();
             // Sends message to sender who send this command and also calculating millisecond difference.
             ChatUtils.sendMessage(sender, Main.getLangFile().getMessages().getReloadSuccess(),
                     new Placeholder("%ms%", System.currentTimeMillis() - time + "ms"));

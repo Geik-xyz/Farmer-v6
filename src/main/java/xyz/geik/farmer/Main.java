@@ -16,6 +16,7 @@ import xyz.geik.farmer.database.MySQL;
 import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
 import xyz.geik.farmer.helpers.CacheLoader;
+import xyz.geik.farmer.helpers.WorldHelper;
 import xyz.geik.farmer.integrations.Integrations;
 import xyz.geik.farmer.listeners.ListenerRegister;
 import xyz.geik.farmer.modules.FarmerModule;
@@ -177,6 +178,7 @@ public class Main extends JavaPlugin {
             });
             itemsFile = getSimplixStorageAPI().initConfig("items");
             levelFile = getSimplixStorageAPI().initConfig("levels");
+            WorldHelper.loadAllowedWorlds();
         } catch (Exception exception) {
             getPluginLoader().disablePlugin(this);
             throw new RuntimeException("Error loading configuration file");
