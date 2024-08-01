@@ -1,11 +1,17 @@
 package xyz.geik.farmer;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.commands.FarmerCommand;
@@ -38,10 +44,13 @@ import xyz.geik.glib.shades.okaeri.configs.ConfigManager;
 import xyz.geik.glib.shades.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
 import xyz.geik.glib.shades.triumphteam.cmd.bukkit.BukkitCommandManager;
 import xyz.geik.glib.shades.triumphteam.cmd.bukkit.message.BukkitMessageKey;
+import xyz.geik.glib.shades.triumphteam.cmd.core.exceptions.CommandRegistrationException;
 import xyz.geik.glib.shades.triumphteam.cmd.core.message.MessageKey;
 import xyz.geik.glib.simplixstorage.SimplixStorageAPI;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -148,6 +157,41 @@ public class Main extends JavaPlugin {
      */
     public void onDisable() {
         getSql().updateAllFarmers();
+        unregisterCommands();
+    }
+
+    public void unregisterCommands() {
+        Lists.newArrayList("çiftçi", "farmer", "farm", "fm", "ciftci").forEach(this::unregisterCommand);
+    }
+
+    public void unregisterCommand(String name) {
+        getBukkitCommands(getCommandMap()).remove(name);
+    }
+
+    @NotNull
+    private CommandMap getCommandMap() {
+        try {
+            final Server server = Bukkit.getServer();
+            final Method getCommandMap = server.getClass().getDeclaredMethod("getCommandMap");
+            getCommandMap.setAccessible(true);
+
+            return (CommandMap) getCommandMap.invoke(server);
+        } catch (final Exception ignored) {
+            throw new CommandRegistrationException("Unable get Command Map. Commands will not be registered!");
+        }
+    }
+
+    // copied from triumph-cmd, credit goes to triumph-team
+    @NotNull
+    private Map<String, Command> getBukkitCommands(@NotNull final CommandMap commandMap) {
+        try {
+            final Field bukkitCommands = SimpleCommandMap.class.getDeclaredField("knownCommands");
+            bukkitCommands.setAccessible(true);
+            //noinspection unchecked
+            return (Map<String, org.bukkit.command.Command>) bukkitCommands.get(commandMap);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new CommandRegistrationException("Unable get Bukkit commands. Commands might not be registered correctly!");
+        }
     }
 
     /**
