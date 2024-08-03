@@ -112,6 +112,13 @@
             <version>2.11.6</version>
             <scope>provided</scope>
         </dependency>
+        <!-- IridiumSkyblock -->
+        <dependency>
+            <groupId>com.iridium</groupId>
+            <artifactId>IridiumSkyblock</artifactId>
+            <version>4.0.9.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <!-- Repos -->
@@ -164,6 +171,11 @@
         <repository>
             <id>rosewood-repo</id>
             <url>https://repo.rosewooddev.io/repository/public/</url>
+        </repository>
+        <!-- IridiumSkyblock -->
+        <repository>
+            <id>iridiumdevelopment</id>
+            <url>https://nexus.iridiumdevelopment.net/repository/maven-releases/</url>
         </repository>
     </repositories>
 
