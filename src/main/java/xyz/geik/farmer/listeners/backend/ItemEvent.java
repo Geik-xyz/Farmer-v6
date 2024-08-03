@@ -68,7 +68,7 @@ public class ItemEvent implements Listener {
      * Checks if farmer closed
      * @param e event of item spawn event
      */
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void itemSpawnEvent(@NotNull ItemSpawnEvent e) {
         // Checks world suitable for farmer
         if (!WorldHelper.isFarmerAllowed(e.getLocation().getWorld().getName()))
