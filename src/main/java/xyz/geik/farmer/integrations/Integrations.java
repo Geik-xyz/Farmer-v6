@@ -13,6 +13,7 @@ import xyz.geik.farmer.integrations.iridiumskyblock.IridiumSkyblock;
 import xyz.geik.farmer.integrations.lands.Lands;
 import xyz.geik.farmer.integrations.superior.SuperiorSkyblock;
 import xyz.geik.farmer.integrations.townyadvanced.TownyAdvanced;
+import xyz.geik.farmer.integrations.ultimateclaims.UltimateClaims;
 
 import java.util.UUID;
 
@@ -82,6 +83,8 @@ public abstract class Integrations {
                     Main.setIntegration(new Lands());
                 else if (Bukkit.getPluginManager().isPluginEnabled("IridiumSkyblock"))
                     Main.setIntegration(new IridiumSkyblock());
+                else if (Bukkit.getPluginManager().isPluginEnabled("UltimateClaims"))
+                    Main.setIntegration(new UltimateClaims());
             }
         }.runTaskLater(Main.getInstance(), 1);
     }
