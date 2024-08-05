@@ -1,8 +1,12 @@
 package xyz.geik.farmer.integrations.ultimateclaims;
 
+import com.craftaro.ultimateclaims.claim.Claim;
 import org.bukkit.Location;
+import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.integrations.Integrations;
+import xyz.geik.farmer.model.user.FarmerPerm;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -22,8 +26,10 @@ public class UltimateClaims extends Integrations {
      */
     @Override
     public UUID getOwnerUUID(String regionID) {
-        return com.craftaro.ultimateclaims.UltimateClaims.getInstance().getClaimManager().getRegisteredClaims().stream().filter(claim -> String.valueOf(claim.getId()) == regionID)
-                .findFirst().orElse(null).getOwner().getUniqueId();
+        return com.craftaro.ultimateclaims.UltimateClaims.getInstance()
+                .getClaimManager().getRegisteredClaims()
+                .stream().filter(claim -> regionID.equals(String.valueOf(claim.getId())))
+                .findFirst().get().getOwner().getUniqueId();
     }
 
     /**

@@ -19,8 +19,9 @@ public class UltimateListener implements Listener {
 
     @EventHandler
     public void claimCreateEvent(ClaimCreateEvent event){
+        String claimId = String.valueOf(event.getClaim().getId());
         if (Main.getConfigFile().getSettings().isAutoCreateFarmer()) {
-            Farmer farmer = new Farmer(String.valueOf(event.getClaim().getId()), 0);
+            Farmer farmer = new Farmer(claimId, 0);
             ChatUtils.sendMessage(event.getClaim().getOwner().getPlayer().getPlayer(),
                     Main.getLangFile().getMessages().getBoughtFarmer());
         }
