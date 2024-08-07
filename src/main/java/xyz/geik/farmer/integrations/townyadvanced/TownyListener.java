@@ -87,7 +87,7 @@ public class TownyListener implements Listener {
      */
     @EventHandler
     public void townLeaveEvent(@NotNull TownLeaveEvent e) {
-        kickAndLeaveEvent(e.getTown().getUUID().toString(), e.getResident().getPlayer().getUniqueId());
+        kickAndLeaveEvent(e.getTown().getUUID().toString(), e.getResident().getUUID());
     }
 
     /**
@@ -96,7 +96,7 @@ public class TownyListener implements Listener {
      */
     @EventHandler
     public void townKickEvent(@NotNull TownKickEvent e) {
-        kickAndLeaveEvent(e.getTown().getUUID().toString(), e.getKickedResident().getPlayer().getUniqueId());
+        kickAndLeaveEvent(e.getTown().getUUID().toString(), e.getKickedResident().getUUID());
     }
 
     /**
