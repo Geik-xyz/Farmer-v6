@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
         <!-- SuperiorAPI -->
@@ -110,6 +110,13 @@
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.11.6</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- ShopGui+ -->
+        <dependency>
+            <groupId>com.github.brcdev-minecraft</groupId>
+            <artifactId>shopgui-api</artifactId>
+            <version>3.0.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

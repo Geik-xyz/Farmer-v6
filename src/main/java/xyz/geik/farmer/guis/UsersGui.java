@@ -19,7 +19,9 @@ import xyz.geik.glib.shades.inventorygui.GuiElementGroup;
 import xyz.geik.glib.shades.inventorygui.InventoryGui;
 import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Gui of user list

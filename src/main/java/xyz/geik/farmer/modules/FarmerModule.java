@@ -2,17 +2,12 @@ package xyz.geik.farmer.modules;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.shades.storage.Config;
-import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.module.GModule;
 import xyz.geik.glib.module.ModuleManager;
 

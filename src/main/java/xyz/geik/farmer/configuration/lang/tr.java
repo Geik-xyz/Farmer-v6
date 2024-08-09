@@ -4,7 +4,6 @@ package xyz.geik.farmer.configuration.lang;
 import lombok.Getter;
 import lombok.Setter;
 import xyz.geik.farmer.configuration.LangFile;
-import xyz.geik.glib.shades.okaeri.configs.OkaeriConfig;
 import xyz.geik.glib.shades.okaeri.configs.annotation.Comment;
 import xyz.geik.glib.shades.okaeri.configs.annotation.NameModifier;
 import xyz.geik.glib.shades.okaeri.configs.annotation.NameStrategy;

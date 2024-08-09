@@ -3,7 +3,6 @@ package xyz.geik.farmer.api.handlers;
 import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.Farmer;
 
 /**
