@@ -436,6 +436,8 @@ public class Main extends JavaPlugin {
 * [GriefPrevention](https://www.spigotmc.org/resources/griefprevention.1884/)
 * [SuperiorSkyblock2](https://github.com/BG-Software-LLC/SuperiorSkyblock2)
 * [TownyAdvanced](https://www.spigotmc.org/resources/towny-advanced.72694/)
+* [IridiumSkyblock](https://www.spigotmc.org/resources/iridium-skyblock-1-13-1-20-%E2%AD%90now-with-ai%E2%AD%90.62480/)
+* [UltimateClaims](https://songoda.com/product/ultimateclaims-14)
 
 ## Contributing
 
