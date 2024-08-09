@@ -42,12 +42,10 @@ public class SpawnerKillerEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCreatureEvent(@NotNull CreatureSpawnEvent e) {
         Entity en = e.getEntity();
-        if (en instanceof Damageable) {
-            if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.MOUNT)
-                    || e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.JOCKEY))
-                e.setCancelled(true);
+        if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.MOUNT)
+                || e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.JOCKEY))
+            e.setCancelled(true);
 
-        }
     }
 
     /**
