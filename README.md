@@ -439,6 +439,17 @@ public class Main extends JavaPlugin {
 * [IridiumSkyblock](https://www.spigotmc.org/resources/iridium-skyblock-1-13-1-20-%E2%AD%90now-with-ai%E2%AD%90.62480/)
 * [UltimateClaims](https://songoda.com/product/ultimateclaims-14)
 
+## ★ Big Contributions (Many Thanks) ★
+
+- Economy System Developed by @amownyy
+- Added IridiumSkyblock & UltimateClaims support by @Khontrom
+- MySQL System Developed by @amownyy
+- Fabledskyblock Integration by @mehmet-27
+- Added Towny Advanced support by @amownyy
+- New Module system big helps by @amownyy
+
+> And also thanks for @WaterArchery, @Justman100, @efekurbann, @rudde0, @Heron4gf, @adabugra for improvement and bug fixes!
+
 ## Contributing
 
 We welcome contributions from the community! If you would like to contribute, please follow these guidelines:
