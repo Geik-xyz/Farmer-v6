@@ -118,6 +118,7 @@ public class Main extends JavaPlugin {
         simplixStorageAPI = new SimplixStorageAPI(this);
         setupFiles();
         setupDatabase();
+
     }
 
     /**
