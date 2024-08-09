@@ -14,9 +14,11 @@ xyz.geik.farmer.integrations.askyblock
 xyz.geik.farmer.integrations.bentobox
 xyz.geik.farmer.integrations.fabledskyblock
 xyz.geik.farmer.integrations.grief
+xyz.geik.farmer.integrations.iridiumskyblock
 xyz.geik.farmer.integrations.lands
 xyz.geik.farmer.integrations.superior
 xyz.geik.farmer.integrations.townyadvanced
+xyz.geik.farmer.integrations.ultimateclaims
 xyz.geik.farmer.listeners
 xyz.geik.farmer.listeners.backend
 xyz.geik.farmer.model
