@@ -28,9 +28,9 @@ public class SpawnerKiller extends FarmerModule {
 
     private static SpawnerKillerGuiCreateEvent spawnerKillerGuiCreateEvent;
 
-    private List<String> whitelist = new ArrayList<>();
+    private final List<String> whitelist = new ArrayList<>();
 
-    private List<String> blacklist = new ArrayList<>();
+    private final List<String> blacklist = new ArrayList<>();
 
     private boolean requireFarmer = false, cookFoods = false, removeMob = true, defaultStatus = false;
 
@@ -58,9 +58,9 @@ public class SpawnerKiller extends FarmerModule {
         cookFoods = Main.getModulesFile().getSpawnerKiller().isCookFoods();
         requireFarmer = Main.getModulesFile().getSpawnerKiller().isRequireFarmer();
         if (Main.getModulesFile().getSpawnerKiller().getMode().equals("whitelist"))
-            getLang().getTextList("settings.whitelist").forEach(whitelist::add);
+            whitelist.addAll(Main.getModulesFile().getSpawnerKiller().getWhitelist());
         if (Main.getModulesFile().getSpawnerKiller().getMode().equals("blacklist"))
-            getLang().getTextList("settings.blacklist").forEach(blacklist::add);
+            blacklist.addAll(Main.getModulesFile().getSpawnerKiller().getBlacklist());
     }
 
     /**

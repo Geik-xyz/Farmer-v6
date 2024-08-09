@@ -34,7 +34,7 @@ public class SpawnerMetaEvent {
             return;
 
         SpawnerMeta sm = (SpawnerMeta) Bukkit.getPluginManager().getPlugin("SpawnerMeta");
-
+        assert sm != null;
         APIInstance api = sm.getAPI();
 
         api.register(SpawnerPostSpawnEvent.class, e -> {
