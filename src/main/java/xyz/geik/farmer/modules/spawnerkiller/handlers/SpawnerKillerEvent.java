@@ -56,14 +56,20 @@ public class SpawnerKillerEvent implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onSpawnerSpawnEvent(SpawnerSpawnEvent e) {
         try {
+            // If there is any farmer to disable spawner killer
+            try {
+                if (FarmerAPI.getFarmerManager().hasFarmer(e.getLocation())) {
+                    Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(e.getLocation()));
+                    if (!farmer.getAttributeStatus("spawnerkiller"))
+                        return;
+                }
+            }
+            catch (Exception ignored) {}
+
             if (SpawnerKiller.getInstance().isRequireFarmer()) {
                 if (!FarmerAPI.getFarmerManager().hasFarmer(e.getLocation()))
                     return;
-                Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(e.getLocation()));
-                if (!farmer.getAttributeStatus("spawnerkiller"))
-                    return;
             }
-
             Entity entity = e.getEntity();
 
             if (entity instanceof Damageable) {
