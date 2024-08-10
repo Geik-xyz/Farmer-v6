@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.handlers.FarmerBoughtEvent;
 import xyz.geik.farmer.api.handlers.FarmerRemoveEvent;
 import xyz.geik.farmer.api.managers.FarmerManager;

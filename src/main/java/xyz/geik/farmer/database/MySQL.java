@@ -4,10 +4,6 @@ import lombok.Getter;
 import xyz.geik.farmer.Main;
 import xyz.geik.glib.database.DatabaseAPI;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 /**
  * MySQL class for database connection
  *

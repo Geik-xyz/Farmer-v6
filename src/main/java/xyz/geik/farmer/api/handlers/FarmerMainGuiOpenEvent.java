@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.glib.shades.inventorygui.InventoryGui;
 

@@ -1,12 +1,8 @@
 package xyz.geik.farmer.integrations.ultimateclaims;
 
-import com.craftaro.ultimateclaims.claim.Claim;
 import org.bukkit.Location;
-import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.integrations.Integrations;
-import xyz.geik.farmer.model.user.FarmerPerm;
 
-import java.util.Optional;
 import java.util.UUID;
 
 /**
