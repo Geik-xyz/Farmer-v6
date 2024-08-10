@@ -125,14 +125,4 @@ public class FarmerItem {
 		}).collect(Collectors.toList());
 		return result;
 	}
-
-	@Override
-	public String toString() {
-		return "FarmerItem{" +
-				"name='" + name + '\'' +
-				", price=" + price +
-				", amount=" + amount +
-				", material=" + material +
-				'}';
-	}
 }

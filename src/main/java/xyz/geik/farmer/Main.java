@@ -18,6 +18,7 @@ import xyz.geik.farmer.database.SQLite;
 import xyz.geik.farmer.helpers.CacheLoader;
 import xyz.geik.farmer.helpers.WorldHelper;
 import xyz.geik.farmer.integrations.Integrations;
+import xyz.geik.farmer.integrations.shopgui.ShopGuiHook;
 import xyz.geik.farmer.listeners.ListenerRegister;
 import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
@@ -54,214 +55,224 @@ import java.util.Map;
 @Getter
 public class Main extends JavaPlugin {
 
-    /**
-     * Listener list of modules
-     */
-    public Map<FarmerModule, Listener> listenerList = new HashMap<>();
+	/**
+	 * Listener list of modules
+	 */
+	public Map<FarmerModule, Listener> listenerList = new HashMap<>();
 
-    @Getter @Setter
-    private SimplixStorageAPI simplixStorageAPI;
+	@Getter
+	@Setter
+	private SimplixStorageAPI simplixStorageAPI;
 
-    @Getter
-    private ModuleManager moduleManager;
+	@Getter
+	private ModuleManager moduleManager;
 
-    @Getter @Setter
-    private static Database database;
+	@Getter
+	@Setter
+	private static Database database;
 
-    @Getter
-    private static SQL sql = null;
+	@Getter
+	private static SQL sql = null;
 
-    @Getter @Setter
-    private static Economy economy;
+	@Getter
+	@Setter
+	private static Economy economy;
 
-    /**
-     * Instance of this class
-     */
-    @Getter
-    private static Main instance;
+	/**
+	 * Instance of this class
+	 */
+	@Getter
+	private static Main instance;
 
-    /**
-     * Config files which using SimplixStorage API for it.
-     * Also, you can find usage code of API on helpers#StorageAPI
-     */
-    @Getter
-    private static Config itemsFile, levelFile;
+	/**
+	 * Config files which using SimplixStorage API for it.
+	 * Also, you can find usage code of API on helpers#StorageAPI
+	 */
+	@Getter
+	private static Config itemsFile, levelFile;
 
-    @Getter
-    private static LangFile langFile;
+	@Getter
+	private static LangFile langFile;
 
-    @Getter
-    private static ConfigFile configFile;
+	@Getter
+	private static ConfigFile configFile;
 
-    @Getter
-    private static ModulesFile modulesFile;
+	@Getter
+	private static ModulesFile modulesFile;
 
-    /**
-     * Main integration of plugin integrations#Integrations
-     */
-    @Getter
-    @Setter
-    private static Integrations integration;
+	/**
+	 * Main integration of plugin integrations#Integrations
+	 */
+	@Getter
+	@Setter
+	private static Integrations integration;
 
-    /**
-     * CommandManager
-     */
-    @Getter
-    private static BukkitCommandManager<CommandSender> commandManager;
+	/**
+	 * CommandManager
+	 */
+	@Getter
+	private static BukkitCommandManager<CommandSender> commandManager;
 
 
-    /**
-     * Loading files before enable
-     */
-    public void onLoad() {
-        instance = this;
-        simplixStorageAPI = new SimplixStorageAPI(this);
-        setupFiles();
-        setupDatabase();
+	/**
+	 * Loading files before enable
+	 */
+	public void onLoad() {
+		instance = this;
+		simplixStorageAPI = new SimplixStorageAPI(this);
+		setupFiles();
+		setupDatabase();
 
-    }
+	}
 
-    /**
-     * onEnable method calls from spigot api.
-     * This is sort of the main(String... args) method.
-     */
-    public void onEnable() {
-        FarmerAPI.getFarmerManager();
-        Integrations.registerIntegrations();
-        new GLib(this, getLangFile().getMessages().getPrefix());
-        // API Installer
-        CacheLoader.loadAllItems();
-        CacheLoader.loadAllLevels();
-        registerEconomy();
-        setupCommands();
-        sendEnableMessage();
-        getSql().loadAllFarmers();
-        new ListenerRegister();
-        loadMetrics();
-        registerModules();
-    }
+	/**
+	 * onEnable method calls from spigot api.
+	 * This is sort of the main(String... args) method.
+	 */
+	public void onEnable() {
+		FarmerAPI.getFarmerManager();
+		Integrations.registerIntegrations();
+		new GLib(this, getLangFile().getMessages().getPrefix());
+		// API Installer
+		CacheLoader.loadAllItems();
+		CacheLoader.loadAllLevels();
+		registerEconomy();
+		setupCommands();
+		sendEnableMessage();
+		getSql().loadAllFarmers();
+		new ListenerRegister();
+		loadMetrics();
+		registerModules();
+		if (getServer().getPluginManager().getPlugin("ShopGUIPlus") != null) {
+			Main.getInstance().getLogger().info("ShopGui+ support added. Farmer will update prices according to ShopGui+ if available.");
+			getServer().getPluginManager().registerEvents(new ShopGuiHook(), this);
+		} else {
 
-    /**
-     * disable method calls from spigot api.
-     * executing it right before close.
-     * async tasks can be fail because server
-     * can't handle async tasks while shutting down
-     */
-    public void onDisable() {
-        getSql().updateAllFarmers();
-    }
+		}
+	}
 
-    /**
-     * Setups config, lang and modules file file
-     */
-    public void setupFiles() {
-        try {
-            configFile = ConfigManager.create(ConfigFile.class, (it) -> {
-                it.withConfigurer(new YamlBukkitConfigurer());
-                it.withBindFile(new File(getDataFolder(), "config.yml"));
-                it.saveDefaults();
-                it.load(true);
-            });
-            modulesFile = ConfigManager.create(ModulesFile.class, (it) -> {
-                it.withConfigurer(new YamlBukkitConfigurer());
-                it.withBindFile(new File(getDataFolder(), "modules.yml"));
-                it.saveDefaults();
-                it.load(true);
-            });
-            String langName = configFile.getSettings().getLang();
-            Class langClass = Class.forName("xyz.geik.farmer.configuration.lang." + langName);
-            Class<LangFile> languageClass = langClass;
-            this.langFile = ConfigManager.create(languageClass, (it) -> {
-                it.withConfigurer(new YamlBukkitConfigurer());
-                it.withBindFile(new File(getDataFolder() + "/lang", langName + ".yml"));
-                it.saveDefaults();
-                it.load(true);
-            });
-            itemsFile = getSimplixStorageAPI().initConfig("items");
-            levelFile = getSimplixStorageAPI().initConfig("levels");
-            WorldHelper.loadAllowedWorlds();
-        } catch (Exception exception) {
-            getPluginLoader().disablePlugin(this);
-            throw new RuntimeException("Error loading configuration file");
-        }
-    }
+	/**
+	 * disable method calls from spigot api.
+	 * executing it right before close.
+	 * async tasks can be fail because server
+	 * can't handle async tasks while shutting down
+	 */
+	public void onDisable() {
+		getSql().updateAllFarmers();
+	}
 
-    /**
-     * Setups database
-     */
-    private void setupDatabase() {
-        DatabaseType type = DatabaseType.getDatabaseType(getConfigFile().getDatabase().getDatabaseType());
-        if (type.equals(DatabaseType.SQLite))
-            this.sql = new SQLite();
-        else
-            this.sql = new MySQL();
-    }
+	/**
+	 * Setups config, lang and modules file file
+	 */
+	public void setupFiles() {
+		try {
+			configFile = ConfigManager.create(ConfigFile.class, (it) -> {
+				it.withConfigurer(new YamlBukkitConfigurer());
+				it.withBindFile(new File(getDataFolder(), "config.yml"));
+				it.saveDefaults();
+				it.load(true);
+			});
+			modulesFile = ConfigManager.create(ModulesFile.class, (it) -> {
+				it.withConfigurer(new YamlBukkitConfigurer());
+				it.withBindFile(new File(getDataFolder(), "modules.yml"));
+				it.saveDefaults();
+				it.load(true);
+			});
+			String langName = configFile.getSettings().getLang();
+			Class langClass = Class.forName("xyz.geik.farmer.configuration.lang." + langName);
+			Class<LangFile> languageClass = langClass;
+			this.langFile = ConfigManager.create(languageClass, (it) -> {
+				it.withConfigurer(new YamlBukkitConfigurer());
+				it.withBindFile(new File(getDataFolder() + "/lang", langName + ".yml"));
+				it.saveDefaults();
+				it.load(true);
+			});
+			itemsFile = getSimplixStorageAPI().initConfig("items");
+			levelFile = getSimplixStorageAPI().initConfig("levels");
+			WorldHelper.loadAllowedWorlds();
+		} catch (Exception exception) {
+			getPluginLoader().disablePlugin(this);
+			throw new RuntimeException("Error loading configuration file");
+		}
+	}
 
-    /**
-     * Registers economy
-     */
-    private void registerEconomy() {
-        Main.economy = new EconomyAPI(this, getConfigFile().getSettings().getEconomy()).getEconomy();
-    }
+	/**
+	 * Setups database
+	 */
+	private void setupDatabase() {
+		DatabaseType type = DatabaseType.getDatabaseType(getConfigFile().getDatabase().getDatabaseType());
+		if (type.equals(DatabaseType.SQLite))
+			this.sql = new SQLite();
+		else
+			this.sql = new MySQL();
+	}
 
-    /**
-     * Register modules to this plugin
-     */
-    private void registerModules() {
-        this.moduleManager = new ModuleManager();
-        getModuleManager().registerModule(new Voucher());
-        getModuleManager().registerModule(new SpawnerKiller());
-        getModuleManager().registerModule(new Geyser());
-        getModuleManager().registerModule(new Production());
-        getModuleManager().registerModule(new AutoSeller());
-        getModuleManager().registerModule(new AutoHarvest());
-        getModuleManager().enableModules();
-        FarmerModule.calculateModulesUseGui();
-    }
+	/**
+	 * Registers economy
+	 */
+	private void registerEconomy() {
+		Main.economy = new EconomyAPI(this, getConfigFile().getSettings().getEconomy()).getEconomy();
+	}
 
-    /**
-     * Sends enable message to console.
-     */
-    private static void sendEnableMessage() {
-        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&6&l		FARMER 		&b"));
-        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aDeveloped by &2Geik"));
-        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aContributors &2" + Arrays.toString(Main.getInstance().getDescription().getAuthors().toArray())));
-        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aDiscord: &2https://discord.geik.xyz"));
-        Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aWeb: &2https://geik.xyz"));
-    }
+	/**
+	 * Register modules to this plugin
+	 */
+	private void registerModules() {
+		this.moduleManager = new ModuleManager();
+		getModuleManager().registerModule(new Voucher());
+		getModuleManager().registerModule(new SpawnerKiller());
+		getModuleManager().registerModule(new Geyser());
+		getModuleManager().registerModule(new Production());
+		getModuleManager().registerModule(new AutoSeller());
+		getModuleManager().registerModule(new AutoHarvest());
+		getModuleManager().enableModules();
+		FarmerModule.calculateModulesUseGui();
+	}
 
-    /**
-     * Custom charted metrics loader
-     */
-    private void loadMetrics() {
-        Metrics metrics = new Metrics(Main.instance, 9646);
-        metrics.addCustomChart(new Metrics.SingleLineChart("ciftci_sayisi", () -> FarmerManager.getFarmers().size()));
-        metrics.addCustomChart(new Metrics.SimplePie("api_eklentisi", () -> {
-            String[] data = getIntegration().getClass().getName().split(".");
-            return data[data.length-1];
-        }));
-    }
+	/**
+	 * Sends enable message to console.
+	 */
+	private static void sendEnableMessage() {
+		Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&6&l		FARMER 		&b"));
+		Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aDeveloped by &2Geik"));
+		Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aContributors &2" + Arrays.toString(Main.getInstance().getDescription().getAuthors().toArray())));
+		Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aDiscord: &2https://discord.geik.xyz"));
+		Bukkit.getConsoleSender().sendMessage(ChatUtils.color("&aWeb: &2https://geik.xyz"));
+	}
 
-    /**
-     * Setups commands
-     */
-    private void setupCommands() {
-        commandManager = BukkitCommandManager.create(this);
-        commandManager.registerCommand(new FarmerCommand());
-        commandManager.registerMessage(MessageKey.INVALID_ARGUMENT, (sender, invalidArgumentContext) ->
-                ChatUtils.sendMessage(sender, getLangFile().getMessages().getInvalidArgument()));
-        commandManager.registerMessage(MessageKey.UNKNOWN_COMMAND, (sender, invalidArgumentContext) ->
-                ChatUtils.sendMessage(sender, getLangFile().getMessages().getUnknownCommand()));
-        commandManager.registerMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, (sender, invalidArgumentContext) ->
-                ChatUtils.sendMessage(sender, getLangFile().getMessages().getNotEnoughArguments()));
-        commandManager.registerMessage(MessageKey.TOO_MANY_ARGUMENTS, (sender, invalidArgumentContext) ->
-                ChatUtils.sendMessage(sender, getLangFile().getMessages().getTooManyArguments()));
-        commandManager.registerMessage(BukkitMessageKey.NO_PERMISSION, (sender, invalidArgumentContext) ->
-                ChatUtils.sendMessage(sender, getLangFile().getMessages().getNoPerm()));
-    }
+	/**
+	 * Custom charted metrics loader
+	 */
+	private void loadMetrics() {
+		Metrics metrics = new Metrics(Main.instance, 9646);
+		metrics.addCustomChart(new Metrics.SingleLineChart("ciftci_sayisi", () -> FarmerManager.getFarmers().size()));
+		metrics.addCustomChart(new Metrics.SimplePie("api_eklentisi", () -> {
+			String[] data = getIntegration().getClass().getName().split(".");
+			return data[data.length - 1];
+		}));
+	}
 
-    /**
-     * Constructor of class
-     */
-    public Main() {}
+	/**
+	 * Setups commands
+	 */
+	private void setupCommands() {
+		commandManager = BukkitCommandManager.create(this);
+		commandManager.registerCommand(new FarmerCommand());
+		commandManager.registerMessage(MessageKey.INVALID_ARGUMENT, (sender, invalidArgumentContext) ->
+				ChatUtils.sendMessage(sender, getLangFile().getMessages().getInvalidArgument()));
+		commandManager.registerMessage(MessageKey.UNKNOWN_COMMAND, (sender, invalidArgumentContext) ->
+				ChatUtils.sendMessage(sender, getLangFile().getMessages().getUnknownCommand()));
+		commandManager.registerMessage(MessageKey.NOT_ENOUGH_ARGUMENTS, (sender, invalidArgumentContext) ->
+				ChatUtils.sendMessage(sender, getLangFile().getMessages().getNotEnoughArguments()));
+		commandManager.registerMessage(MessageKey.TOO_MANY_ARGUMENTS, (sender, invalidArgumentContext) ->
+				ChatUtils.sendMessage(sender, getLangFile().getMessages().getTooManyArguments()));
+		commandManager.registerMessage(BukkitMessageKey.NO_PERMISSION, (sender, invalidArgumentContext) ->
+				ChatUtils.sendMessage(sender, getLangFile().getMessages().getNoPerm()));
+	}
+
+	/**
+	 * Constructor of class
+	 */
+	public Main() {
+	}
 }

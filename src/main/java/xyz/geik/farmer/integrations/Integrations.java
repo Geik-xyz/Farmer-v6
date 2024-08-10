@@ -26,66 +26,66 @@ import java.util.UUID;
  */
 public abstract class Integrations {
 
-    /**
-     * Constructor register event of super class
-     * @param listener Listener class of integration
-     */
-    public Integrations(Listener listener) {
-        Bukkit.getPluginManager().registerEvents(listener, Main.getInstance());
-    }
+	/**
+	 * Constructor register event of super class
+	 * @param listener Listener class of integration
+	 */
+	public Integrations(Listener listener) {
+		Bukkit.getPluginManager().registerEvents(listener, Main.getInstance());
+	}
 
-    /**
-     * Getting Owner UUID by Region ID
-     *
-     * @param regionID id of region
-     * @return UUID owner uuid
-     */
-    public abstract UUID getOwnerUUID(String regionID);
+	/**
+	 * Getting Owner UUID by Region ID
+	 *
+	 * @param regionID id of region
+	 * @return UUID owner uuid
+	 */
+	public abstract UUID getOwnerUUID(String regionID);
 
-    /**
-     * Getting Owner UUID by Location of player
-     *
-     * @param location location of region
-     * @return UUID owner uuid
-     */
-    public abstract UUID getOwnerUUID(Location location);
+	/**
+	 * Getting Owner UUID by Location of player
+	 *
+	 * @param location location of region
+	 * @return UUID owner uuid
+	 */
+	public abstract UUID getOwnerUUID(Location location);
 
-    /**
-     *
-     * Getting Region ID by Location of player
-     *
-     * @param location location of region
-     * @return String regionId
-     */
-    public abstract String getRegionID(Location location);
+	/**
+	 *
+	 * Getting Region ID by Location of player
+	 *
+	 * @param location location of region
+	 * @return String regionId
+	 */
+	public abstract String getRegionID(Location location);
 
-    /**
-     * Catches plugin that server uses
-     * and loads integration class of it.
-     */
-    public static void registerIntegrations() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (Bukkit.getPluginManager().isPluginEnabled("SuperiorSkyblock2"))
-                    Main.setIntegration(new SuperiorSkyblock());
-                else if (Bukkit.getPluginManager().isPluginEnabled("GriefPrevention"))
-                    Main.setIntegration(new GriefPrevent());
-                else if (Bukkit.getPluginManager().isPluginEnabled("BentoBox"))
-                    Main.setIntegration(new Bento());
-                else if (Bukkit.getPluginManager().isPluginEnabled("ASkyBlock"))
-                    Main.setIntegration(new Askyblock());
-                else if(Bukkit.getPluginManager().isPluginEnabled("FabledSkyBlock"))
-                    Main.setIntegration(new FabledSkyblock());
-                else if (Bukkit.getPluginManager().isPluginEnabled("Towny"))
-                    Main.setIntegration(new TownyAdvanced());
-                else if (Bukkit.getPluginManager().isPluginEnabled("Lands"))
-                    Main.setIntegration(new Lands());
-                else if (Bukkit.getPluginManager().isPluginEnabled("IridiumSkyblock"))
-                    Main.setIntegration(new IridiumSkyblock());
-                else if (Bukkit.getPluginManager().isPluginEnabled("UltimateClaims"))
-                    Main.setIntegration(new UltimateClaims());
-            }
-        }.runTaskLater(Main.getInstance(), 1);
-    }
+	/**
+	 * Catches plugin that server uses
+	 * and loads integration class of it.
+	 */
+	public static void registerIntegrations() {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (Bukkit.getPluginManager().isPluginEnabled("SuperiorSkyblock2"))
+					Main.setIntegration(new SuperiorSkyblock());
+				else if (Bukkit.getPluginManager().isPluginEnabled("GriefPrevention"))
+					Main.setIntegration(new GriefPrevent());
+				else if (Bukkit.getPluginManager().isPluginEnabled("BentoBox"))
+					Main.setIntegration(new Bento());
+				else if (Bukkit.getPluginManager().isPluginEnabled("ASkyBlock"))
+					Main.setIntegration(new Askyblock());
+				else if(Bukkit.getPluginManager().isPluginEnabled("FabledSkyBlock"))
+					Main.setIntegration(new FabledSkyblock());
+				else if (Bukkit.getPluginManager().isPluginEnabled("Towny"))
+					Main.setIntegration(new TownyAdvanced());
+				else if (Bukkit.getPluginManager().isPluginEnabled("Lands"))
+					Main.setIntegration(new Lands());
+				else if (Bukkit.getPluginManager().isPluginEnabled("IridiumSkyblock"))
+					Main.setIntegration(new IridiumSkyblock());
+				else if (Bukkit.getPluginManager().isPluginEnabled("UltimateClaims"))
+					Main.setIntegration(new UltimateClaims());
+			}
+		}.runTaskLater(Main.getInstance(), 1);
+	}
 }
