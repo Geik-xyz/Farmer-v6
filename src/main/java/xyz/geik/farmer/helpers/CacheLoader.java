@@ -2,6 +2,7 @@ package xyz.geik.farmer.helpers;
 
 import org.bukkit.Bukkit;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.handlers.FarmerPreLoadItemEvent;
 import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.inventory.FarmerItem;
@@ -32,7 +33,9 @@ public class CacheLoader {
             }
             double price = config.contains("Items." + key + ".price") ? config.getDouble("Items." + key + ".price") : -1.0;
             FarmerItem defaultItem = new FarmerItem(key, price, 0);
-            FarmerInv.defaultItems.add(defaultItem);
+            FarmerPreLoadItemEvent loadingEvent = new FarmerPreLoadItemEvent(defaultItem);
+            Bukkit.getPluginManager().callEvent(loadingEvent);
+            FarmerInv.defaultItems.add(loadingEvent.getFarmerItem());
         });
     }
 
