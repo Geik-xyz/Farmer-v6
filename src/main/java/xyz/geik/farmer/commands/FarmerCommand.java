@@ -193,6 +193,7 @@ public class FarmerCommand extends BaseCommand {
             // Regenerates settings
             Main.getConfigFile().load(true);
             Main.getLangFile().load(true);
+            Main.getModulesFile().load(true);
             // Reloading items it also clears old list
             // Reloading levels it also clears old list
             CacheLoader.loadAllItems();
