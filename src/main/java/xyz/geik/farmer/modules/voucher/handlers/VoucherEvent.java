@@ -65,23 +65,26 @@ public class VoucherEvent implements Listener {
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNotOwner());
             return;
         }
-        if (FarmerManager.getFarmers().containsKey(Main.getIntegration().getRegionID(player.getLocation()))) {
-            if (Main.getModulesFile().getVoucher().isUseWhenFarmerExist()) {
-                Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(player.getLocation()));
-                if ((voucherLevel-1) > FarmerLevel.getAllLevels().indexOf(farmer.getLevel())) {
-                    farmer.setLevel(FarmerLevel.getAllLevels().get(voucherLevel-1));
-                    player.sendMessage(Voucher.getInstance().getLang().getText("changedLevel")
-                            .replace("%level%", voucherLevel+""));
-                    XSound.ENTITY_PLAYER_LEVELUP.play(player);
-                    descentVoucher(player, event.getItem());
-                    return;
-                }
-                else
-                    player.sendMessage(Voucher.getInstance().getLang().getText("levelHigher"));
+        try {
+            if (FarmerManager.getFarmers().containsKey(Main.getIntegration().getRegionID(player.getLocation()))) {
+                if (Main.getModulesFile().getVoucher().isUseWhenFarmerExist()) {
+                    Farmer farmer = FarmerManager.getFarmers().get(Main.getIntegration().getRegionID(player.getLocation()));
+                    if ((voucherLevel - 1) > FarmerLevel.getAllLevels().indexOf(farmer.getLevel())) {
+                        farmer.setLevel(FarmerLevel.getAllLevels().get(voucherLevel - 1));
+                        player.sendMessage(Voucher.getInstance().getLang().getText("changedLevel")
+                                .replace("%level%", voucherLevel + ""));
+                        XSound.ENTITY_PLAYER_LEVELUP.play(player);
+                        descentVoucher(player, event.getItem());
+                        return;
+                    } else
+                        player.sendMessage(Voucher.getInstance().getLang().getText("levelHigher"));
+                } else
+                    player.sendMessage(Voucher.getInstance().getLang().getText("alreadyHaveFarmer"));
+                return;
             }
-            else
-                player.sendMessage(Voucher.getInstance().getLang().getText("alreadyHaveFarmer"));
-            return;
+        }
+        catch (Exception e1) {
+         return;
         }
         // Creates new farmer
         Farmer farmer = new Farmer(Main.getIntegration()
