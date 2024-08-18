@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Utility class for unregistering commands
  *
- * @author Geik
+ * @author Efe Kurban (hyperion), CraftLuna, TriumphTeam
  */
 public class CommandHelper {
 
