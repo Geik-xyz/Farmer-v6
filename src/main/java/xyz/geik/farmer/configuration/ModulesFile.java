@@ -117,6 +117,9 @@ public class ModulesFile extends OkaeriConfig {
         @Comment({"if you want to use geyser module",
                 "set feature to true."})
         private boolean status = false;
+
+        @Comment({"Sell-all Args"})
+        private List<String> sellAllCommands = Arrays.asList("all", "whole", "hepsi");
     }
 
     @Comment("Spawner Killer Module")

@@ -1,0 +1,13 @@
+geyserDisabled: "&6Farmer &8▸ &cSell command is disabled."
+cantFindTheItem: "&6Farmer &8▸ &cItem could not be found."
+noPerm: "&6Farmer &8▸ &cYou don't have permission for execute this command."
+
+sellAllCommands:
+  - "all"
+  - "whole"
+  - "entire"
+
+sellReplace:
+  - "cac:cactus"
+  - "pota:potato"
+  - "car:carrot"
