@@ -16,6 +16,7 @@ import xyz.geik.farmer.database.MySQL;
 import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
 import xyz.geik.farmer.helpers.CacheLoader;
+import xyz.geik.farmer.helpers.CommandHelper;
 import xyz.geik.farmer.helpers.WorldHelper;
 import xyz.geik.farmer.integrations.Integrations;
 import xyz.geik.farmer.listeners.ListenerRegister;
@@ -148,6 +149,7 @@ public class Main extends JavaPlugin {
      */
     public void onDisable() {
         getSql().updateAllFarmers();
+        CommandHelper.unregisterCommands();
     }
 
     /**
