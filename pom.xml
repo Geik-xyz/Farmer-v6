@@ -126,6 +126,13 @@
             <version>2.2.1</version>
             <scope>provided</scope>
         </dependency>
+        <!-- RClaim -->
+        <dependency>
+            <groupId>net.weesli</groupId>
+            <artifactId>weesli-rclaim</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 
     <!-- Repos -->
@@ -221,8 +228,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
             <plugin>
