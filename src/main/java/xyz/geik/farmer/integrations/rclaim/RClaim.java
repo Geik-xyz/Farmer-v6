@@ -47,6 +47,11 @@ public class RClaim extends Integrations {
      */
     @Override
     public String getRegionID(Location location) {
-        return RClaimAPI.getInstance().getClaim(location.getChunk()).getID();
+        Claim claim = RClaimAPI.getInstance().getClaim(location.getChunk());
+        Optional<Claim> center_claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(claim.getOwner())).filter(Claim::isCenter).findFirst();
+        if (center_claim.isPresent()){
+            return center_claim.get().getID();
+        }
+        return "";
     }
 }
