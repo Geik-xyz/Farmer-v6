@@ -11,11 +11,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
+import xyz.geik.farmer.api.handlers.FarmerBoughtEvent;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.user.FarmerPerm;
+import xyz.geik.farmer.model.user.User;
 import xyz.geik.glib.chat.ChatUtils;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class RClaimListener implements Listener {
@@ -44,7 +47,8 @@ public class RClaimListener implements Listener {
         Claim claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(e.getTruster().getUniqueId())).toList().get(0);
         if (!FarmerManager.getFarmers().containsKey(claim.getID())) return;
         Farmer farmer = FarmerManager.getFarmers().get(claim.getID());
-        farmer.removeUser(farmer.getUsersWithoutOwner().stream().filter(u -> u.getUuid().equals(e.getTrusted().getUniqueId())).findFirst().get());
+        Optional<User> user = farmer.getUsersWithoutOwner().stream().filter(u -> u.getUuid().equals(e.getTrusted().getUniqueId())).findFirst();
+        user.ifPresent(farmer::removeUser);
     }
 
 
@@ -52,6 +56,21 @@ public class RClaimListener implements Listener {
     public void deleteClaim(ClaimDeleteEvent e){
         if (FarmerManager.farmers.containsKey(e.getClaim().getID())){
             FarmerAPI.getFarmerManager().removeFarmer(e.getClaim().getID());
+        }
+    }
+
+    /**
+     * Authorize existing players if the right holder later buys a farmer
+     */
+    @EventHandler
+    public void buyFarmer(FarmerBoughtEvent e) {
+        String claimId = e.getFarmer().getRegionID();
+        Optional<Claim> center_claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(e.getFarmer().getOwnerUUID())).filter(Claim::isCenter).findFirst();
+        if (!center_claim.isPresent()) return;
+        e.getFarmer().setRegionID(claimId);
+        Claim claim = RClaimAPI.getInstance().getClaim(claimId);
+        for (UUID member : claim.getMembers()) {
+            e.getFarmer().addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
         }
     }
 }
