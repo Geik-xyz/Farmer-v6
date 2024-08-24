@@ -131,6 +131,7 @@
             <groupId>net.weesli</groupId>
             <artifactId>weesli-rclaim</artifactId>
             <version>1.2.0</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
