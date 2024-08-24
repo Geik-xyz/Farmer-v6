@@ -40,6 +40,7 @@ public class RClaim extends Integrations {
         return UUID.randomUUID();
     }
 
+
     /**
      *
      * @param location location of region
