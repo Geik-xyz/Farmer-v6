@@ -24,6 +24,7 @@ import java.util.UUID;
 public class RClaimListener implements Listener {
 
 
+    // When a player creates a claim, if the automatic farmer is on, a farmer is added to the claim point.
     @EventHandler
     public void createClaim(ClaimCreateEvent e){
         String claimId = e.getClaim().getID();
@@ -32,6 +33,7 @@ public class RClaimListener implements Listener {
             ChatUtils.sendMessage(e.getSender(), Main.getLangFile().getMessages().getBoughtFarmer());
         }
     }
+    // After a claimant adds a player to their territory, the added player is granted farmer access
 
     @EventHandler
     public void trustPlayer(TrustedPlayerEvent e){
@@ -42,6 +44,7 @@ public class RClaimListener implements Listener {
         farmer.addUser(target,Bukkit.getOfflinePlayer(target).getName(), FarmerPerm.COOP);
     }
 
+    // If the requester removes a trusted player from the demand zone, farmer access is terminated
     @EventHandler
     public void untrustPlayer(UnTrustedPlayerEvent e){
         Claim claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(e.getTruster().getUniqueId())).toList().get(0);
@@ -51,7 +54,7 @@ public class RClaimListener implements Listener {
         user.ifPresent(farmer::removeUser);
     }
 
-
+    // When a claim is deleted, the farmer is removed as well
     @EventHandler
     public void deleteClaim(ClaimDeleteEvent e){
         if (FarmerManager.farmers.containsKey(e.getClaim().getID())){
@@ -59,9 +62,7 @@ public class RClaimListener implements Listener {
         }
     }
 
-    /**
-     * Authorize existing players if the right holder later buys a farmer
-     */
+    // When the farmer is subsequently purchased, access is granted to all members in the Region.
     @EventHandler
     public void buyFarmer(FarmerBoughtEvent e) {
         String claimId = e.getFarmer().getRegionID();
