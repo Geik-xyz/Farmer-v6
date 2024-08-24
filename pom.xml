@@ -137,10 +137,6 @@
 
     <!-- Repos -->
     <repositories>
-        <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/Weesli/RClaim</url>
-        </repository>
         <!-- FabledSkyblock -->
         <repository>
             <id>craftaro-minecraft-plugins</id>
