@@ -11,6 +11,7 @@ import xyz.geik.farmer.integrations.fabledskyblock.FabledSkyblock;
 import xyz.geik.farmer.integrations.grief.GriefPrevent;
 import xyz.geik.farmer.integrations.iridiumskyblock.IridiumSkyblock;
 import xyz.geik.farmer.integrations.lands.Lands;
+import xyz.geik.farmer.integrations.rclaim.RClaim;
 import xyz.geik.farmer.integrations.superior.SuperiorSkyblock;
 import xyz.geik.farmer.integrations.townyadvanced.TownyAdvanced;
 import xyz.geik.farmer.integrations.ultimateclaims.UltimateClaims;
@@ -85,6 +86,9 @@ public abstract class Integrations {
                     Main.setIntegration(new IridiumSkyblock());
                 else if (Bukkit.getPluginManager().isPluginEnabled("UltimateClaims"))
                     Main.setIntegration(new UltimateClaims());
+                else if(Bukkit.getPluginManager().isPluginEnabled("RClaim")){
+                    Main.setIntegration(new RClaim());
+                }
             }
         }.runTaskLater(Main.getInstance(), 1);
     }
