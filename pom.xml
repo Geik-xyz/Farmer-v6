@@ -128,16 +128,19 @@
         </dependency>
         <!-- RClaim -->
         <dependency>
-            <groupId>net.weesli</groupId>
-            <artifactId>weesli-rclaim</artifactId>
+            <groupId>com.github.Weesli</groupId>
+            <artifactId>RClaim</artifactId>
             <version>1.2.0</version>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>
 
     <!-- Repos -->
     <repositories>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/Weesli/RClaim</url>
+        </repository>
         <!-- FabledSkyblock -->
         <repository>
             <id>craftaro-minecraft-plugins</id>
