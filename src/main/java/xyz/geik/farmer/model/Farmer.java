@@ -11,6 +11,7 @@ import xyz.geik.farmer.model.user.User;
 import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
 import xyz.geik.farmer.modules.autoseller.AutoSeller;
 import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
+import xyz.geik.glib.chat.ChatUtils;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -186,8 +187,9 @@ public class Farmer implements Cloneable {
      */
     public void addUser(UUID uuid, String name) {
         String defaultRole = Main.getConfigFile().getSettings().getDefaultJoinRole();
-        if (defaultRole == "OWNER")
+        if (defaultRole.equals("OWNER")){
             defaultRole = "COOP";
+        }
         addUser(uuid, name, FarmerPerm.getRoleByName(defaultRole));
     }
 
