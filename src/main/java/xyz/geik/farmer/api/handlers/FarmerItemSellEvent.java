@@ -1,6 +1,7 @@
 package xyz.geik.farmer.api.handlers;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -33,6 +34,14 @@ public class FarmerItemSellEvent extends Event {
      * @see OfflinePlayer
      */
     private final OfflinePlayer offlinePlayer;
+
+    /**
+     * Is sell type is geyser
+     * @see xyz.geik.farmer.modules.geyser.Geyser
+     */
+    @Getter
+    @Setter
+    private boolean isGeyser = false;
 
     /**
      * FarmerItemSellEvent constructor with Farmer, FarmerItem and OfflinePlayer

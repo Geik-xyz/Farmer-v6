@@ -1,0 +1,13 @@
+geyserDisabled: "&6Çiftçi &8▸ &cSat komutu devre dışı."
+cantFindTheItem: "&6Çiftçi &8▸ &cEşya bulunamadı!"
+noPerm: "&6Çiftçi &8▸ &cBunu yapmak için yetkin yok!"
+
+sellAllCommands:
+  - "hepsi"
+  - "tüm"
+  - "all"
+
+sellReplace:
+  - "kaktüs:cactus"
+  - "patates:potato"
+  - "havuç:carrot"
