@@ -32,6 +32,7 @@ xyz.geik.farmer.modules.autoseller
 xyz.geik.farmer.modules.autoseller.handlers
 xyz.geik.farmer.modules.exceptions
 xyz.geik.farmer.modules.geyser
+xyz.geik.farmer.modules.geyser.commands
 xyz.geik.farmer.modules.geyser.gui
 xyz.geik.farmer.modules.production
 xyz.geik.farmer.modules.production.handlers
