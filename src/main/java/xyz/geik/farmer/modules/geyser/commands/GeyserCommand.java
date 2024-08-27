@@ -70,7 +70,7 @@ public class GeyserCommand extends BaseCommand {
             // Sell All command
             if (Geyser.getSellAllCommands().stream().anyMatch(cmd -> cmd.equalsIgnoreCase(item)))
                 executeSellEvent(farmer, player, null);
-            // Sell only one item command
+                // Sell only one item command
             else
                 executeSellEvent(farmer, player, item);
         }
@@ -93,25 +93,39 @@ public class GeyserCommand extends BaseCommand {
             // If replacer matches then replace the item
             // Sells only one item
             if (item != null) {
-                if (Geyser.getNameReplacer().containsKey(item))
-                    item = Geyser.getNameReplacer().get(item);
-                String checkMaterial = item;
-                // If default items does not contain the material
-                if (FarmerInv.defaultItems.stream()
-                        .noneMatch(defaultItem -> defaultItem.getMaterial().toString().equalsIgnoreCase(checkMaterial))) {
-                    player.sendMessage(Geyser.getInstance().getLang().getText("cantFindTheItem"));
+                if (player.hasPermission("farmer.sell." + item.toLowerCase(Locale.ROOT))) {
+                    if (Geyser.getNameReplacer().containsKey(item))
+                        item = Geyser.getNameReplacer().get(item);
+                    String checkMaterial = item;
+                    // If default items does not contain the material
+                    if (FarmerInv.defaultItems.stream()
+                            .noneMatch(defaultItem -> defaultItem.getMaterial().toString().equalsIgnoreCase(checkMaterial))) {
+                        player.sendMessage(Geyser.getInstance().getLang().getText("cantFindTheItem"));
+                        return;
+                    }
+                    FarmerItem toSell = farmer.getInv().getStockedItem(XMaterial.valueOf(item.toUpperCase(Locale.ENGLISH)));
+                    sellItem(farmer, player, toSell);
                     return;
                 }
-                FarmerItem toSell = farmer.getInv().getStockedItem(XMaterial.valueOf(item.toUpperCase(Locale.ENGLISH)));
-                sellItem(farmer, player, toSell);
             }
             else {
-                // Loops all the items
-                farmer.getInv().getItems().forEach(farmerItem -> sellItem(farmer, player, farmerItem));
+                if (player.hasPermission("farmer.sell.all")) {
+                    // Loops all the items
+                    farmer.getInv().getItems().forEach(farmerItem -> sellItem(farmer, player, farmerItem));
+                    return;
+                }
             }
         }
-        else
-            player.sendMessage(Geyser.getInstance().getLangFile().getText("noPerm"));
+        // Execute when couldn't be returned
+        player.sendMessage(Geyser.getInstance().getLangFile().getText("noPerm"));
+    }
+
+    /**
+     * Sends no perm message to player
+     * @param player who will receive message
+     */
+    private void sendNoPermMessage(Player player) {
+        player.sendMessage(Geyser.getInstance().getLangFile().getText("noPerm"));
     }
 
     /**
