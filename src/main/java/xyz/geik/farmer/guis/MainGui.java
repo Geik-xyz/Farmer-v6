@@ -93,13 +93,6 @@ public class MainGui {
                             assert cursorItem != null;
                             XMaterial material = XMaterial.matchXMaterial(cursorItem);
                             FarmerItem slotItem = farmer.getInv().getStockedItem(material);
-                            // If player is bedrock player go to geyser gui
-                            if (ModuleManager.getModule("Geyser").isEnabled()) {
-                                if (player.getUniqueId().toString().startsWith("00000000-")) {
-                                    GeyserGui.showGui(player, cursorItem, material, farmer, slotItem);
-                                    return false;
-                                }
-                            }
                             // Sells all stock of an item
                             if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
                                 if (slotItem.getPrice() < 0)
