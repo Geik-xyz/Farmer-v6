@@ -201,13 +201,10 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.6.0</version>
                 <configuration>
+                    <outputFile>C:\Users\smfar\Desktop\Sunucular\test117\plugins/Farmer.jar</outputFile>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <minimizeJar>true</minimizeJar>
                     <relocations>
-                        <relocation>
-                            <pattern>xyz.geik.glib</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.glib</shadedPattern>
-                        </relocation>
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
                             <shadedPattern>xyz.geik.farmer.shades.jetbrains</shadedPattern>
