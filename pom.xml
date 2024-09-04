@@ -203,7 +203,7 @@
                 <configuration>
                     <outputFile>C:\Users\smfar\Desktop\Sunucular\test117\plugins/Farmer.jar</outputFile>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <minimizeJar>true</minimizeJar>
+                    <minimizeJar>false</minimizeJar>
                     <relocations>
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
