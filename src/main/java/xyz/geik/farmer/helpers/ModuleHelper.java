@@ -18,17 +18,28 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+/**
+ * Registers, unregisters and manages the modules
+ *
+ * @author WaterArchery
+ */
 @Getter
 public class ModuleHelper {
 
     private static ModuleHelper instance;
     private final List<FarmerModule> modules = new ArrayList<>();
 
+    /**
+     * @return the singleton instance of ModuleHelper
+     */
     public synchronized static ModuleHelper getInstance() {
         if (instance == null) instance = new ModuleHelper();
         return instance;
     }
 
+    /**
+     * Loads all modules from the modules directory.
+     */
     public void loadModules() {
         unloadModules();
         loadModule(new Production());
@@ -65,6 +76,11 @@ public class ModuleHelper {
         }
     }
 
+    /**
+     * Loads a single module.
+     *
+     * @param module the module to load
+     */
     public void loadModule(FarmerModule module) {
         Bukkit.getScheduler().runTask(GLib.getInstance(), () -> {
             Bukkit.getPluginManager().callEvent(new ModuleEnableEvent(module));
@@ -73,6 +89,9 @@ public class ModuleHelper {
         modules.add(module);
     }
 
+    /**
+     * Unloads all currently loaded modules.
+     */
     public void unloadModules() {
         for (FarmerModule module : new ArrayList<>(modules)) {
             if (module.isEnabled()) {
@@ -88,7 +107,12 @@ public class ModuleHelper {
         }
     }
 
-    // Return null if Module is not loaded or invalid.
+    /**
+     * Returns a module by its name.
+     *
+     * @param name the name of the module
+     * @return the module with the specified name, or null if not found
+     */
     public @Nullable FarmerModule getModule(String name) {
         for (FarmerModule module : modules) {
             if (module.getName().equalsIgnoreCase(name)) return module;
@@ -97,7 +121,13 @@ public class ModuleHelper {
         return null;
     }
 
-    // Return null if Module is not loaded or invalid.
+    /**
+     * Returns a module by its class type.
+     *
+     * @param classType the class type of the module
+     * @param <T> the type of the module
+     * @return the module with the specified class type, or null if not found
+     */
     public @Nullable <T extends FarmerModule> FarmerModule getModule(Class<T> classType) {
         for (FarmerModule module : modules) {
             if (module.getClass() == classType) return module;
