@@ -6,10 +6,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.helpers.ModuleHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.shades.storage.Config;
 import xyz.geik.glib.module.GModule;
-import xyz.geik.glib.module.ModuleManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,6 +32,8 @@ public abstract class FarmerModule extends GModule {
     private boolean isHasGui = false;
     @Getter@Setter
     private static boolean isModulesUseGui = false;
+    @Getter@Setter
+    private boolean defaultState = false;
 
     /**
      * Set default config of plugin
@@ -124,9 +126,6 @@ public abstract class FarmerModule extends GModule {
      * @see FarmerModule
      */
     public static void calculateModulesUseGui() {
-        setModulesUseGui(ModuleManager.getModules().values().stream().anyMatch(module -> {
-            FarmerModule module1 = (FarmerModule) module;
-            return module1.isHasGui();
-        }));
+        setModulesUseGui(ModuleHelper.getInstance().getModules().stream().anyMatch(FarmerModule::isHasGui));
     }
 }
