@@ -31,11 +31,11 @@ public class Production extends FarmerModule {
 
     private static ProductionCalculateEvent productionCalculateEvent;
 
-    private String[] numberFormat = new String[]{"k", "m", "b", "t"};
+    private final String[] numberFormat = new String[]{"k", "m", "b", "t"};
 
     private long reCalculate = 15L;
 
-    private List<String> productionItems = new ArrayList<>();
+    private final List<String> productionItems = new ArrayList<>();
 
     /**
      * onEnable method of module
@@ -43,16 +43,19 @@ public class Production extends FarmerModule {
     @Override
     public void onEnable() {
         instance = this;
-        this.setEnabled(true);
-        getProductionItems().addAll(Main.getModulesFile().getProduction().getItems());
-        productionCalculateEvent = new ProductionCalculateEvent();
-        Bukkit.getPluginManager().registerEvents(productionCalculateEvent, Main.getInstance());
-        setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
-        numberFormat[0] = getLang().getText("numberFormat.thousand");
-        numberFormat[1] = getLang().getText("numberFormat.million");
-        numberFormat[2] = getLang().getText("numberFormat.billion");
-        numberFormat[3] = getLang().getText("numberFormat.trillion");
-        reCalculate = Main.getModulesFile().getProduction().getReCalculate();
+
+        if (Main.getConfigFile().getProduction().isStatus()) {
+            this.setEnabled(true);
+            getProductionItems().addAll(Main.getConfigFile().getProduction().getItems());
+            productionCalculateEvent = new ProductionCalculateEvent();
+            Bukkit.getPluginManager().registerEvents(productionCalculateEvent, Main.getInstance());
+            setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
+            numberFormat[0] = getLang().getText("numberFormat.thousand");
+            numberFormat[1] = getLang().getText("numberFormat.million");
+            numberFormat[2] = getLang().getText("numberFormat.billion");
+            numberFormat[3] = getLang().getText("numberFormat.trillion");
+            reCalculate = Main.getConfigFile().getProduction().getReCalculate();
+        }
     }
 
     /**
@@ -66,7 +69,7 @@ public class Production extends FarmerModule {
         numberFormat[1] = getLang().getText("numberFormat.million");
         numberFormat[2] = getLang().getText("numberFormat.billion");
         numberFormat[3] = getLang().getText("numberFormat.trillion");
-        reCalculate = Main.getModulesFile().getProduction().getReCalculate();
+        reCalculate = Main.getConfigFile().getProduction().getReCalculate();
     }
 
     /**
@@ -87,4 +90,5 @@ public class Production extends FarmerModule {
         return instance.getProductionItems().contains(item.getName())
                 || instance.getProductionItems().isEmpty();
     }
+
 }
