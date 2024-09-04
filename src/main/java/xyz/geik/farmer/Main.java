@@ -17,16 +17,11 @@ import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
 import xyz.geik.farmer.helpers.CacheLoader;
 import xyz.geik.farmer.helpers.CommandHelper;
+import xyz.geik.farmer.helpers.ModuleHelper;
 import xyz.geik.farmer.helpers.WorldHelper;
 import xyz.geik.farmer.integrations.Integrations;
 import xyz.geik.farmer.listeners.ListenerRegister;
 import xyz.geik.farmer.modules.FarmerModule;
-import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
-import xyz.geik.farmer.modules.autoseller.AutoSeller;
-import xyz.geik.farmer.modules.geyser.Geyser;
-import xyz.geik.farmer.modules.production.Production;
-import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
-import xyz.geik.farmer.modules.voucher.Voucher;
 import xyz.geik.farmer.shades.storage.Config;
 import xyz.geik.glib.GLib;
 import xyz.geik.glib.chat.ChatUtils;
@@ -210,13 +205,11 @@ public class Main extends JavaPlugin {
      */
     private void registerModules() {
         this.moduleManager = new ModuleManager();
-        getModuleManager().registerModule(new Voucher());
-        getModuleManager().registerModule(new SpawnerKiller());
-        getModuleManager().registerModule(new Geyser());
-        getModuleManager().registerModule(new Production());
-        getModuleManager().registerModule(new AutoSeller());
-        getModuleManager().registerModule(new AutoHarvest());
-        getModuleManager().enableModules();
+        //getModuleManager().enableModules();
+        //FarmerModule.calculateModulesUseGui();
+
+        ModuleHelper helper = ModuleHelper.getInstance();
+        helper.loadModules();
         FarmerModule.calculateModulesUseGui();
     }
 
