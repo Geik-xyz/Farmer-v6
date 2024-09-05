@@ -85,6 +85,7 @@ public class ModuleHelper {
         Bukkit.getScheduler().runTask(GLib.getInstance(), () -> {
             Bukkit.getPluginManager().callEvent(new ModuleEnableEvent(module));
         });
+        module.setEnabled(true);
         module.onEnable();
         modules.add(module);
     }
