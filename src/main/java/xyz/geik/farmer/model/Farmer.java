@@ -5,12 +5,11 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.helpers.ModuleHelper;
 import xyz.geik.farmer.model.inventory.FarmerInv;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
-import xyz.geik.farmer.modules.autoharvest.AutoHarvest;
-import xyz.geik.farmer.modules.autoseller.AutoSeller;
-import xyz.geik.farmer.modules.spawnerkiller.SpawnerKiller;
+import xyz.geik.farmer.modules.FarmerModule;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -90,16 +89,14 @@ public class Farmer implements Cloneable {
      * @return status
      */
     private boolean getDefaultStatus(@NotNull String attribute) {
-        switch (attribute) {
-            case "spawnerkiller":
-                return SpawnerKiller.getInstance().isDefaultStatus();
-            case "autoharvest":
-                return AutoHarvest.getInstance().isDefaultStatus();
-            case "autoseller":
-                return AutoSeller.getInstance().isDefaultStatus();
-            default:
-                return false;
+        ModuleHelper moduleHelper = ModuleHelper.getInstance();
+
+        FarmerModule module = moduleHelper.getModule(attribute);
+        if (module != null) {
+            return module.isDefaultState();
         }
+
+        return false;
     }
 
     /**
