@@ -5,7 +5,7 @@ import net.weesli.rClaim.api.events.ClaimCreateEvent;
 import net.weesli.rClaim.api.events.ClaimDeleteEvent;
 import net.weesli.rClaim.api.events.TrustedPlayerEvent;
 import net.weesli.rClaim.api.events.UnTrustedPlayerEvent;
-import net.weesli.rClaim.utils.Claim;
+import net.weesli.rClaim.modal.Claim;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +20,7 @@ import xyz.geik.glib.chat.ChatUtils;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class RClaimListener implements Listener {
 
@@ -37,7 +38,7 @@ public class RClaimListener implements Listener {
 
     @EventHandler
     public void trustPlayer(TrustedPlayerEvent e){
-        Claim claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(e.getTruster().getUniqueId())).toList().get(0);
+        Claim claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(e.getTruster().getUniqueId())).collect(Collectors.toList()).get(0);
         if (!FarmerManager.getFarmers().containsKey(claim.getID())) return;
         UUID target = e.getTrusted().getUniqueId();
         Farmer farmer = FarmerManager.getFarmers().get(claim.getID());
@@ -47,7 +48,7 @@ public class RClaimListener implements Listener {
     // If the requester removes a trusted player from the demand zone, farmer access is terminated
     @EventHandler
     public void untrustPlayer(UnTrustedPlayerEvent e){
-        Claim claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(e.getTruster().getUniqueId())).toList().get(0);
+        Claim claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(e.getTruster().getUniqueId())).collect(Collectors.toList()).get(0);
         if (!FarmerManager.getFarmers().containsKey(claim.getID())) return;
         Farmer farmer = FarmerManager.getFarmers().get(claim.getID());
         Optional<User> user = farmer.getUsersWithoutOwner().stream().filter(u -> u.getUuid().equals(e.getTrusted().getUniqueId())).findFirst();

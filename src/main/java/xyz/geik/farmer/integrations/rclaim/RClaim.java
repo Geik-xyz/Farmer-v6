@@ -1,9 +1,8 @@
 package xyz.geik.farmer.integrations.rclaim;
 
 import net.weesli.rClaim.api.RClaimAPI;
-import net.weesli.rClaim.utils.Claim;
+import net.weesli.rClaim.modal.Claim;
 import org.bukkit.Location;
-import org.bukkit.event.Listener;
 import xyz.geik.farmer.integrations.Integrations;
 
 import java.util.Optional;
@@ -37,7 +36,7 @@ public class RClaim extends Integrations {
         if (claim != null){
             return claim.getOwner();
         }
-        return UUID.randomUUID();
+        return null;
     }
 
     /**
