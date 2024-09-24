@@ -8,7 +8,14 @@ import xyz.geik.farmer.integrations.Integrations;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Main RClaim integration class that extends Integration
+ *
+ * @author Weesli
+ * @since 25.08.2024
+ */
 public class RClaim extends Integrations {
+
     /**
      * Constructor register event of super class
      *
@@ -16,9 +23,10 @@ public class RClaim extends Integrations {
     public RClaim() {super(new RClaimListener());}
 
     /**
+     * Gets UUID of owner from RClaimAPI by regionId
      *
      * @param regionID id of region
-     * @return
+     * @return UUID of region owner
      */
     @Override
     public UUID getOwnerUUID(String regionID) {
@@ -26,9 +34,10 @@ public class RClaim extends Integrations {
     }
 
     /**
+     * Gets UUID of owner from RClaimAPI by location
      *
      * @param location location of region
-     * @return
+     * @return UUID of region owner
      */
     @Override
     public UUID getOwnerUUID(Location location) {
@@ -40,17 +49,15 @@ public class RClaim extends Integrations {
     }
 
     /**
+     * Gets getRegionID of location
      *
      * @param location location of region
-     * @return
+     * @return id of region
      */
     @Override
     public String getRegionID(Location location) {
         Claim claim = RClaimAPI.getInstance().getClaim(location.getChunk());
         Optional<Claim> center_claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(claim.getOwner())).filter(Claim::isCenter).findFirst();
-        if (center_claim.isPresent()){
-            return center_claim.get().getID();
-        }
-        return "";
+        return center_claim.map(Claim::getID).orElse(null);
     }
 }
