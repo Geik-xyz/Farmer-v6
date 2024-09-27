@@ -14,6 +14,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           javadoc-branch: javadoc
+          javadoc-source-folder: target/reports/apidocs
           java-version: 20
           project: maven # or gradle
           # subdirectories: moduleA moduleB #for subdirectories support, needs to be run with custom command
