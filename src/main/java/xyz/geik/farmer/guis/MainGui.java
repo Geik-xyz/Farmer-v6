@@ -125,25 +125,53 @@ public class MainGui {
                                 if (count == 0)
                                     return true;
                                 ItemStack returnItem = material.parseItem();
-                                // Give item separately for != 64 amount of item
-                                // Because bukkit library forces item to max stack amount 64
+
+                                // This part was changed because in version 1.21.1, Pufferfish broke the max stack size in the addItem(stack) method
+                                // and IllegalStackRemover flagged this as an illegal action.
+                                int removed = 0;
+                                // Store the maximum stack size in a variable to avoid calling the method multiple times
                                 assert returnItem != null;
-                                if (returnItem.getMaxStackSize() != 64) {
-                                    returnItem.setAmount(returnItem.getMaxStackSize());
-                                    long additional = count % returnItem.getMaxStackSize();
-                                    for (int i = 1; i <= count/returnItem.getMaxStackSize() ; i++)
+                                int maxStackSize = returnItem.getMaxStackSize();
+
+                                // If the item does not have a stack size of 64 (for special items or custom stacks)
+                                if (maxStackSize != 64) {
+                                    long additional = count % maxStackSize;
+                                    int fullStacks = (int) (count / maxStackSize);
+
+                                    for (int i = 0; i < fullStacks; i++) {
+                                        returnItem.setAmount(maxStackSize);
                                         player.getInventory().addItem(returnItem);
-                                    if (additional != 0) {
+                                    }
+
+                                    if (additional > 0) {
                                         returnItem.setAmount((int) additional);
                                         player.getInventory().addItem(returnItem);
                                     }
+                                } else {
+                                    // If the item has a stack size of 64 (standard for most items in Minecraft)
+                                    int countReplaced = (int) count;
+
+
+                                    // Keep adding stacks until either we run out of items or the inventory has no empty slots
+                                    while (countReplaced > 0 && !invFull(player)) {
+                                        // Determine how many items we can add in this iteration (either a full stack or the remaining amount)
+                                        int removeAmount = Math.min(countReplaced, maxStackSize);
+                                        countReplaced -= removeAmount; // Decrease the number of items that need to be added
+                                        removed += removeAmount; // Track how many items have been successfully added
+
+                                        // Set the current item's amount and add it to the inventory
+                                        returnItem.setAmount(removeAmount);
+                                        player.getInventory().addItem(returnItem);
+                                    }
                                 }
-                                // if max stack amount equals 64 does another method
-                                else {
-                                    returnItem.setAmount((int) count);
-                                    player.getInventory().addItem(returnItem);
+                                // After adding items, adjust the amount of the item in the original slot
+                                if (removed > 0) {
+                                    // If we successfully added any items, reduce the slot item by the amount removed
+                                    slotItem.negateAmount(removed);
+                                } else {
+                                    // Otherwise, reduce the slot item by the entire count
+                                    slotItem.negateAmount(count);
                                 }
-                                slotItem.negateAmount(count);
                             }
                             gui.draw();
                         }
