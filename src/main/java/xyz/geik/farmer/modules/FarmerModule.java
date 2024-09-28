@@ -1,5 +1,6 @@
 package xyz.geik.farmer.modules;
 
+import jdk.internal.loader.BootLoader;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,13 +10,19 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.ModuleHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.shades.storage.Config;
+import xyz.geik.glib.GLib;
 import xyz.geik.glib.module.GModule;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Module system of Farmer
@@ -45,11 +52,29 @@ public abstract class FarmerModule extends GModule {
      * must be named of lang as farmer.</p>
      *
      * @param langName name of lang
-     * @param plugin for instance
      */
+    public void setLang(String langName, Class<?> targetClass) {
+        langName += ".yml";
+        String filePath = "plugins/" + Main.getInstance().getDescription().getName() + "/modules/" + this.getName().toLowerCase() + "/lang";
+        lang =  new Config(langName, filePath, getResourceAsStream(langName, targetClass));
+
+    }
+
     public void setLang(String langName, JavaPlugin plugin) {
-        lang = Main.getInstance().getSimplixStorageAPI()
-                .initConfig("modules/" + this.getName().toLowerCase() + "/lang/" + langName, plugin);
+        langName += ".yml";
+        String filePath = "plugins/" + Main.getInstance().getDescription().getName() + "/modules/" + this.getName().toLowerCase() + "/lang";
+        lang =  new Config(langName, filePath, plugin.getResource(langName));
+
+    }
+
+    /**
+     * Gets inputstream of file
+     * @param name name of file
+     * @return InputStream object
+     */
+    public InputStream getResourceAsStream(String name, Class<?> target) {
+        InputStream inputStream = target.getResourceAsStream(name);
+        return inputStream;
     }
 
     /**

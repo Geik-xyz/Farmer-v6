@@ -51,7 +51,7 @@ public class Production extends FarmerModule {
             getProductionItems().addAll(productionItems);
             productionCalculateEvent = new ProductionCalculateEvent();
             Bukkit.getPluginManager().registerEvents(productionCalculateEvent, Main.getInstance());
-            setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
+            setLang(Main.getConfigFile().getSettings().getLang(), this.getClass());
             numberFormat[0] = getLang().getText("numberFormat.thousand");
             numberFormat[1] = getLang().getText("numberFormat.million");
             numberFormat[2] = getLang().getText("numberFormat.billion");

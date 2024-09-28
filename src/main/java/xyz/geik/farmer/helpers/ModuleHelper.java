@@ -14,6 +14,7 @@ import xyz.geik.glib.chat.ChatUtils;
 import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -46,34 +47,53 @@ public class ModuleHelper {
 
         try {
             File folder = new File(Main.getInstance().getDataFolder(), "/modules");
+            // Mkdirs path
+            loadFolderIfNotExists(folder);
+            // files that we wanted to load
+            File[] files = null;
+            try {
+                files = folder.listFiles(pathname -> pathname.getName().endsWith(".jar"));
+            }
+            catch (Exception e) {}
+            if (files != null) {
+                for (File file : files) {
+                    if (!file.getName().endsWith(".jar")) continue;
 
-            for (File file : Objects.requireNonNull(folder.listFiles())) {
-                if (!file.getName().endsWith(".jar")) continue;
+                    FileInputStream fileInputStream = new FileInputStream(file.getAbsoluteFile());
+                    ZipInputStream zipInputStream = new ZipInputStream(fileInputStream);
+                    ClassLoader loader = ClassHelper.class.getClassLoader();
+                    URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, loader);
 
-                FileInputStream fileInputStream = new FileInputStream(file.getAbsoluteFile());
-                ZipInputStream zipInputStream = new ZipInputStream(fileInputStream);
-                ClassLoader loader = ClassHelper.class.getClassLoader();
-                URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, loader);
+                    for (ZipEntry zipEntry = zipInputStream.getNextEntry(); zipEntry != null; zipEntry = zipInputStream.getNextEntry()) {
+                        if (!zipEntry.isDirectory() && zipEntry.getName().endsWith(".class")) {
+                            String className = zipEntry.getName().replaceAll("/", ".").replaceAll(".class", "");
+                            Class<?> loadedClass = urlClassLoader.loadClass(className);
 
-                for (ZipEntry zipEntry = zipInputStream.getNextEntry(); zipEntry != null; zipEntry = zipInputStream.getNextEntry()) {
-                    if (!zipEntry.isDirectory() && zipEntry.getName().endsWith(".class")) {
-                        String className = zipEntry.getName().replaceAll("/", ".").replaceAll(".class", "");
-                        Class<?> loadedClass = urlClassLoader.loadClass(className);
-
-                        if (loadedClass.getSuperclass().getName().endsWith("FarmerModule")) {
-                            FarmerModule module = (FarmerModule) loadedClass.getDeclaredConstructor().newInstance();
-                            loadModule(module);
+                            if (loadedClass.getSuperclass().getName().endsWith("FarmerModule")) {
+                                FarmerModule module = (FarmerModule) loadedClass.getDeclaredConstructor().newInstance();
+                                loadModule(module);
+                            }
                         }
                     }
-                }
 
-                urlClassLoader.close();
-                fileInputStream.close();
-                zipInputStream.close();
+                    urlClassLoader.close();
+                    fileInputStream.close();
+                    zipInputStream.close();
+                }
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    /**
+     * Loads folder if not exists
+     *
+     * @param folder that we needed to mkdir
+     */
+    private static void loadFolderIfNotExists(File folder) {
+        if (!folder.exists())
+            folder.mkdirs();
     }
 
     /**
@@ -97,9 +117,7 @@ public class ModuleHelper {
         for (FarmerModule module : new ArrayList<>(modules)) {
             if (module.isEnabled()) {
                 module.setEnabled(false);
-                Bukkit.getScheduler().runTask(GLib.getInstance(), () -> {
-                    Bukkit.getPluginManager().callEvent(new ModuleDisableEvent(module));
-                });
+                Bukkit.getPluginManager().callEvent(new ModuleDisableEvent(module));
                 module.onDisable();
                 String message = "&3[" + GLib.getInstance().getName() + "] &c" + module.getName() + " disabled.";
                 ChatUtils.sendMessage(Bukkit.getConsoleSender(), message);
