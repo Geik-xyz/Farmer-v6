@@ -15,10 +15,7 @@ import xyz.geik.farmer.configuration.ModulesFile;
 import xyz.geik.farmer.database.MySQL;
 import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
-import xyz.geik.farmer.helpers.CacheLoader;
-import xyz.geik.farmer.helpers.CommandHelper;
-import xyz.geik.farmer.helpers.ModuleHelper;
-import xyz.geik.farmer.helpers.WorldHelper;
+import xyz.geik.farmer.helpers.*;
 import xyz.geik.farmer.integrations.Integrations;
 import xyz.geik.farmer.listeners.ListenerRegister;
 import xyz.geik.farmer.modules.FarmerModule;
@@ -125,6 +122,7 @@ public class Main extends JavaPlugin {
         Integrations.registerIntegrations();
         new GLib(this, getLangFile().getMessages().getPrefix());
         // API Installer
+        PlaceholderHelper.initialize();
         CacheLoader.loadAllItems();
         CacheLoader.loadAllLevels();
         registerEconomy();
@@ -145,6 +143,8 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         getSql().updateAllFarmers();
         CommandHelper.unregisterCommands();
+        ModuleHelper moduleHelper = ModuleHelper.getInstance();
+        moduleHelper.unloadModules();
     }
 
     /**

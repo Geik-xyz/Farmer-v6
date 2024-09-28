@@ -46,7 +46,9 @@ public class Production extends FarmerModule {
 
         if (Main.getConfigFile().getProduction().isStatus()) {
             this.setEnabled(true);
-            getProductionItems().addAll(Main.getConfigFile().getProduction().getItems());
+            List<String> productionItems = new ArrayList<>(Main.getConfigFile().getProduction().getItems());
+            productionItems.replaceAll(String::toUpperCase);
+            getProductionItems().addAll(productionItems);
             productionCalculateEvent = new ProductionCalculateEvent();
             Bukkit.getPluginManager().registerEvents(productionCalculateEvent, Main.getInstance());
             setLang(Main.getConfigFile().getSettings().getLang(), Main.getInstance());
