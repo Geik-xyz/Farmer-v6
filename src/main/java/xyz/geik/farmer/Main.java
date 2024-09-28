@@ -143,6 +143,8 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         getSql().updateAllFarmers();
         CommandHelper.unregisterCommands();
+        ModuleHelper moduleHelper = ModuleHelper.getInstance();
+        moduleHelper.unloadModules();
     }
 
     /**
