@@ -6,11 +6,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.helpers.ModuleHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.shades.storage.Config;
 import xyz.geik.glib.module.GModule;
-import xyz.geik.glib.module.ModuleManager;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,6 +33,8 @@ public abstract class FarmerModule extends GModule {
     private boolean isHasGui = false;
     @Getter@Setter
     private static boolean isModulesUseGui = false;
+    @Getter@Setter
+    private boolean defaultState = false;
 
     /**
      * Set default config of plugin
@@ -43,11 +46,36 @@ public abstract class FarmerModule extends GModule {
      * must be named of lang as farmer.</p>
      *
      * @param langName name of lang
-     * @param plugin for instance
      */
+    public void setLang(String langName, Class<?> targetClass) {
+        langName += ".yml";
+        String filePath = "plugins/" + Main.getInstance().getDescription().getName() + "/modules/" + this.getName().toLowerCase() + "/lang";
+        lang =  new Config(langName, filePath, getFileFromResourceAsStream(langName, targetClass));
+    }
+
     public void setLang(String langName, JavaPlugin plugin) {
-        lang = Main.getInstance().getSimplixStorageAPI()
-                .initConfig("modules/" + this.getName().toLowerCase() + "/lang/" + langName, plugin);
+        langName += ".yml";
+        String filePath = "plugins/" + Main.getInstance().getDescription().getName() + "/modules/" + this.getName().toLowerCase() + "/lang";
+        lang =  new Config(langName, filePath, plugin.getResource(langName));
+
+    }
+
+    /**
+     * Gets inputstream of file
+     * @param fileName name of file
+     * @param targetClass instance of target class
+     * @return InputStream object
+     */
+    private InputStream getFileFromResourceAsStream(String fileName, Class<?> targetClass) {
+        final String path = targetClass.getSimpleName().toLowerCase() + "/lang/" + fileName;
+        ClassLoader classLoader = targetClass.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(path);
+
+        if (inputStream == null) {
+            throw new IllegalArgumentException("Resource not found: " + path);
+        } else {
+            return inputStream;
+        }
     }
 
     /**
@@ -124,9 +152,6 @@ public abstract class FarmerModule extends GModule {
      * @see FarmerModule
      */
     public static void calculateModulesUseGui() {
-        setModulesUseGui(ModuleManager.getModules().values().stream().anyMatch(module -> {
-            FarmerModule module1 = (FarmerModule) module;
-            return module1.isHasGui();
-        }));
+        setModulesUseGui(ModuleHelper.getInstance().getModules().stream().anyMatch(FarmerModule::isHasGui));
     }
 }

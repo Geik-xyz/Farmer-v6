@@ -1,11 +1,11 @@
 package xyz.geik.farmer.guis;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.helpers.PlaceholderHelper;
 import xyz.geik.farmer.helpers.gui.GroupItems;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.listeners.backend.ChatEvent;
@@ -46,7 +46,7 @@ public class UsersGui {
         // Gui interface array
         String[] userGui = Main.getConfigFile().getGui().getUsersLayout().toArray(new String[0]);
         // Inventory object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, ChatUtils.color(Main.getLangFile().getGui().getUsersGui().getGuiName())), userGui);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderHelper.parsePlaceholders(player, ChatUtils.color(Main.getLangFile().getGui().getUsersGui().getGuiName())), userGui);
         // Filler fills empty slots
         gui.setFiller(GuiHelper.getFiller(player));
         // Help icon show basic information about gui

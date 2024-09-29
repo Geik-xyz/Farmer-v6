@@ -1,6 +1,5 @@
 package xyz.geik.farmer.guis;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,14 +9,13 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
 import xyz.geik.farmer.api.handlers.FarmerMainGuiOpenEvent;
+import xyz.geik.farmer.helpers.PlaceholderHelper;
 import xyz.geik.farmer.helpers.gui.GroupItems;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.FarmerPerm;
-import xyz.geik.farmer.modules.geyser.gui.GeyserGui;
 import xyz.geik.glib.chat.ChatUtils;
-import xyz.geik.glib.module.ModuleManager;
 import xyz.geik.glib.shades.inventorygui.DynamicGuiElement;
 import xyz.geik.glib.shades.inventorygui.GuiElementGroup;
 import xyz.geik.glib.shades.inventorygui.InventoryGui;
@@ -47,7 +45,7 @@ public class MainGui {
         // Array of gui interface
         String[] guiSetup = Main.getConfigFile().getGui().getFarmerLayout().toArray(new String[0]);
         // Gui object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, Main.getLangFile().getGui().getFarmerGui().getGuiName()), guiSetup);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderHelper.parsePlaceholders(player, Main.getLangFile().getGui().getFarmerGui().getGuiName()), guiSetup);
         // Fills empty spaces on  gui
         gui.setFiller(GuiHelper.getFiller(player));
         // Manage Icon element

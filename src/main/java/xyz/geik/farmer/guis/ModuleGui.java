@@ -1,9 +1,9 @@
 package xyz.geik.farmer.guis;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerModuleGuiCreateEvent;
+import xyz.geik.farmer.helpers.PlaceholderHelper;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.glib.chat.ChatUtils;
@@ -31,7 +31,7 @@ public class ModuleGui {
         // Gui template as array
         String[] moduleGui = Main.getConfigFile().getGui().getModuleLayout().toArray(new String[0]);
         // Inventory object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderAPI.setPlaceholders(null, ChatUtils.color(Main.getLangFile().getGui().getModuleGui().getGuiName())), moduleGui);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderHelper.parsePlaceholders(player, ChatUtils.color(Main.getLangFile().getGui().getModuleGui().getGuiName())), moduleGui);
         // Filler item for empty slots
         gui.setFiller(GuiHelper.getFiller(player));
         // Addons placer

@@ -201,6 +201,9 @@ public class FarmerCommand extends BaseCommand {
             // Reloading farmers again.
             Main.getSql().loadAllFarmers();
             Main.getInstance().getModuleManager().reloadModules();
+
+            // TODO IMPLEMENT MODULE RELOAD WITH MODULEHELPER CLASS
+
             FarmerModule.calculateModulesUseGui();
             WorldHelper.loadAllowedWorlds();
             // Sends message to sender who send this command and also calculating millisecond difference.

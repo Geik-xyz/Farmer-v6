@@ -6,7 +6,7 @@
 
     <groupId>xyz.geik.farmer</groupId>
     <artifactId>Farmer</artifactId>
-    <version>v6-b107</version>
+    <version>v6-b108</version>
 
     <properties>
         <shaded.package>org.cas.osd.platform.ciam.shaded</shaded.package>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21-R0.1-SNAPSHOT</version>
+            <version>1.21.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- FabledSkyblock -->
@@ -97,13 +97,14 @@
         <dependency>
             <groupId>com.github.Geik-xyz</groupId>
             <artifactId>GLib</artifactId>
-            <version>db36065e77</version>
+            <version>44cfea3e91</version>
         </dependency>
         <!-- apache commons -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.15.0</version>
+            <scope>provided</scope>
         </dependency>
         <!-- PlaceholderAPI -->
         <dependency>
@@ -131,6 +132,7 @@
             <groupId>com.github.Weesli</groupId>
             <artifactId>RClaim</artifactId>
             <version>1.2.0</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
@@ -202,12 +204,8 @@
                 <version>3.6.0</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <minimizeJar>true</minimizeJar>
+                    <minimizeJar>false</minimizeJar>
                     <relocations>
-                        <relocation>
-                            <pattern>xyz.geik.glib</pattern>
-                            <shadedPattern>xyz.geik.farmer.shades.glib</shadedPattern>
-                        </relocation>
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
                             <shadedPattern>xyz.geik.farmer.shades.jetbrains</shadedPattern>
