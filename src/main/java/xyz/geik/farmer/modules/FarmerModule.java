@@ -1,6 +1,5 @@
 package xyz.geik.farmer.modules;
 
-import jdk.internal.loader.BootLoader;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,19 +9,14 @@ import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.ModuleHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.shades.storage.Config;
-import xyz.geik.glib.GLib;
 import xyz.geik.glib.module.GModule;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * Module system of Farmer
@@ -56,8 +50,7 @@ public abstract class FarmerModule extends GModule {
     public void setLang(String langName, Class<?> targetClass) {
         langName += ".yml";
         String filePath = "plugins/" + Main.getInstance().getDescription().getName() + "/modules/" + this.getName().toLowerCase() + "/lang";
-        lang =  new Config(langName, filePath, getResourceAsStream(langName, targetClass));
-
+        lang =  new Config(langName, filePath, getFileFromResourceAsStream(langName, targetClass));
     }
 
     public void setLang(String langName, JavaPlugin plugin) {
@@ -69,12 +62,20 @@ public abstract class FarmerModule extends GModule {
 
     /**
      * Gets inputstream of file
-     * @param name name of file
+     * @param fileName name of file
+     * @param targetClass instance of target class
      * @return InputStream object
      */
-    public InputStream getResourceAsStream(String name, Class<?> target) {
-        InputStream inputStream = target.getResourceAsStream(name);
-        return inputStream;
+    private InputStream getFileFromResourceAsStream(String fileName, Class<?> targetClass) {
+        final String path = targetClass.getSimpleName().toLowerCase() + "/lang/" + fileName;
+        ClassLoader classLoader = targetClass.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(path);
+
+        if (inputStream == null) {
+            throw new IllegalArgumentException("Resource not found: " + path);
+        } else {
+            return inputStream;
+        }
     }
 
     /**
