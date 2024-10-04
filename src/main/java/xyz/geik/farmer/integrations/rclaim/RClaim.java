@@ -1,7 +1,7 @@
 package xyz.geik.farmer.integrations.rclaim;
 
 import net.weesli.rClaim.api.RClaimAPI;
-import net.weesli.rClaim.utils.Claim;
+import net.weesli.rClaim.modal.Claim;
 import org.bukkit.Location;
 import xyz.geik.farmer.integrations.Integrations;
 
