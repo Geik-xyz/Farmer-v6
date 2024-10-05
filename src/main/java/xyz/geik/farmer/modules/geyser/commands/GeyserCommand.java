@@ -98,8 +98,10 @@ public class GeyserCommand extends BaseCommand {
                         item = Geyser.getNameReplacer().get(item);
                     String checkMaterial = item;
                     // If default items does not contain the material
+
+                    // Replace spaces with underscores for item names to avoid "too many arguments" error in Minecraft commands.
                     if (FarmerInv.defaultItems.stream()
-                            .noneMatch(defaultItem -> defaultItem.getMaterial().toString().equalsIgnoreCase(checkMaterial))) {
+                            .noneMatch(defaultItem -> defaultItem.getMaterial().toString().replaceAll(" ", "_").equalsIgnoreCase(checkMaterial))) {
                         player.sendMessage(Geyser.getInstance().getLang().getText("cantFindTheItem"));
                         return;
                     }
