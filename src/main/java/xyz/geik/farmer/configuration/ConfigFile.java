@@ -8,6 +8,7 @@ import xyz.geik.glib.shades.okaeri.configs.annotation.NameModifier;
 import xyz.geik.glib.shades.okaeri.configs.annotation.NameStrategy;
 import xyz.geik.glib.shades.okaeri.configs.annotation.Names;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,6 +66,32 @@ public class ConfigFile extends OkaeriConfig {
 
         @Comment("Default role which will be assigned to joined player (Options: COOP - MEMBER)")
         private String defaultJoinRole = "COOP";
+    }
+
+    @Comment("Production")
+    private Production Production = new Production();
+    /**
+     * Settings configuration of config
+     *
+     * @author WaterArchery
+     * @since 2.0
+     */
+    @Getter
+    @Setter
+    public static class Production extends OkaeriConfig {
+        @Comment({"if you don't want to calculate",
+                "average production on farmer items",
+                "set it to false"})
+        private boolean status = false;
+
+        @Comment({"amount of time for each calculations"})
+        private int reCalculate = 15;
+
+        @Comment({"if you want to calculate average production",
+                "write the items you want to calculate",
+                "write the items in the items.yml file with same name",
+                "you can also remove this section, and it will calculate all items in the items.yml file"})
+        private List<String> items = new ArrayList<>();
     }
 
     /**
