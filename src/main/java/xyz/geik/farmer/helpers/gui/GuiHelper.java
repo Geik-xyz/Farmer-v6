@@ -14,8 +14,10 @@ import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.shades.inventorygui.GuiElement;
 import xyz.geik.glib.shades.inventorygui.GuiPageElement;
 import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
-import xyz.geik.glib.shades.skullcreator.SkullCreator;
 import xyz.geik.glib.shades.xseries.XMaterial;
+import xyz.geik.glib.shades.xseries.profiles.builder.XSkull;
+import xyz.geik.glib.shades.xseries.profiles.objects.Profileable;
+import xyz.geik.glib.shades.xseries.reflection.parser.ReflectionParser;
 import xyz.geik.glib.utils.ItemUtil;
 
 import java.util.ArrayList;
@@ -404,7 +406,9 @@ public class GuiHelper {
         // If item is skull instead of material based item
         if (file.contains(path + ".skull")) {
             try {
-                result = SkullCreator.itemFromBase64(file.getString(path + ".skull"));
+                result = XMaterial.PLAYER_HEAD.parseItem();
+                XSkull.of(result).profile(Profileable.detect(file.getString(path + ".skull"))).apply();
+
             } catch (Exception e) {
                 result = new ItemStack(Material.STONE, 1);
             }
