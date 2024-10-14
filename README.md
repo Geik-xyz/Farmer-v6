@@ -8,6 +8,15 @@ As an administrator, you can control the Farmers just as if you were the owner. 
 
 Simultaneously, this plugin enforces automatic updates to the language file, eliminating the need for a reload command to update itself. (Please note that configuration changes still require a reload due to potentially sensitive settings.) You can design your menus using the language file.
 
+# Modules
+
+- [Voucher](https://github.com/Geik-xyz/Farmer-Voucher) - Egg module for farmer. When use, spawns farmer.
+- [SpawnerKiller](https://github.com/Geik-xyz/Farmer-SpawnerKiller) - Automatically kills spawner creatures.
+- [SellCommand](https://github.com/Geik-xyz/Farmer-SellCommand) - Sell stocked items with command.
+- [AutoSell](https://github.com/Geik-xyz/Farmer-AutoSell) - AutoSells stocked items.
+- [AutoHarvest](https://github.com/Geik-xyz/Farmer-AutoHarvest) - Auto Harvest crop items.
+- ProductionCalc - Automatically calculates (Hour, Min, Sec) production for an item. (Built in)
+
 ## Supported Languages
 * **English** (Full)
 * **Turkish** (Full)
