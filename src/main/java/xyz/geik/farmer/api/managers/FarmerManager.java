@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.model.Farmer;
+import xyz.geik.farmer.model.FarmerLevel;
 import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
 
@@ -95,6 +96,18 @@ public class FarmerManager {
             // Saves farmer to db
             farmer.saveFarmer();
         }
+    }
+
+    /**
+     * Fresh creates farmer
+     *
+     * @param regionId id of region
+     * @param level level of farmer
+     */
+    public Farmer createFarmer(String regionId, int level) {
+        Farmer farmer = new Farmer(regionId, 0);
+        farmer.setLevel(FarmerLevel.getAllLevels().get(level-1));
+        return farmer;
     }
 
     /**
