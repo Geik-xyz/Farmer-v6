@@ -64,7 +64,7 @@ public abstract class SQL {
      * Does same thing with #updateAllFarmers async
      */
     public void updateAllFarmersAsync() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), this::updateAllFarmers);
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(this::updateAllFarmers);
     }
 
     /**
@@ -144,7 +144,7 @@ public abstract class SQL {
             resultSet = selectStatement.executeQuery();
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                Main.getMorePaperLib().scheduling().globalRegionalScheduler().run(() -> {
                     farmer.setId(id);
                     FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
                     Bukkit.getPluginManager().callEvent(boughtEvent);
@@ -179,7 +179,7 @@ public abstract class SQL {
             removeUsersStatement.setInt(1, farmer.getId());
             removeUsersStatement.executeUpdate();
 
-            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+            Main.getMorePaperLib().scheduling().globalRegionalScheduler().run(() -> {
                 FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(farmer);
                 Bukkit.getPluginManager().callEvent(removeEvent);
             });
@@ -242,7 +242,7 @@ public abstract class SQL {
      * @param farmerId id of farmer
      */
     public void addUser(@NotNull UUID uuid, String name, FarmerPerm perm, int farmerId) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(() -> {
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             final String SQL_QUERY = "INSERT INTO FarmerUsers (farmerId, name, uuid, role) VALUES (?, ?, ?, ?)";
@@ -273,7 +273,7 @@ public abstract class SQL {
         if (user.getPerm().equals(FarmerPerm.OWNER))
             return false;
         farmer.getUsers().remove(user);
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(() -> {
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             final String QUERY = "DELETE FROM FarmerUsers WHERE uuid = ? AND farmerId = ?";
@@ -299,7 +299,7 @@ public abstract class SQL {
      * @param farmerId id of farmer
      */
     public void updateRole(UUID uuid, int roleId, int farmerId) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(() -> {
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             final String QUERY = "UPDATE FarmerUsers SET role = ? WHERE uuid = ? AND farmerId = ?";

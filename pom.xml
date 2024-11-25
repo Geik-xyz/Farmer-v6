@@ -134,7 +134,13 @@
             <version>1.9.0</version>
             <scope>provided</scope>
         </dependency>
-
+        <!-- MorePaperLib -->
+        <dependency>
+            <groupId>space.arim.morepaperlib</groupId>
+            <artifactId>morepaperlib</artifactId>
+            <version>0.4.4</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <!-- Repos -->
@@ -192,6 +198,11 @@
         <repository>
             <id>iridiumdevelopment</id>
             <url>https://nexus.iridiumdevelopment.net/repository/maven-releases/</url>
+        </repository>
+        <!-- MorePaperLib-->
+        <repository>
+            <id>arim-mvn-lgpl3</id>
+            <url>https://mvn-repo.arim.space/lesser-gpl3/</url>
         </repository>
     </repositories>
 
