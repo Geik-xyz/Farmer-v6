@@ -68,7 +68,7 @@ public class FarmerManager {
             // Replaces old owner role to coop on db
             Main.getInstance().getSql().updateRole(oldOwner, 1, newFarmer.getId());
             // Replace old owner role to coop on cache
-            newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(oldOwner)).findFirst().get().setPerm(FarmerPerm.MEMBER);
+            newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(oldOwner)).findFirst().ifPresent(user -> user.setPerm(FarmerPerm.MEMBER));
             // Adds player if not exists on farmer users
             if (newFarmer.getUsers().stream().noneMatch(user -> user.getUuid().equals(newOwner)))
                 /*
@@ -87,7 +87,7 @@ public class FarmerManager {
                 // Replaces new owner role to owner on db
                 Main.getInstance().getSql().updateRole(newOwner, 2, newFarmer.getId());
                 // Replaces new owner role to owner on cache
-                newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(newOwner)).findFirst().get().setPerm(FarmerPerm.OWNER);
+                newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(newOwner)).findFirst().ifPresent(user -> user.setPerm(FarmerPerm.OWNER));
             }
             // Update farmer regionId if same as ownerid
             if (regionId.equals(oldOwner.toString()))

@@ -4,9 +4,6 @@ import com.palmergames.bukkit.towny.event.DeleteTownEvent;
 import com.palmergames.bukkit.towny.event.NewTownEvent;
 import com.palmergames.bukkit.towny.event.TownAddResidentEvent;
 import com.palmergames.bukkit.towny.event.TownRemoveResidentEvent;
-import com.palmergames.bukkit.towny.event.player.PlayerEntersIntoTownBorderEvent;
-import com.palmergames.bukkit.towny.event.town.TownKickEvent;
-import com.palmergames.bukkit.towny.event.town.TownLeaveEvent;
 import com.palmergames.bukkit.towny.event.town.TownMayorChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -77,7 +74,7 @@ public class TownyListener implements Listener {
         String townID = e.getTown().getUUID().toString();
         if (!FarmerManager.getFarmers().containsKey(townID))
             return;
-        UUID member = e.getResident().getPlayer().getUniqueId();
+        UUID member = e.getResident().getUUID();
         Farmer farmer = FarmerManager.getFarmers().get(townID);
         if (farmer.getUsers().stream().noneMatch(user -> user.getUuid().equals(member)))
             farmer.addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
