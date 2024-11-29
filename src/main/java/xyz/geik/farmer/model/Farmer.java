@@ -2,7 +2,6 @@ package xyz.geik.farmer.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.ModuleHelper;
@@ -213,7 +212,7 @@ public class Farmer implements Cloneable {
      * Saves farmer async
      */
     public void saveFarmerAsync() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), this::saveFarmer);
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(this::saveFarmer);
     }
 
     /**

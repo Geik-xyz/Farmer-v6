@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -354,11 +355,11 @@ public abstract class SQL {
     public void fixDatabase() {
         updateAllFarmers();
         Main.getInstance().getLogger().info("Preparing data for fix please wait...");
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().runDelayed(() -> {
             long ms = System.currentTimeMillis();
             FarmerManager.getFarmers().clear();
             fixUsersInDatabase(ms);
-        }, 200L);
+        }, Duration.ofMillis(200L * 50L));
     }
 
     /**
@@ -415,10 +416,10 @@ public abstract class SQL {
         } finally {
             closeConnections(statement, connection, null);
             Main.getInstance().getLogger().info("Farmer fixing owners completed.");
-            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> {
+            Main.getMorePaperLib().scheduling().asyncScheduler().runDelayed(() -> {
                 loadAllFarmers();
                 Main.getInstance().getLogger().info("Fixing database task has completed in " + (System.currentTimeMillis() - ms) + "ms");
-            }, 200L);
+            }, Duration.ofMillis(200L * 50L));
         }
     }
 }
