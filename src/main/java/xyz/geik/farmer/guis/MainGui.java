@@ -22,6 +22,8 @@ import xyz.geik.glib.shades.inventorygui.InventoryGui;
 import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 import xyz.geik.glib.shades.xseries.XMaterial;
 
+import java.util.Arrays;
+
 /**
  * Main gui of farmer
  * Player can sell, take and can open
@@ -64,12 +66,14 @@ public class MainGui {
         );
         // Help item
         gui.addElement(GuiHelper.createGuiElement(GuiHelper.getHelpItemForMain(player), 'h'));
+        // Sell All Item
+        gui.addElement(GuiHelper.createGuiElement(GuiHelper.getSellAll(player), 't'));
 
         // Item group which farmer collects
         GuiElementGroup group = new GuiElementGroup('g');
         // Foreach item list
         for (FarmerItem item : farmer.getInv().getItems()) {
-            // Element of grup there can x amount of i
+            // Element of group there can x amount of i
             group.addElement(new DynamicGuiElement('i', (viewer) -> new StaticGuiElement('i',
                     GroupItems.getGroupItem(farmer, item),
                     1,

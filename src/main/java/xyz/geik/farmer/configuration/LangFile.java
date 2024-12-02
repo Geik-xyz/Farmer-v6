@@ -240,6 +240,25 @@ public class LangFile extends OkaeriConfig {
                     );
                 }
 
+                private SellAll sellAll = new SellAll();
+                /**
+                 * SellAll item settings
+                 *
+                 * @author geik
+                 * @since v6-b109
+                 */
+                @Getter
+                @Setter
+                public static class SellAll extends OkaeriConfig {
+                    private String name = "&eSell All";
+                    private List<String> lore = Arrays.asList(
+                            "&7Sells all the items",
+                            "&7that Farmer has.",
+                            "&7",
+                            "&aClick here to sell all!"
+                    );
+                }
+
                 @Comment({
                         "Placeholders:",
                         "{stock} Shows how many item farmer have.",

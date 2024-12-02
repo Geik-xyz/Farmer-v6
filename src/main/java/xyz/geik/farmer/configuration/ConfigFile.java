@@ -137,7 +137,8 @@ public class ConfigFile extends OkaeriConfig {
                 "g -> Item Group element item",
                 "p -> Previous Page item",
                 "n -> Next Page item",
-                "h -> Help item"
+                "h -> Help item",
+                "t -> Sell All Button"
         })
         private List<String> farmerLayout = Arrays.asList(
                 "    m    ",
@@ -278,6 +279,18 @@ public class ConfigFile extends OkaeriConfig {
             @Setter
             public static class Help extends OkaeriConfig {
                 private String material = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjE2Y2M1NzU1Y2RkMjYwZjdiNGI1YzFhMWYxZjNiZDMxODUxZmMxZDk4Yjc0NDM3YjJmYjRiZDZlYjhkMiJ9fX0=";
+                private int modelData = 0;
+                boolean hasGlow = false;
+            }
+
+            private SellAll sellAll = new SellAll();
+            /**
+             * SellAll item settings
+             */
+            @Getter
+            @Setter
+            public static class SellAll extends OkaeriConfig {
+                private String material = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWI2OTk2NzE2M2M3NDNkZGIxZjA4MzU2Njc1NzU3NmI5ZTYzYWMzODBjYzE1MGY1MThiMzNkYzRlOTFlZjcxMiJ9fX0=";
                 private int modelData = 0;
                 boolean hasGlow = false;
             }
