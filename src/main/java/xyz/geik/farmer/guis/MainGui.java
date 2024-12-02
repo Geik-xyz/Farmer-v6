@@ -67,7 +67,14 @@ public class MainGui {
         // Help item
         gui.addElement(GuiHelper.createGuiElement(GuiHelper.getHelpItemForMain(player), 'h'));
         // Sell All Item
-        gui.addElement(GuiHelper.createGuiElement(GuiHelper.getSellAll(player), 't'));
+        gui.addElement(new StaticGuiElement('t',
+                GuiHelper.getSellAll(player),
+                1,
+                click -> {
+                    player.performCommand("farmer sell all");
+                    return true;
+                })
+        );
 
         // Item group which farmer collects
         GuiElementGroup group = new GuiElementGroup('g');
