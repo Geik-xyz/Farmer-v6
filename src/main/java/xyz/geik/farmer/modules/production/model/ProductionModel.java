@@ -2,7 +2,6 @@ package xyz.geik.farmer.modules.production.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
@@ -53,7 +52,7 @@ public class ProductionModel {
         this.isCalculating = true;
         this.regionId = farmer.getRegionID();
         this.material = material;
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().globalRegionalScheduler().runDelayed(() -> {
             setResult(getLastInput() * 12);
             this.setCalculating(false);
             gui.draw();

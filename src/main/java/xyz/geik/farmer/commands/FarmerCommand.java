@@ -184,7 +184,7 @@ public class FarmerCommand extends BaseCommand {
     @Permission("farmer.admin")
     @SubCommand(value = "reload", alias = {"rl", "yenile"})
     public void reloadCommand(@NotNull CommandSender sender) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(() -> {
             long time = System.currentTimeMillis();
             // Saves all farmer
             Main.getSql().updateAllFarmers();

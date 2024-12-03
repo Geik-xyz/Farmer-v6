@@ -11,6 +11,7 @@ import xyz.geik.farmer.api.handlers.FarmerMainGuiOpenEvent;
 import xyz.geik.farmer.modules.production.Production;
 import xyz.geik.farmer.modules.production.model.ProductionModel;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,9 +82,9 @@ public class ProductionCalculateEvent implements Listener {
         event.getFarmer().getInv().setProductionCalculated(true);
         // Removes cache after 15 minutes
         // And sets production calculated to false
-        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().runDelayed(() -> {
             event.getFarmer().getInv().setProductionModels(new ArrayList<>());
             event.getFarmer().getInv().setProductionCalculated(false);
-        }, 20L*60L*Production.getInstance().getReCalculate());
+        }, Duration.ofMillis(20 * 60 * Production.getInstance().getReCalculate() * 1000));
     }
 }
