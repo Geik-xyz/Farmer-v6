@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.github.Geik-xyz</groupId>
             <artifactId>GLib</artifactId>
-            <version>0378e0531a</version>
+            <version>ff5be79698</version>
         </dependency>
         <!-- apache commons -->
         <dependency>
