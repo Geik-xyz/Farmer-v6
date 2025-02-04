@@ -125,7 +125,7 @@ public abstract class SQL {
      * Creates farmer on sql
      * @param farmer temp farmer
      */
-    public void createFarmer(@NotNull Farmer farmer) {
+    public void createFarmer(@NotNull Farmer farmer, UUID ownerUUID) {
         Connection connection = null;
         PreparedStatement saveStatement = null;
         PreparedStatement selectStatement = null;
@@ -146,7 +146,7 @@ public abstract class SQL {
                 int id = resultSet.getInt("id");
                 Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                     farmer.setId(id);
-                    FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer, Main.getIntegration().getOwnerUUID(farmer.getRegionID()));
+                    FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer, ownerUUID);
                     Bukkit.getPluginManager().callEvent(boughtEvent);
                 });
             }
