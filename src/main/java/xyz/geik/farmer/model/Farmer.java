@@ -133,7 +133,7 @@ public class Farmer implements Cloneable {
         this.inv = new FarmerInv();
         this.level = FarmerLevel.getAllLevels().get(level);
         this.state = 1;
-        Main.getInstance().getSql().createFarmer(this);
+        Main.getSql().createFarmer(this);
     }
 
     /**

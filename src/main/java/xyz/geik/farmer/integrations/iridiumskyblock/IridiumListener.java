@@ -6,6 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import xyz.geik.farmer.api.FarmerAPI;
 
+import java.util.UUID;
+
 /**
  * IridiumSkyblock listener class
  *
@@ -25,7 +27,7 @@ public class IridiumListener implements Listener {
     @EventHandler
     public void islandDeleteEvent(IslandDeleteEvent event){
         String regionID = String.valueOf(event.getIsland().getId());
-        FarmerAPI.getFarmerManager().removeFarmer(regionID);
+        FarmerAPI.getFarmerManager().removeFarmer(regionID, event.getIsland().getOwner().orElseGet(null).getUuid());
     }
 
 }

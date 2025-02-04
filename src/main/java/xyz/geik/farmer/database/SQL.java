@@ -146,7 +146,7 @@ public abstract class SQL {
                 int id = resultSet.getInt("id");
                 Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                     farmer.setId(id);
-                    FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
+                    FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer, Main.getIntegration().getOwnerUUID(farmer.getRegionID()));
                     Bukkit.getPluginManager().callEvent(boughtEvent);
                 });
             }
@@ -163,7 +163,7 @@ public abstract class SQL {
      * Removes farmer from sql
      * @param farmer object of farmer
      */
-    public void removeFarmer(@NotNull Farmer farmer) {
+    public void removeFarmer(@NotNull Farmer farmer, UUID ownerUUID) {
         Connection connection = null;
         PreparedStatement removeFarmerStatement = null;
         PreparedStatement removeUsersStatement = null;
@@ -180,7 +180,7 @@ public abstract class SQL {
             removeUsersStatement.executeUpdate();
 
             Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-                FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(farmer);
+                FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(farmer, ownerUUID);
                 Bukkit.getPluginManager().callEvent(removeEvent);
             });
 

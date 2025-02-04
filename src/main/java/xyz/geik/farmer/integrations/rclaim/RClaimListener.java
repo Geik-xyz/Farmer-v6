@@ -77,7 +77,7 @@ public class RClaimListener implements Listener {
     @EventHandler
     public void deleteClaim(ClaimDeleteEvent e){
         if (FarmerManager.farmers.containsKey(e.getClaim().getID())){
-            FarmerAPI.getFarmerManager().removeFarmer(e.getClaim().getID());
+            FarmerAPI.getFarmerManager().removeFarmer(e.getClaim().getID(), e.getClaim().getOwner());
         }
     }
 
