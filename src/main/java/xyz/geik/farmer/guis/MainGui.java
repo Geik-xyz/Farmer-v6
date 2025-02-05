@@ -47,7 +47,7 @@ public class MainGui {
         // Array of gui interface
         String[] guiSetup = Main.getConfigFile().getGui().getFarmerLayout().toArray(new String[0]);
         // Gui object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderHelper.parsePlaceholders(player, Main.getLangFile().getGui().getFarmerGui().getGuiName()), guiSetup);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderHelper.parsePlaceholders(player, ChatUtils.color(Main.getLangFile().getGui().getFarmerGui().getGuiName())), guiSetup);
         // Fills empty spaces on  gui
         gui.setFiller(GuiHelper.getFiller(player));
         // Manage Icon element
