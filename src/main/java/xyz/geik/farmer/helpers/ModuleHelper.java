@@ -102,9 +102,7 @@ public class ModuleHelper {
      * @param module the module to load
      */
     public void loadModule(FarmerModule module) {
-        Bukkit.getScheduler().runTask(GLib.getInstance(), () -> {
-            Bukkit.getPluginManager().callEvent(new ModuleEnableEvent(module));
-        });
+        Main.getMorePaperLib().scheduling().globalRegionalScheduler().run(() -> Bukkit.getPluginManager().callEvent(new ModuleEnableEvent(module)));
         module.setEnabled(true);
         module.onEnable();
         modules.add(module);

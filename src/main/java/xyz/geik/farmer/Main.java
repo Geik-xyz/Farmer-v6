@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import space.arim.morepaperlib.MorePaperLib;
 import xyz.geik.farmer.api.FarmerAPI;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.commands.FarmerCommand;
@@ -73,6 +74,9 @@ public class Main extends JavaPlugin {
     @Getter
     private static Main instance;
 
+    @Getter
+    private static MorePaperLib morePaperLib;
+
     /**
      * Config files which using SimplixStorage API for it.
      * Also, you can find usage code of API on helpers#StorageAPI
@@ -118,6 +122,7 @@ public class Main extends JavaPlugin {
      * This is sort of the main(String... args) method.
      */
     public void onEnable() {
+        morePaperLib = new MorePaperLib(this);
         FarmerAPI.getFarmerManager();
         Integrations.registerIntegrations();
         new GLib(this, getLangFile().getMessages().getPrefix());
