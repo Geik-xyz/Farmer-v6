@@ -37,7 +37,7 @@ public class BuyFarmerEvent implements Listener {
     public void farmerBoughtEvent(@NotNull FarmerBoughtEvent e) {
         Farmer farmer = e.getFarmer();
         // Adds owner uuid to farmer
-        farmer.addUser(farmer.getOwnerUUID(), Bukkit.getOfflinePlayer(farmer.getOwnerUUID()).getName(), FarmerPerm.OWNER);
+        farmer.addUser(e.getOwnerUUID(), Bukkit.getOfflinePlayer(e.getOwnerUUID()).getName(), FarmerPerm.OWNER);
         // Adds farmer to cache
         FarmerManager.getFarmers().put(e.getFarmer().getRegionID(), e.getFarmer());
     }

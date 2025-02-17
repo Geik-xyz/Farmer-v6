@@ -132,7 +132,23 @@ public class Farmer implements Cloneable {
         this.inv = new FarmerInv();
         this.level = FarmerLevel.getAllLevels().get(level);
         this.state = 1;
-        Main.getInstance().getSql().createFarmer(this);
+        Main.getSql().createFarmer(this, Main.getIntegration().getOwnerUUID(regionID));
+    }
+
+    /**
+     * UUID based create farmer metod
+     *
+     * @param regionID id of region
+     * @param level level of farmer
+     */
+    public Farmer(String regionID, int level, UUID ownerUUID) {
+        this.regionID = regionID;
+        Set<User> users = new LinkedHashSet<>();
+        this.users = users;
+        this.inv = new FarmerInv();
+        this.level = FarmerLevel.getAllLevels().get(level);
+        this.state = 1;
+        Main.getSql().createFarmer(this, ownerUUID);
     }
 
     /**

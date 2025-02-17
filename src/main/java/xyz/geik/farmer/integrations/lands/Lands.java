@@ -38,7 +38,8 @@ public class Lands extends Integrations {
     @Override
     public UUID getOwnerUUID(String regionID) {
         ULID ulid = ULID.fromString(regionID);
-        return api.getLandByULID(ulid).getOwnerUID();
+        Land land = api.getLandByULID(ulid);
+        return land == null ? null : land.getOwnerUID();
     }
 
     /**
