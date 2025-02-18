@@ -31,7 +31,7 @@ public class QuitEvent implements Listener {
     @EventHandler
     public void onQuitEvent(@NotNull PlayerQuitEvent e) {
         final Location loc = e.getPlayer().getLocation();
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(() -> {
             if (WorldHelper.isFarmerAllowed(loc.getWorld().getName())) {
                 try {
                     String regionID = Main.getIntegration().getRegionID(loc);

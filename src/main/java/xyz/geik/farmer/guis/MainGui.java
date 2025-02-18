@@ -22,6 +22,8 @@ import xyz.geik.glib.shades.inventorygui.InventoryGui;
 import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 import xyz.geik.glib.shades.xseries.XMaterial;
 
+import java.util.Arrays;
+
 /**
  * Main gui of farmer
  * Player can sell, take and can open
@@ -45,7 +47,7 @@ public class MainGui {
         // Array of gui interface
         String[] guiSetup = Main.getConfigFile().getGui().getFarmerLayout().toArray(new String[0]);
         // Gui object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderHelper.parsePlaceholders(player, Main.getLangFile().getGui().getFarmerGui().getGuiName()), guiSetup);
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderHelper.parsePlaceholders(player, ChatUtils.color(Main.getLangFile().getGui().getFarmerGui().getGuiName())), guiSetup);
         // Fills empty spaces on  gui
         gui.setFiller(GuiHelper.getFiller(player));
         // Manage Icon element
@@ -64,12 +66,21 @@ public class MainGui {
         );
         // Help item
         gui.addElement(GuiHelper.createGuiElement(GuiHelper.getHelpItemForMain(player), 'h'));
+        // Sell All Item
+        gui.addElement(new StaticGuiElement('t',
+                GuiHelper.getSellAll(player),
+                1,
+                click -> {
+                    player.performCommand("farmer sell all");
+                    return true;
+                })
+        );
 
         // Item group which farmer collects
         GuiElementGroup group = new GuiElementGroup('g');
         // Foreach item list
         for (FarmerItem item : farmer.getInv().getItems()) {
-            // Element of grup there can x amount of i
+            // Element of group there can x amount of i
             group.addElement(new DynamicGuiElement('i', (viewer) -> new StaticGuiElement('i',
                     GroupItems.getGroupItem(farmer, item),
                     1,

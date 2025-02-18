@@ -43,9 +43,9 @@ public class FarmerManager {
      * @param regionId Region id of farmer
      * @return true if farmer was removed, false if not
      */
-    public boolean removeFarmer(String regionId) {
+    public boolean removeFarmer(String regionId, UUID ownerUUID) {
         if (getFarmers().containsKey(regionId)) {
-            Main.getInstance().getSql().removeFarmer(getFarmers().get(regionId));
+            Main.getSql().removeFarmer(getFarmers().get(regionId), ownerUUID);
             return true;
         }
         return false;
@@ -64,9 +64,9 @@ public class FarmerManager {
             Farmer farmer = getFarmers().get(regionId);
             Farmer newFarmer = farmer.clone();
             getFarmers().remove(regionId);
-            FarmerAPI.getFarmerManager().removeFarmer(regionId);
+            FarmerAPI.getFarmerManager().removeFarmer(regionId, oldOwner);
             // Replaces old owner role to coop on db
-            Main.getInstance().getSql().updateRole(oldOwner, 1, newFarmer.getId());
+            Main.getSql().updateRole(oldOwner, 1, newFarmer.getId());
             // Replace old owner role to coop on cache
             newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(oldOwner)).findFirst().ifPresent(user -> user.setPerm(FarmerPerm.MEMBER));
             // Adds player if not exists on farmer users
@@ -85,7 +85,7 @@ public class FarmerManager {
                 farmer.addUser(newOwner, Bukkit.getOfflinePlayer(newOwner).getName(), FarmerPerm.OWNER);
             else {
                 // Replaces new owner role to owner on db
-                Main.getInstance().getSql().updateRole(newOwner, 2, newFarmer.getId());
+                Main.getSql().updateRole(newOwner, 2, newFarmer.getId());
                 // Replaces new owner role to owner on cache
                 newFarmer.getUsers().stream().filter(user -> user.getUuid().equals(newOwner)).findFirst().ifPresent(user -> user.setPerm(FarmerPerm.OWNER));
             }
