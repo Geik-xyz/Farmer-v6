@@ -451,7 +451,7 @@ public class Main extends JavaPlugin {
 ## ★ Big Contributions (Many Thanks) ★
 
 - Thanks for Newly External JAR module system who developed by @WaterArchery
-- Many thanks for Folio support by @adabugra
+- Many thanks for Folia support by @adabugra
 - Many thanks for fixing issues @WaterArchery
 - Economy System Developed by @amownyy
 - MySQL System Developed by @amownyy
