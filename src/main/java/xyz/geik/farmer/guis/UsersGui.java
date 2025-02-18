@@ -22,6 +22,7 @@ import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Gui of user list
@@ -34,7 +35,8 @@ public class UsersGui {
     /**
      * Constructor of class
      */
-    public UsersGui() {}
+    public UsersGui() {
+    }
 
     /**
      * Opens gui of users
@@ -45,68 +47,61 @@ public class UsersGui {
     public static void showGui(Player player, @NotNull Farmer farmer) {
         // Gui interface array
         String[] userGui = Main.getConfigFile().getGui().getUsersLayout().toArray(new String[0]);
-        // Inventory object
-        InventoryGui gui = new InventoryGui(Main.getInstance(), null, PlaceholderHelper.parsePlaceholders(player, ChatUtils.color(Main.getLangFile().getGui().getUsersGui().getGuiName())), userGui);
-        // Filler fills empty slots
+
+        // Inventory object (optimize placeholder parsing)
+        InventoryGui gui = new InventoryGui(Main.getInstance(), null,
+                ChatUtils.color(Main.getLangFile().getGui().getUsersGui().getGuiName()),
+                userGui);
+
         gui.setFiller(GuiHelper.getFiller(player));
-        // Help icon show basic information about gui
         gui.addElement(GuiHelper.createGuiElement(GuiHelper.getHelpItemForUsers(player), 'h'));
-        // Both next and previous page items
-        // Shown if there is another page
-        // Otherwise they fill by gui filler
-        // Next page item
         gui.addElement(GuiHelper.createNextPage(player));
-        // Previous page item
         gui.addElement(GuiHelper.createPreviousPage(player));
+
         // Add user icon
         gui.addElement(new StaticGuiElement('a',
-                // Adduser item
                 GuiHelper.getAddUserItem(player),
                 1,
-                // Click event of item
                 click -> {
-                    // Checks if owner can add more user to farmer
                     if (User.getUserAmount(player) <= farmer.getUsers().size()) {
                         ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getReachedMaxUser());
                         return true;
                     }
-                    // Adding player to a list for catching with ChatEvent
-                    if (!ChatEvent.getPlayers().containsKey(player.getName()))
-                        ChatEvent.getPlayers().put(player.getName(), farmer.getRegionID());
-                    ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getWaitingInput(),
+
+                    // Optimize player adding to chat event
+                    ChatEvent.getPlayers().putIfAbsent(player.getName(), farmer.getRegionID());
+
+                    ChatUtils.sendMessage(player,
+                            Main.getLangFile().getMessages().getWaitingInput(),
                             new Placeholder("{cancel}", Main.getLangFile().getVarious().getInputCancelWord()));
-                    // Removes player from cache of ChatEvent catcher after 6 seconds
+
+                    // Use more efficient task scheduling
                     Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-                        if (ChatEvent.getPlayers().containsKey(player.getName())) {
-                            ChatEvent.getPlayers().remove(player.getName());
-                            ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getInputCancel());
-                        }
+                        ChatEvent.getPlayers().remove(player.getName());
+                        ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getInputCancel());
                     }, 120L);
+
                     gui.close();
                     return true;
                 })
         );
-        // User list group items
-        List<User> users = new ArrayList<>(farmer.getUsers());
-        // Sorts users by permissions from largest to smallest
-        Collections.sort(users, (o1, o2)
-                -> FarmerPerm.getRoleId(o2.getPerm()) - FarmerPerm.getRoleId(o1.getPerm()));
-        // Group of users
+
+        // Optimize user list processing
+        List<User> sortedUsers = farmer.getUsers().stream()
+                .sorted((o1, o2) -> FarmerPerm.getRoleId(o2.getPerm()) - FarmerPerm.getRoleId(o1.getPerm()))
+                .collect(Collectors.toList());
+
         GuiElementGroup group = new GuiElementGroup('u');
-        // foreach every user
-        for (User user : users) {
-            group.addElement(new DynamicGuiElement('d', (viewer) -> {
-                return new StaticGuiElement('s',
-                    // User head item
+
+        // Precompute user items to reduce dynamic computation
+        for (User user : sortedUsers) {
+            StaticGuiElement userElement = new StaticGuiElement('s',
                     GroupItems.getUserItem(user),
                     1,
-                    // Click player head event
                     click -> {
                         boolean response = false;
-                        // Left or right click for demote or promote user role
                         if (click.getType().equals(ClickType.LEFT) || click.getType().equals(ClickType.RIGHT))
                             response = User.updateUserRole(user, farmer);
-                        // Shift right click for remove user
                         else if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
                             response = farmer.removeUser(user);
                             if (response) {
@@ -118,9 +113,10 @@ public class UsersGui {
                             gui.draw();
                         return true;
                     }
-                );
-            }));
+            );
+            group.addElement(userElement);
         }
+
         gui.addElement(group);
         gui.show(player);
     }
