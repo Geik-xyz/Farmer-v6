@@ -75,8 +75,10 @@ public class UsersGui {
                             new Placeholder("{cancel}", Main.getLangFile().getVarious().getInputCancelWord()));
                     // Removes player from cache of ChatEvent catcher after 6 seconds
                     Main.getMorePaperLib().scheduling().entitySpecificScheduler(player).runDelayed(() -> {
-                        ChatEvent.getPlayers().remove(player.getName());
-                        ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getInputCancel());
+                        if (ChatEvent.getPlayers().containsKey(player.getName())) {
+                            ChatEvent.getPlayers().remove(player.getName());
+                            ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getInputCancel());
+                        }
                     }, null, 120L);
                     Main.getMorePaperLib().scheduling().entitySpecificScheduler(player).run(() -> gui.close(), null);
                     return true;
