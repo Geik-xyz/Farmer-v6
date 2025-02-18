@@ -5,6 +5,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import xyz.geik.farmer.model.Farmer;
 
+import java.util.UUID;
+
 /**
  * FarmerRemoveEvent is called when a farmer is removed
  *
@@ -19,6 +21,8 @@ public class FarmerRemoveEvent extends Event {
      */
     private final Farmer farmer;
 
+    private final UUID ownerUUID;
+
     /**
      * Cancelled state of event
      */
@@ -29,8 +33,9 @@ public class FarmerRemoveEvent extends Event {
      * @param farmer Farmer object of event
      *               @see Farmer
      */
-    public FarmerRemoveEvent(Farmer farmer) {
+    public FarmerRemoveEvent(Farmer farmer, UUID ownerUUID) {
         this.farmer = farmer;
+        this.ownerUUID = ownerUUID;
     }
 
     /**

@@ -91,7 +91,7 @@ public class GroupItems {
         ItemStack item;
         String name = Main.getLangFile().getGui().getUsersGui().getItems().getUser().getName();
         List<String> lore = Main.getLangFile().getGui().getUsersGui().getItems().getUser().getLore();
-        String material = user.getName();
+        String material = user.getUuid().toString();
         item = GuiHelper.getItem(name, lore, 0, material, false, Bukkit.getOfflinePlayer(user.getUuid()));
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatUtils.color("&b" + user.getName()));

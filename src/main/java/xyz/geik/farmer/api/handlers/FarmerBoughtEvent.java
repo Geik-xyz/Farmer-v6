@@ -5,6 +5,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import xyz.geik.farmer.model.Farmer;
 
+import java.util.UUID;
+
 /**
  * FarmerBoughtEvent fired when a farmer is bought
  *
@@ -19,14 +21,17 @@ public class FarmerBoughtEvent extends Event {
      */
     private final Farmer farmer;
 
+    private final UUID ownerUUID;
+
     /**
      * FarmerBoughtEvent constructor
      *
      * @param farmer Bought farmer object
      *               @see Farmer
      */
-    public FarmerBoughtEvent(Farmer farmer) {
+    public FarmerBoughtEvent(Farmer farmer, UUID ownerUUID) {
         this.farmer = farmer;
+        this.ownerUUID = ownerUUID;
     }
 
     /**

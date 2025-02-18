@@ -50,7 +50,7 @@ public class FabledSkyListener implements Listener {
      */
     @EventHandler
     public void onIslandDelete(@NotNull IslandDeleteEvent event) {
-        FarmerAPI.getFarmerManager().removeFarmer(event.getIsland().getIslandUUID().toString());
+        FarmerAPI.getFarmerManager().removeFarmer(event.getIsland().getIslandUUID().toString(), event.getIsland().getOwnerUUID());
     }
 
     /**
@@ -72,7 +72,7 @@ public class FabledSkyListener implements Listener {
     @EventHandler
     public void onIslandResetEvent(@NotNull IslandLevelChangeEvent event) {
         if (event.getLevel().getLevel() == 0) {
-            FarmerAPI.getFarmerManager().removeFarmer(event.getIsland().getIslandUUID().toString());
+            FarmerAPI.getFarmerManager().removeFarmer(event.getIsland().getIslandUUID().toString(), event.getIsland().getOwnerUUID());
         }
     }
 

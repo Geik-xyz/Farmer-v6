@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -64,7 +65,7 @@ public abstract class SQL {
      * Does same thing with #updateAllFarmers async
      */
     public void updateAllFarmersAsync() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), this::updateAllFarmers);
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(this::updateAllFarmers);
     }
 
     /**
@@ -125,7 +126,7 @@ public abstract class SQL {
      * Creates farmer on sql
      * @param farmer temp farmer
      */
-    public void createFarmer(@NotNull Farmer farmer) {
+    public void createFarmer(@NotNull Farmer farmer, UUID ownerUUID) {
         Connection connection = null;
         PreparedStatement saveStatement = null;
         PreparedStatement selectStatement = null;
@@ -144,9 +145,9 @@ public abstract class SQL {
             resultSet = selectStatement.executeQuery();
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+                Main.getMorePaperLib().scheduling().globalRegionalScheduler().run(() -> {
                     farmer.setId(id);
-                    FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer);
+                    FarmerBoughtEvent boughtEvent = new FarmerBoughtEvent(farmer, ownerUUID);
                     Bukkit.getPluginManager().callEvent(boughtEvent);
                 });
             }
@@ -163,7 +164,7 @@ public abstract class SQL {
      * Removes farmer from sql
      * @param farmer object of farmer
      */
-    public void removeFarmer(@NotNull Farmer farmer) {
+    public void removeFarmer(@NotNull Farmer farmer, UUID ownerUUID) {
         Connection connection = null;
         PreparedStatement removeFarmerStatement = null;
         PreparedStatement removeUsersStatement = null;
@@ -179,8 +180,8 @@ public abstract class SQL {
             removeUsersStatement.setInt(1, farmer.getId());
             removeUsersStatement.executeUpdate();
 
-            Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
-                FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(farmer);
+            Main.getMorePaperLib().scheduling().globalRegionalScheduler().run(() -> {
+                FarmerRemoveEvent removeEvent = new FarmerRemoveEvent(farmer, ownerUUID);
                 Bukkit.getPluginManager().callEvent(removeEvent);
             });
 
@@ -242,7 +243,7 @@ public abstract class SQL {
      * @param farmerId id of farmer
      */
     public void addUser(@NotNull UUID uuid, String name, FarmerPerm perm, int farmerId) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(() -> {
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             final String SQL_QUERY = "INSERT INTO FarmerUsers (farmerId, name, uuid, role) VALUES (?, ?, ?, ?)";
@@ -273,7 +274,7 @@ public abstract class SQL {
         if (user.getPerm().equals(FarmerPerm.OWNER))
             return false;
         farmer.getUsers().remove(user);
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(() -> {
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             final String QUERY = "DELETE FROM FarmerUsers WHERE uuid = ? AND farmerId = ?";
@@ -299,7 +300,7 @@ public abstract class SQL {
      * @param farmerId id of farmer
      */
     public void updateRole(UUID uuid, int roleId, int farmerId) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(() -> {
             Connection connection = null;
             PreparedStatement preparedStatement = null;
             final String QUERY = "UPDATE FarmerUsers SET role = ? WHERE uuid = ? AND farmerId = ?";
@@ -354,11 +355,11 @@ public abstract class SQL {
     public void fixDatabase() {
         updateAllFarmers();
         Main.getInstance().getLogger().info("Preparing data for fix please wait...");
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().runDelayed(() -> {
             long ms = System.currentTimeMillis();
             FarmerManager.getFarmers().clear();
             fixUsersInDatabase(ms);
-        }, 200L);
+        }, Duration.ofMillis(200L * 50L));
     }
 
     /**
@@ -415,10 +416,10 @@ public abstract class SQL {
         } finally {
             closeConnections(statement, connection, null);
             Main.getInstance().getLogger().info("Farmer fixing owners completed.");
-            Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> {
+            Main.getMorePaperLib().scheduling().asyncScheduler().runDelayed(() -> {
                 loadAllFarmers();
                 Main.getInstance().getLogger().info("Fixing database task has completed in " + (System.currentTimeMillis() - ms) + "ms");
-            }, 200L);
+            }, Duration.ofMillis(200L * 50L));
         }
     }
 }

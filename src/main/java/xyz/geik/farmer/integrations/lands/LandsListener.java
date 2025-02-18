@@ -33,7 +33,7 @@ public class LandsListener implements Listener {
      */
     @EventHandler
     public void removeLandEvent(LandDeleteEvent event) {
-        FarmerAPI.getFarmerManager().removeFarmer(event.getLand().getULID().toString());
+        FarmerAPI.getFarmerManager().removeFarmer(event.getLand().getULID().toString(), event.getLand().getOwnerUID());
     }
 
     /**
