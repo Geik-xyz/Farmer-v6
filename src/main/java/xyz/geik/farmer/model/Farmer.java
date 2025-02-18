@@ -2,7 +2,6 @@ package xyz.geik.farmer.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.helpers.ModuleHelper;
@@ -133,7 +132,23 @@ public class Farmer implements Cloneable {
         this.inv = new FarmerInv();
         this.level = FarmerLevel.getAllLevels().get(level);
         this.state = 1;
-        Main.getInstance().getSql().createFarmer(this);
+        Main.getSql().createFarmer(this, Main.getIntegration().getOwnerUUID(regionID));
+    }
+
+    /**
+     * UUID based create farmer metod
+     *
+     * @param regionID id of region
+     * @param level level of farmer
+     */
+    public Farmer(String regionID, int level, UUID ownerUUID) {
+        this.regionID = regionID;
+        Set<User> users = new LinkedHashSet<>();
+        this.users = users;
+        this.inv = new FarmerInv();
+        this.level = FarmerLevel.getAllLevels().get(level);
+        this.state = 1;
+        Main.getSql().createFarmer(this, ownerUUID);
     }
 
     /**
@@ -213,7 +228,7 @@ public class Farmer implements Cloneable {
      * Saves farmer async
      */
     public void saveFarmerAsync() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), this::saveFarmer);
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(this::saveFarmer);
     }
 
     /**

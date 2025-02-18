@@ -1,6 +1,5 @@
 package xyz.geik.farmer.guis;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
@@ -74,14 +73,12 @@ public class UsersGui {
                     ChatUtils.sendMessage(player,
                             Main.getLangFile().getMessages().getWaitingInput(),
                             new Placeholder("{cancel}", Main.getLangFile().getVarious().getInputCancelWord()));
-
-                    // Use more efficient task scheduling
-                    Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+                    // Removes player from cache of ChatEvent catcher after 6 seconds
+                    Main.getMorePaperLib().scheduling().entitySpecificScheduler(player).runDelayed(() -> {
                         ChatEvent.getPlayers().remove(player.getName());
                         ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getInputCancel());
-                    }, 120L);
-
-                    gui.close();
+                    }, null, 120L);
+                    Main.getMorePaperLib().scheduling().entitySpecificScheduler(player).run(() -> gui.close(), null);
                     return true;
                 })
         );

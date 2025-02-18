@@ -37,7 +37,7 @@ public class TownyListener implements Listener {
      */
     @EventHandler
     public void disbandEvent(@NotNull DeleteTownEvent e) {
-        FarmerAPI.getFarmerManager().removeFarmer(e.getTownUUID().toString());
+        FarmerAPI.getFarmerManager().removeFarmer(e.getTownUUID().toString(), e.getMayorUUID());
     }
 
     /**

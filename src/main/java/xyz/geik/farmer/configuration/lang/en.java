@@ -4,6 +4,7 @@ package xyz.geik.farmer.configuration.lang;
 import lombok.Getter;
 import lombok.Setter;
 import xyz.geik.farmer.configuration.LangFile;
+import xyz.geik.glib.shades.okaeri.configs.OkaeriConfig;
 import xyz.geik.glib.shades.okaeri.configs.annotation.Comment;
 import xyz.geik.glib.shades.okaeri.configs.annotation.NameModifier;
 import xyz.geik.glib.shades.okaeri.configs.annotation.NameStrategy;
@@ -238,6 +239,25 @@ public class en extends LangFile {
                             "",
                             "&cIf you are coop you can",
                             "&conly see this menu."
+                    );
+                }
+
+                private SellAll sellAll = new SellAll();
+                /**
+                 * SellAll item settings
+                 *
+                 * @author geik
+                 * @since v6-b109
+                 */
+                @Getter
+                @Setter
+                public static class SellAll extends LangFile.Gui.FarmerGui.Items.SellAll {
+                    private String name = "&eSell All";
+                    private List<String> lore = Arrays.asList(
+                            "&7Sells all the items",
+                            "&7that Farmer has.",
+                            "&7",
+                            "&aClick here to sell all!"
                     );
                 }
 

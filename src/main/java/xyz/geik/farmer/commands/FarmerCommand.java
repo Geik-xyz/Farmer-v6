@@ -98,14 +98,16 @@ public class FarmerCommand extends BaseCommand {
         }
         Player player = (Player) sender;
         String regionID = getRegionID(player);
-        if (regionID == null)
+        if (regionID == null) {
             ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoRegion());
+            return;
+        }
 
         UUID ownerUUID = Main.getIntegration().getOwnerUUID(regionID);
         // Custom perm check for remove command
         if (player.hasPermission("farmer.remove") && ownerUUID.equals(player.getUniqueId()) || player.hasPermission("farmer.admin")) {
             // Removing by #FarmerAPI and sending message by result
-            boolean result = FarmerAPI.getFarmerManager().removeFarmer(regionID);
+            boolean result = FarmerAPI.getFarmerManager().removeFarmer(regionID, ownerUUID);
             if (result)
                 ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getRemovedFarmer());
         } else
@@ -184,7 +186,7 @@ public class FarmerCommand extends BaseCommand {
     @Permission("farmer.admin")
     @SubCommand(value = "reload", alias = {"rl", "yenile"})
     public void reloadCommand(@NotNull CommandSender sender) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+        Main.getMorePaperLib().scheduling().asyncScheduler().run(() -> {
             long time = System.currentTimeMillis();
             // Saves all farmer
             Main.getSql().updateAllFarmers();

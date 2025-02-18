@@ -277,6 +277,23 @@ public class GuiHelper {
     }
 
     /**
+     * Gets the sellAll item
+     *
+     * @param player player for placeholder
+     * @return ItemStack of sell all item
+     */
+    public static @NotNull ItemStack getSellAll(OfflinePlayer player) {
+        ItemStack result;
+        String name = Main.getLangFile().getGui().getFarmerGui().getItems().getSellAll().getName();
+        List<String> lore = Main.getLangFile().getGui().getFarmerGui().getItems().getSellAll().getLore();
+        int modelData = Main.getConfigFile().getGui().getFarmerGuiItems().getSellAll().getModelData();
+        String material = Main.getConfigFile().getGui().getFarmerGuiItems().getSellAll().getMaterial();
+        boolean hasGlow = Main.getConfigFile().getGui().getFarmerGuiItems().getSellAll().isHasGlow();
+        result = getItem(name, lore, modelData, material, hasGlow, player);
+        return result;
+    }
+
+    /**
      * Help item for users gui
      *
      * @param player player for placeholder

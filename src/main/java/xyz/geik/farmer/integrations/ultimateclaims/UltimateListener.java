@@ -91,7 +91,7 @@ public class UltimateListener implements Listener {
      */
     @EventHandler
     public void claimDeleteEvent(ClaimDeleteEvent event){
-        FarmerAPI.getFarmerManager().removeFarmer(String.valueOf(event.getClaim().getId()));
+        FarmerAPI.getFarmerManager().removeFarmer(String.valueOf(event.getClaim().getId()), event.getClaim().getOwner().getUniqueId());
     }
 
 

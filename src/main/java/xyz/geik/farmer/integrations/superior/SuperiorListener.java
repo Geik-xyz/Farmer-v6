@@ -30,7 +30,7 @@ public class SuperiorListener implements Listener {
      */
     @EventHandler
     public void disbandEvent(@NotNull IslandDisbandEvent e) {
-        FarmerAPI.getFarmerManager().removeFarmer(e.getIsland().getUniqueId().toString());
+        FarmerAPI.getFarmerManager().removeFarmer(e.getIsland().getUniqueId().toString(), e.getIsland().getOwner().getUniqueId());
     }
 
     /**
@@ -42,7 +42,7 @@ public class SuperiorListener implements Listener {
     @EventHandler
     public void createIslandEvent(IslandCreateEvent e) {
         if (Main.getConfigFile().getSettings().isAutoCreateFarmer()) {
-            Farmer farmer = new Farmer(e.getIsland().getUniqueId().toString(), 0);
+            Farmer farmer = new Farmer(e.getIsland().getUniqueId().toString(), 0, e.getIsland().getOwner().getUniqueId());
             ChatUtils.sendMessage(e.getIsland().getOwner().asPlayer(),
                     Main.getLangFile().getMessages().getBoughtFarmer());
         }
