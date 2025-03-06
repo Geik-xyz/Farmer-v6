@@ -1,6 +1,5 @@
 package xyz.geik.farmer.configuration.lang;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import xyz.geik.farmer.configuration.LangFile;
@@ -40,42 +39,42 @@ public class tr extends LangFile {
     public static class Messages extends LangFile.Messages {
 
         @Comment("Prefix of messages")
-        private String prefix = "&3Çiftçi &8»";
+        private String prefix = "<aqua>Çiftçi <dark_gray>»";
 
         @Comment("placeholders: {money} money which deposited to player {tax} tax amount.")
-        private String sellComplate = "{prefix} &aEşyalar satıldı. &6Kazanç: &e{money}&f, &6Vergi: &e{tax}";
-        private String wrongWorld = "{prefix} &cBunu bu dünyada yapamazsın.";
-        private String noRegion = "{prefix} &cÇiftçi koymak için kendi bölgende olman gerek.";
-        private String removedFarmer = "{prefix} &aÇiftçi başarıyla silindi.";
-        private String noFarmer = "{prefix} &cBurada bir çiftçi yok.";
-        private String mustBeOwner = "{prefix} &cBunun için bölgenin sahibi olmalısın.";
-        private String inventoryFull = "{prefix} &cEnvanterin dolu!";
+        private String sellComplate = "{prefix} <green>Eşyalar satıldı. <gold>Kazanç: <yellow>{money}<white>, <gold>Vergi: <yellow>{tax}";
+        private String wrongWorld = "{prefix} <red>Bunu bu dünyada yapamazsın.";
+        private String noRegion = "{prefix} <red>Çiftçi koymak için kendi bölgende olman gerek.";
+        private String removedFarmer = "{prefix} <green>Çiftçi başarıyla silindi.";
+        private String noFarmer = "{prefix} <red>Burada bir çiftçi yok.";
+        private String mustBeOwner = "{prefix} <red>Bunun için bölgenin sahibi olmalısın.";
+        private String inventoryFull = "{prefix} <red>Envanterin dolu!";
         @Comment("placeholders: {money} players money {req_money} required money.")
-        private String notEnoughMoney = "{prefix} &cYeterli miktarda paran yok! Gereken miktar: &4{req_money}";
+        private String notEnoughMoney = "{prefix} <red>Yeterli miktarda paran yok! Gereken miktar: <dark_red>{req_money}";
         @Comment("placeholders: {level} new upgraded level {capacity} new upgraded capacity.")
-        private String levelUpgraded = "{prefix} &aÇiftçin &6{level}&a seviye oldu. Kapasite&2: &e{capacity}";
+        private String levelUpgraded = "{prefix} <green>Çiftçin <gold>{level}<green> seviye oldu. Kapasite<dark_green>: <yellow>{capacity}";
         @Comment("placeholders: {status} shows status of farmer status. (#toggledON, #toggledOFF)")
-        private String toggleFarmer = "{prefix} &aToplama ayarı: &e{status}";
-        private String featureDisabled = "{prefix} &cBu özellik devre dışı.";
-        private String reloadSuccess = "{prefix} &aConfig dosyalarının yenilenmesi %ms% içinde tamamlandı.";
-        private String boughtFarmer = "{prefix} &aÇiftçi başarıyla alındı.";
-        private String inCooldown = "{prefix} &cBunu tekrar yapmak için {time}sn beklemelisin.";
-        private String waitingInput = "{prefix} &a6 saniye içinde eklemek istediğin kullanıcı adını yaz veya iptal etmek için &c{cancel} &ayaz.";
-        private String notOwner = "{prefix} &cBu özelliği kullanmak için bölge sahibi olman gerek.";
-        private String inputCancel = "{prefix} &cKullanıcı ekleme işlemi iptal oldu.";
-        private String userAdded = "{prefix} &2{player} &aEklendi.";
-        private String userAlreadyExist = "{prefix} &4{player} &cZaten ekli.";
-        private String userCouldntFound = "{prefix} &cBu oyuncu daha önce hiç oynamamış!";
-        private String reachedMaxUser = "{prefix} &cDaha fazla üye alamazsın!";
-        private String playerNotOnline = "{prefix} &cHedef oyuncu çevrimiçi değil.";
-        private String playerNotAvailable = "{prefix} &cOyuncu mevcut değil.";
-        private String targetPlayerNotAvailable = "{prefix} &cHedef oyuncu mevcut değil.";
-        private String configReloaded = "{prefix} &aYapılandırma başarıyla yeniden yüklendi.";
-        private String invalidArgument = "{prefix} &cGeçersiz argüman!";
-        private String unknownCommand = "{prefix} &cBilinmeyen komut!";
-        private String notEnoughArguments = "{prefix} &cYetersiz argüman girildi!";
-        private String tooManyArguments = "{prefix} &cÇok fazla agüman girildi!";
-        private String noPerm = "{prefix} &cBunun için yetkin yok!";
+        private String toggleFarmer = "{prefix} <green>Toplama ayarı: <yellow>{status}";
+        private String featureDisabled = "{prefix} <red>Bu özellik devre dışı.";
+        private String reloadSuccess = "{prefix} <green>Config dosyalarının yenilenmesi %ms% içinde tamamlandı.";
+        private String boughtFarmer = "{prefix} <green>Çiftçi başarıyla alındı.";
+        private String inCooldown = "{prefix} <red>Bunu tekrar yapmak için {time}sn beklemelisin.";
+        private String waitingInput = "{prefix} <green>6 saniye içinde eklemek istediğin kullanıcı adını yaz veya iptal etmek için <red>{cancel} <green>yaz.";
+        private String notOwner = "{prefix} <red>Bu özelliği kullanmak için bölge sahibi olman gerek.";
+        private String inputCancel = "{prefix} <red>Kullanıcı ekleme işlemi iptal oldu.";
+        private String userAdded = "{prefix} <dark_green>{player} <green>Eklendi.";
+        private String userAlreadyExist = "{prefix} <dark_red>{player} <red>Zaten ekli.";
+        private String userCouldntFound = "{prefix} <red>Bu oyuncu daha önce hiç oynamamış!";
+        private String reachedMaxUser = "{prefix} <red>Daha fazla üye alamazsın!";
+        private String playerNotOnline = "{prefix} <red>Hedef oyuncu çevrimiçi değil.";
+        private String playerNotAvailable = "{prefix} <red>Oyuncu mevcut değil.";
+        private String targetPlayerNotAvailable = "{prefix} <red>Hedef oyuncu mevcut değil.";
+        private String configReloaded = "{prefix} <green>Yapılandırma başarıyla yeniden yüklendi.";
+        private String invalidArgument = "{prefix} <red>Geçersiz argüman!";
+        private String unknownCommand = "{prefix} <red>Bilinmeyen komut!";
+        private String notEnoughArguments = "{prefix} <red>Yetersiz argüman girildi!";
+        private String tooManyArguments = "{prefix} <red>Çok fazla agüman girildi!";
+        private String noPerm = "{prefix} <red>Bunun için yetkin yok!";
     }
 
     private Various various = new Various();
@@ -90,8 +89,8 @@ public class tr extends LangFile {
     @Setter
     public static class Various extends LangFile.Various {
         private String percentBar = "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪";
-        private String toggleOn = "&aAktif";
-        private String toggleOff = "&cDevre Dışı";
+        private String toggleOn = "<green>Aktif";
+        private String toggleOff = "<red>Devre Dışı";
         private String inputCancelWord = "iptal";
     }
 
@@ -106,8 +105,8 @@ public class tr extends LangFile {
     @Getter
     @Setter
     public static class BuyDisabled extends LangFile.BuyDisabled {
-        private String title = "&6Çiftçi";
-        private String subtitle = "&cÇiftçi için web sitemizi ziyaret edin";
+        private String title = "<gold>Çiftçi";
+        private String subtitle = "<red>Çiftçi için web sitemizi ziyaret edin";
     }
 
     private Roles roles = new Roles();
@@ -121,9 +120,9 @@ public class tr extends LangFile {
     @Getter
     @Setter
     public static class Roles extends LangFile.Roles {
-        private String owner = "&cLider";
-        private String member = "&aÜye";
-        private String coop = "&eİşçi";
+        private String owner = "<red>Lider";
+        private String member = "<green>Üye";
+        private String coop = "<yellow>İşçi";
     }
 
     private Gui gui = new Gui();
@@ -150,7 +149,7 @@ public class tr extends LangFile {
         @Setter
         public static class NextPage extends LangFile.Gui.NextPage {
             @Comment("Placeholder: %nextpage% shows next page index.")
-            private String name = "&eÖnceki Sayfa (%prevpage%)";
+            private String name = "<yellow>Önceki Sayfa (%prevpage%)";
         }
 
         private PreviousPage previousPage = new PreviousPage();
@@ -165,7 +164,7 @@ public class tr extends LangFile {
         @Setter
         public static class PreviousPage extends LangFile.Gui.PreviousPage {
             @Comment("Placeholder: %prevpage% shows previous page index.")
-            private String name = "&ePrevious Page (%prevpage%)";
+            private String name = "<yellow>Previous Page (%prevpage%)";
         }
 
         private FarmerGui farmerGui = new FarmerGui();
@@ -179,7 +178,7 @@ public class tr extends LangFile {
         @Getter
         @Setter
         public static class FarmerGui extends LangFile.Gui.FarmerGui {
-            private String guiName = "&8Çiftçi Deposu";
+            private String guiName = "<dark_gray>Çiftçi Deposu";
 
             private Items items = new Items();
 
@@ -204,17 +203,17 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class Manage extends LangFile.Gui.FarmerGui.Items.Manage {
-                    private String name = "&eYönetim Paneli";
+                    private String name = "<yellow>Yönetim Paneli";
                     private List<String> lore = Arrays.asList(
-                            "&7Sadece bölge sahibi bu",
-                            "&7sayfaya erişebilir.",
+                            "<gray>Sadece bölge sahibi bu",
+                            "<gray>sayfaya erişebilir.",
                             "",
-                            "&dÇiftçi istatistikleri:",
-                            " &8▪ &7Seviye: &6{level}",
-                            " &8▪ &7Kapasite: &6{capacity}",
-                            " &8▪ &7Vergi Oranı: &6{tax}",
+                            "<light_purple>Çiftçi istatistikleri:",
+                            " <dark_gray>▪ <gray>Seviye: <gold>{level}",
+                            " <dark_gray>▪ <gray>Kapasite: <gold>{capacity}",
+                            " <dark_gray>▪ <gray>Vergi Oranı: <gold>{tax}",
                             "",
-                            "&aYönetim paneli için tıkla!"
+                            "<green>Yönetim paneli için tıkla!"
                     );
                 }
 
@@ -228,17 +227,17 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class Help extends LangFile.Gui.FarmerGui.Items.Help {
-                    private String name = "&eBilgilendirme";
+                    private String name = "<yellow>Bilgilendirme";
                     private List<String> lore = Arrays.asList(
-                            "&7Bu sayfa çiftçinin envanteridir.",
-                            "&7Çiftçi eşyaları burada biriktiriyor.",
-                            "&7Burada neler yapabilirsin:",
-                            " &8▪ &6Bu eşyaları satabilirsin",
-                            " &8▪ &6Bu eşyaları envanterine alabilirsin",
-                            " &8▪ &6Yönetici paneline erişebilirsin (Sadece Lider)",
+                            "<gray>Bu sayfa çiftçinin envanteridir.",
+                            "<gray>Çiftçi eşyaları burada biriktiriyor.",
+                            "<gray>Burada neler yapabilirsin:",
+                            " <dark_gray>▪ <gold>Bu eşyaları satabilirsin",
+                            " <dark_gray>▪ <gold>Bu eşyaları envanterine alabilirsin",
+                            " <dark_gray>▪ <gold>Yönetici paneline erişebilirsin (Sadece Lider)",
                             "",
-                            "&cEğer COOP rolüne sahipsen",
-                            "&csadece bu menüyü görüntüleyebilirsin."
+                            "<red>Eğer COOP rolüne sahipsen",
+                            "<red>sadece bu menüyü görüntüleyebilirsin."
                     );
                 }
 
@@ -252,12 +251,12 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class SellAll extends LangFile.Gui.FarmerGui.Items.SellAll {
-                    private String name = "&eHepsini Sat";
+                    private String name = "<yellow>Hepsini Sat";
                     private List<String> lore = Arrays.asList(
-                            "&7Çiftçinin sahip olduğu",
-                            "&7Tüm eşyaları satar.",
-                            "&7",
-                            "&aSatmak için tıkla!"
+                            "<gray>Çiftçinin sahip olduğu",
+                            "<gray>Tüm eşyaları satar.",
+                            "<gray>",
+                            "<green>Satmak için tıkla!"
                     );
                 }
 
@@ -282,20 +281,20 @@ public class tr extends LangFile {
                 public static class GroupItems extends LangFile.Gui.FarmerGui.Items.GroupItems {
                     private List<String> lore = Arrays.asList(
                             "",
-                            " &8▪ &7Stok: &f{stock}&8/&c{maxstock}",
-                            " &8▪ &7Fiyat: &f{price}$ adet",
-                            "&8&l  [{bar}&8&l] &r{percent}%",
+                            " <dark_gray>▪ <gray>Stok: <white>{stock}<dark_gray>/<red>{maxstock}",
+                            " <dark_gray>▪ <gray>Fiyat: <white>{price}$ adet",
+                            "<dark_gray><bold>[{bar}<dark_gray><bold>] <reset>{percent}%",
                             "",
-                            "&7Ortalama Üretim (dakika): &f{prod_min}",
-                            "&7Ortalama Üretim (saat): &f{prod_hour}",
-                            "&7Ortalama Üretim (gün): &f{prod_day}",
+                            "<gray>Ortalama Üretim (dakika): <white>{prod_min}",
+                            "<gray>Ortalama Üretim (saat): <white>{prod_hour}",
+                            "<gray>Ortalama Üretim (gün): <white>{prod_day}",
                             "{prod_blank}",
-                            "&7Envanterine Bir Stack Al &8[&eSol Tık&8]",
-                            "&7Envanterine Maks Al &8[&eSağ Tık&8]",
-                            "&7Hepsini Sat &8[&eShift+Sağ Tık&8]",
+                            "<gray>Envanterine Bir Stack Al <dark_gray>[<yellow>Sol Tık<dark_gray>]",
+                            "<gray>Envanterine Maks Al <dark_gray>[<yellow>Sağ Tık<dark_gray>]",
+                            "<gray>Hepsini Sat <dark_gray>[<yellow>Shift+Sağ Tık<dark_gray>]",
                             "",
-                            "&4DIKKAT: &cHepsini sat özelliği",
-                            "&4%{tax} &cvergi alıyor.!"
+                            "<dark_red>DIKKAT: <red>Hepsini sat özelliği",
+                            "<dark_red>%{tax} <red>vergi alıyor.!"
                     );
                 }
 
@@ -313,7 +312,7 @@ public class tr extends LangFile {
         @Setter
         public static class ManageGui extends LangFile.Gui.ManageGui {
 
-            private String guiName = "&8Yönetim Paneli";
+            private String guiName = "<dark_gray>Yönetim Paneli";
 
             private Items items = new Items();
 
@@ -346,14 +345,14 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class UpgradeNext extends LangFile.Gui.ManageGui.Items.UpgradeNext {
-                    private String name = "&6{level}. &eSeviye Çiftçi";
+                    private String name = "<gold>{level}. <yellow>Seviye Çiftçi";
                     private List<String> lore = Arrays.asList(
                             "",
-                            " &8▪ &7Sonraki Seviye: &6{next_level}&7/&c{max_level}",
-                            " &8▪ &7Sonraki Kapasite: &e{next_capacity}",
-                            " &8▪ &7Gerekli Para: &6{req_money}",
+                            " <dark_gray>▪ <gray>Sonraki Seviye: <gold>{next_level}<gray>/<red>{max_level}",
+                            " <dark_gray>▪ <gray>Sonraki Kapasite: <yellow>{next_capacity}",
+                            " <dark_gray>▪ <gray>Gerekli Para: <gold>{req_money}",
                             "",
-                            "&aSeviye yükseltmek için tıkla!"
+                            "<green>Seviye yükseltmek için tıkla!"
                     );
                 }
 
@@ -372,12 +371,12 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class MaxLevel extends LangFile.Gui.ManageGui.Items.MaxLevel {
-                    private String name = "&6{level}. &aSeviye Çiftçi";
+                    private String name = "<gold>{level}. <green>Seviye Çiftçi";
                     private List<String> lore = Arrays.asList(
-                            "&7Çiftçi son seviye.",
-                            "&7Daha fazla yükseltme yapamazsın.",
+                            "<gray>Çiftçi son seviye.",
+                            "<gray>Daha fazla yükseltme yapamazsın.",
                             "",
-                            " &8▪ &7Kapasite: &6{capacity}"
+                            " <dark_gray>▪ <gray>Kapasite: <gold>{capacity}"
                     );
                 }
 
@@ -391,14 +390,14 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class CloseFarmer extends LangFile.Gui.ManageGui.Items.CloseFarmer {
-                    private String name = "&eToplamayı Değiştir";
+                    private String name = "<yellow>Toplamayı Değiştir";
                     private List<String> lore = Arrays.asList(
-                            "&7Çiftçinin toplama özelliğini",
-                            "&7Kapatır/Açar",
+                            "<gray>Çiftçinin toplama özelliğini",
+                            "<gray>Kapatır/Açar",
                             "",
-                            " &8▪ &7Durum: &6{status}",
+                            " <dark_gray>▪ <gray>Durum: <gold>{status}",
                             "",
-                            "&aDeğiştirmek için tıkla!"
+                            "<green>Değiştirmek için tıkla!"
                     );
                 }
 
@@ -412,12 +411,12 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class Users extends LangFile.Gui.ManageGui.Items.Users {
-                    private String name = "&eÜye Paneli";
+                    private String name = "<yellow>Üye Paneli";
                     private List<String> lore = Arrays.asList(
-                            "&7Buradan çiftçiye üye",
-                            "&7ekleyebilir/silebilir/düzenleyebilirsin",
+                            "<gray>Buradan çiftçiye üye",
+                            "<gray>ekleyebilir/silebilir/düzenleyebilirsin",
                             "",
-                            "&aAçmak için tıkla."
+                            "<green>Açmak için tıkla."
                     );
                 }
 
@@ -431,12 +430,12 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class Modules extends LangFile.Gui.ManageGui.Items.Modules {
-                    private String name = "&eModüller";
+                    private String name = "<yellow>Modüller";
                     private List<String> lore = Arrays.asList(
-                            "&7Modül ayarlarına",
-                            "&7buradan erişebilirsin.",
+                            "<gray>Modül ayarlarına",
+                            "<gray>buradan erişebilirsin.",
                             "",
-                            "&aAçmak için tıkla."
+                            "<green>Açmak için tıkla."
                     );
                 }
             }
@@ -453,7 +452,7 @@ public class tr extends LangFile {
         @Setter
         public static class BuyGui extends LangFile.Gui.BuyGui {
 
-            private String guiName = "&8Çiftçi Al";
+            private String guiName = "<dark_gray>Çiftçi Al";
 
             private Items items = new Items();
 
@@ -477,14 +476,14 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class BuyItem extends LangFile.Gui.BuyGui.Items.BuyItem {
-                    private String name = "&eÇiftçi Al";
+                    private String name = "<yellow>Çiftçi Al";
                     private List<String> lore = Arrays.asList(
-                            "&7Bu eşyaya tıklayarak",
-                            "&7Çiftçi satın alabilirsin.",
+                            "<gray>Bu eşyaya tıklayarak",
+                            "<gray>Çiftçi satın alabilirsin.",
                             "",
-                            " &8▪ &7Fiyat: &6{price}",
+                            " <dark_gray>▪ <gray>Fiyat: <gold>{price}",
                             "",
-                            "&aSatın almak için tıkla!"
+                            "<green>Satın almak için tıkla!"
                     );
                 }
             }
@@ -501,7 +500,7 @@ public class tr extends LangFile {
         @Setter
         public static class UsersGui extends LangFile.Gui.UsersGui {
 
-            private String guiName = "&8Çiftçi Üyeleri";
+            private String guiName = "<dark_gray>Çiftçi Üyeleri";
 
             private Items items = new Items();
 
@@ -525,13 +524,13 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class User extends LangFile.Gui.UsersGui.Items.User {
-                    private String name = "&e%player_name%";
+                    private String name = "<yellow>%player_name%";
                     private List<String> lore = Arrays.asList(
                             "",
-                            " &8▪ &7Rol: &6{role}",
+                            " <dark_gray>▪ <gray>Rol: <gold>{role}",
                             "",
-                            "&aSol veya Sağ Tık ile rolünü değiştirebilirsin",
-                            "&4Shift+Sağ Tık ile üyeyi silebilirsin."
+                            "<green>Sol veya Sağ Tık ile rolünü değiştirebilirsin",
+                            "<dark_red>Shift+Sağ Tık ile üyeyi silebilirsin."
                     );
                 }
 
@@ -545,15 +544,15 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class Help extends LangFile.Gui.UsersGui.Items.Help {
-                    private String name = "&eBilgilendirme";
+                    private String name = "<yellow>Bilgilendirme";
                     private List<String> lore = Arrays.asList(
-                            "&7Buradan çiftçi üyelerini terfi/tenzil/silme",
-                            "&7ve üye ekleme işlemlerini yapabilirsin.",
+                            "<gray>Buradan çiftçi üyelerini terfi/tenzil/silme",
+                            "<gray>ve üye ekleme işlemlerini yapabilirsin.",
                             "",
-                            "&7Rütbe Sıralaması:",
-                            " &8▪ &eCoop sadece çiftçi menüsünü açabilir.",
-                            " &8▪ &6Member eşyaları alıp satabilir.",
-                            " &8▪ &cOwner her şeyi yapabilir."
+                            "<gray>Rütbe Sıralaması:",
+                            " <dark_gray>▪ <yellow>Coop sadece çiftçi menüsünü açabilir.",
+                            " <dark_gray>▪ <gold>Member eşyaları alıp satabilir.",
+                            " <dark_gray>▪ <red>Owner her şeyi yapabilir."
                     );
                 }
 
@@ -567,10 +566,10 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class AddUser extends LangFile.Gui.UsersGui.Items.AddUser {
-                    private String name = "&eÜye Ekle";
+                    private String name = "<yellow>Üye Ekle";
                     private List<String> lore = Arrays.asList(
                             "",
-                            "&aÜye eklemek için tıkla."
+                            "<green>Üye eklemek için tıkla."
                     );
                 }
             }
@@ -587,7 +586,7 @@ public class tr extends LangFile {
         @Setter
         public static class GeyserGui extends LangFile.Gui.GeyserGui {
 
-            private String guiName = "&8Çiftçi Geyser Gui";
+            private String guiName = "<dark_gray>Çiftçi Geyser Gui";
 
             private Items items = new Items();
 
@@ -611,11 +610,11 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class LeftClick extends LangFile.Gui.GeyserGui.Items.LeftClick {
-                    private String name = "&eLeft Click";
+                    private String name = "<yellow>Left Click";
                     private List<String> lore = Arrays.asList(
                             "",
-                            "&aSeçilen öğeyi çiftçi envanterinizden",
-                            "&abir yığın olarak al."
+                            "<green>Seçilen öğeyi çiftçi envanterinizden",
+                            "<green>bir yığın olarak al."
                     );
                 }
 
@@ -630,11 +629,11 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class RightClick extends LangFile.Gui.GeyserGui.Items.RightClick {
-                    private String name = "&eRight Click";
+                    private String name = "<yellow>Right Click";
                     private List<String> lore = Arrays.asList(
                             "",
-                            "&aSeçilen öğeyi çiftçi envanterinizden",
-                            "&ahepsini al."
+                            "<green>Seçilen öğeyi çiftçi envanterinizden",
+                            "<green>hepsini al."
                     );
                 }
 
@@ -649,10 +648,10 @@ public class tr extends LangFile {
                 @Getter
                 @Setter
                 public static class ShiftRightClick extends LangFile.Gui.GeyserGui.Items.ShiftRightClick {
-                    private String name = "&eShift+Right Click";
+                    private String name = "<yellow>Shift+Right Click";
                     private List<String> lore = Arrays.asList(
                             "",
-                            "&aÇiftçi envanterinizdeki tüm öğeleri satın."
+                            "<green>Çiftçi envanterinizdeki tüm öğeleri satın."
                     );
                 }
             }
@@ -668,7 +667,7 @@ public class tr extends LangFile {
         @Getter
         @Setter
         public static class ModuleGui extends LangFile.Gui.ModuleGui {
-            private String guiName = "&8Çiftçi Eklentileri";
+            private String guiName = "<dark_gray>Çiftçi Eklentileri";
         }
 
     }

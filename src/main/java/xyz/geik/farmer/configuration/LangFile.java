@@ -38,42 +38,42 @@ public class LangFile extends OkaeriConfig {
     public static class Messages extends OkaeriConfig {
 
         @Comment("Prefix of messages")
-        private String prefix = "&3Farmer &8»";
+        private String prefix = "<aqua>Farmer <dark_gray>»";
 
         @Comment("placeholders: {money} money which deposited to player {tax} tax amount.")
-        private String sellComplate = "{prefix} &aItems sold. &6Profit: &e{money}&f, &6Tax: &e{tax}";
-        private String wrongWorld = "{prefix} &cYou cannot do this in this world.";
-        private String noRegion = "{prefix} &cThere is no region for bound a farmer.";
-        private String removedFarmer = "{prefix} &aRemoved farmer successfully.";
-        private String noFarmer = "{prefix} &cThere is no farmer bound here.";
-        private String mustBeOwner = "{prefix} &cYou must to be Region Owner for this.";
-        private String inventoryFull = "{prefix} &cInventory full!";
+        private String sellComplate = "{prefix} <green>Items sold. <gold>Profit: <yellow>{money}<white>, <gold>Tax: <yellow>{tax}";
+        private String wrongWorld = "{prefix} <red>You cannot do this in this world.";
+        private String noRegion = "{prefix} <red>There is no region for bound a farmer.";
+        private String removedFarmer = "{prefix} <green>Removed farmer successfully.";
+        private String noFarmer = "{prefix} <red>There is no farmer bound here.";
+        private String mustBeOwner = "{prefix} <red>You must to be Region Owner for this.";
+        private String inventoryFull = "{prefix} <red>Inventory full!";
         @Comment("placeholders: {money} players money {req_money} required money.")
-        private String notEnoughMoney = "{prefix} &cDon't have enough money! Required: &4{req_money}";
+        private String notEnoughMoney = "{prefix} <red>Don't have enough money! Required: <dark_red>{req_money}";
         @Comment("placeholders: {level} new upgraded level {capacity} new upgraded capacity.")
-        private String levelUpgraded = "{prefix} &aFarmer upgraded to &6{level}&a level. &2New Capacity: &e{capacity}";
+        private String levelUpgraded = "{prefix} <green>Farmer upgraded to <gold>{level}<green> level. <dark_green>New Capacity: <yellow>{capacity}";
         @Comment("placeholders: {status} shows status of farmer status. (#toggledON, #toggledOFF)")
-        private String toggleFarmer = "{prefix} &aFarmers collection settings changed to: &e{status}";
-        private String featureDisabled = "{prefix} &cThis feature disallowed.";
-        private String reloadSuccess = "{prefix} &aConfig reloaded successfully. It took %ms%";
-        private String boughtFarmer = "{prefix} &aFarmer bought successfully.";
-        private String inCooldown = "{prefix} &cYou should wait {time}s for do it again.";
-        private String waitingInput = "{prefix} &aType input to chat in 6sec and type &c{cancel} &afor cancel.";
-        private String notOwner = "{prefix} &cYou must be the owner of the region to use this command.";
-        private String inputCancel = "{prefix} &cNo longer waiting for input.";
-        private String userAdded = "{prefix} &aAdded successfully.";
-        private String userAlreadyExist = "{prefix} &4{player} &cAlready added.";
-        private String userCouldntFound = "{prefix} &cUser has not played before!";
-        private String reachedMaxUser = "{prefix} &cYou have reached max user capacity.";
-        private String playerNotOnline = "{prefix} &cTarget player is not online.";
-        private String playerNotAvailable = "{prefix} &cPlayer is not available.";
-        private String targetPlayerNotAvailable = "{prefix} &cTarget player is not available.";
-        private String configReloaded = "{prefix} &aConfig reloaded successfully.";
-        private String invalidArgument = "{prefix} &cInvalid argument!";
-        private String unknownCommand = "{prefix} &cUnknown command!";
-        private String notEnoughArguments = "{prefix} &cNot enough arguments!";
-        private String tooManyArguments = "{prefix} &cToo many arguments!";
-        private String noPerm = "{prefix} &cYou do not have permission to do this action!";
+        private String toggleFarmer = "{prefix} <green>Farmers collection settings changed to: <yellow>{status}";
+        private String featureDisabled = "{prefix} <red>This feature disallowed.";
+        private String reloadSuccess = "{prefix} <green>Config reloaded successfully. It took %ms%";
+        private String boughtFarmer = "{prefix} <green>Farmer bought successfully.";
+        private String inCooldown = "{prefix} <red>You should wait {time}s for do it again.";
+        private String waitingInput = "{prefix} <green>Type input to chat in 6sec and type <red>{cancel} <green>for cancel.";
+        private String notOwner = "{prefix} <red>You must be the owner of the region to use this command.";
+        private String inputCancel = "{prefix} <red>No longer waiting for input.";
+        private String userAdded = "{prefix} <green>Added successfully.";
+        private String userAlreadyExist = "{prefix} <dark_red>{player} <red>Already added.";
+        private String userCouldntFound = "{prefix} <red>User has not played before!";
+        private String reachedMaxUser = "{prefix} <red>You have reached max user capacity.";
+        private String playerNotOnline = "{prefix} <red>Target player is not online.";
+        private String playerNotAvailable = "{prefix} <red>Player is not available.";
+        private String targetPlayerNotAvailable = "{prefix} <red>Target player is not available.";
+        private String configReloaded = "{prefix} <green>Config reloaded successfully.";
+        private String invalidArgument = "{prefix} <red>Invalid argument!";
+        private String unknownCommand = "{prefix} <red>Unknown command!";
+        private String notEnoughArguments = "{prefix} <red>Not enough arguments!";
+        private String tooManyArguments = "{prefix} <red>Too many arguments!";
+        private String noPerm = "{prefix} <red>You do not have permission to do this action!";
     }
 
     private Various various = new Various();
@@ -88,8 +88,8 @@ public class LangFile extends OkaeriConfig {
     @Setter
     public static class Various extends OkaeriConfig {
         private String percentBar = "▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪";
-        private String toggleOn = "&aActive";
-        private String toggleOff = "&cDisabled";
+        private String toggleOn = "<green>Active";
+        private String toggleOff = "<red>Disabled";
         private String inputCancelWord = "cancel";
     }
 
@@ -104,8 +104,8 @@ public class LangFile extends OkaeriConfig {
     @Getter
     @Setter
     public static class BuyDisabled extends OkaeriConfig {
-        private String title = "&6Farmer";
-        private String subtitle = "&cVisit our website for farmer";
+        private String title = "<gold>Farmer";
+        private String subtitle = "<red>Visit our website for farmer";
     }
 
     private Roles roles = new Roles();
@@ -119,9 +119,9 @@ public class LangFile extends OkaeriConfig {
     @Getter
     @Setter
     public static class Roles extends OkaeriConfig {
-        private String owner = "&cOwner";
-        private String member = "&aMember";
-        private String coop = "&eCoop";
+        private String owner = "<red>Owner";
+        private String member = "<green>Member";
+        private String coop = "<yellow>Coop";
     }
 
     private Gui gui = new Gui();
@@ -148,7 +148,7 @@ public class LangFile extends OkaeriConfig {
         @Setter
         public static class NextPage extends OkaeriConfig {
             @Comment("Placeholder: %nextpage% shows next page index.")
-            private String name = "&eNext Page (%nextpage%)";
+            private String name = "<yellow>Next Page (%nextpage%)";
         }
 
         private PreviousPage previousPage = new PreviousPage();
@@ -163,7 +163,7 @@ public class LangFile extends OkaeriConfig {
         @Setter
         public static class PreviousPage extends OkaeriConfig {
             @Comment("Placeholder: %prevpage% shows previous page index.")
-            private String name = "&ePrevious Page (%prevpage%)";
+            private String name = "<yellow>Previous Page (%prevpage%)";
         }
 
         private FarmerGui farmerGui = new FarmerGui();
@@ -177,7 +177,7 @@ public class LangFile extends OkaeriConfig {
         @Getter
         @Setter
         public static class FarmerGui extends OkaeriConfig {
-            private String guiName = "&8Farmer Storage";
+            private String guiName = "<dark_gray>Farmer Storage";
 
             private Items items = new Items();
 
@@ -202,17 +202,17 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class Manage extends OkaeriConfig {
-                    private String name = "&eManagement Panel";
+                    private String name = "<yellow>Management Panel";
                     private List<String> lore = Arrays.asList(
-                            "&7Only region owner can",
-                            "&7open this panel.",
+                            "<gray>Only region owner can",
+                            "<gray>open this panel.",
                             "",
-                            "&dFarmer Stats:",
-                            " &8▪ &7Level: &6{level}",
-                            " &8▪ &7Capacity: &6{capacity}",
-                            " &8▪ &7Tax Rate: &6{tax}",
+                            "<light_purple>Farmer Stats:",
+                            " <dark_gray>▪ <gray>Level: <gold>{level}",
+                            " <dark_gray>▪ <gray>Capacity: <gold>{capacity}",
+                            " <dark_gray>▪ <gray>Tax Rate: <gold>{tax}",
                             "",
-                            "&aClick for management panel!"
+                            "<green>Click for management panel!"
                     );
                 }
 
@@ -226,17 +226,17 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class Help extends OkaeriConfig {
-                    private String name = "&eInformation";
+                    private String name = "<yellow>Information";
                     private List<String> lore = Arrays.asList(
-                            "&7This is inventory of Farmer.",
-                            "&7Farmer stores items here.",
-                            "&7What you can do here:",
-                            " &8▪ &6Sell items",
-                            " &8▪ &6Take items to inventory",
-                            " &8▪ &6Management panel (Only Leader)",
+                            "<gray>This is inventory of Farmer.",
+                            "<gray>Farmer stores items here.",
+                            "<gray>What you can do here:",
+                            " <dark_gray>▪ <gold>Sell items",
+                            " <dark_gray>▪ <gold>Take items to inventory",
+                            " <dark_gray>▪ <gold>Management panel (Only Leader)",
                             "",
-                            "&cIf you are coop you can",
-                            "&conly see this menu."
+                            "<red>If you are coop you can",
+                            "<red>only see this menu."
                     );
                 }
 
@@ -250,12 +250,12 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class SellAll extends OkaeriConfig {
-                    private String name = "&eSell All";
+                    private String name = "<yellow>Sell All";
                     private List<String> lore = Arrays.asList(
-                            "&7Sells all the items",
-                            "&7that Farmer has.",
-                            "&7",
-                            "&aClick here to sell all!"
+                            "<gray>Sells all the items",
+                            "<gray>that Farmer has.",
+                            "<gray>",
+                            "<green>Click here to sell all!"
                     );
                 }
 
@@ -280,20 +280,20 @@ public class LangFile extends OkaeriConfig {
                 public static class GroupItems extends OkaeriConfig {
                     private List<String> lore = Arrays.asList(
                             "",
-                            " &8▪ &7Stock: &f{stock}&8/&c{maxstock}",
-                            " &8▪ &7Price: &f{price}$ each",
-                            "&8&l  [{bar}&8&l] &r{percent}%",
+                            " <dark_gray>▪ <gray>Stock: <white>{stock}<dark_gray>/<red>{maxstock}",
+                            " <dark_gray>▪ <gray>Price: <white>{price}$ each",
+                            "<dark_gray><bold>[{bar}<dark_gray><bold>] <reset>{percent}%",
                             "",
-                            "&7Average Production (min): &f{prod_min}",
-                            "&7Average Production (hour): &f{prod_hour}",
-                            "&7Average Production (day): &f{prod_day}",
+                            "<gray>Average Production (min): <white>{prod_min}",
+                            "<gray>Average Production (hour): <white>{prod_hour}",
+                            "<gray>Average Production (day): <white>{prod_day}",
                             "{prod_blank}",
-                            "&7Withdraw Stack &8[&eLeft Click&8]",
-                            "&7Withdraw Max &8[&eRight Click&8]",
-                            "&7Sell All &8[&eShift+Right Click&8]",
+                            "<gray>Withdraw Stack <dark_gray>[<yellow>Left Click<dark_gray>]",
+                            "<gray>Withdraw Max <dark_gray>[<yellow>Right Click<dark_gray>]",
+                            "<gray>Sell All <dark_gray>[<yellow>Shift+Right Click<dark_gray>]",
                             "",
-                            "&4DANG: &cSell all feature takes",
-                            "&4%{tax} &ctax.!"
+                            "<dark_red>DANG: <red>Sell all feature takes",
+                            "<dark_red>%{tax} <red>tax.!"
                     );
                 }
 
@@ -311,7 +311,7 @@ public class LangFile extends OkaeriConfig {
         @Setter
         public static class ManageGui extends OkaeriConfig {
 
-            private String guiName = "&8Manager Panel";
+            private String guiName = "<dark_gray>Manager Panel";
 
             private Items items = new Items();
 
@@ -344,14 +344,14 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class UpgradeNext extends OkaeriConfig {
-                    private String name = "&6{level}. &eLevel Farmer";
+                    private String name = "<gold>{level}. <yellow>Level Farmer";
                     private List<String> lore = Arrays.asList(
                             "",
-                            " &8▪ &7New Level: &6{next_level}&7/&c{max_level}",
-                            " &8▪ &7New Capacity: &e{next_capacity}",
-                            " &8▪ &7Required Money: &6{req_money}",
+                            " <dark_gray>▪ <gray>New Level: <gold>{next_level}<gray>/<red>{max_level}",
+                            " <dark_gray>▪ <gray>New Capacity: <yellow>{next_capacity}",
+                            " <dark_gray>▪ <gray>Required Money: <gold>{req_money}",
                             "",
-                            "&aClick for upgrade level!"
+                            "<green>Click for upgrade level!"
                     );
                 }
 
@@ -370,12 +370,12 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class MaxLevel extends OkaeriConfig {
-                    private String name = "&6{level}. &eLevel Farmer";
+                    private String name = "<gold>{level}. <yellow>Level Farmer";
                     private List<String> lore = Arrays.asList(
-                            "&7Farmer is in max level.",
-                            "&7You cannot upgrade much more.",
+                            "<gray>Farmer is in max level.",
+                            "<gray>You cannot upgrade much more.",
                             "",
-                            " &8▪ &7Capacity: &6{capacity}"
+                            " <dark_gray>▪ <gray>Capacity: <gold>{capacity}"
                     );
                 }
 
@@ -389,14 +389,14 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class CloseFarmer extends OkaeriConfig {
-                    private String name = "&eClose Collecting";
+                    private String name = "<yellow>Close Collecting";
                     private List<String> lore = Arrays.asList(
-                            "&7Closes farmer and it will be",
-                            "&7useless until reopen.",
+                            "<gray>Closes farmer and it will be",
+                            "<gray>useless until reopen.",
                             "",
-                            " &8▪ &7Status: &6{status}",
+                            " <dark_gray>▪ <gray>Status: <gold>{status}",
                             "",
-                            "&aClick for change!"
+                            "<green>Click for change!"
                     );
                 }
 
@@ -410,12 +410,12 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class Users extends OkaeriConfig {
-                    private String name = "&eUser Management";
+                    private String name = "<yellow>User Management";
                     private List<String> lore = Arrays.asList(
-                            "&7You can add/remove/modify",
-                            "&7users in here.",
+                            "<gray>You can add/remove/modify",
+                            "<gray>users in here.",
                             "",
-                            "&aClick for open."
+                            "<green>Click for open."
                     );
                 }
 
@@ -429,12 +429,12 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class Modules extends OkaeriConfig {
-                    private String name = "&eModules";
+                    private String name = "<yellow>Modules";
                     private List<String> lore = Arrays.asList(
-                            "&7You can modify farmer",
-                            "&7modules in here.",
+                            "<gray>You can modify farmer",
+                            "<gray>modules in here.",
                             "",
-                            "&aClick for open."
+                            "<green>Click for open."
                     );
                 }
             }
@@ -451,7 +451,7 @@ public class LangFile extends OkaeriConfig {
         @Setter
         public static class BuyGui extends OkaeriConfig {
 
-            private String guiName = "&8Buy Farmer";
+            private String guiName = "<dark_gray>Buy Farmer";
 
             private Items items = new Items();
 
@@ -475,14 +475,14 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class BuyItem extends OkaeriConfig {
-                    private String name = "&eBuy Farmer";
+                    private String name = "<yellow>Buy Farmer";
                     private List<String> lore = Arrays.asList(
-                            "&7You can buy farmer by",
-                            "&7clicking this item.",
+                            "<gray>You can buy farmer by",
+                            "<gray>clicking this item.",
                             "",
-                            " &8▪ &7Price: &6{price}",
+                            " <dark_gray>▪ <gray>Price: <gold>{price}",
                             "",
-                            "&aClick for buy!"
+                            "<green>Click for buy!"
                     );
                 }
             }
@@ -499,7 +499,7 @@ public class LangFile extends OkaeriConfig {
         @Setter
         public static class UsersGui extends OkaeriConfig {
 
-            private String guiName = "&8Farmer Users";
+            private String guiName = "<dark_gray>Farmer Users";
 
             private Items items = new Items();
 
@@ -523,13 +523,13 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class User extends OkaeriConfig {
-                    private String name = "&e%player_name%";
+                    private String name = "<yellow>%player_name%";
                     private List<String> lore = Arrays.asList(
                             "",
-                            " &8▪ &7Role: &6{role}",
+                            " <dark_gray>▪ <gray>Role: <gold>{role}",
                             "",
-                            "&aLeft or Right click for promote/demote",
-                            "&4Shift+Right click for delete"
+                            "<green>Left or Right click for promote/demote",
+                            "<dark_red>Shift+Right click for delete"
                     );
                 }
 
@@ -543,15 +543,15 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class Help extends OkaeriConfig {
-                    private String name = "&eInformation";
+                    private String name = "<yellow>Information";
                     private List<String> lore = Arrays.asList(
-                            "&7You can promote/demote/remove",
-                            "&7and add user here.",
+                            "<gray>You can promote/demote/remove",
+                            "<gray>and add user here.",
                             "",
-                            "&7Perm Info:",
-                            " &8▪ &eCoop can only look farmer.",
-                            " &8▪ &6Member can sell and take items.",
-                            " &8▪ &cOwner can do everything."
+                            "<gray>Perm Info:",
+                            " <dark_gray>▪ <yellow>Coop can only look farmer.",
+                            " <dark_gray>▪ <gold>Member can sell and take items.",
+                            " <dark_gray>▪ <red>Owner can do everything."
                     );
                 }
 
@@ -565,10 +565,10 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class AddUser extends OkaeriConfig {
-                    private String name = "&eAdd user";
+                    private String name = "<yellow>Add user";
                     private List<String> lore = Arrays.asList(
                             "",
-                            "&aClick for add user."
+                            "<green>Click for add user."
                     );
                 }
             }
@@ -586,7 +586,7 @@ public class LangFile extends OkaeriConfig {
         @Setter
         public static class GeyserGui extends OkaeriConfig {
 
-            private String guiName = "&8Farmer Geyser Gui";
+            private String guiName = "<dark_gray>Farmer Geyser Gui";
 
             private Items items = new Items();
 
@@ -611,11 +611,11 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class LeftClick extends OkaeriConfig {
-                    private String name = "&eLeft Click";
+                    private String name = "<yellow>Left Click";
                     private List<String> lore = Arrays.asList(
                             "",
-                            "&aGet the selected item as a",
-                            "&astack in your farmer inventory."
+                            "<green>Get the selected item as a",
+                            "<green>stack in your farmer inventory."
                     );
                 }
 
@@ -630,11 +630,11 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class RightClick extends OkaeriConfig {
-                    private String name = "&eRight Click";
+                    private String name = "<yellow>Right Click";
                     private List<String> lore = Arrays.asList(
                             "",
-                            "&aGet the selected item as a",
-                            "&amax amount in your farmer inventory."
+                            "<green>Get the selected item as a",
+                            "<green>max amount in your farmer inventory."
                     );
                 }
 
@@ -649,10 +649,10 @@ public class LangFile extends OkaeriConfig {
                 @Getter
                 @Setter
                 public static class ShiftRightClick extends OkaeriConfig {
-                    private String name = "&eShift+Right Click";
+                    private String name = "<yellow>Shift+Right Click";
                     private List<String> lore = Arrays.asList(
                             "",
-                            "&aSell all items in your farmer inventory."
+                            "<green>Sell all items in your farmer inventory."
                     );
                 }
             }
@@ -668,7 +668,7 @@ public class LangFile extends OkaeriConfig {
         @Getter
         @Setter
         public static class ModuleGui extends OkaeriConfig {
-            private String guiName = "&8Farmer Modules";
+            private String guiName = "<dark_gray>Farmer Modules";
         }
 
     }
