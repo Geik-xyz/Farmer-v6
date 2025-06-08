@@ -109,8 +109,11 @@ public class ItemEvent implements Listener {
         if(Main.getConfigFile().getPermission().isItemPermissionEnabled()){
             String itemName = e.getEntity().getItemStack().getType().name().toUpperCase();
             Player farmerOwner = Bukkit.getPlayer(farmer.getOwnerUUID());
-            if(!farmerOwner.hasPermission(Main.getConfigFile().getPermission().getItemPermission() + itemName) && !farmerOwner.hasPermission(Main.getConfigFile().getPermission().getItemPermission() + "*"))
+            if (farmerOwner == null || 
+                (!farmerOwner.hasPermission(Main.getConfigFile().getPermission().getItemPermission() + itemName) && 
+                 !farmerOwner.hasPermission(Main.getConfigFile().getPermission().getItemPermission() + "*"))) {
                 return;
+            }
         }
 
         // Calls FarmerItemCollectEvent
