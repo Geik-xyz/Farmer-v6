@@ -1,6 +1,7 @@
 package xyz.geik.farmer.listeners.backend;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -104,6 +105,16 @@ public class ItemEvent implements Listener {
         Farmer farmer = FarmerManager.getFarmers().get(regionID);
         if (farmer.getState() == 0)
             return;
+
+        if(Main.getConfigFile().getPermission().isItemPermissionEnabled()){
+            String itemName = e.getEntity().getItemStack().getType().name().toUpperCase();
+            Player farmerOwner = Bukkit.getPlayer(farmer.getOwnerUUID());
+            if (farmerOwner == null || 
+                (!farmerOwner.hasPermission(Main.getConfigFile().getPermission().getItemPermission() + itemName) && 
+                 !farmerOwner.hasPermission(Main.getConfigFile().getPermission().getItemPermission() + "*"))) {
+                return;
+            }
+        }
 
         // Calls FarmerItemCollectEvent
         FarmerItemCollectEvent collectEvent = new FarmerItemCollectEvent(farmer, item, item.getAmount(), e);

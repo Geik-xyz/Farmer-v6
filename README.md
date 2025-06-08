@@ -450,14 +450,13 @@ public class Main extends JavaPlugin {
 
 ## ★ Big Contributions (Many Thanks) ★
 
+- Thanks for Newly External JAR module system who developed by @WaterArchery
+- Many thanks for Folia support by @adabugra
+- Many thanks for fixing issues @WaterArchery
 - Economy System Developed by @amownyy
-- Added IridiumSkyblock & UltimateClaims support by @Khontrom
 - MySQL System Developed by @amownyy
-- Fabledskyblock Integration by @mehmet-27
-- Added Towny Advanced support by @amownyy
-- New Module system big helps by @amownyy
 
-> And also thanks for @WaterArchery, @Justman100, @efekurbann, @rudde0, @Heron4gf, @adabugra for improvement and bug fixes!
+> And also thanks for @Khontrom, @Justman100, @efekurbann, @rudde0, @Heron4gf, @mehmet-27 for improvement and bug fixes!
 
 ## Contributing
 

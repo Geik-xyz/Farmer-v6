@@ -119,6 +119,26 @@ public class ConfigFile extends OkaeriConfig {
         private String depositUser = "Geyik";
     }
 
+    @Comment("Permission settings")
+    private Permission permission = new Permission();
+
+    /**
+     * Permission configuration holder
+     */
+    @Getter
+    @Setter
+    public static class Permission extends OkaeriConfig{
+        @Comment({"Per permission for farmer items",
+                "You can use * character to allow all items",
+                "You can use item name to allow only that item",
+                "Example: farmer.item.WHEAT",
+        })
+        private String itemPermission = "farmer.item.";
+
+        @Comment("Activate if you want the Farmer to collect only certain items")
+        private boolean itemPermissionEnabled = false;
+    }
+
     /**
      * Gui's configuration holder
      */
