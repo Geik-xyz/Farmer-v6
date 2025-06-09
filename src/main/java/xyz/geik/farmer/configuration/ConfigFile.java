@@ -435,6 +435,8 @@ public class ConfigFile extends OkaeriConfig {
                 private int modelData = 0;
                 boolean hasGlow = false;
             }
+
+            public String userHeadMaterial = "PLAYER_HEAD";
         }
 
 
