@@ -93,6 +93,27 @@ public class en extends LangFile {
         private String toggleOn = "&aActive";
         private String toggleOff = "&cDisabled";
         private String inputCancelWord = "cancel";
+
+        private String calculatingGeneration = "&f&oCalculating...";
+
+        @Comment({
+                "Writes production amount with formatted number.",
+                "Example: 1000 -> 1k, 1000000 -> 1m, 1000000000 -> 1b, 1000000000000 -> 1t"
+        })
+        private LangFile.Various.NumberFormat numberFormat = new LangFile.Various.NumberFormat();
+
+        /**
+         * NumberFormat settings
+         *
+         * @author geik
+         * @since 2.0
+         */
+        public static class NumberFormat extends OkaeriConfig {
+            private String thousand = "k";
+            private String million = "m";
+            private String billion = "b";
+            private String trillion = "t";
+        }
     }
 
     private BuyDisabled buyDisabled = new BuyDisabled();

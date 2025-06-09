@@ -27,8 +27,6 @@ public class Production extends FarmerModule {
     @Getter
     private static Production instance;
 
-    private Config langFile;
-
     private static ProductionCalculateEvent productionCalculateEvent;
 
     private final String[] numberFormat = new String[]{"k", "m", "b", "t"};
@@ -51,11 +49,10 @@ public class Production extends FarmerModule {
             getProductionItems().addAll(productionItems);
             productionCalculateEvent = new ProductionCalculateEvent();
             Bukkit.getPluginManager().registerEvents(productionCalculateEvent, Main.getInstance());
-            setLang(Main.getConfigFile().getSettings().getLang(), this.getClass());
-            numberFormat[0] = getLang().getText("numberFormat.thousand");
-            numberFormat[1] = getLang().getText("numberFormat.million");
-            numberFormat[2] = getLang().getText("numberFormat.billion");
-            numberFormat[3] = getLang().getText("numberFormat.trillion");
+            numberFormat[0] = Main.getLangFile().getVarious().getNumberFormat().getThousand();
+            numberFormat[1] = Main.getLangFile().getVarious().getNumberFormat().getMillion();
+            numberFormat[2] = Main.getLangFile().getVarious().getNumberFormat().getBillion();
+            numberFormat[3] = Main.getLangFile().getVarious().getNumberFormat().getTrillion();
             reCalculate = Main.getConfigFile().getProduction().getReCalculate();
         }
     }
@@ -67,10 +64,10 @@ public class Production extends FarmerModule {
     public void onReload() {
         if (!this.isEnabled())
             return;
-        numberFormat[0] = getLang().getText("numberFormat.thousand");
-        numberFormat[1] = getLang().getText("numberFormat.million");
-        numberFormat[2] = getLang().getText("numberFormat.billion");
-        numberFormat[3] = getLang().getText("numberFormat.trillion");
+        numberFormat[0] = Main.getLangFile().getVarious().getNumberFormat().getThousand();
+        numberFormat[1] = Main.getLangFile().getVarious().getNumberFormat().getMillion();
+        numberFormat[2] = Main.getLangFile().getVarious().getNumberFormat().getBillion();
+        numberFormat[3] = Main.getLangFile().getVarious().getNumberFormat().getTrillion();
         reCalculate = Main.getConfigFile().getProduction().getReCalculate();
     }
 

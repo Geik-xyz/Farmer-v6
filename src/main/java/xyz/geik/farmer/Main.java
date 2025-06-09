@@ -12,7 +12,6 @@ import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.commands.FarmerCommand;
 import xyz.geik.farmer.configuration.ConfigFile;
 import xyz.geik.farmer.configuration.LangFile;
-import xyz.geik.farmer.configuration.ModulesFile;
 import xyz.geik.farmer.database.MySQL;
 import xyz.geik.farmer.database.SQL;
 import xyz.geik.farmer.database.SQLite;
@@ -90,9 +89,6 @@ public class Main extends JavaPlugin {
     @Getter
     private static ConfigFile configFile;
 
-    @Getter
-    private static ModulesFile modulesFile;
-
     /**
      * Main integration of plugin integrations#Integrations
      */
@@ -160,12 +156,6 @@ public class Main extends JavaPlugin {
             configFile = ConfigManager.create(ConfigFile.class, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer());
                 it.withBindFile(new File(getDataFolder(), "config.yml"));
-                it.saveDefaults();
-                it.load(true);
-            });
-            modulesFile = ConfigManager.create(ModulesFile.class, (it) -> {
-                it.withConfigurer(new YamlBukkitConfigurer());
-                it.withBindFile(new File(getDataFolder(), "modules.yml"));
                 it.saveDefaults();
                 it.load(true);
             });
