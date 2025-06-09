@@ -110,7 +110,7 @@ public class tr extends LangFile {
          */
         public static class NumberFormat extends OkaeriConfig {
             private String thousand = "bin";
-            private String million = "milyom";
+            private String million = "milyon";
             private String billion = "milyar";
             private String trillion = "trilyon";
         }
