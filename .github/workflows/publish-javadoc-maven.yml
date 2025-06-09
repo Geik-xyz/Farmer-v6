@@ -16,7 +16,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           javadoc-branch: javadoc
-          target-folder: javadoc
+          target-folder: .
           javadoc-source-folder: target/reports/apidocs
           java-version: 20
           project: maven # or gradle
