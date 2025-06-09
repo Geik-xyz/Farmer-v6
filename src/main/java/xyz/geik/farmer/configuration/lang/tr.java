@@ -93,6 +93,27 @@ public class tr extends LangFile {
         private String toggleOn = "&aAktif";
         private String toggleOff = "&cDevre Dışı";
         private String inputCancelWord = "iptal";
+
+        private String calculatingGeneration = "&f&oHesaplanıyor...";
+
+        @Comment({
+                "Yazı formatı ayarları",
+                "Değerler thousand -> bin, million -> milyon, billion -> milyar, trillion -> trilyon",
+        })
+        private LangFile.Various.NumberFormat numberFormat = new LangFile.Various.NumberFormat();
+
+        /**
+         * NumberFormat settings
+         *
+         * @author geik
+         * @since 2.0
+         */
+        public static class NumberFormat extends OkaeriConfig {
+            private String thousand = "bin";
+            private String million = "milyon";
+            private String billion = "milyar";
+            private String trillion = "trilyon";
+        }
     }
 
     private BuyDisabled buyDisabled = new BuyDisabled();
@@ -150,7 +171,7 @@ public class tr extends LangFile {
         @Setter
         public static class NextPage extends LangFile.Gui.NextPage {
             @Comment("Placeholder: %nextpage% shows next page index.")
-            private String name = "&eÖnceki Sayfa (%prevpage%)";
+            private String name = "&eSonraki Sayfa (%nextpage%)";
         }
 
         private PreviousPage previousPage = new PreviousPage();
@@ -165,7 +186,7 @@ public class tr extends LangFile {
         @Setter
         public static class PreviousPage extends LangFile.Gui.PreviousPage {
             @Comment("Placeholder: %prevpage% shows previous page index.")
-            private String name = "&ePrevious Page (%prevpage%)";
+            private String name = "&eÖnceki Sayfa (%prevpage%)";
         }
 
         private FarmerGui farmerGui = new FarmerGui();

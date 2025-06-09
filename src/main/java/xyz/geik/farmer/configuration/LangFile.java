@@ -91,6 +91,28 @@ public class LangFile extends OkaeriConfig {
         private String toggleOn = "&aActive";
         private String toggleOff = "&cDisabled";
         private String inputCancelWord = "cancel";
+        private String calculatingGeneration = "&f&oCalculating...";
+
+        @Comment({
+                "Writes production amount with formatted number.",
+                "Example: 1000 -> 1k, 1000000 -> 1m, 1000000000 -> 1b, 1000000000000 -> 1t"
+        })
+        private NumberFormat numberFormat = new NumberFormat();
+
+        /**
+         * NumberFormat settings
+         *
+         * @author geik
+         * @since 2.0
+         */
+        @Getter
+        @Setter
+        public static class NumberFormat extends OkaeriConfig {
+            private String thousand = "k";
+            private String million = "m";
+            private String billion = "b";
+            private String trillion = "t";
+        }
     }
 
     private BuyDisabled buyDisabled = new BuyDisabled();
