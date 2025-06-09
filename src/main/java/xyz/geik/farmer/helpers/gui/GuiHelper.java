@@ -362,54 +362,6 @@ public class GuiHelper {
     }
 
     /**
-     * leftClickItem in geyser menu
-     *
-     * @return ItemStack of leftClick icon
-     */
-    public static @NotNull ItemStack getGeyserGuiLeftItem() {
-        ItemStack result;
-        String name = Main.getLangFile().getGui().getGeyserGui().getItems().getLeftClick().getName();
-        List<String> lore = Main.getLangFile().getGui().getGeyserGui().getItems().getLeftClick().getLore();
-        int modelData = Main.getConfigFile().getGui().getGeyserGuiItems().getLeftClick().getModelData();
-        String material = Main.getConfigFile().getGui().getGeyserGuiItems().getLeftClick().getMaterial();
-        boolean hasGlow = Main.getConfigFile().getGui().getGeyserGuiItems().getLeftClick().isHasGlow();
-        result = getItem(name, lore, modelData, material, hasGlow, null);
-        return result;
-    }
-
-    /**
-     * RightClickItem in geyser menu
-     *
-     * @return ItemStack of rightClick icon
-     */
-    public static @NotNull ItemStack getGeyserGuiRightItem() {
-        ItemStack result;
-        String name = Main.getLangFile().getGui().getGeyserGui().getItems().getRightClick().getName();
-        List<String> lore = Main.getLangFile().getGui().getGeyserGui().getItems().getRightClick().getLore();
-        int modelData = Main.getConfigFile().getGui().getGeyserGuiItems().getRightClick().getModelData();
-        String material = Main.getConfigFile().getGui().getGeyserGuiItems().getRightClick().getMaterial();
-        boolean hasGlow = Main.getConfigFile().getGui().getGeyserGuiItems().getRightClick().isHasGlow();
-        result = getItem(name, lore, modelData, material, hasGlow, null);
-        return result;
-    }
-
-    /**
-     * shiftRightClickItem in geyser menu
-     *
-     * @return ItemStack of shiftRightClick icon
-     */
-    public static @NotNull ItemStack getGeyserGuiShiftRightItem() {
-        ItemStack result;
-        String name = Main.getLangFile().getGui().getGeyserGui().getItems().getShiftRightClick().getName();
-        List<String> lore = Main.getLangFile().getGui().getGeyserGui().getItems().getShiftRightClick().getLore();
-        int modelData = Main.getConfigFile().getGui().getGeyserGuiItems().getShiftRightClick().getModelData();
-        String material = Main.getConfigFile().getGui().getGeyserGuiItems().getShiftRightClick().getMaterial();
-        boolean hasGlow = Main.getConfigFile().getGui().getGeyserGuiItems().getShiftRightClick().isHasGlow();
-        result = getItem(name, lore, modelData, material, hasGlow, null);
-        return result;
-    }
-
-    /**
      * TODO OLD REMOVE
      * If item has skull it gets item as head with
      * custom head data. Otherwise, check for material and
