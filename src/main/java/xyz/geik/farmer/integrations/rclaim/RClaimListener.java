@@ -1,11 +1,11 @@
 package xyz.geik.farmer.integrations.rclaim;
 
-import net.weesli.rClaim.api.RClaimAPI;
-import net.weesli.rClaim.api.events.ClaimCreateEvent;
-import net.weesli.rClaim.api.events.ClaimDeleteEvent;
-import net.weesli.rClaim.api.events.TrustedPlayerEvent;
-import net.weesli.rClaim.api.events.UnTrustedPlayerEvent;
-import net.weesli.rClaim.modal.Claim;
+import net.weesli.rclaim.api.RClaimProvider;
+import net.weesli.rclaim.api.events.ClaimCreateEvent;
+import net.weesli.rclaim.api.events.ClaimDeleteEvent;
+import net.weesli.rclaim.api.events.ClaimTrustEvent;
+import net.weesli.rclaim.api.events.ClaimUnTrustEvent;
+import net.weesli.rclaim.api.model.Claim;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -49,10 +49,10 @@ public class RClaimListener implements Listener {
      * @param e Event of TrustedPlayerEvent
      */
     @EventHandler
-    public void trustPlayer(TrustedPlayerEvent e){
-        Claim claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(e.getTruster().getUniqueId())).collect(Collectors.toList()).get(0);
+    public void trustPlayer(ClaimTrustEvent e){
+        Claim claim = e.getClaim();
         if (!FarmerManager.getFarmers().containsKey(claim.getID())) return;
-        UUID target = e.getTrusted().getUniqueId();
+        UUID target = e.getTarget();
         Farmer farmer = FarmerManager.getFarmers().get(claim.getID());
         farmer.addUser(target,Bukkit.getOfflinePlayer(target).getName(), FarmerPerm.COOP);
     }
@@ -62,11 +62,11 @@ public class RClaimListener implements Listener {
      * @param e Event of UnTrustedPlayerEvent
      */
     @EventHandler
-    public void unTrustPlayer(UnTrustedPlayerEvent e){
-        Claim claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(e.getTruster().getUniqueId())).collect(Collectors.toList()).get(0);
+    public void unTrustPlayer(ClaimUnTrustEvent e){
+        Claim claim = e.getClaim();
         if (!FarmerManager.getFarmers().containsKey(claim.getID())) return;
         Farmer farmer = FarmerManager.getFarmers().get(claim.getID());
-        Optional<User> user = farmer.getUsersWithoutOwner().stream().filter(u -> u.getUuid().equals(e.getTrusted().getUniqueId())).findFirst();
+        Optional<User> user = farmer.getUsersWithoutOwner().stream().filter(u -> u.getUuid().equals(e.getTarget())).findFirst();
         user.ifPresent(farmer::removeUser);
     }
 
@@ -88,10 +88,8 @@ public class RClaimListener implements Listener {
     @EventHandler
     public void buyFarmer(FarmerBoughtEvent e) {
         String claimId = e.getFarmer().getRegionID();
-        Optional<Claim> center_claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(e.getFarmer().getOwnerUUID())).filter(Claim::isCenter).findFirst();
-        if (!center_claim.isPresent()) return;
+        Claim claim = RClaimProvider.getClaimManager().getClaim(claimId);
         e.getFarmer().setRegionID(claimId);
-        Claim claim = RClaimAPI.getInstance().getClaim(claimId);
         for (UUID member : claim.getMembers()) {
             e.getFarmer().addUser(member, Bukkit.getOfflinePlayer(member).getName(), FarmerPerm.COOP);
         }

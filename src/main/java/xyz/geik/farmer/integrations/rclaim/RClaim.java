@@ -1,7 +1,7 @@
 package xyz.geik.farmer.integrations.rclaim;
 
-import net.weesli.rClaim.api.RClaimAPI;
-import net.weesli.rClaim.modal.Claim;
+import net.weesli.rclaim.api.RClaimProvider;
+import net.weesli.rclaim.api.model.Claim;
 import org.bukkit.Location;
 import xyz.geik.farmer.integrations.Integrations;
 
@@ -30,7 +30,7 @@ public class RClaim extends Integrations {
      */
     @Override
     public UUID getOwnerUUID(String regionID) {
-        return RClaimAPI.getInstance().getClaim(regionID).getOwner();
+        return RClaimProvider.getClaimManager().getClaim(regionID).getOwner();
     }
 
     /**
@@ -41,7 +41,7 @@ public class RClaim extends Integrations {
      */
     @Override
     public UUID getOwnerUUID(Location location) {
-        Claim claim = RClaimAPI.getInstance().getClaim(location.getChunk());
+        Claim claim = RClaimProvider.getClaimManager().getClaim(location);
         if (claim != null){
             return claim.getOwner();
         }
@@ -56,8 +56,7 @@ public class RClaim extends Integrations {
      */
     @Override
     public String getRegionID(Location location) {
-        Claim claim = RClaimAPI.getInstance().getClaim(location.getChunk());
-        Optional<Claim> center_claim = RClaimAPI.getInstance().getClaims().stream().filter(c -> c.isOwner(claim.getOwner())).filter(Claim::isCenter).findFirst();
-        return center_claim.map(Claim::getID).orElse(null);
+        Claim claim = RClaimProvider.getClaimManager().getClaim(location);
+        return claim.getID();
     }
 }
