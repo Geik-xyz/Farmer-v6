@@ -388,8 +388,8 @@ public class GuiHelper {
 
         ItemMeta meta = result.getItemMeta();
         if (file.contains(path + ".lore"))
-            meta.setLore(file.getTextList(path + ".lore"));
-        meta.setDisplayName(file.getText(path + ".name"));
+            meta.setLore(file.getStringList(path + ".lore").stream().map(ChatUtils::color).collect(Collectors.toList()));
+        meta.setDisplayName(ChatUtils.color(file.getString(path + ".name")));
         result.setItemMeta(meta);
         return result;
     }
