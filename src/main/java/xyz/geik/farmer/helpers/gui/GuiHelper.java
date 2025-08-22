@@ -195,6 +195,7 @@ public class GuiHelper {
     public static @NotNull ItemStack getLevelItem(@NotNull Farmer farmer, OfflinePlayer player){
         int level = FarmerLevel.getAllLevels().indexOf(farmer.getLevel())+1;
         long capacity = farmer.getLevel().getCapacity();
+        double currentTax = farmer.getLevel().getTax();
         boolean isMax = FarmerLevel.getAllLevels().indexOf(farmer.getLevel()) == FarmerLevel.getAllLevels().size()-1;
         ItemStack result;
         FarmerLevel nextLevel;
@@ -223,6 +224,7 @@ public class GuiHelper {
         // Max level meta lore update
         if (isMax) {
             meta.setLore(meta.getLore().stream().map(key -> key.replace("{level}", String.valueOf(level))
+                    .replace("{tax}", String.valueOf(currentTax))
                     .replace("{capacity}", String.valueOf(capacity))).collect(Collectors.toList()));
         }
         // Upgradeable lore update
@@ -232,6 +234,8 @@ public class GuiHelper {
                     .replace("{max_level}", String.valueOf(FarmerLevel.getAllLevels().size()))
                     .replace("{next_level}", String.valueOf(level+1))
                     .replace("{next_capacity}", String.valueOf(nextLevel.getCapacity()))
+                    .replace("{next_tax}", String.valueOf(nextLevel.getTax()))
+                    .replace("{tax}", String.valueOf(currentTax))
                     .replace("{req_money}", String.valueOf(nextLevel.getReqMoney()))).collect(Collectors.toList()));
         }
         meta.setDisplayName(meta.getDisplayName().replace("{level}", String.valueOf(level)));
