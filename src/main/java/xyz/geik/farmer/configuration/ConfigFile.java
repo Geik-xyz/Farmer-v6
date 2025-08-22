@@ -65,7 +65,7 @@ public class ConfigFile extends OkaeriConfig {
         private boolean AllowedWorldsStarCharFeature = false;
 
         @Comment("Default role which will be assigned to joined player (Options: COOP - MEMBER)")
-        private String defaultJoinRole = "COOP";
+        private String defaultJoinRole = "MEMBER";
     }
 
     @Comment("Production")
@@ -436,7 +436,7 @@ public class ConfigFile extends OkaeriConfig {
                 boolean hasGlow = false;
             }
 
-            public String userHeadMaterial = "PLAYER_HEAD";
+            public String userHeadMaterial = "PAPER";
         }
 
 
