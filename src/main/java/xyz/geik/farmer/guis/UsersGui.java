@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
-import xyz.geik.farmer.helpers.PlaceholderHelper;
 import xyz.geik.farmer.helpers.gui.GroupItems;
 import xyz.geik.farmer.helpers.gui.GuiHelper;
 import xyz.geik.farmer.listeners.backend.ChatEvent;
@@ -18,8 +17,6 @@ import xyz.geik.glib.shades.inventorygui.GuiElementGroup;
 import xyz.geik.glib.shades.inventorygui.InventoryGui;
 import xyz.geik.glib.shades.inventorygui.StaticGuiElement;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,7 +91,7 @@ public class UsersGui {
 
         // Precompute user items to reduce dynamic computation
         for (User user : sortedUsers) {
-            StaticGuiElement userElement = new StaticGuiElement('s',
+            DynamicGuiElement  userElement = new DynamicGuiElement('s', (viewer) -> new StaticGuiElement('s',
                     GroupItems.getUserItem(user),
                     1,
                     click -> {
@@ -112,7 +109,7 @@ public class UsersGui {
                             gui.draw();
                         return true;
                     }
-            );
+            ));
             group.addElement(userElement);
         }
 
