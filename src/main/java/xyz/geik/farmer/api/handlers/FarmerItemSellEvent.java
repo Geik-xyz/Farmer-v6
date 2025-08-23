@@ -37,7 +37,6 @@ public class FarmerItemSellEvent extends Event {
 
     /**
      * Is sell type is geyser
-     * @see xyz.geik.farmer.modules.geyser.Geyser
      */
     @Getter
     @Setter

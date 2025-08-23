@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.api.handlers.FarmerGuiItemClickEvent;
 import xyz.geik.farmer.api.handlers.FarmerItemSellEvent;
 import xyz.geik.farmer.api.handlers.FarmerMainGuiOpenEvent;
 import xyz.geik.farmer.helpers.PlaceholderHelper;
@@ -103,6 +104,7 @@ public class MainGui {
                             XMaterial material = XMaterial.matchXMaterial(cursorItem);
                             FarmerItem slotItem = farmer.getInv().getStockedItem(material);
                             // Sells all stock of an item
+                            // SHIFT+RIGHT
                             if (click.getType().equals(ClickType.SHIFT_RIGHT)) {
                                 if (slotItem.getPrice() < 0)
                                     return true;
@@ -112,6 +114,12 @@ public class MainGui {
                             }
                             // Withdraw item
                             else {
+                                if (!click.getType().equals(ClickType.RIGHT)
+                                        && !click.getType().equals(ClickType.LEFT)) {
+                                    FarmerGuiItemClickEvent farmerGuiItemClickEvent = new FarmerGuiItemClickEvent(farmer, slotItem, player);
+                                    Bukkit.getPluginManager().callEvent(farmerGuiItemClickEvent);
+                                    return true;
+                                }
                                 // If inventory full returns
                                 if (invFull(player)) {
                                     ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getInventoryFull());
