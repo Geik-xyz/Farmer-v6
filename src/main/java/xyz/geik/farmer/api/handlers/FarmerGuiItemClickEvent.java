@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.inventory.ClickType;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 
@@ -34,6 +35,9 @@ public class FarmerGuiItemClickEvent extends Event {
          */
         private final OfflinePlayer offlinePlayer;
 
+
+        private final ClickType guiClickEvent;
+
         /**
          * FarmerItemSellEvent constructor with Farmer, FarmerItem and OfflinePlayer
          *
@@ -41,10 +45,11 @@ public class FarmerGuiItemClickEvent extends Event {
          * @param farmerItem FarmerItem object which is sold
          * @param offlinePlayer OfflinePlayer object which is the seller
          */
-        public FarmerGuiItemClickEvent(Farmer farmer, FarmerItem farmerItem, OfflinePlayer offlinePlayer) {
+        public FarmerGuiItemClickEvent(Farmer farmer, FarmerItem farmerItem, OfflinePlayer offlinePlayer, ClickType type) {
             this.farmer = farmer;
             this.farmerItem = farmerItem;
             this.offlinePlayer = offlinePlayer;
+            this.guiClickEvent = type;
         }
 
         /**

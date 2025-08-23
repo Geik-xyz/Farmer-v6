@@ -13,6 +13,8 @@ import xyz.geik.glib.chat.ChatUtils;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
  * can be seen here.
  */
 public class GroupItems {
+
+    private static final Pattern MODULE_P = Pattern.compile("\\{module_(.*?)\\}");
 
     /**
      * Constructor of class
@@ -59,6 +63,17 @@ public class GroupItems {
                 .map(key -> {
             // If key contains {prod_ it will be replaced with average production data
             // If there is no data then makes it null
+            key = key.replace("%item%", farmerItem.getMaterial().name());
+            Pattern pattern = Pattern.compile("\\{module_(.*?)\\}");
+            Matcher matcher = pattern.matcher(key);
+            while (matcher.find()) {
+                String value = matcher.group(1);
+                String status = farmer.getAttributeStatus(value) ?
+                        Main.getLangFile().getVarious().getToggleOn() :
+                        Main.getLangFile().getVarious().getToggleOff();
+                key = key.replace("{module_" + value + "}", status);
+            }
+
             if (key.contains("{prod_"))
                 return ProductionModel.updateLore(productionModel, key);
             // Default replace
