@@ -116,7 +116,7 @@ public class MainGui {
                             else {
                                 if (!click.getType().equals(ClickType.RIGHT)
                                         && !click.getType().equals(ClickType.LEFT)) {
-                                    FarmerGuiItemClickEvent farmerGuiItemClickEvent = new FarmerGuiItemClickEvent(farmer, slotItem, player, click.getType());
+                                    FarmerGuiItemClickEvent farmerGuiItemClickEvent = new FarmerGuiItemClickEvent(farmer, slotItem, player, click.getType(), gui);
                                     Bukkit.getPluginManager().callEvent(farmerGuiItemClickEvent);
                                     return true;
                                 }

@@ -73,7 +73,8 @@ public class GroupItems {
                 String itemName   = parts.length > 1 ? parts[1] : ""; // "CACTUS"
                 boolean defaultItemStatus = Farmer.getGlobalAttributes()
                         .getOrDefault(moduleName + "_item_default", false);
-                String status = farmer.getAttributeStatus(value, defaultItemStatus) ?
+                String status = farmer.getAttributeStatus(moduleName)
+                        && farmer.getAttributeStatus(value, defaultItemStatus) ?
                         Main.getLangFile().getVarious().getToggleOn() :
                         Main.getLangFile().getVarious().getToggleOff();
                 key = key.replace("{module_" + value + "}", status);
