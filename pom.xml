@@ -129,9 +129,9 @@
         </dependency>
         <!-- RClaim -->
         <dependency>
-            <groupId>com.github.Weesli</groupId>
-            <artifactId>RClaim</artifactId>
-            <version>1.9.0</version>
+            <groupId>com.github.Weesli.RClaim</groupId>
+            <artifactId>RClaim-api</artifactId>
+            <version>2.3.1</version>
             <scope>provided</scope>
         </dependency>
         <!-- MorePaperLib -->
