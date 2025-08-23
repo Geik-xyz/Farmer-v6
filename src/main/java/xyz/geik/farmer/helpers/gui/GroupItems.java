@@ -67,8 +67,13 @@ public class GroupItems {
             Pattern pattern = Pattern.compile("\\{module_(.*?)\\}");
             Matcher matcher = pattern.matcher(key);
             while (matcher.find()) {
-                String value = matcher.group(1);
-                String status = farmer.getAttributeStatus(value) ?
+                String value = matcher.group(1);              // örn: "autoseller_CACTUS"
+                String[] parts = value.split("_", 2);         // ["autoseller", "CACTUS"]
+                String moduleName = parts[0];                 // "autoseller"
+                String itemName   = parts.length > 1 ? parts[1] : ""; // "CACTUS"
+                boolean defaultItemStatus = Farmer.getGlobalAttributes()
+                        .getOrDefault(moduleName + "_item_default", false);
+                String status = farmer.getAttributeStatus(value, defaultItemStatus) ?
                         Main.getLangFile().getVarious().getToggleOn() :
                         Main.getLangFile().getVarious().getToggleOff();
                 key = key.replace("{module_" + value + "}", status);

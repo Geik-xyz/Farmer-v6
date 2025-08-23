@@ -51,6 +51,9 @@ public class Farmer implements Cloneable {
 
     private HashMap<String, Boolean> moduleAttributes = new HashMap<>();
 
+    @Getter
+    private static HashMap<String, Boolean> globalAttributes = new HashMap<>();
+
     /**
      * Gets attribute from Farmer
      *
@@ -61,6 +64,11 @@ public class Farmer implements Cloneable {
         if (getModuleAttributes().containsKey(attribute))
             return getModuleAttributes().get(attribute);
         else return getDefaultStatus(attribute);
+    }
+
+    public boolean getAttributeStatus(String attribute, boolean defaultStatus) {
+        Boolean v = getModuleAttributes().get(attribute);
+        return v != null ? v : defaultStatus;
     }
 
     /**
