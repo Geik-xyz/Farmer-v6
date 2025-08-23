@@ -302,6 +302,7 @@ public class LangFile extends OkaeriConfig {
                 public static class GroupItems extends OkaeriConfig {
                     private List<String> lore = Arrays.asList(
                             "",
+                            " &8▪ &7Auto Sell: &f{module_autosellerpre_%item%}",
                             " &8▪ &7Stock: &f{stock}&8/&c{maxstock}",
                             " &8▪ &7Price: &f{price}$ each",
                             "&8&l  [{bar}&8&l] &r{percent}%",
@@ -314,6 +315,7 @@ public class LangFile extends OkaeriConfig {
                             "&7Withdraw Max &8[&eRight Click&8]",
                             "&7Sell All &8[&eShift+Right Click&8]",
                             "",
+                            "&7Autosell Mode &8[&ePress Q&8] &8(&f{module_autosellerpre_%item%}&8)",
                             "&4DANG: &cSell all feature takes",
                             "&4%{tax} &ctax.!"
                     );

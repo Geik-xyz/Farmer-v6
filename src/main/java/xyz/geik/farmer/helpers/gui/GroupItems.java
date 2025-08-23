@@ -1,15 +1,19 @@
 package xyz.geik.farmer.helpers.gui;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.helpers.ModuleHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.User;
+import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.production.model.ProductionModel;
 import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.module.ModuleManager;
 
 import java.util.List;
 import java.util.Objects;
@@ -71,13 +75,20 @@ public class GroupItems {
                 String[] parts = value.split("_", 2);         // ["autoseller", "CACTUS"]
                 String moduleName = parts[0];                 // "autoseller"
                 String itemName   = parts.length > 1 ? parts[1] : ""; // "CACTUS"
-                boolean defaultItemStatus = Farmer.getGlobalAttributes()
-                        .getOrDefault(moduleName + "_item_default", false);
-                String status = farmer.getAttributeStatus(moduleName)
-                        && farmer.getAttributeStatus(value, defaultItemStatus) ?
-                        Main.getLangFile().getVarious().getToggleOn() :
-                        Main.getLangFile().getVarious().getToggleOff();
-                key = key.replace("{module_" + value + "}", status);
+                if (ModuleHelper.getInstance().getModules().stream()
+                        .noneMatch(mdl -> mdl.getName().equalsIgnoreCase(moduleName)))
+                    return null;
+                if (itemName.equalsIgnoreCase("blank"))
+                    key = key.replace("{module_" + value + "}", "");
+                else {
+                    boolean defaultItemStatus = Farmer.getGlobalAttributes()
+                            .getOrDefault(moduleName + "_item_default", false);
+                    String status = farmer.getAttributeStatus(moduleName)
+                            && farmer.getAttributeStatus(value, defaultItemStatus) ?
+                            Main.getLangFile().getVarious().getToggleOn() :
+                            Main.getLangFile().getVarious().getToggleOff();
+                    key = key.replace("{module_" + value + "}", status);
+                }
             }
 
             if (key.contains("{prod_"))
