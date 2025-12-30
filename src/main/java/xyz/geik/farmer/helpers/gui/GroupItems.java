@@ -1,18 +1,24 @@
 package xyz.geik.farmer.helpers.gui;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
+import xyz.geik.farmer.helpers.ModuleHelper;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
 import xyz.geik.farmer.model.user.User;
+import xyz.geik.farmer.modules.FarmerModule;
 import xyz.geik.farmer.modules.production.model.ProductionModel;
 import xyz.geik.glib.chat.ChatUtils;
+import xyz.geik.glib.module.ModuleManager;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +26,8 @@ import java.util.stream.Collectors;
  * can be seen here.
  */
 public class GroupItems {
+
+    private static final Pattern MODULE_P = Pattern.compile("\\{module_(.*?)\\}");
 
     /**
      * Constructor of class
@@ -59,6 +67,30 @@ public class GroupItems {
                 .map(key -> {
             // If key contains {prod_ it will be replaced with average production data
             // If there is no data then makes it null
+            key = key.replace("%item%", farmerItem.getMaterial().name());
+            Pattern pattern = Pattern.compile("\\{module_(.*?)\\}");
+            Matcher matcher = pattern.matcher(key);
+            while (matcher.find()) {
+                String value = matcher.group(1);              // örn: "autoseller_CACTUS"
+                String[] parts = value.split("_", 2);         // ["autoseller", "CACTUS"]
+                String moduleName = parts[0];                 // "autoseller"
+                String itemName   = parts.length > 1 ? parts[1] : ""; // "CACTUS"
+                if (ModuleHelper.getInstance().getModules().stream()
+                        .noneMatch(mdl -> mdl.getName().equalsIgnoreCase(moduleName)))
+                    return null;
+                if (itemName.equalsIgnoreCase("blank"))
+                    key = key.replace("{module_" + value + "}", "");
+                else {
+                    boolean defaultItemStatus = Farmer.getGlobalAttributes()
+                            .getOrDefault(moduleName + "_item_default", false);
+                    String status = farmer.getAttributeStatus(moduleName)
+                            && farmer.getAttributeStatus(value, defaultItemStatus) ?
+                            Main.getLangFile().getVarious().getToggleOn() :
+                            Main.getLangFile().getVarious().getToggleOff();
+                    key = key.replace("{module_" + value + "}", status);
+                }
+            }
+
             if (key.contains("{prod_"))
                 return ProductionModel.updateLore(productionModel, key);
             // Default replace

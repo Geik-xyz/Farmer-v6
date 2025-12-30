@@ -65,14 +65,19 @@ public class ModuleHelper {
                     URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, loader);
 
                     for (ZipEntry zipEntry = zipInputStream.getNextEntry(); zipEntry != null; zipEntry = zipInputStream.getNextEntry()) {
-                        if (!zipEntry.isDirectory() && zipEntry.getName().endsWith(".class")) {
-                            String className = zipEntry.getName().replaceAll("/", ".").replaceAll(".class", "");
-                            Class<?> loadedClass = urlClassLoader.loadClass(className);
+                        try {
+                            if (!zipEntry.isDirectory() && zipEntry.getName().endsWith(".class")) {
+                                String className = zipEntry.getName().replaceAll("/", ".").replaceAll(".class", "");
+                                Class<?> loadedClass = urlClassLoader.loadClass(className);
 
-                            if (loadedClass.getSuperclass().getName().endsWith("FarmerModule")) {
-                                FarmerModule module = (FarmerModule) loadedClass.getDeclaredConstructor().newInstance();
-                                loadModule(module);
+                                if (loadedClass.getSuperclass().getName().endsWith("FarmerModule")) {
+                                    FarmerModule module = (FarmerModule) loadedClass.getDeclaredConstructor().newInstance();
+                                    loadModule(module);
+                                }
                             }
+                        }
+                        catch (Exception e1) {
+                            continue;
                         }
                     }
 

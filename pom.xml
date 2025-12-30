@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.github.Geik-xyz</groupId>
             <artifactId>GLib</artifactId>
-            <version>1.0.0</version>
+            <version>8108c11f23</version>
         </dependency>
         <!-- apache commons -->
         <dependency>
@@ -153,7 +153,7 @@
         <!-- Jitpack Repo -->
         <repository>
             <id>jitpack.io</id>
-            <url>https://www.jitpack.io</url>
+            <url>https://jitpack.io</url>
         </repository>
         <!-- Spigot Repo -->
         <repository>

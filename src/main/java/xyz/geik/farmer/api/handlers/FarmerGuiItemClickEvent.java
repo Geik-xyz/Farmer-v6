@@ -1,12 +1,13 @@
 package xyz.geik.farmer.api.handlers;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.inventory.ClickType;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.model.inventory.FarmerItem;
+import xyz.geik.glib.shades.inventorygui.InventoryGui;
 
 /**
  * FarmerItemSellEvent event fires when a player sells a FarmerItem
@@ -15,7 +16,7 @@ import xyz.geik.farmer.model.inventory.FarmerItem;
  * @author poyrazinan
  */
 @Getter
-public class FarmerItemSellEvent extends Event {
+public class FarmerGuiItemClickEvent extends Event {
 
     /**
      * Farmer object which contains the FarmerItem
@@ -36,11 +37,14 @@ public class FarmerItemSellEvent extends Event {
     private final OfflinePlayer offlinePlayer;
 
     /**
-     * Is sell type is geyser
+     * GuiClick Type
      */
-    @Getter
-    @Setter
-    private boolean isGeyser = false;
+    private final ClickType guiClickEvent;
+
+    /**
+     * Gui object
+     */
+    private final InventoryGui gui;
 
     /**
      * FarmerItemSellEvent constructor with Farmer, FarmerItem and OfflinePlayer
@@ -49,10 +53,12 @@ public class FarmerItemSellEvent extends Event {
      * @param farmerItem FarmerItem object which is sold
      * @param offlinePlayer OfflinePlayer object which is the seller
      */
-    public FarmerItemSellEvent(Farmer farmer, FarmerItem farmerItem, OfflinePlayer offlinePlayer) {
+    public FarmerGuiItemClickEvent(Farmer farmer, FarmerItem farmerItem, OfflinePlayer offlinePlayer, ClickType type, InventoryGui gui) {
         this.farmer = farmer;
         this.farmerItem = farmerItem;
         this.offlinePlayer = offlinePlayer;
+        this.guiClickEvent = type;
+        this.gui = gui;
     }
 
     /**

@@ -315,6 +315,7 @@ public class tr extends LangFile {
                             "&7Envanterine Maks Al &8[&eSağ Tık&8]",
                             "&7Hepsini Sat &8[&eShift+Sağ Tık&8]",
                             "",
+                            "&7Otosat Modu &8[&eQ Tuşu&8] &8(&f{module_autosellerpre_%item%}&8)",
                             "&4DIKKAT: &cHepsini sat özelliği",
                             "&4%{tax} &cvergi alıyor.!"
                     );
