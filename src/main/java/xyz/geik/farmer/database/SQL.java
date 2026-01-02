@@ -5,6 +5,7 @@ import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.api.handlers.FarmerBoughtEvent;
+import xyz.geik.farmer.api.handlers.FarmerLoadedEvent;
 import xyz.geik.farmer.api.handlers.FarmerRemoveEvent;
 import xyz.geik.farmer.api.managers.FarmerManager;
 import xyz.geik.farmer.model.Farmer;
@@ -79,6 +80,7 @@ public abstract class SQL {
         final String FARMER_QUERY = "SELECT * FROM Farmers;";
         // Query of farmer users
         final String USERS_QUERY = "SELECT * FROM FarmerUsers WHERE farmerId = ?";
+        int loadedCount = 0; // Yüklenen farmer sayısı
         try {
             connection = Main.getDatabase().getConnection();
             preparedStatement = connection.prepareStatement(FARMER_QUERY);
@@ -114,14 +116,20 @@ public abstract class SQL {
                 Farmer farmer = new Farmer(farmerID, regionID, users, inv, level, state);
                 FarmerModule.databaseGetAttributes(connection, farmer);
                 FarmerManager.getFarmers().put(regionID, farmer);
+                loadedCount++; // Sayacı artır
             }
+            final int finalLoadedCount = loadedCount;
+            Main.getMorePaperLib().scheduling().globalRegionalScheduler().run(() -> {
+                FarmerLoadedEvent loadedEvent = new FarmerLoadedEvent(finalLoadedCount);
+                Bukkit.getPluginManager().callEvent(loadedEvent);
+            });
+
         } catch (SQLException throwables) {
             Main.getInstance().getLogger().info("Error while loading Farmers: " + throwables.getMessage());
         } finally {
             closeConnections(preparedStatement, connection, resultSet);
         }
     }
-
     /**
      * Creates farmer on sql
      * @param farmer temp farmer
