@@ -12,6 +12,7 @@ import xyz.geik.farmer.guis.UsersGui;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.chat.Placeholder;
+import space.arim.morepaperlib.MorePaperLib;
 
 import java.util.Map;
 import java.util.UUID;
@@ -51,14 +52,21 @@ public class ChatEvent implements Listener {
             players.remove(playerName);
             return;
         }
-        Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+        MorePaperLib morePaperLib = new MorePaperLib(Main.getInstance());
+        morePaperLib.scheduling().entitySpecificScheduler(player).run(() -> {
             try {
-                Farmer farmer = FarmerManager.getFarmers().get(
-                        Main.getIntegration().getRegionID(player.getLocation())
-                );
+                String storedRegionID = players.get(playerName);
+                Farmer farmer = FarmerManager.getFarmers().get(storedRegionID);
 
                 if (farmer == null) {
                     ChatUtils.sendMessage(player, "Error: Could not find farmer data");
+                    players.remove(playerName);
+                    return;
+                }
+                // Check if the player is the owner or has farmer.admin permission
+                if (!farmer.getOwnerUUID().equals(player.getUniqueId())
+                        && !player.hasPermission("farmer.admin")) {
+                    ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoPerm());
                     players.remove(playerName);
                     return;
                 }
@@ -78,6 +86,6 @@ public class ChatEvent implements Listener {
                 players.remove(playerName);
                 ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getUserCouldntFound());
             }
-        });
+        }, null);
     }
 }
