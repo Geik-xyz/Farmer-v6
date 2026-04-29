@@ -12,6 +12,7 @@ import xyz.geik.farmer.guis.UsersGui;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.chat.Placeholder;
+import space.arim.morepaperlib.MorePaperLib;
 
 import java.util.Map;
 import java.util.UUID;
@@ -51,7 +52,8 @@ public class ChatEvent implements Listener {
             players.remove(playerName);
             return;
         }
-        Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+        MorePaperLib morePaperLib = new MorePaperLib(Main.getInstance());
+        morePaperLib.scheduling().entitySpecificScheduler(player).run(() -> {
             try {
                 String storedRegionID = players.get(playerName);
                 Farmer farmer = FarmerManager.getFarmers().get(storedRegionID);
@@ -84,6 +86,6 @@ public class ChatEvent implements Listener {
                 players.remove(playerName);
                 ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getUserCouldntFound());
             }
-        });
+        }, null);
     }
 }
