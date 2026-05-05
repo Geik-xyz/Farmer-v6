@@ -1,6 +1,5 @@
 package xyz.geik.farmer.helpers.gui;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

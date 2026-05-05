@@ -64,6 +64,12 @@ public class UsersGui {
                         return true;
                     }
 
+                    if (!farmer.getOwnerUUID().equals(player.getUniqueId())
+                            && !player.hasPermission("farmer.admin")) {
+                        ChatUtils.sendMessage(player, Main.getLangFile().getMessages().getNoPerm());
+                        ChatEvent.getPlayers().remove(player.getName());
+                        return true;
+                    }
                     // Optimize player adding to chat event
                     ChatEvent.getPlayers().putIfAbsent(player.getName(), farmer.getRegionID());
 
