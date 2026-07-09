@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.34</version>
+            <version>1.18.38</version>
             <scope>provided</scope>
         </dependency>
         <!-- SuperiorAPI -->
@@ -113,13 +113,7 @@
             <version>2.11.6</version>
             <scope>provided</scope>
         </dependency>
-        <!-- IridiumSkyblock -->
-        <dependency>
-            <groupId>com.iridium</groupId>
-            <artifactId>IridiumSkyblock</artifactId>
-            <version>4.0.9.1</version>
-            <scope>provided</scope>
-        </dependency>
+
         <!-- UltimateClaims -->
         <dependency>
             <groupId>com.craftaro</groupId>
@@ -194,11 +188,7 @@
             <id>rosewood-repo</id>
             <url>https://repo.rosewooddev.io/repository/public/</url>
         </repository>
-        <!-- IridiumSkyblock -->
-        <repository>
-            <id>iridiumdevelopment</id>
-            <url>https://nexus.iridiumdevelopment.net/repository/maven-releases/</url>
-        </repository>
+
         <!-- MorePaperLib-->
         <repository>
             <id>arim-mvn-lgpl3</id>
@@ -243,6 +233,13 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.38</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>

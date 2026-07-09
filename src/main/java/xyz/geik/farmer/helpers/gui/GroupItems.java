@@ -14,11 +14,14 @@ import xyz.geik.farmer.modules.production.model.ProductionModel;
 import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.module.ModuleManager;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import xyz.geik.glib.shades.xseries.XMaterial;
 
 /**
  * Main gui helper methods
@@ -56,19 +59,21 @@ public class GroupItems {
         int percent = (int) (100*stock/capacity);
         // Select color of stock capacity
         String color = selectFillColor(percent);
-        // Average production of item cache if it's null
-        // it won't be displayed because there is no calculation required
-        ProductionModel productionModel = farmer.getInv().getProductionModels().stream()
-                .filter(g -> g.getMaterial().equals(farmerItem.getMaterial()))
-                .findFirst().orElse(null);
+        // Average production lookup — use direct Map.get() instead of stream filter.
+        // The productionModels list is usually small but called for every item on every draw.
+        Map<XMaterial, ProductionModel> prodMap = new HashMap<>();
+        for (ProductionModel pm : farmer.getInv().getProductionModels()) {
+            prodMap.put(pm.getMaterial(), pm);
+        }
+        ProductionModel productionModel = prodMap.get(farmerItem.getMaterial());
         // Lore map
         meta.setLore(ChatUtils.color(Main.getLangFile().getGui().getFarmerGui().getItems().getGroupItems().getLore().stream()
                 .map(key -> {
             // If key contains {prod_ it will be replaced with average production data
             // If there is no data then makes it null
             key = key.replace("%item%", farmerItem.getMaterial().name());
-            Pattern pattern = Pattern.compile("\\{module_(.*?)\\}");
-            Matcher matcher = pattern.matcher(key);
+            // Reuse class-level pre-compiled pattern instead of compiling on every lore line
+            Matcher matcher = MODULE_P.matcher(key);
             while (matcher.find()) {
                 String value = matcher.group(1);              // örn: "autoseller_CACTUS"
                 String[] parts = value.split("_", 2);         // ["autoseller", "CACTUS"]

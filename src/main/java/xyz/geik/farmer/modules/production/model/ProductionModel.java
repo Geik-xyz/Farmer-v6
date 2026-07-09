@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import xyz.geik.farmer.Main;
 import xyz.geik.farmer.model.Farmer;
 import xyz.geik.farmer.modules.production.Production;
-import xyz.geik.glib.shades.inventorygui.InventoryGui;
 import xyz.geik.glib.shades.xseries.XMaterial;
 
 /**
@@ -45,9 +44,8 @@ public class ProductionModel {
      *
      * @param farmer of production
      * @param material to calculate
-     * @param gui of farmer
      */
-    public ProductionModel(@NotNull Farmer farmer, XMaterial material, InventoryGui gui) {
+    public ProductionModel(@NotNull Farmer farmer, XMaterial material) {
         // It will clear when x time passed
         this.isCalculating = true;
         this.regionId = farmer.getRegionID();
@@ -55,7 +53,9 @@ public class ProductionModel {
         Main.getMorePaperLib().scheduling().globalRegionalScheduler().runDelayed(() -> {
             setResult(getLastInput() * 12);
             this.setCalculating(false);
-            gui.draw();
+            // gui.draw() is NOT called here intentionally.
+            // ProductionCalculateEvent batches a single draw for all models
+            // to avoid N separate draw() calls (one per item).
         }, 5 * 20L);
     }
 

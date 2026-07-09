@@ -10,6 +10,7 @@ import xyz.geik.farmer.api.handlers.FarmerItemProductionEvent;
 import xyz.geik.farmer.api.handlers.FarmerMainGuiOpenEvent;
 import xyz.geik.farmer.modules.production.Production;
 import xyz.geik.farmer.modules.production.model.ProductionModel;
+import xyz.geik.glib.shades.inventorygui.InventoryGui;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -41,11 +42,18 @@ public class ProductionCalculateEvent implements Listener {
             // Cache creation and calculation
             List<ProductionModel> productionModels = new ArrayList<>();
             event.getFarmer().getInv().getItems().stream().filter(Production::isCalculateItem).forEach(item -> {
-                // Adds cache
-                ProductionModel productionModel = new ProductionModel(event.getFarmer(), item.getMaterial(), event.getGui());
+                // Adds cache — gui reference removed from constructor to prevent
+                // N separate gui.draw() calls (one per item). We do a single draw below.
+                ProductionModel productionModel = new ProductionModel(event.getFarmer(), item.getMaterial());
                 productionModels.add(productionModel);
             });
             event.getFarmer().getInv().setProductionModels(productionModels);
+            // Schedule a single gui.draw() slightly after all models finish calculating (5s).
+            // This replaces the previous approach where each ProductionModel called gui.draw()
+            // individually, causing N redundant full GUI redraws per open event.
+            InventoryGui gui = event.getGui();
+            Main.getMorePaperLib().scheduling().globalRegionalScheduler().runDelayed(() ->
+                gui.draw(), 5 * 20L + 2L);
         }
     }
 
