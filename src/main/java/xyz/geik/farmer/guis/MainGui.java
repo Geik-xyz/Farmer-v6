@@ -79,6 +79,14 @@ public class MainGui {
 
         // Item group which farmer collects
         GuiElementGroup group = new GuiElementGroup('g');
+
+        // Pre-compute access permission once here instead of recalculating on every item click.
+        // Previously, each click handler ran farmer.getUsers().stream().anyMatch(...) independently.
+        final boolean hasItemAccess = player.hasPermission("farmer.admin") ||
+                farmer.getUsers().stream().anyMatch(user ->
+                        !user.getPerm().equals(FarmerPerm.COOP)
+                                && user.getName().equalsIgnoreCase(player.getName()));
+
         // Foreach item list
         for (FarmerItem item : farmer.getInv().getItems()) {
             // Element of group there can x amount of i
@@ -90,10 +98,7 @@ public class MainGui {
                         // Because member can take item or sell from farmer
                         // Otherwise if user has coop role then they can only
                         // Look inventory of farmer
-                        if (player.hasPermission("farmer.admin") ||
-                                farmer.getUsers().stream().anyMatch(user -> (
-                                !user.getPerm().equals(FarmerPerm.COOP)
-                                        && user.getName().equalsIgnoreCase(player.getName())))) {
+                        if (hasItemAccess) {
                             // XMaterial check for old version
                             ItemStack cursorItem;
                             try {

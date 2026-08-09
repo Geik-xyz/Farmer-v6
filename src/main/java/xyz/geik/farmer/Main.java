@@ -160,11 +160,12 @@ public class Main extends JavaPlugin {
                 it.load(true);
             });
             String langName = configFile.getSettings().getLang();
-            Class langClass = Class.forName("xyz.geik.farmer.configuration.lang." + langName);
+            String validLangName = validateLangName(langName);
+            Class langClass = Class.forName("xyz.geik.farmer.configuration.lang." + validLangName);
             Class<LangFile> languageClass = langClass;
             this.langFile = ConfigManager.create(languageClass, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer());
-                it.withBindFile(new File(getDataFolder() + "/lang", langName + ".yml"));
+                it.withBindFile(new File(getDataFolder() + "/lang", validLangName + ".yml"));
                 it.saveDefaults();
                 it.load(true);
             });
@@ -175,6 +176,15 @@ public class Main extends JavaPlugin {
             getPluginLoader().disablePlugin(this);
             throw new RuntimeException("Error loading configuration file");
         }
+    }
+
+    private static final java.util.Set<String> ALLOWED_LANGUAGES = java.util.Set.of("en", "tr");
+
+    private String validateLangName(String langName) {
+        if (langName == null || !ALLOWED_LANGUAGES.contains(langName.toLowerCase())) {
+            return "en";
+        }
+        return langName.toLowerCase();
     }
 
     /**
@@ -200,8 +210,6 @@ public class Main extends JavaPlugin {
      */
     private void registerModules() {
         this.moduleManager = new ModuleManager();
-        //getModuleManager().enableModules();
-        //FarmerModule.calculateModulesUseGui();
 
         ModuleHelper helper = ModuleHelper.getInstance();
         helper.loadModules();

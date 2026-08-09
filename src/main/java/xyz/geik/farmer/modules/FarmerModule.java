@@ -141,9 +141,12 @@ public abstract class FarmerModule extends GModule {
         HashMap<String, Boolean> map = new HashMap<>();
         if (attributes == null || attributes.isEmpty())
             return map;
-        for (String attribute : attributes.split(";"))
-            if (!attribute.isEmpty())
-                map.put(attribute.split(":")[0], Boolean.parseBoolean(attribute.split(":")[1]));
+        for (String attribute : attributes.split(";")) {
+            if (attribute.isEmpty()) continue;
+            String[] parts = attribute.split(":");
+            if (parts.length < 2) continue;
+            map.put(parts[0], Boolean.parseBoolean(parts[1]));
+        }
         return map;
     }
 

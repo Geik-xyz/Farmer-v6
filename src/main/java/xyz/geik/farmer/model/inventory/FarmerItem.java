@@ -114,6 +114,7 @@ public class FarmerItem {
         HashMap<String, Long> tempItems = new LinkedHashMap<>();
         Arrays.stream(items.split(",")).forEach(key -> {
             String[] rawArr = key.split(":");
+            if (rawArr.length < 2) return;
             tempItems.put(rawArr[0], Long.parseLong(rawArr[1]));
         });
 

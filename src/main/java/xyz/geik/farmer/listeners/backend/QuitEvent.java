@@ -40,7 +40,9 @@ public class QuitEvent implements Listener {
                     Farmer farmer = FarmerManager.getFarmers().get(regionID);
                     farmer.saveFarmerAsync();
                 }
-                catch (Exception ignored) {}
+                catch (Exception ex) {
+                    Main.getInstance().getLogger().warning("Error saving farmer on quit: " + ex.getMessage());
+                }
             }
         });
     }
