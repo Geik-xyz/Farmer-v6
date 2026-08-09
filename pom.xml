@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21.8-R0.1-SNAPSHOT</version>
+            <version>26.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- FabledSkyblock -->
@@ -35,28 +35,28 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.38</version>
+            <version>1.18.46</version>
             <scope>provided</scope>
         </dependency>
         <!-- SuperiorAPI -->
         <dependency>
             <groupId>com.bgsoftware</groupId>
             <artifactId>SuperiorSkyblockAPI</artifactId>
-            <version>2024.4</version>
+            <version>2026.2</version>
             <scope>provided</scope>
         </dependency>
         <!-- GriefPreventionAPI -->
         <dependency>
             <groupId>com.github.GriefPrevention</groupId>
             <artifactId>GriefPrevention</artifactId>
-            <version>16.18.2</version>
+            <version>16.18.7</version>
             <scope>provided</scope>
         </dependency>
         <!-- BentoBox -->
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bentobox</artifactId>
-            <version>1.22.0</version>
+            <version>3.22.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- ASkyBlockAPI -->
@@ -70,47 +70,54 @@
         <dependency>
             <groupId>com.palmergames.bukkit.towny</groupId>
             <artifactId>towny</artifactId>
-            <version>0.100.4.0</version>
+            <version>0.103.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Towny 0.103'te Resident, ForwardingAudience'i implemente ediyor; derleme icin gerekli -->
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-api</artifactId>
+            <version>4.26.1</version>
             <scope>provided</scope>
         </dependency>
         <!-- LandsAPI -->
         <dependency>
             <groupId>com.github.angeschossen</groupId>
             <artifactId>LandsAPI</artifactId>
-            <version>7.10.13</version>
+            <version>7.25.4</version>
             <scope>provided</scope>
         </dependency>
         <!-- WildStacker -->
         <dependency>
             <groupId>com.bgsoftware</groupId>
             <artifactId>WildStackerAPI</artifactId>
-            <version>2024.1</version>
+            <version>2026.2</version>
             <scope>provided</scope>
         </dependency>
         <!-- SpawnerMeta -->
         <dependency>
             <groupId>com.github.OfficialRell</groupId>
             <artifactId>SpawnerMeta</artifactId>
-            <version>24.8</version>
+            <version>25.8</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.Geik-xyz</groupId>
             <artifactId>GLib</artifactId>
-            <version>8108c11f23</version>
+            <version>1.1.1</version>
         </dependency>
         <!-- apache commons -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.18.0</version>
+            <version>3.20.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- PlaceholderAPI -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>2.11.6</version>
+            <version>2.12.3</version>
             <scope>provided</scope>
         </dependency>
         <!-- IridiumSkyblock -->
@@ -129,16 +136,16 @@
         </dependency>
         <!-- RClaim -->
         <dependency>
-            <groupId>com.github.Weesli.RClaim</groupId>
-            <artifactId>RClaim-api</artifactId>
-            <version>2.3.1</version>
+            <groupId>com.github.Weesli</groupId>
+            <artifactId>RClaim</artifactId>
+            <version>2.6.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- MorePaperLib -->
         <dependency>
             <groupId>space.arim.morepaperlib</groupId>
             <artifactId>morepaperlib</artifactId>
-            <version>0.4.4</version>
+            <version>0.5.3</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -171,6 +178,10 @@
             <url>https://repo.bg-software.com/repository/api/</url>
         </repository>
         <!-- Bento -->
+        <repository>
+            <id>bentoboxworld</id>
+            <url>https://repo.codemc.org/repository/BentoBoxWorld/</url>
+        </repository>
         <repository>
             <id>codemc-snapshots</id>
             <url>https://repo.codemc.org/repository/maven-snapshots</url>
@@ -247,7 +258,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.38</version>
+                            <version>1.18.46</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
