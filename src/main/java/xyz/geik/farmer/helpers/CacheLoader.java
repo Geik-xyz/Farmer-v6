@@ -34,6 +34,8 @@ public class CacheLoader {
             FarmerItem defaultItem = new FarmerItem(key, price, 0);
             FarmerInv.defaultItems.add(defaultItem);
         });
+        // Rebuild the fast lookup set so checkMaterial() is O(1) instead of stream+isSimilar
+        FarmerInv.rebuildDefaultIndex();
     }
 
     /**

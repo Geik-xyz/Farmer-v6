@@ -56,19 +56,17 @@ public class GroupItems {
         int percent = (int) (100*stock/capacity);
         // Select color of stock capacity
         String color = selectFillColor(percent);
-        // Average production of item cache if it's null
-        // it won't be displayed because there is no calculation required
-        ProductionModel productionModel = farmer.getInv().getProductionModels().stream()
-                .filter(g -> g.getMaterial().equals(farmerItem.getMaterial()))
-                .findFirst().orElse(null);
+        // Average production lookup. The index lives on FarmerInv and is built once
+        // when the models are set, so this stays O(1) without allocating per item.
+        ProductionModel productionModel = farmer.getInv().getProductionModel(farmerItem.getMaterial());
         // Lore map
         meta.setLore(ChatUtils.color(Main.getLangFile().getGui().getFarmerGui().getItems().getGroupItems().getLore().stream()
                 .map(key -> {
             // If key contains {prod_ it will be replaced with average production data
             // If there is no data then makes it null
             key = key.replace("%item%", farmerItem.getMaterial().name());
-            Pattern pattern = Pattern.compile("\\{module_(.*?)\\}");
-            Matcher matcher = pattern.matcher(key);
+            // Reuse class-level pre-compiled pattern instead of compiling on every lore line
+            Matcher matcher = MODULE_P.matcher(key);
             while (matcher.find()) {
                 String value = matcher.group(1);              // örn: "autoseller_CACTUS"
                 String[] parts = value.split("_", 2);         // ["autoseller", "CACTUS"]

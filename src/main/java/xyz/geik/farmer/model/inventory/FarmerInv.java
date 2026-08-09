@@ -12,7 +12,11 @@ import xyz.geik.farmer.modules.production.model.ProductionModel;
 import xyz.geik.glib.shades.xseries.XMaterial;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -31,9 +35,21 @@ public class FarmerInv {
     public static List<FarmerItem> defaultItems = new ArrayList<>();
 
     /**
+     * Fast O(1) lookup set for default item materials.
+     * Rebuilt whenever defaultItems changes via {@link #rebuildDefaultIndex()}.
+     */
+    private static Set<XMaterial> defaultMaterialSet = new HashSet<>();
+
+    /**
      * stocked items farmer has
      */
     private List<FarmerItem> items = new ArrayList<>();
+
+    /**
+     * O(1) lookup index for stocked items, keyed by XMaterial.
+     * Kept in sync with {@code items} via {@link #rebuildItemIndex()}.
+     */
+    private final Map<XMaterial, FarmerItem> itemIndex = new HashMap<>();
 
     /**
      * Generation cache of farmer
@@ -41,6 +57,37 @@ public class FarmerInv {
      * Loads cache if someone open farmer inventory
      */
     private List<ProductionModel> productionModels = new ArrayList<>();
+
+    /**
+     * O(1) lookup index for {@link #productionModels}, keyed by XMaterial.
+     * Rebuilt by {@link #setProductionModels(List)} so it can never drift.
+     */
+    private final Map<XMaterial, ProductionModel> productionIndex = new HashMap<>();
+
+    /**
+     * Replaces the production model list and rebuilds the lookup index.
+     * Hand written on purpose so Lombok does not generate a setter that
+     * would leave {@link #productionIndex} stale.
+     *
+     * @param productionModels new model list
+     */
+    public void setProductionModels(List<ProductionModel> productionModels) {
+        this.productionModels = productionModels;
+        productionIndex.clear();
+        for (ProductionModel model : productionModels)
+            productionIndex.put(model.getMaterial(), model);
+    }
+
+    /**
+     * Gets production model of a material.
+     * O(1) lookup, safe to call once per item on every gui draw.
+     *
+     * @param material of item
+     * @return model or null when there is no calculation for it
+     */
+    public ProductionModel getProductionModel(XMaterial material) {
+        return productionIndex.get(material);
+    }
 
     /**
      * Checks if average production is calculated
@@ -60,6 +107,7 @@ public class FarmerInv {
     public FarmerInv(List<FarmerItem> items, long capacity) {
         this.items = items;
         this.capacity = capacity;
+        rebuildItemIndex();
     }
 
     /**
@@ -69,36 +117,66 @@ public class FarmerInv {
     public FarmerInv() {
         items.addAll(defaultItems.stream().map(FarmerItem::clone).collect(Collectors.toList()));
         capacity = FarmerLevel.getAllLevels().get(0).getCapacity();
+        rebuildItemIndex();
+    }
+
+    /**
+     * Rebuilds the O(1) item lookup index from the current items list.
+     * Call this whenever the items list is replaced wholesale.
+     */
+    public void rebuildItemIndex() {
+        itemIndex.clear();
+        for (FarmerItem item : items) {
+            itemIndex.put(item.getMaterial(), item);
+        }
+    }
+
+    /**
+     * Rebuilds the static default-material set used by {@link #checkMaterial(ItemStack)}.
+     * Should be called once after defaultItems is populated during plugin load.
+     */
+    public static void rebuildDefaultIndex() {
+        defaultMaterialSet.clear();
+        for (FarmerItem item : defaultItems) {
+            defaultMaterialSet.add(item.getMaterial());
+        }
     }
 
     /**
      * Gets item from farmer inv.
+     * O(1) lookup via HashMap index instead of stream scan.
      *
      * @param material of stock item
      * @return FarmerItem
      */
     public FarmerItem getStockedItem(XMaterial material) {
-        return items.stream().filter(item -> item.getMaterial() == material).findFirst().get();
+        return itemIndex.get(material);
     }
 
     /**
      * Gets item from default items.
+     * Uses direct enum equality instead of parseItem()/isSimilar().
      *
      * @param material of default item
      * @return FarmerItem
      */
     public static @NotNull FarmerItem getDefaultItem(XMaterial material) {
-        return defaultItems.stream().filter(item -> (item.getMaterial().isSimilar(material.parseItem()))).findFirst().get();
+        return defaultItems.stream()
+                .filter(item -> item.getMaterial() == material)
+                .findFirst().get();
     }
 
     /**
      * Checks if item is in default items.
+     * Uses a pre-built HashSet instead of stream+isSimilar() to avoid
+     * repeated parseItem() calls on every ItemSpawnEvent.
      *
      * @param itemStack to check
      * @return check status
      */
     public static boolean checkMaterial(ItemStack itemStack) {
-        return defaultItems.stream().anyMatch(item -> (item.getMaterial().isSimilar(itemStack)));
+        XMaterial mat = XMaterial.matchXMaterial(itemStack);
+        return defaultMaterialSet.contains(mat);
     }
 
     /**
