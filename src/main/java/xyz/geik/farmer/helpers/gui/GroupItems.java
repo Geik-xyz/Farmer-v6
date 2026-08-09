@@ -14,14 +14,11 @@ import xyz.geik.farmer.modules.production.model.ProductionModel;
 import xyz.geik.glib.chat.ChatUtils;
 import xyz.geik.glib.module.ModuleManager;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import xyz.geik.glib.shades.xseries.XMaterial;
 
 /**
  * Main gui helper methods
@@ -59,13 +56,9 @@ public class GroupItems {
         int percent = (int) (100*stock/capacity);
         // Select color of stock capacity
         String color = selectFillColor(percent);
-        // Average production lookup — use direct Map.get() instead of stream filter.
-        // The productionModels list is usually small but called for every item on every draw.
-        Map<XMaterial, ProductionModel> prodMap = new HashMap<>();
-        for (ProductionModel pm : farmer.getInv().getProductionModels()) {
-            prodMap.put(pm.getMaterial(), pm);
-        }
-        ProductionModel productionModel = prodMap.get(farmerItem.getMaterial());
+        // Average production lookup. The index lives on FarmerInv and is built once
+        // when the models are set, so this stays O(1) without allocating per item.
+        ProductionModel productionModel = farmer.getInv().getProductionModel(farmerItem.getMaterial());
         // Lore map
         meta.setLore(ChatUtils.color(Main.getLangFile().getGui().getFarmerGui().getItems().getGroupItems().getLore().stream()
                 .map(key -> {

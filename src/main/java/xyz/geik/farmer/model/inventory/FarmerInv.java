@@ -59,6 +59,37 @@ public class FarmerInv {
     private List<ProductionModel> productionModels = new ArrayList<>();
 
     /**
+     * O(1) lookup index for {@link #productionModels}, keyed by XMaterial.
+     * Rebuilt by {@link #setProductionModels(List)} so it can never drift.
+     */
+    private final Map<XMaterial, ProductionModel> productionIndex = new HashMap<>();
+
+    /**
+     * Replaces the production model list and rebuilds the lookup index.
+     * Hand written on purpose so Lombok does not generate a setter that
+     * would leave {@link #productionIndex} stale.
+     *
+     * @param productionModels new model list
+     */
+    public void setProductionModels(List<ProductionModel> productionModels) {
+        this.productionModels = productionModels;
+        productionIndex.clear();
+        for (ProductionModel model : productionModels)
+            productionIndex.put(model.getMaterial(), model);
+    }
+
+    /**
+     * Gets production model of a material.
+     * O(1) lookup, safe to call once per item on every gui draw.
+     *
+     * @param material of item
+     * @return model or null when there is no calculation for it
+     */
+    public ProductionModel getProductionModel(XMaterial material) {
+        return productionIndex.get(material);
+    }
+
+    /**
      * Checks if average production is calculated
      */
     private boolean isProductionCalculated = false;

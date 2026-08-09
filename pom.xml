@@ -113,7 +113,13 @@
             <version>2.11.6</version>
             <scope>provided</scope>
         </dependency>
-
+        <!-- IridiumSkyblock -->
+        <dependency>
+            <groupId>com.iridium</groupId>
+            <artifactId>IridiumSkyblock</artifactId>
+            <version>4.1.5</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- UltimateClaims -->
         <dependency>
             <groupId>com.craftaro</groupId>
@@ -188,7 +194,11 @@
             <id>rosewood-repo</id>
             <url>https://repo.rosewooddev.io/repository/public/</url>
         </repository>
-
+        <!-- IridiumSkyblock -->
+        <repository>
+            <id>iridiumdevelopment</id>
+            <url>https://nexus.iridiumdevelopment.net/repository/maven-releases/</url>
+        </repository>
         <!-- MorePaperLib-->
         <repository>
             <id>arim-mvn-lgpl3</id>
