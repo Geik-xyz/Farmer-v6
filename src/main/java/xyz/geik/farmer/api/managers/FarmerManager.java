@@ -12,6 +12,7 @@ import xyz.geik.farmer.model.user.FarmerPerm;
 import xyz.geik.farmer.model.user.User;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -106,7 +107,9 @@ public class FarmerManager {
      */
     public Farmer createFarmer(String regionId, int level) {
         Farmer farmer = new Farmer(regionId, 0);
-        farmer.setLevel(FarmerLevel.getAllLevels().get(level-1));
+        int maxLevel = FarmerLevel.getAllLevels().size();
+        int safeLevel = Math.max(1, Math.min(level, maxLevel));
+        farmer.setLevel(FarmerLevel.getAllLevels().get(safeLevel - 1));
         return farmer;
     }
 
@@ -129,7 +132,9 @@ public class FarmerManager {
      * @see Set
      */
     public Set<User> getUsers(String regionId) {
-        return getFarmers().get(regionId).getUsers();
+        Farmer farmer = getFarmers().get(regionId);
+        if (farmer == null) return new HashSet<>();
+        return farmer.getUsers();
     }
 
     /**
@@ -141,6 +146,10 @@ public class FarmerManager {
      * @see Set
      */
     public Set<User> getUsers(Location location) {
-        return getFarmers().get(Main.getIntegration().getRegionID(location)).getUsers();
+        String regionId = Main.getIntegration().getRegionID(location);
+        if (regionId == null) return new HashSet<>();
+        Farmer farmer = getFarmers().get(regionId);
+        if (farmer == null) return new HashSet<>();
+        return farmer.getUsers();
     }
 }

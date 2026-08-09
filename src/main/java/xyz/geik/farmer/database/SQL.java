@@ -21,8 +21,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -74,49 +76,45 @@ public abstract class SQL {
      */
     public void loadAllFarmers() {
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        // Query of farmer
+        PreparedStatement farmerStatement = null;
+        PreparedStatement usersStatement = null;
+        ResultSet farmerResultSet = null;
+        ResultSet usersResultSet = null;
         final String FARMER_QUERY = "SELECT * FROM Farmers;";
-        // Query of farmer users
-        final String USERS_QUERY = "SELECT * FROM FarmerUsers WHERE farmerId = ?";
-        int loadedCount = 0; // Yüklenen farmer sayısı
+        final String USERS_QUERY = "SELECT * FROM FarmerUsers;";
+        int loadedCount = 0;
         try {
             connection = Main.getDatabase().getConnection();
-            preparedStatement = connection.prepareStatement(FARMER_QUERY);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int farmerID = resultSet.getInt("id");
-                String regionID = resultSet.getString("regionID");
-                int state = resultSet.getInt("state");
-                int levelID = resultSet.getInt("level");
-
+            farmerStatement = connection.prepareStatement(FARMER_QUERY);
+            farmerResultSet = farmerStatement.executeQuery();
+            Map<Integer, Set<User>> usersByFarmerId = new LinkedHashMap<>();
+            usersStatement = connection.prepareStatement(USERS_QUERY);
+            usersResultSet = usersStatement.executeQuery();
+            while (usersResultSet.next()) {
+                int farmerId = usersResultSet.getInt("farmerId");
+                String name = usersResultSet.getString("name");
+                String uuid = usersResultSet.getString("uuid");
+                FarmerPerm role = FarmerPerm.getRole(usersResultSet.getInt("role"));
+                Set<User> users = usersByFarmerId.computeIfAbsent(farmerId, k -> new LinkedHashSet<>());
+                users.add(new User(farmerId, name, UUID.fromString(uuid), role));
+            }
+            while (farmerResultSet.next()) {
+                int farmerID = farmerResultSet.getInt("id");
+                String regionID = farmerResultSet.getString("regionID");
+                int state = farmerResultSet.getInt("state");
+                int levelID = farmerResultSet.getInt("level");
                 if (levelID < 0)
                     levelID = 0;
-                FarmerLevel level = (FarmerLevel.getAllLevels().size()-1 >= levelID )
+                FarmerLevel level = (FarmerLevel.getAllLevels().size() - 1 >= levelID)
                         ? FarmerLevel.getAllLevels().get(levelID)
-                        : FarmerLevel.getAllLevels().get(FarmerLevel.getAllLevels().size()-1);
-
-                List<FarmerItem> items = FarmerItem.deserializeItems(resultSet.getString("items"));
-
+                        : FarmerLevel.getAllLevels().get(FarmerLevel.getAllLevels().size() - 1);
+                List<FarmerItem> items = FarmerItem.deserializeItems(farmerResultSet.getString("items"));
                 FarmerInv inv = new FarmerInv(items, level.getCapacity());
-
-                PreparedStatement userStatement = connection.prepareStatement(USERS_QUERY);
-                userStatement.setInt(1, farmerID);
-                ResultSet userSet = userStatement.executeQuery();
-                Set<User> users = new LinkedHashSet<>();
-
-                while (userSet.next()) {
-                    String name = userSet.getString("name");
-                    String uuid = userSet.getString("uuid");
-
-                    FarmerPerm role = FarmerPerm.getRole(userSet.getInt("role"));
-                    users.add(new User(farmerID, name, UUID.fromString(uuid), role));
-                }
+                Set<User> users = usersByFarmerId.getOrDefault(farmerID, new LinkedHashSet<>());
                 Farmer farmer = new Farmer(farmerID, regionID, users, inv, level, state);
                 FarmerModule.databaseGetAttributes(connection, farmer);
                 FarmerManager.getFarmers().put(regionID, farmer);
-                loadedCount++; // Sayacı artır
+                loadedCount++;
             }
             final int finalLoadedCount = loadedCount;
             Main.getMorePaperLib().scheduling().globalRegionalScheduler().run(() -> {
@@ -127,7 +125,8 @@ public abstract class SQL {
         } catch (SQLException throwables) {
             Main.getInstance().getLogger().info("Error while loading Farmers: " + throwables.getMessage());
         } finally {
-            closeConnections(preparedStatement, connection, resultSet);
+            closeConnections(farmerStatement, connection, farmerResultSet);
+            closeConnections(usersStatement, null, usersResultSet);
         }
     }
     /**
@@ -163,8 +162,10 @@ public abstract class SQL {
             Main.getInstance().getLogger().info("Error while creating Farmer: " + throwables.getMessage());
             throwables.printStackTrace();
         } finally {
+            if (selectStatement != null) {
+                try { selectStatement.close(); } catch (SQLException ignored) {}
+            }
             closeConnections(saveStatement, connection, resultSet);
-            closeConnections(selectStatement, connection, resultSet);
         }
     }
 

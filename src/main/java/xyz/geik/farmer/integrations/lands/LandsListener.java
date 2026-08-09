@@ -82,6 +82,7 @@ public class LandsListener implements Listener {
      * Removes user from farmer if added when leave
      * @param event of event
      */
+    @EventHandler
     public void landLeaveEvent(PlayerLeaveLandEvent event) {
         kickAndLeaveEvent(event.getLand().getULID().toString(), event.getPlayerUID());
     }

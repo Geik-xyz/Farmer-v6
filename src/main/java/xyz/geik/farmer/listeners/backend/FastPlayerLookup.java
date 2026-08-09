@@ -52,7 +52,8 @@ public class FastPlayerLookup implements Listener {
 
     private static void trimRecentCache() {
         if (recentPlayers.size() > RECENT_CACHE_SIZE) {
-            recentPlayers.clear();
+            String oldestKey = recentPlayers.keySet().iterator().next();
+            recentPlayers.remove(oldestKey);
         }
     }
 
